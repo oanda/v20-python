@@ -1,0 +1,13 @@
+OANDA v20 API Change Log
+
+Version 3.0.1 (June 09, 2016)
+
+	* Added TransactRejectReason enum
+
+
+Version 3.0.0 (April 26, 2016)
+
+	* Initial Release
+
+
+
