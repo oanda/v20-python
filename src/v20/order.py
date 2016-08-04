@@ -1,9 +1,9 @@
 import json
-from base_entity import BaseEntity
-from base_entity import Property
-from base_entity import EntityDict
-from request import Request
-import transaction
+from v20.base_entity import BaseEntity
+from v20.base_entity import Property
+from v20.base_entity import EntityDict
+from v20.request import Request
+from v20 import transaction
 
 
 
@@ -18,6 +18,7 @@ class OrderIdentifier(BaseEntity):
             "The OANDA-assigned Order ID",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -26,6 +27,7 @@ class OrderIdentifier(BaseEntity):
             "The client-provided client Order ID",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
     ]
@@ -63,6 +65,7 @@ class DynamicOrderState(BaseEntity):
             "The Order's ID.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -71,6 +74,7 @@ class DynamicOrderState(BaseEntity):
             "The Order's calculated trailing stop value.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -79,6 +83,7 @@ class DynamicOrderState(BaseEntity):
             "The distance between the Trailing Stop Loss Order's trailingStopValue and the current Market Price. This represents the distance (in price units) of the Order from a triggering price. If the distance could not be determined, this value will not be set.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -87,6 +92,7 @@ class DynamicOrderState(BaseEntity):
             "True if an exact trigger distance could be calculated. If false, it means the provided trigger distance is a best estimate. If the distance could not be determined, this value will not be set.",
             "primitive",
             "bool",
+            False,
             None
         ),
     ]
@@ -132,6 +138,7 @@ class Order(BaseEntity):
             "The Order's identifier, unique within the Order's Account.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -140,6 +147,7 @@ class Order(BaseEntity):
             "The time when the Order was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -148,6 +156,7 @@ class Order(BaseEntity):
             "The current state of the Order.",
             "primitive",
             "order.OrderState",
+            False,
             None
         ),
         Property(
@@ -156,6 +165,7 @@ class Order(BaseEntity):
             "The client extensions of the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -219,6 +229,7 @@ class MarketOrder(BaseEntity):
             "The Order's identifier, unique within the Order's Account.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -227,6 +238,7 @@ class MarketOrder(BaseEntity):
             "The time when the Order was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -235,6 +247,7 @@ class MarketOrder(BaseEntity):
             "The current state of the Order.",
             "primitive",
             "order.OrderState",
+            False,
             None
         ),
         Property(
@@ -243,6 +256,7 @@ class MarketOrder(BaseEntity):
             "The client extensions of the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -251,6 +265,7 @@ class MarketOrder(BaseEntity):
             "The type of the Order. Always set to \"MARKET\" for Market Orders.",
             "primitive",
             "order.OrderType",
+            False,
             "MARKET"
         ),
         Property(
@@ -259,6 +274,7 @@ class MarketOrder(BaseEntity):
             "The Market Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -267,6 +283,7 @@ class MarketOrder(BaseEntity):
             "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -275,6 +292,7 @@ class MarketOrder(BaseEntity):
             "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
             "primitive",
             "order.TimeInForce",
+            True,
             "FOK"
         ),
         Property(
@@ -283,6 +301,7 @@ class MarketOrder(BaseEntity):
             "The worst price that the client is willing to have the Market Order filled at.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -291,6 +310,7 @@ class MarketOrder(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -299,6 +319,7 @@ class MarketOrder(BaseEntity):
             "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
             "object",
             "transaction.MarketOrderTradeClose",
+            False,
             None
         ),
         Property(
@@ -307,6 +328,7 @@ class MarketOrder(BaseEntity):
             "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
             "object",
             "transaction.MarketOrderPositionCloseout",
+            False,
             None
         ),
         Property(
@@ -315,6 +337,7 @@ class MarketOrder(BaseEntity):
             "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
             "object",
             "transaction.MarketOrderPositionCloseout",
+            False,
             None
         ),
         Property(
@@ -323,6 +346,7 @@ class MarketOrder(BaseEntity):
             "Details of the Margin Closeout that this Market Order was created for",
             "object",
             "transaction.MarketOrderMarginCloseout",
+            False,
             None
         ),
         Property(
@@ -331,6 +355,7 @@ class MarketOrder(BaseEntity):
             "Details of the delayed Trade close that this Market Order was created for",
             "object",
             "transaction.MarketOrderDelayedTradeClose",
+            False,
             None
         ),
         Property(
@@ -339,6 +364,7 @@ class MarketOrder(BaseEntity):
             "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -347,6 +373,7 @@ class MarketOrder(BaseEntity):
             "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -355,6 +382,7 @@ class MarketOrder(BaseEntity):
             "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -363,6 +391,7 @@ class MarketOrder(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -371,6 +400,7 @@ class MarketOrder(BaseEntity):
             "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -379,6 +409,7 @@ class MarketOrder(BaseEntity):
             "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -387,6 +418,7 @@ class MarketOrder(BaseEntity):
             "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -395,6 +427,7 @@ class MarketOrder(BaseEntity):
             "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -403,6 +436,7 @@ class MarketOrder(BaseEntity):
             "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
             "array_primitive",
             "TradeID",
+            False,
             None
         ),
         Property(
@@ -411,6 +445,7 @@ class MarketOrder(BaseEntity):
             "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -419,6 +454,7 @@ class MarketOrder(BaseEntity):
             "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
     ]
@@ -572,6 +608,7 @@ class LimitOrder(BaseEntity):
             "The Order's identifier, unique within the Order's Account.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -580,6 +617,7 @@ class LimitOrder(BaseEntity):
             "The time when the Order was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -588,6 +626,7 @@ class LimitOrder(BaseEntity):
             "The current state of the Order.",
             "primitive",
             "order.OrderState",
+            False,
             None
         ),
         Property(
@@ -596,6 +635,7 @@ class LimitOrder(BaseEntity):
             "The client extensions of the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -604,6 +644,7 @@ class LimitOrder(BaseEntity):
             "The type of the Order. Always set to \"LIMIT\" for Limit Orders.",
             "primitive",
             "order.OrderType",
+            False,
             "LIMIT"
         ),
         Property(
@@ -612,6 +653,7 @@ class LimitOrder(BaseEntity):
             "The Limit Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -620,6 +662,7 @@ class LimitOrder(BaseEntity):
             "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -628,6 +671,7 @@ class LimitOrder(BaseEntity):
             "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -636,6 +680,7 @@ class LimitOrder(BaseEntity):
             "The time-in-force requested for the Limit Order.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -644,6 +689,7 @@ class LimitOrder(BaseEntity):
             "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -652,6 +698,7 @@ class LimitOrder(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -660,6 +707,7 @@ class LimitOrder(BaseEntity):
             "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -668,6 +716,7 @@ class LimitOrder(BaseEntity):
             "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -676,6 +725,7 @@ class LimitOrder(BaseEntity):
             "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -684,6 +734,7 @@ class LimitOrder(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -692,6 +743,7 @@ class LimitOrder(BaseEntity):
             "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -700,6 +752,7 @@ class LimitOrder(BaseEntity):
             "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -708,6 +761,7 @@ class LimitOrder(BaseEntity):
             "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -716,6 +770,7 @@ class LimitOrder(BaseEntity):
             "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -724,6 +779,7 @@ class LimitOrder(BaseEntity):
             "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
             "array_primitive",
             "TradeID",
+            False,
             None
         ),
         Property(
@@ -732,6 +788,7 @@ class LimitOrder(BaseEntity):
             "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -740,6 +797,7 @@ class LimitOrder(BaseEntity):
             "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -748,6 +806,7 @@ class LimitOrder(BaseEntity):
             "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -756,6 +815,7 @@ class LimitOrder(BaseEntity):
             "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
     ]
@@ -891,6 +951,7 @@ class StopOrder(BaseEntity):
             "The Order's identifier, unique within the Order's Account.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -899,6 +960,7 @@ class StopOrder(BaseEntity):
             "The time when the Order was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -907,6 +969,7 @@ class StopOrder(BaseEntity):
             "The current state of the Order.",
             "primitive",
             "order.OrderState",
+            False,
             None
         ),
         Property(
@@ -915,6 +978,7 @@ class StopOrder(BaseEntity):
             "The client extensions of the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -923,6 +987,7 @@ class StopOrder(BaseEntity):
             "The type of the Order. Always set to \"STOP\" for Stop Orders.",
             "primitive",
             "order.OrderType",
+            False,
             "STOP"
         ),
         Property(
@@ -931,6 +996,7 @@ class StopOrder(BaseEntity):
             "The Stop Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -939,6 +1005,7 @@ class StopOrder(BaseEntity):
             "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -947,6 +1014,7 @@ class StopOrder(BaseEntity):
             "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -955,6 +1023,7 @@ class StopOrder(BaseEntity):
             "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -963,6 +1032,7 @@ class StopOrder(BaseEntity):
             "The time-in-force requested for the Stop Order.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -971,6 +1041,7 @@ class StopOrder(BaseEntity):
             "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -979,6 +1050,7 @@ class StopOrder(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -987,6 +1059,7 @@ class StopOrder(BaseEntity):
             "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -995,6 +1068,7 @@ class StopOrder(BaseEntity):
             "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1003,6 +1077,7 @@ class StopOrder(BaseEntity):
             "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1011,6 +1086,7 @@ class StopOrder(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1019,6 +1095,7 @@ class StopOrder(BaseEntity):
             "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1027,6 +1104,7 @@ class StopOrder(BaseEntity):
             "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1035,6 +1113,7 @@ class StopOrder(BaseEntity):
             "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -1043,6 +1122,7 @@ class StopOrder(BaseEntity):
             "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -1051,6 +1131,7 @@ class StopOrder(BaseEntity):
             "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
             "array_primitive",
             "TradeID",
+            False,
             None
         ),
         Property(
@@ -1059,6 +1140,7 @@ class StopOrder(BaseEntity):
             "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1067,6 +1149,7 @@ class StopOrder(BaseEntity):
             "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1075,6 +1158,7 @@ class StopOrder(BaseEntity):
             "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -1083,6 +1167,7 @@ class StopOrder(BaseEntity):
             "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
     ]
@@ -1222,6 +1307,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The Order's identifier, unique within the Order's Account.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -1230,6 +1316,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The time when the Order was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1238,6 +1325,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The current state of the Order.",
             "primitive",
             "order.OrderState",
+            False,
             None
         ),
         Property(
@@ -1246,6 +1334,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The client extensions of the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1254,6 +1343,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The type of the Order. Always set to \"MARKET_IF_TOUCHED\" for Market If Touched Orders.",
             "primitive",
             "order.OrderType",
+            False,
             "MARKET_IF_TOUCHED"
         ),
         Property(
@@ -1262,6 +1352,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The MarketIfTouched Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -1270,6 +1361,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -1278,14 +1370,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
             "primitive",
             "pricing.PriceValue",
-            None
-        ),
-        Property(
-            "initialMarketPrice",
-            "Initial Market Price",
-            "The Market price at the time when the MarketIfTouched Order was created.",
-            "primitive",
-            "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -1294,6 +1379,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The worst market price that may be used to fill this MarketIfTouched Order.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -1302,6 +1388,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -1310,6 +1397,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1318,7 +1406,17 @@ class MarketIfTouchedOrder(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
+        ),
+        Property(
+            "initialMarketPrice",
+            "Initial Market Price",
+            "The Market price at the time when the MarketIfTouched Order was created.",
+            "primitive",
+            "pricing.PriceValue",
+            False,
+            None
         ),
         Property(
             "takeProfitOnFill",
@@ -1326,6 +1424,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -1334,6 +1433,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1342,6 +1442,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1350,6 +1451,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1358,6 +1460,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1366,6 +1469,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1374,6 +1478,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -1382,6 +1487,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -1390,6 +1496,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
             "array_primitive",
             "TradeID",
+            False,
             None
         ),
         Property(
@@ -1398,6 +1505,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1406,6 +1514,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1414,6 +1523,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -1422,6 +1532,7 @@ class MarketIfTouchedOrder(BaseEntity):
             "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
     ]
@@ -1469,10 +1580,6 @@ class MarketIfTouchedOrder(BaseEntity):
             body['price'] = \
                 data.get('price')
 
-        if data.get('initialMarketPrice') is not None:
-            body['initialMarketPrice'] = \
-                data.get('initialMarketPrice')
-
         if data.get('priceBound') is not None:
             body['priceBound'] = \
                 data.get('priceBound')
@@ -1488,6 +1595,10 @@ class MarketIfTouchedOrder(BaseEntity):
         if data.get('positionFill') is not None:
             body['positionFill'] = \
                 data.get('positionFill')
+
+        if data.get('initialMarketPrice') is not None:
+            body['initialMarketPrice'] = \
+                data.get('initialMarketPrice')
 
         if data.get('takeProfitOnFill') is not None:
             body['takeProfitOnFill'] = \
@@ -1565,6 +1676,7 @@ class TakeProfitOrder(BaseEntity):
             "The Order's identifier, unique within the Order's Account.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -1573,6 +1685,7 @@ class TakeProfitOrder(BaseEntity):
             "The time when the Order was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1581,6 +1694,7 @@ class TakeProfitOrder(BaseEntity):
             "The current state of the Order.",
             "primitive",
             "order.OrderState",
+            False,
             None
         ),
         Property(
@@ -1589,6 +1703,7 @@ class TakeProfitOrder(BaseEntity):
             "The client extensions of the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1597,6 +1712,7 @@ class TakeProfitOrder(BaseEntity):
             "The type of the Order. Always set to \"TAKE_PROFIT\" for Take Profit Orders.",
             "primitive",
             "order.OrderType",
+            False,
             "TAKE_PROFIT"
         ),
         Property(
@@ -1605,6 +1721,7 @@ class TakeProfitOrder(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -1613,6 +1730,7 @@ class TakeProfitOrder(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -1621,6 +1739,7 @@ class TakeProfitOrder(BaseEntity):
             "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -1629,6 +1748,7 @@ class TakeProfitOrder(BaseEntity):
             "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -1637,6 +1757,7 @@ class TakeProfitOrder(BaseEntity):
             "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1645,6 +1766,7 @@ class TakeProfitOrder(BaseEntity):
             "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1653,6 +1775,7 @@ class TakeProfitOrder(BaseEntity):
             "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1661,6 +1784,7 @@ class TakeProfitOrder(BaseEntity):
             "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -1669,6 +1793,7 @@ class TakeProfitOrder(BaseEntity):
             "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -1677,6 +1802,7 @@ class TakeProfitOrder(BaseEntity):
             "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
             "array_primitive",
             "TradeID",
+            False,
             None
         ),
         Property(
@@ -1685,6 +1811,7 @@ class TakeProfitOrder(BaseEntity):
             "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1693,6 +1820,7 @@ class TakeProfitOrder(BaseEntity):
             "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1701,6 +1829,7 @@ class TakeProfitOrder(BaseEntity):
             "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -1709,6 +1838,7 @@ class TakeProfitOrder(BaseEntity):
             "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
     ]
@@ -1816,6 +1946,7 @@ class StopLossOrder(BaseEntity):
             "The Order's identifier, unique within the Order's Account.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -1824,6 +1955,7 @@ class StopLossOrder(BaseEntity):
             "The time when the Order was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1832,6 +1964,7 @@ class StopLossOrder(BaseEntity):
             "The current state of the Order.",
             "primitive",
             "order.OrderState",
+            False,
             None
         ),
         Property(
@@ -1840,6 +1973,7 @@ class StopLossOrder(BaseEntity):
             "The client extensions of the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1848,6 +1982,7 @@ class StopLossOrder(BaseEntity):
             "The type of the Order. Always set to \"STOP_LOSS\" for Stop Loss Orders.",
             "primitive",
             "order.OrderType",
+            False,
             "STOP_LOSS"
         ),
         Property(
@@ -1856,6 +1991,7 @@ class StopLossOrder(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -1864,6 +2000,7 @@ class StopLossOrder(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -1872,6 +2009,7 @@ class StopLossOrder(BaseEntity):
             "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -1880,6 +2018,7 @@ class StopLossOrder(BaseEntity):
             "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -1888,6 +2027,7 @@ class StopLossOrder(BaseEntity):
             "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1896,6 +2036,7 @@ class StopLossOrder(BaseEntity):
             "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1904,6 +2045,7 @@ class StopLossOrder(BaseEntity):
             "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1912,6 +2054,7 @@ class StopLossOrder(BaseEntity):
             "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -1920,6 +2063,7 @@ class StopLossOrder(BaseEntity):
             "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -1928,6 +2072,7 @@ class StopLossOrder(BaseEntity):
             "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
             "array_primitive",
             "TradeID",
+            False,
             None
         ),
         Property(
@@ -1936,6 +2081,7 @@ class StopLossOrder(BaseEntity):
             "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1944,6 +2090,7 @@ class StopLossOrder(BaseEntity):
             "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1952,6 +2099,7 @@ class StopLossOrder(BaseEntity):
             "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -1960,6 +2108,7 @@ class StopLossOrder(BaseEntity):
             "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
     ]
@@ -2067,6 +2216,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The Order's identifier, unique within the Order's Account.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -2075,6 +2225,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The time when the Order was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2083,6 +2234,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The current state of the Order.",
             "primitive",
             "order.OrderState",
+            False,
             None
         ),
         Property(
@@ -2091,6 +2243,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The client extensions of the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2099,6 +2252,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The type of the Order. Always set to \"TRAILING_STOP_LOSS\" for Trailing Stop Loss Orders.",
             "primitive",
             "order.OrderType",
+            False,
             "TRAILING_STOP_LOSS"
         ),
         Property(
@@ -2107,6 +2261,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -2115,6 +2270,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -2123,6 +2279,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The price distance specified for the TrailingStopLoss Order.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -2131,6 +2288,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -2139,6 +2297,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2147,6 +2306,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The current trailing stop value for the Trailing Stop Loss Order. The trailingStopValue at the time of the Order's creation is created by combining the Order's distance with its initialTriggerComparePrice.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -2155,6 +2315,7 @@ class TrailingStopLossOrder(BaseEntity):
             "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -2163,6 +2324,7 @@ class TrailingStopLossOrder(BaseEntity):
             "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2171,6 +2333,7 @@ class TrailingStopLossOrder(BaseEntity):
             "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -2179,6 +2342,7 @@ class TrailingStopLossOrder(BaseEntity):
             "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -2187,6 +2351,7 @@ class TrailingStopLossOrder(BaseEntity):
             "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
             "array_primitive",
             "TradeID",
+            False,
             None
         ),
         Property(
@@ -2195,6 +2360,7 @@ class TrailingStopLossOrder(BaseEntity):
             "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -2203,6 +2369,7 @@ class TrailingStopLossOrder(BaseEntity):
             "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2211,6 +2378,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -2219,6 +2387,7 @@ class TrailingStopLossOrder(BaseEntity):
             "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
     ]
@@ -2351,6 +2520,7 @@ class MarketOrderRequest(BaseEntity):
             "The type of the Order to Create. Must be set to \"MARKET\" when creating a Market Order.",
             "primitive",
             "order.OrderType",
+            True,
             "MARKET"
         ),
         Property(
@@ -2359,6 +2529,7 @@ class MarketOrderRequest(BaseEntity):
             "The Market Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -2367,6 +2538,7 @@ class MarketOrderRequest(BaseEntity):
             "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -2375,6 +2547,7 @@ class MarketOrderRequest(BaseEntity):
             "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
             "primitive",
             "order.TimeInForce",
+            True,
             "FOK"
         ),
         Property(
@@ -2383,6 +2556,7 @@ class MarketOrderRequest(BaseEntity):
             "The worst price that the client is willing to have the Market Order filled at.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -2391,6 +2565,7 @@ class MarketOrderRequest(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -2399,6 +2574,7 @@ class MarketOrderRequest(BaseEntity):
             "The client extensions to add to the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2407,6 +2583,7 @@ class MarketOrderRequest(BaseEntity):
             "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -2415,6 +2592,7 @@ class MarketOrderRequest(BaseEntity):
             "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2423,6 +2601,7 @@ class MarketOrderRequest(BaseEntity):
             "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2431,6 +2610,7 @@ class MarketOrderRequest(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -2514,6 +2694,7 @@ class LimitOrderRequest(BaseEntity):
             "The type of the Order to Create. Must be set to \"LIMIT\" when creating a Market Order.",
             "primitive",
             "order.OrderType",
+            False,
             "LIMIT"
         ),
         Property(
@@ -2522,6 +2703,7 @@ class LimitOrderRequest(BaseEntity):
             "The Limit Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -2530,6 +2712,7 @@ class LimitOrderRequest(BaseEntity):
             "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -2538,6 +2721,7 @@ class LimitOrderRequest(BaseEntity):
             "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -2546,6 +2730,7 @@ class LimitOrderRequest(BaseEntity):
             "The time-in-force requested for the Limit Order.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -2554,6 +2739,7 @@ class LimitOrderRequest(BaseEntity):
             "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2562,6 +2748,7 @@ class LimitOrderRequest(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -2570,6 +2757,7 @@ class LimitOrderRequest(BaseEntity):
             "The client extensions to add to the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2578,6 +2766,7 @@ class LimitOrderRequest(BaseEntity):
             "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -2586,6 +2775,7 @@ class LimitOrderRequest(BaseEntity):
             "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2594,6 +2784,7 @@ class LimitOrderRequest(BaseEntity):
             "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2602,6 +2793,7 @@ class LimitOrderRequest(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -2689,6 +2881,7 @@ class StopOrderRequest(BaseEntity):
             "The type of the Order to Create. Must be set to \"STOP\" when creating a Stop Order.",
             "primitive",
             "order.OrderType",
+            False,
             "STOP"
         ),
         Property(
@@ -2697,6 +2890,7 @@ class StopOrderRequest(BaseEntity):
             "The Stop Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -2705,6 +2899,7 @@ class StopOrderRequest(BaseEntity):
             "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -2713,6 +2908,7 @@ class StopOrderRequest(BaseEntity):
             "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -2721,6 +2917,7 @@ class StopOrderRequest(BaseEntity):
             "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -2729,6 +2926,7 @@ class StopOrderRequest(BaseEntity):
             "The time-in-force requested for the Stop Order.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -2737,6 +2935,7 @@ class StopOrderRequest(BaseEntity):
             "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2745,6 +2944,7 @@ class StopOrderRequest(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -2753,6 +2953,7 @@ class StopOrderRequest(BaseEntity):
             "The client extensions to add to the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2761,6 +2962,7 @@ class StopOrderRequest(BaseEntity):
             "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -2769,6 +2971,7 @@ class StopOrderRequest(BaseEntity):
             "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2777,6 +2980,7 @@ class StopOrderRequest(BaseEntity):
             "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2785,6 +2989,7 @@ class StopOrderRequest(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -2876,6 +3081,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "The type of the Order to Create. Must be set to \"MARKET_IF_TOUCHED\" when creating a Market If Touched Order.",
             "primitive",
             "order.OrderType",
+            False,
             "MARKET_IF_TOUCHED"
         ),
         Property(
@@ -2884,6 +3090,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "The MarketIfTouched Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -2892,6 +3099,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -2900,14 +3108,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
             "primitive",
             "pricing.PriceValue",
-            None
-        ),
-        Property(
-            "initialMarketPrice",
-            "Initial Market Price",
-            "The Market price at the time when the MarketIfTouched Order was created.",
-            "primitive",
-            "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -2916,6 +3117,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "The worst market price that may be used to fill this MarketIfTouched Order.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -2924,6 +3126,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -2932,6 +3135,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2940,6 +3144,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -2948,6 +3153,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "The client extensions to add to the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2956,6 +3162,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -2964,6 +3171,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2972,6 +3180,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2980,6 +3189,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -3008,10 +3218,6 @@ class MarketIfTouchedOrderRequest(BaseEntity):
         if data.get('price') is not None:
             body['price'] = \
                 data.get('price')
-
-        if data.get('initialMarketPrice') is not None:
-            body['initialMarketPrice'] = \
-                data.get('initialMarketPrice')
 
         if data.get('priceBound') is not None:
             body['priceBound'] = \
@@ -3075,6 +3281,7 @@ class TakeProfitOrderRequest(BaseEntity):
             "The type of the Order to Create. Must be set to \"TAKE_PROFIT\" when creating a Take Profit Order.",
             "primitive",
             "order.OrderType",
+            False,
             "TAKE_PROFIT"
         ),
         Property(
@@ -3083,6 +3290,7 @@ class TakeProfitOrderRequest(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -3091,6 +3299,7 @@ class TakeProfitOrderRequest(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -3099,6 +3308,7 @@ class TakeProfitOrderRequest(BaseEntity):
             "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -3107,6 +3317,7 @@ class TakeProfitOrderRequest(BaseEntity):
             "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -3115,6 +3326,7 @@ class TakeProfitOrderRequest(BaseEntity):
             "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3123,6 +3335,7 @@ class TakeProfitOrderRequest(BaseEntity):
             "The client extensions to add to the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -3182,6 +3395,7 @@ class StopLossOrderRequest(BaseEntity):
             "The type of the Order to Create. Must be set to \"STOP_LOSS\" when creating a Stop Loss Order.",
             "primitive",
             "order.OrderType",
+            False,
             "STOP_LOSS"
         ),
         Property(
@@ -3190,6 +3404,7 @@ class StopLossOrderRequest(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -3198,6 +3413,7 @@ class StopLossOrderRequest(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -3206,6 +3422,7 @@ class StopLossOrderRequest(BaseEntity):
             "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -3214,6 +3431,7 @@ class StopLossOrderRequest(BaseEntity):
             "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -3222,6 +3440,7 @@ class StopLossOrderRequest(BaseEntity):
             "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3230,6 +3449,7 @@ class StopLossOrderRequest(BaseEntity):
             "The client extensions to add to the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -3289,6 +3509,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
             "The type of the Order to Create. Must be set to \"TRAILING_STOP_LOSS\" when creating a Trailng Stop Loss Order.",
             "primitive",
             "order.OrderType",
+            False,
             "TRAILING_STOP_LOSS"
         ),
         Property(
@@ -3297,6 +3518,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -3305,6 +3527,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -3313,6 +3536,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
             "The price distance specified for the TrailingStopLoss Order.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -3321,6 +3545,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
             "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -3329,6 +3554,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
             "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3337,6 +3563,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
             "The client extensions to add to the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]

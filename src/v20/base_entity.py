@@ -10,6 +10,7 @@ class Property(object):
         description,
         typeClass,
         typeName,
+        required,
         default
     ):
         self.name = name
@@ -17,6 +18,7 @@ class Property(object):
         self.description = description
         self.typeClass = typeClass
         self.typeName = typeName
+        self.required = required
         self.default = default
 
 
@@ -28,6 +30,7 @@ class Field(Property):
             property.description, 
             property.typeClass, 
             property.typeName,
+            property.required,
             property.default
         )
 
@@ -123,14 +126,25 @@ class BaseEntity(object):
 
         return title_string
 
-    def __str__(self):
-        s = self.title()
-
-        if len(s) > 0:
-            s += "\n"
+    def fields_str(self):
+        s = ""
 
         for field in self.fields():
             s += str(field) + "\n"
+
+        return s
+
+    def __str__(self):
+        s = ""
+
+        title = self.title()
+
+        if len(title) > 0:
+            s += title + "\n"
+            s += len(title) * "=" + "\n"
+            s += "\n"
+
+        s += self.fields_str()
 
         return s
 
@@ -147,8 +161,6 @@ class BaseEntity(object):
         for property in self._properties:
             self_value = getattr(self, property.name)
             other_value = getattr(other, property.name)
-
-            # print property.name, property.typeClass, self_value, other_value
 
             if self_value is None:
                 continue

@@ -1,10 +1,10 @@
 import json
-from base_entity import BaseEntity
-from base_entity import Property
-from base_entity import EntityDict
-from request import Request
-import transaction
-import order
+from v20.base_entity import BaseEntity
+from v20.base_entity import Property
+from v20.base_entity import EntityDict
+from v20.request import Request
+from v20 import transaction
+from v20 import order
 
 
 
@@ -19,6 +19,7 @@ class Trade(BaseEntity):
             "The Trade's identifier, unique within the Trade's Account.",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -27,6 +28,7 @@ class Trade(BaseEntity):
             "The Trade's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -35,6 +37,7 @@ class Trade(BaseEntity):
             "The execution price of the Trade.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -43,6 +46,7 @@ class Trade(BaseEntity):
             "The date/time when the Trade was opened.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -51,6 +55,7 @@ class Trade(BaseEntity):
             "The current state of the Trade.",
             "primitive",
             "trade.TradeState",
+            False,
             None
         ),
         Property(
@@ -59,6 +64,7 @@ class Trade(BaseEntity):
             "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -67,6 +73,7 @@ class Trade(BaseEntity):
             "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -75,6 +82,7 @@ class Trade(BaseEntity):
             "The total profit/loss realized on the closed portion of the Trade.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -83,6 +91,7 @@ class Trade(BaseEntity):
             "The unrealized profit/loss on the open portion of the Trade.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -91,6 +100,7 @@ class Trade(BaseEntity):
             "The IDs of the Transactions that have closed portions of this Trade.",
             "array_primitive",
             "TransactionID",
+            False,
             None
         ),
         Property(
@@ -99,6 +109,7 @@ class Trade(BaseEntity):
             "The financing paid/collected for this Trade.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -107,6 +118,7 @@ class Trade(BaseEntity):
             "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -115,6 +127,7 @@ class Trade(BaseEntity):
             "The client extensions of the Trade.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -123,6 +136,7 @@ class Trade(BaseEntity):
             "Full representation of the Trade's Take Profit Order, only provided if such an Order exists.",
             "object",
             "order.TakeProfitOrder",
+            False,
             None
         ),
         Property(
@@ -131,6 +145,7 @@ class Trade(BaseEntity):
             "Full representation of the Trade's Stop Loss Order, only provided if such an Order exists.",
             "object",
             "order.StopLossOrder",
+            False,
             None
         ),
         Property(
@@ -139,6 +154,7 @@ class Trade(BaseEntity):
             "Full representation of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
             "object",
             "order.TrailingStopLossOrder",
+            False,
             None
         ),
     ]
@@ -240,6 +256,7 @@ class TradeSummary(BaseEntity):
             "The Trade's identifier, unique within the Trade's Account.",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -248,6 +265,7 @@ class TradeSummary(BaseEntity):
             "The Trade's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -256,6 +274,7 @@ class TradeSummary(BaseEntity):
             "The execution price of the Trade.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -264,6 +283,7 @@ class TradeSummary(BaseEntity):
             "The date/time when the Trade was opened.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -272,6 +292,7 @@ class TradeSummary(BaseEntity):
             "The current state of the Trade.",
             "primitive",
             "trade.TradeState",
+            False,
             None
         ),
         Property(
@@ -280,6 +301,7 @@ class TradeSummary(BaseEntity):
             "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -288,6 +310,7 @@ class TradeSummary(BaseEntity):
             "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -296,6 +319,7 @@ class TradeSummary(BaseEntity):
             "The total profit/loss realized on the closed portion of the Trade.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -304,6 +328,7 @@ class TradeSummary(BaseEntity):
             "The unrealized profit/loss on the open portion of the Trade.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -312,6 +337,7 @@ class TradeSummary(BaseEntity):
             "The IDs of the Transactions that have closed portions of this Trade.",
             "array_primitive",
             "TransactionID",
+            False,
             None
         ),
         Property(
@@ -320,6 +346,7 @@ class TradeSummary(BaseEntity):
             "The financing paid/collected for this Trade.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -328,6 +355,7 @@ class TradeSummary(BaseEntity):
             "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -336,6 +364,7 @@ class TradeSummary(BaseEntity):
             "The client extensions of the Trade.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -344,6 +373,7 @@ class TradeSummary(BaseEntity):
             "ID of the Trade's Take Profit Order, only provided if such an Order exists.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -352,6 +382,7 @@ class TradeSummary(BaseEntity):
             "ID of the Trade's Stop Loss Order, only provided if such an Order exists.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -360,6 +391,7 @@ class TradeSummary(BaseEntity):
             "ID of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
     ]
@@ -455,6 +487,7 @@ class CalculatedTradeState(BaseEntity):
             "The Trade's ID.",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -463,6 +496,7 @@ class CalculatedTradeState(BaseEntity):
             "The Trade's unrealized profit/loss.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
     ]

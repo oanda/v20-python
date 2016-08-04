@@ -33,12 +33,14 @@ class NoSuchValueError(Exception):
 
 
 class Response(object):
-    def __init__(self, method, path, status, reason, content_type):
+    def __init__(self, request, method, path, status, reason, headers):
+        self.request = request
         self.method = method
         self.path = path
         self.status = status
         self.reason = reason
-        self.content_type = content_type
+        self.headers = headers
+        self.content_type = headers.get("content-type", None)
         self.raw_body = None
         self.body = None
         self.lines = None

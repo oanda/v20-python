@@ -1,13 +1,13 @@
 import json
-from base_entity import BaseEntity
-from base_entity import Property
-from base_entity import EntityDict
-from request import Request
-import trade
-import position
-import order
-import transaction
-import primitives
+from v20.base_entity import BaseEntity
+from v20.base_entity import Property
+from v20.base_entity import EntityDict
+from v20.request import Request
+from v20 import trade
+from v20 import position
+from v20 import order
+from v20 import transaction
+from v20 import primitives
 
 
 
@@ -22,6 +22,7 @@ class Account(BaseEntity):
             "The Account's identifier",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -30,6 +31,7 @@ class Account(BaseEntity):
             "Client-assigned alias for the Account. Only provided if the Account has an alias set",
             "primitive",
             "string",
+            False,
             None
         ),
         Property(
@@ -38,6 +40,7 @@ class Account(BaseEntity):
             "The home currency of the Account",
             "primitive",
             "primitives.Currency",
+            False,
             None
         ),
         Property(
@@ -46,6 +49,7 @@ class Account(BaseEntity):
             "The current balance of the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -54,6 +58,7 @@ class Account(BaseEntity):
             "ID of the user that created the Account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -62,6 +67,7 @@ class Account(BaseEntity):
             "The date/time when the Account was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -70,6 +76,7 @@ class Account(BaseEntity):
             "The total profit/loss realized over the lifetime of the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -78,6 +85,7 @@ class Account(BaseEntity):
             "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -86,6 +94,7 @@ class Account(BaseEntity):
             "The date/time that the Account's resettablePL was last reset.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -94,6 +103,7 @@ class Account(BaseEntity):
             "Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -102,6 +112,7 @@ class Account(BaseEntity):
             "The date/time when the Account entered a margin call state. Only provided if the Account is in a margin call.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -110,6 +121,7 @@ class Account(BaseEntity):
             "The number of times that the Account's current margin call was extended.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -118,6 +130,7 @@ class Account(BaseEntity):
             "The date/time of the Account's last margin call extension.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -126,6 +139,7 @@ class Account(BaseEntity):
             "The number of Trades currently open in the Account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -134,6 +148,7 @@ class Account(BaseEntity):
             "The number of Positions currently open in the Account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -142,6 +157,7 @@ class Account(BaseEntity):
             "The number of Orders currently pending in the Account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -150,6 +166,7 @@ class Account(BaseEntity):
             "Flag indicating that the Account has hedging enabled.",
             "primitive",
             "boolean",
+            False,
             None
         ),
         Property(
@@ -158,6 +175,7 @@ class Account(BaseEntity):
             "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -166,6 +184,7 @@ class Account(BaseEntity):
             "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -174,6 +193,7 @@ class Account(BaseEntity):
             "Margin currently used for the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -182,6 +202,7 @@ class Account(BaseEntity):
             "Margin available for Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -190,6 +211,7 @@ class Account(BaseEntity):
             "The value of the Account's open positions represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -198,6 +220,7 @@ class Account(BaseEntity):
             "The Account's margin closeout unrealized PL.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -206,6 +229,7 @@ class Account(BaseEntity):
             "The Account's margin closeout NAV.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -214,6 +238,7 @@ class Account(BaseEntity):
             "The Account's margin closeout margin used.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -222,6 +247,7 @@ class Account(BaseEntity):
             "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -230,6 +256,7 @@ class Account(BaseEntity):
             "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -238,6 +265,7 @@ class Account(BaseEntity):
             "The Account's margin call margin used.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -246,6 +274,7 @@ class Account(BaseEntity):
             "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -254,6 +283,7 @@ class Account(BaseEntity):
             "The ID of the last Transaction created for the Account.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -262,14 +292,16 @@ class Account(BaseEntity):
             "The details of the Trades currently open in the Account.",
             "array_object",
             "TradeSummary",
+            False,
             None
         ),
         Property(
             "positions",
-            "Open Positions",
-            "The details of all Positions currently open in the Account.",
+            "Positions",
+            "The details all Account Positions.",
             "array_object",
             "Position",
+            False,
             None
         ),
         Property(
@@ -278,6 +310,7 @@ class Account(BaseEntity):
             "The details of the Orders currently pending in the Account.",
             "array_object",
             "Order",
+            False,
             None
         ),
     ]
@@ -445,6 +478,7 @@ class AccountState(BaseEntity):
             "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -453,6 +487,7 @@ class AccountState(BaseEntity):
             "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -461,6 +496,7 @@ class AccountState(BaseEntity):
             "Margin currently used for the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -469,6 +505,7 @@ class AccountState(BaseEntity):
             "Margin available for Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -477,6 +514,7 @@ class AccountState(BaseEntity):
             "The value of the Account's open positions represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -485,6 +523,7 @@ class AccountState(BaseEntity):
             "The Account's margin closeout unrealized PL.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -493,6 +532,7 @@ class AccountState(BaseEntity):
             "The Account's margin closeout NAV.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -501,6 +541,7 @@ class AccountState(BaseEntity):
             "The Account's margin closeout margin used.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -509,6 +550,7 @@ class AccountState(BaseEntity):
             "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -517,6 +559,7 @@ class AccountState(BaseEntity):
             "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -525,6 +568,7 @@ class AccountState(BaseEntity):
             "The Account's margin call margin used.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -533,6 +577,7 @@ class AccountState(BaseEntity):
             "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -541,6 +586,7 @@ class AccountState(BaseEntity):
             "The price-dependent state of each pending Order in the Account.",
             "array_object",
             "DynamicOrderState",
+            False,
             None
         ),
         Property(
@@ -549,6 +595,7 @@ class AccountState(BaseEntity):
             "The price-dependent state for each open Trade in the Account.",
             "array_object",
             "CalculatedTradeState",
+            False,
             None
         ),
         Property(
@@ -557,6 +604,7 @@ class AccountState(BaseEntity):
             "The price-dependent state for each open Position in the Account.",
             "array_object",
             "CalculatedPositionState",
+            False,
             None
         ),
     ]
@@ -652,6 +700,7 @@ class AccountProperties(BaseEntity):
             "The Account's identifier",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -660,6 +709,7 @@ class AccountProperties(BaseEntity):
             "The Account's associated MT4 Account ID. This field will not be present if the Account is not an MT4 account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -668,6 +718,7 @@ class AccountProperties(BaseEntity):
             "The Account's tags",
             "array_primitive",
             "string",
+            False,
             None
         ),
     ]
@@ -709,6 +760,7 @@ class AccountSummary(BaseEntity):
             "The Account's identifier",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -717,6 +769,7 @@ class AccountSummary(BaseEntity):
             "Client-assigned alias for the Account. Only provided if the Account has an alias set",
             "primitive",
             "string",
+            False,
             None
         ),
         Property(
@@ -725,6 +778,7 @@ class AccountSummary(BaseEntity):
             "The home currency of the Account",
             "primitive",
             "primitives.Currency",
+            False,
             None
         ),
         Property(
@@ -733,6 +787,7 @@ class AccountSummary(BaseEntity):
             "The current balance of the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -741,6 +796,7 @@ class AccountSummary(BaseEntity):
             "ID of the user that created the Account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -749,6 +805,7 @@ class AccountSummary(BaseEntity):
             "The date/time when the Account was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -757,6 +814,7 @@ class AccountSummary(BaseEntity):
             "The total profit/loss realized over the lifetime of the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -765,6 +823,7 @@ class AccountSummary(BaseEntity):
             "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -773,6 +832,7 @@ class AccountSummary(BaseEntity):
             "The date/time that the Account's resettablePL was last reset.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -781,6 +841,7 @@ class AccountSummary(BaseEntity):
             "Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -789,6 +850,7 @@ class AccountSummary(BaseEntity):
             "The date/time when the Account entered a margin call state. Only provided if the Account is in a margin call.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -797,6 +859,7 @@ class AccountSummary(BaseEntity):
             "The number of times that the Account's current margin call was extended.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -805,6 +868,7 @@ class AccountSummary(BaseEntity):
             "The date/time of the Account's last margin call extension.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -813,6 +877,7 @@ class AccountSummary(BaseEntity):
             "The number of Trades currently open in the Account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -821,6 +886,7 @@ class AccountSummary(BaseEntity):
             "The number of Positions currently open in the Account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -829,6 +895,7 @@ class AccountSummary(BaseEntity):
             "The number of Orders currently pending in the Account.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -837,6 +904,7 @@ class AccountSummary(BaseEntity):
             "Flag indicating that the Account has hedging enabled.",
             "primitive",
             "boolean",
+            False,
             None
         ),
         Property(
@@ -845,6 +913,7 @@ class AccountSummary(BaseEntity):
             "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -853,6 +922,7 @@ class AccountSummary(BaseEntity):
             "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -861,6 +931,7 @@ class AccountSummary(BaseEntity):
             "Margin currently used for the Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -869,6 +940,7 @@ class AccountSummary(BaseEntity):
             "Margin available for Account. Represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -877,6 +949,7 @@ class AccountSummary(BaseEntity):
             "The value of the Account's open positions represented in the Account's home currency.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -885,6 +958,7 @@ class AccountSummary(BaseEntity):
             "The Account's margin closeout unrealized PL.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -893,6 +967,7 @@ class AccountSummary(BaseEntity):
             "The Account's margin closeout NAV.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -901,6 +976,7 @@ class AccountSummary(BaseEntity):
             "The Account's margin closeout margin used.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -909,6 +985,7 @@ class AccountSummary(BaseEntity):
             "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -917,6 +994,7 @@ class AccountSummary(BaseEntity):
             "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -925,6 +1003,7 @@ class AccountSummary(BaseEntity):
             "The Account's margin call margin used.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -933,6 +1012,7 @@ class AccountSummary(BaseEntity):
             "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -941,6 +1021,7 @@ class AccountSummary(BaseEntity):
             "The ID of the last Transaction created for the Account.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -1090,6 +1171,7 @@ class AccountChanges(BaseEntity):
             "The Orders created. These Orders may have been filled, cancelled or triggered in the same period.",
             "array_object",
             "Order",
+            False,
             None
         ),
         Property(
@@ -1098,6 +1180,7 @@ class AccountChanges(BaseEntity):
             "The Orders cancelled.",
             "array_object",
             "Order",
+            False,
             None
         ),
         Property(
@@ -1106,6 +1189,7 @@ class AccountChanges(BaseEntity):
             "The Orders filled.",
             "array_object",
             "Order",
+            False,
             None
         ),
         Property(
@@ -1114,6 +1198,7 @@ class AccountChanges(BaseEntity):
             "The Orders triggered.",
             "array_object",
             "Order",
+            False,
             None
         ),
         Property(
@@ -1122,6 +1207,7 @@ class AccountChanges(BaseEntity):
             "The Trades opened.",
             "array_object",
             "Trade",
+            False,
             None
         ),
         Property(
@@ -1130,6 +1216,7 @@ class AccountChanges(BaseEntity):
             "The Trades reduced.",
             "array_object",
             "Trade",
+            False,
             None
         ),
         Property(
@@ -1138,6 +1225,7 @@ class AccountChanges(BaseEntity):
             "The Trades closed.",
             "array_object",
             "Trade",
+            False,
             None
         ),
         Property(
@@ -1146,6 +1234,7 @@ class AccountChanges(BaseEntity):
             "The Positions changed.",
             "array_object",
             "Position",
+            False,
             None
         ),
         Property(
@@ -1154,6 +1243,7 @@ class AccountChanges(BaseEntity):
             "The Transactions that have been generated.",
             "array_object",
             "Transaction",
+            False,
             None
         ),
     ]

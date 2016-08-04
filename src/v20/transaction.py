@@ -1,8 +1,8 @@
 import json
-from base_entity import BaseEntity
-from base_entity import Property
-from base_entity import EntityDict
-from request import Request
+from v20.base_entity import BaseEntity
+from v20.base_entity import Property
+from v20.base_entity import EntityDict
+from v20.request import Request
 
 
 
@@ -17,6 +17,7 @@ class Transaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -25,6 +26,7 @@ class Transaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -33,6 +35,7 @@ class Transaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -41,6 +44,7 @@ class Transaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -49,6 +53,7 @@ class Transaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -164,6 +169,7 @@ class CreateTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -172,6 +178,7 @@ class CreateTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -180,6 +187,7 @@ class CreateTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -188,6 +196,7 @@ class CreateTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -196,6 +205,7 @@ class CreateTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -204,6 +214,7 @@ class CreateTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"CREATE\" in a CreateTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "CREATE"
         ),
         Property(
@@ -212,6 +223,7 @@ class CreateTransaction(BaseEntity):
             "The ID of the Division that the Account is in",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -220,6 +232,7 @@ class CreateTransaction(BaseEntity):
             "The ID of the Site that the Account was created at",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -228,6 +241,7 @@ class CreateTransaction(BaseEntity):
             "The ID of the user that the Account was created for",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -236,6 +250,7 @@ class CreateTransaction(BaseEntity):
             "The number of the Account within the site/division/user",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -244,6 +259,7 @@ class CreateTransaction(BaseEntity):
             "The home currency of the Account",
             "primitive",
             "primitives.Currency",
+            False,
             None
         ),
     ]
@@ -317,6 +333,7 @@ class CloseTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -325,6 +342,7 @@ class CloseTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -333,6 +351,7 @@ class CloseTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -341,6 +360,7 @@ class CloseTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -349,6 +369,7 @@ class CloseTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -357,6 +378,7 @@ class CloseTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"CLOSE\" in a CloseTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "CLOSE"
         ),
     ]
@@ -410,6 +432,7 @@ class ReopenTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -418,6 +441,7 @@ class ReopenTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -426,6 +450,7 @@ class ReopenTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -434,6 +459,7 @@ class ReopenTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -442,6 +468,7 @@ class ReopenTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -450,6 +477,7 @@ class ReopenTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"REOPEN\" in a ReopenTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "REOPEN"
         ),
     ]
@@ -503,6 +531,7 @@ class ClientConfigureTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -511,6 +540,7 @@ class ClientConfigureTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -519,6 +549,7 @@ class ClientConfigureTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -527,6 +558,7 @@ class ClientConfigureTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -535,6 +567,7 @@ class ClientConfigureTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -543,6 +576,7 @@ class ClientConfigureTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"CLIENT_CONFIGURE\" in a ClientConfigureTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "CLIENT_CONFIGURE"
         ),
         Property(
@@ -551,6 +585,7 @@ class ClientConfigureTransaction(BaseEntity):
             "The client-provided alias for the Account.",
             "primitive",
             "string",
+            False,
             None
         ),
         Property(
@@ -559,6 +594,7 @@ class ClientConfigureTransaction(BaseEntity):
             "The margin rate override for the Account.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
     ]
@@ -620,6 +656,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -628,6 +665,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -636,6 +674,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -644,6 +683,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -652,6 +692,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -660,6 +701,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"CLIENT_CONFIGURE_REJECT\" in a ClientConfigureRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "CLIENT_CONFIGURE_REJECT"
         ),
         Property(
@@ -668,6 +710,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The client-provided alias for the Account.",
             "primitive",
             "string",
+            False,
             None
         ),
         Property(
@@ -676,6 +719,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The margin rate override for the Account.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -684,6 +728,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -749,6 +794,7 @@ class TransferFundsTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -757,6 +803,7 @@ class TransferFundsTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -765,6 +812,7 @@ class TransferFundsTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -773,6 +821,7 @@ class TransferFundsTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -781,6 +830,7 @@ class TransferFundsTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -789,6 +839,7 @@ class TransferFundsTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"TRANSFER_FUNDS\" in a TransferFundsTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "TRANSFER_FUNDS"
         ),
         Property(
@@ -797,6 +848,7 @@ class TransferFundsTransaction(BaseEntity):
             "The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -805,6 +857,7 @@ class TransferFundsTransaction(BaseEntity):
             "The reason that an Account is being funded.",
             "primitive",
             "transaction.FundingReason",
+            False,
             None
         ),
         Property(
@@ -813,6 +866,7 @@ class TransferFundsTransaction(BaseEntity):
             "The Account's balance after funds are transferred.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
     ]
@@ -878,6 +932,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -886,6 +941,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -894,6 +950,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -902,6 +959,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -910,6 +968,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -918,6 +977,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"TRANSFER_FUNDS_REJECT\" in a TransferFundsRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "TRANSFER_FUNDS_REJECT"
         ),
         Property(
@@ -926,6 +986,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -934,6 +995,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The reason that an Account is being funded.",
             "primitive",
             "transaction.FundingReason",
+            False,
             None
         ),
         Property(
@@ -942,6 +1004,7 @@ class TransferFundsRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -997,7 +1060,7 @@ class TransferFundsRejectTransaction(BaseEntity):
 
 
 class MarketOrderTransaction(BaseEntity):
-    _summary_format = "Create Market Order {id} ({units} of {instrument})"
+    _summary_format = "Create Market Order {id} ({reason}): {units} of {instrument}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -1007,6 +1070,7 @@ class MarketOrderTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1015,6 +1079,7 @@ class MarketOrderTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1023,6 +1088,7 @@ class MarketOrderTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -1031,6 +1097,7 @@ class MarketOrderTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -1039,6 +1106,7 @@ class MarketOrderTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1047,6 +1115,7 @@ class MarketOrderTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"MARKET_ORDER\" in a MarketOrderTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "MARKET_ORDER"
         ),
         Property(
@@ -1055,6 +1124,7 @@ class MarketOrderTransaction(BaseEntity):
             "The Market Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -1063,6 +1133,7 @@ class MarketOrderTransaction(BaseEntity):
             "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -1071,6 +1142,7 @@ class MarketOrderTransaction(BaseEntity):
             "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
             "primitive",
             "order.TimeInForce",
+            True,
             "FOK"
         ),
         Property(
@@ -1079,6 +1151,7 @@ class MarketOrderTransaction(BaseEntity):
             "The worst price that the client is willing to have the Market Order filled at.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -1087,6 +1160,7 @@ class MarketOrderTransaction(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -1095,6 +1169,7 @@ class MarketOrderTransaction(BaseEntity):
             "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
             "object",
             "transaction.MarketOrderTradeClose",
+            False,
             None
         ),
         Property(
@@ -1103,6 +1178,7 @@ class MarketOrderTransaction(BaseEntity):
             "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
             "object",
             "transaction.MarketOrderPositionCloseout",
+            False,
             None
         ),
         Property(
@@ -1111,6 +1187,7 @@ class MarketOrderTransaction(BaseEntity):
             "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
             "object",
             "transaction.MarketOrderPositionCloseout",
+            False,
             None
         ),
         Property(
@@ -1119,6 +1196,7 @@ class MarketOrderTransaction(BaseEntity):
             "Details of the Margin Closeout that this Market Order was created for",
             "object",
             "transaction.MarketOrderMarginCloseout",
+            False,
             None
         ),
         Property(
@@ -1127,6 +1205,7 @@ class MarketOrderTransaction(BaseEntity):
             "Details of the delayed Trade close that this Market Order was created for",
             "object",
             "transaction.MarketOrderDelayedTradeClose",
+            False,
             None
         ),
         Property(
@@ -1135,6 +1214,7 @@ class MarketOrderTransaction(BaseEntity):
             "The reason that the Market Order was created",
             "primitive",
             "transaction.MarketOrderReason",
+            False,
             None
         ),
         Property(
@@ -1143,6 +1223,7 @@ class MarketOrderTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1151,6 +1232,7 @@ class MarketOrderTransaction(BaseEntity):
             "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -1159,6 +1241,7 @@ class MarketOrderTransaction(BaseEntity):
             "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1167,6 +1250,7 @@ class MarketOrderTransaction(BaseEntity):
             "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1175,6 +1259,7 @@ class MarketOrderTransaction(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -1302,7 +1387,7 @@ class MarketOrderTransaction(BaseEntity):
 
 
 class MarketOrderRejectTransaction(BaseEntity):
-    _summary_format = "Reject Market Order ({units} of {instrument})"
+    _summary_format = "Reject Market Order ({reason}): {units} of {instrument}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -1312,6 +1397,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1320,6 +1406,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1328,6 +1415,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -1336,6 +1424,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -1344,6 +1433,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1352,6 +1442,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"MARKET_ORDER_REJECT\" in a MarketOrderRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "MARKET_ORDER_REJECT"
         ),
         Property(
@@ -1360,6 +1451,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The Market Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -1368,6 +1460,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -1376,6 +1469,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
             "primitive",
             "order.TimeInForce",
+            True,
             "FOK"
         ),
         Property(
@@ -1384,6 +1478,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The worst price that the client is willing to have the Market Order filled at.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -1392,6 +1487,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -1400,6 +1496,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
             "object",
             "transaction.MarketOrderTradeClose",
+            False,
             None
         ),
         Property(
@@ -1408,6 +1505,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
             "object",
             "transaction.MarketOrderPositionCloseout",
+            False,
             None
         ),
         Property(
@@ -1416,6 +1514,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
             "object",
             "transaction.MarketOrderPositionCloseout",
+            False,
             None
         ),
         Property(
@@ -1424,6 +1523,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "Details of the Margin Closeout that this Market Order was created for",
             "object",
             "transaction.MarketOrderMarginCloseout",
+            False,
             None
         ),
         Property(
@@ -1432,6 +1532,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "Details of the delayed Trade close that this Market Order was created for",
             "object",
             "transaction.MarketOrderDelayedTradeClose",
+            False,
             None
         ),
         Property(
@@ -1440,6 +1541,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The reason that the Market Order was created",
             "primitive",
             "transaction.MarketOrderReason",
+            False,
             None
         ),
         Property(
@@ -1448,6 +1550,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1456,6 +1559,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -1464,6 +1568,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1472,6 +1577,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1480,6 +1586,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1488,6 +1595,7 @@ class MarketOrderRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -1619,7 +1727,7 @@ class MarketOrderRejectTransaction(BaseEntity):
 
 
 class LimitOrderTransaction(BaseEntity):
-    _summary_format = "Create Limit Order {id} ({units} of {instrument} @ {price})"
+    _summary_format = "Create Limit Order {id} ({reason}): {units} of {instrument} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -1629,6 +1737,7 @@ class LimitOrderTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1637,6 +1746,7 @@ class LimitOrderTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1645,6 +1755,7 @@ class LimitOrderTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -1653,6 +1764,7 @@ class LimitOrderTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -1661,6 +1773,7 @@ class LimitOrderTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1669,6 +1782,7 @@ class LimitOrderTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"LIMIT_ORDER\" in a LimitOrderTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "LIMIT_ORDER"
         ),
         Property(
@@ -1677,6 +1791,7 @@ class LimitOrderTransaction(BaseEntity):
             "The Limit Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -1685,6 +1800,7 @@ class LimitOrderTransaction(BaseEntity):
             "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -1693,6 +1809,7 @@ class LimitOrderTransaction(BaseEntity):
             "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -1701,6 +1818,7 @@ class LimitOrderTransaction(BaseEntity):
             "The time-in-force requested for the Limit Order.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -1709,6 +1827,7 @@ class LimitOrderTransaction(BaseEntity):
             "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1717,6 +1836,7 @@ class LimitOrderTransaction(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -1725,6 +1845,7 @@ class LimitOrderTransaction(BaseEntity):
             "The reason that the Limit Order was initiated",
             "primitive",
             "transaction.LimitOrderReason",
+            False,
             None
         ),
         Property(
@@ -1733,6 +1854,7 @@ class LimitOrderTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1741,6 +1863,7 @@ class LimitOrderTransaction(BaseEntity):
             "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -1749,6 +1872,7 @@ class LimitOrderTransaction(BaseEntity):
             "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1757,6 +1881,7 @@ class LimitOrderTransaction(BaseEntity):
             "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -1765,6 +1890,7 @@ class LimitOrderTransaction(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -1773,6 +1899,7 @@ class LimitOrderTransaction(BaseEntity):
             "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -1781,6 +1908,7 @@ class LimitOrderTransaction(BaseEntity):
             "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -1890,7 +2018,7 @@ class LimitOrderTransaction(BaseEntity):
 
 
 class LimitOrderRejectTransaction(BaseEntity):
-    _summary_format = "Reject Limit Order ({units} of {instrument} @ {price})"
+    _summary_format = "Reject Limit Order ({reason}): {units} of {instrument} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -1900,6 +2028,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1908,6 +2037,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1916,6 +2046,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -1924,6 +2055,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -1932,6 +2064,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -1940,6 +2073,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"LIMIT_ORDER_REJECT\" in a LimitOrderRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "LIMIT_ORDER_REJECT"
         ),
         Property(
@@ -1948,6 +2082,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The Limit Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -1956,6 +2091,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -1964,6 +2100,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -1972,6 +2109,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The time-in-force requested for the Limit Order.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -1980,6 +2118,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -1988,6 +2127,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -1996,6 +2136,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The reason that the Limit Order was initiated",
             "primitive",
             "transaction.LimitOrderReason",
+            False,
             None
         ),
         Property(
@@ -2004,6 +2145,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2012,6 +2154,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -2020,6 +2163,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2028,6 +2172,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2036,6 +2181,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2044,6 +2190,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -2052,6 +2199,7 @@ class LimitOrderRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -2161,7 +2309,7 @@ class LimitOrderRejectTransaction(BaseEntity):
 
 
 class StopOrderTransaction(BaseEntity):
-    _summary_format = "Create Stop Order {id} ({units} of {instrument} @ {price})"
+    _summary_format = "Create Stop Order {id} ({reason}): {units} of {instrument} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -2171,6 +2319,7 @@ class StopOrderTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -2179,6 +2328,7 @@ class StopOrderTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2187,6 +2337,7 @@ class StopOrderTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -2195,6 +2346,7 @@ class StopOrderTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -2203,6 +2355,7 @@ class StopOrderTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -2211,6 +2364,7 @@ class StopOrderTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"STOP_ORDER\" in a StopOrderTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "STOP_ORDER"
         ),
         Property(
@@ -2219,6 +2373,7 @@ class StopOrderTransaction(BaseEntity):
             "The Stop Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -2227,6 +2382,7 @@ class StopOrderTransaction(BaseEntity):
             "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -2235,6 +2391,7 @@ class StopOrderTransaction(BaseEntity):
             "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -2243,6 +2400,7 @@ class StopOrderTransaction(BaseEntity):
             "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -2251,6 +2409,7 @@ class StopOrderTransaction(BaseEntity):
             "The time-in-force requested for the Stop Order.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -2259,6 +2418,7 @@ class StopOrderTransaction(BaseEntity):
             "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2267,6 +2427,7 @@ class StopOrderTransaction(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -2275,6 +2436,7 @@ class StopOrderTransaction(BaseEntity):
             "The reason that the Stop Order was initiated",
             "primitive",
             "transaction.StopOrderReason",
+            False,
             None
         ),
         Property(
@@ -2283,6 +2445,7 @@ class StopOrderTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2291,6 +2454,7 @@ class StopOrderTransaction(BaseEntity):
             "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -2299,6 +2463,7 @@ class StopOrderTransaction(BaseEntity):
             "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2307,6 +2472,7 @@ class StopOrderTransaction(BaseEntity):
             "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2315,6 +2481,7 @@ class StopOrderTransaction(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2323,6 +2490,7 @@ class StopOrderTransaction(BaseEntity):
             "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -2331,6 +2499,7 @@ class StopOrderTransaction(BaseEntity):
             "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -2444,7 +2613,7 @@ class StopOrderTransaction(BaseEntity):
 
 
 class StopOrderRejectTransaction(BaseEntity):
-    _summary_format = "Reject Stop Order ({units} of {instrument} @ {price})"
+    _summary_format = "Reject Stop Order ({reason}): {units} of {instrument} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -2454,6 +2623,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -2462,6 +2632,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2470,6 +2641,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -2478,6 +2650,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -2486,6 +2659,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -2494,6 +2668,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"STOP_ORDER_REJECT\" in a StopOrderRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "STOP_ORDER_REJECT"
         ),
         Property(
@@ -2502,6 +2677,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The Stop Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -2510,6 +2686,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -2518,6 +2695,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -2526,6 +2704,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -2534,6 +2713,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The time-in-force requested for the Stop Order.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -2542,6 +2722,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2550,6 +2731,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -2558,6 +2740,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The reason that the Stop Order was initiated",
             "primitive",
             "transaction.StopOrderReason",
+            False,
             None
         ),
         Property(
@@ -2566,6 +2749,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2574,6 +2758,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -2582,6 +2767,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2590,6 +2776,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2598,6 +2785,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2606,6 +2794,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -2614,6 +2803,7 @@ class StopOrderRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -2727,7 +2917,7 @@ class StopOrderRejectTransaction(BaseEntity):
 
 
 class MarketIfTouchedOrderTransaction(BaseEntity):
-    _summary_format = "Create Market-if-touched Order {id} ({units} of {instrument} @ {price})"
+    _summary_format = "Create MIT Order {id} ({reason}): {units} of {instrument} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -2737,6 +2927,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -2745,6 +2936,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2753,6 +2945,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -2761,6 +2954,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -2769,6 +2963,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -2777,6 +2972,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"MARKET_IF_TOUCHED_ORDER\" in a MarketIfTouchedOrderTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "MARKET_IF_TOUCHED_ORDER"
         ),
         Property(
@@ -2785,6 +2981,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The MarketIfTouched Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -2793,6 +2990,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -2801,14 +2999,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
             "primitive",
             "pricing.PriceValue",
-            None
-        ),
-        Property(
-            "initialMarketPrice",
-            "Initial Market Price",
-            "The Market price at the time when the MarketIfTouched Order was created.",
-            "primitive",
-            "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -2817,6 +3008,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The worst market price that may be used to fill this MarketIfTouched Order.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -2825,6 +3017,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -2833,6 +3026,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -2841,6 +3035,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -2849,6 +3044,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The reason that the Market-if-touched Order was initiated",
             "primitive",
             "transaction.MarketIfTouchedOrderReason",
+            False,
             None
         ),
         Property(
@@ -2857,6 +3053,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2865,6 +3062,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -2873,6 +3071,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2881,6 +3080,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -2889,6 +3089,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -2897,6 +3098,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -2905,6 +3107,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
             "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -2953,10 +3156,6 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
         if data.get('price') is not None:
             body['price'] = \
                 data.get('price')
-
-        if data.get('initialMarketPrice') is not None:
-            body['initialMarketPrice'] = \
-                data.get('initialMarketPrice')
 
         if data.get('priceBound') is not None:
             body['priceBound'] = \
@@ -3022,7 +3221,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
 
 
 class MarketIfTouchedOrderRejectTransaction(BaseEntity):
-    _summary_format = "Reject Market-if-touched Order ({units} of {instrument} @ {price})"
+    _summary_format = "Reject MIT Order ({reason}): {units} of {instrument} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -3032,6 +3231,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3040,6 +3240,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3048,6 +3249,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -3056,6 +3258,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -3064,6 +3267,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3072,6 +3276,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"MARKET_IF_TOUCHED_ORDER_REJECT\" in a MarketIfTouchedOrderRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "MARKET_IF_TOUCHED_ORDER_REJECT"
         ),
         Property(
@@ -3080,6 +3285,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The MarketIfTouched Order's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            True,
             None
         ),
         Property(
@@ -3088,6 +3294,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
             "primitive",
             "primitives.DecimalNumber",
+            True,
             None
         ),
         Property(
@@ -3096,14 +3303,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
             "primitive",
             "pricing.PriceValue",
-            None
-        ),
-        Property(
-            "initialMarketPrice",
-            "Initial Market Price",
-            "The Market price at the time when the MarketIfTouched Order was created.",
-            "primitive",
-            "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -3112,6 +3312,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The worst market price that may be used to fill this MarketIfTouched Order.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -3120,6 +3321,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -3128,6 +3330,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3136,6 +3339,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "Specification of how Positions in the Account are modified when the Order is filled.",
             "primitive",
             "order.OrderPositionFill",
+            True,
             "DEFAULT"
         ),
         Property(
@@ -3144,6 +3348,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The reason that the Market-if-touched Order was initiated",
             "primitive",
             "transaction.MarketIfTouchedOrderReason",
+            False,
             None
         ),
         Property(
@@ -3152,6 +3357,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -3160,6 +3366,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TakeProfitDetails",
+            False,
             None
         ),
         Property(
@@ -3168,6 +3375,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.StopLossDetails",
+            False,
             None
         ),
         Property(
@@ -3176,6 +3384,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.TrailingStopLossDetails",
+            False,
             None
         ),
         Property(
@@ -3184,6 +3393,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -3192,6 +3402,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -3200,6 +3411,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -3248,10 +3460,6 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
         if data.get('price') is not None:
             body['price'] = \
                 data.get('price')
-
-        if data.get('initialMarketPrice') is not None:
-            body['initialMarketPrice'] = \
-                data.get('initialMarketPrice')
 
         if data.get('priceBound') is not None:
             body['priceBound'] = \
@@ -3317,7 +3525,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
 
 
 class TakeProfitOrderTransaction(BaseEntity):
-    _summary_format = "Create Take Profit Order {id} (Close Trade {tradeID} @ {price})"
+    _summary_format = "Create Take Profit Order {id} ({reason}): Close Trade {tradeID} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -3327,6 +3535,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3335,6 +3544,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3343,6 +3553,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -3351,6 +3562,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -3359,6 +3571,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3367,6 +3580,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER\" in a TakeProfitOrderTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "TAKE_PROFIT_ORDER"
         ),
         Property(
@@ -3375,6 +3589,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -3383,6 +3598,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -3391,6 +3607,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -3399,6 +3616,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -3407,6 +3625,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3415,6 +3634,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The reason that the Take Profit Order was initiated",
             "primitive",
             "transaction.TakeProfitOrderReason",
+            False,
             None
         ),
         Property(
@@ -3423,6 +3643,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -3431,6 +3652,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3439,6 +3661,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -3447,6 +3670,7 @@ class TakeProfitOrderTransaction(BaseEntity):
             "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -3532,7 +3756,7 @@ class TakeProfitOrderTransaction(BaseEntity):
 
 
 class TakeProfitOrderRejectTransaction(BaseEntity):
-    _summary_format = "Reject Take Profit Order (Close Trade {tradeID} @ {price})"
+    _summary_format = "Reject Take Profit Order ({reason}): Close Trade {tradeID} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -3542,6 +3766,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3550,6 +3775,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3558,6 +3784,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -3566,6 +3793,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -3574,6 +3802,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3582,6 +3811,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER_REJECT\" in a TakeProfitOrderRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "TAKE_PROFIT_ORDER_REJECT"
         ),
         Property(
@@ -3590,6 +3820,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -3598,6 +3829,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -3606,6 +3838,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -3614,6 +3847,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -3622,6 +3856,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3630,6 +3865,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The reason that the Take Profit Order was initiated",
             "primitive",
             "transaction.TakeProfitOrderReason",
+            False,
             None
         ),
         Property(
@@ -3638,6 +3874,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -3646,6 +3883,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3654,6 +3892,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -3662,6 +3901,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -3747,7 +3987,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
 
 
 class StopLossOrderTransaction(BaseEntity):
-    _summary_format = "Create Stop Loss Order {id} (Close Trade {tradeID} @ {price})"
+    _summary_format = "Create Stop Loss Order {id} ({reason}): Close Trade {tradeID} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -3757,6 +3997,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3765,6 +4006,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3773,6 +4015,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -3781,6 +4024,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -3789,6 +4033,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3797,6 +4042,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER\" in a StopLossOrderTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "STOP_LOSS_ORDER"
         ),
         Property(
@@ -3805,6 +4051,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -3813,6 +4060,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -3821,6 +4069,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -3829,6 +4078,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -3837,6 +4087,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3845,6 +4096,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The reason that the Stop Loss Order was initiated",
             "primitive",
             "transaction.StopLossOrderReason",
+            False,
             None
         ),
         Property(
@@ -3853,6 +4105,7 @@ class StopLossOrderTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -3861,6 +4114,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3869,6 +4123,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -3877,6 +4132,7 @@ class StopLossOrderTransaction(BaseEntity):
             "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -3962,7 +4218,7 @@ class StopLossOrderTransaction(BaseEntity):
 
 
 class StopLossOrderRejectTransaction(BaseEntity):
-    _summary_format = "Reject Stop Loss Order (Close Trade {tradeID} @ {price})"
+    _summary_format = "Reject Stop Loss Order ({reason}): Close Trade {tradeID} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -3972,6 +4228,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -3980,6 +4237,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -3988,6 +4246,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -3996,6 +4255,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -4004,6 +4264,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4012,6 +4273,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER_REJECT\" in a StopLossOrderRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "STOP_LOSS_ORDER_REJECT"
         ),
         Property(
@@ -4020,6 +4282,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -4028,6 +4291,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -4036,6 +4300,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -4044,6 +4309,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -4052,6 +4318,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -4060,6 +4327,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The reason that the Stop Loss Order was initiated",
             "primitive",
             "transaction.StopLossOrderReason",
+            False,
             None
         ),
         Property(
@@ -4068,6 +4336,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -4076,6 +4345,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4084,6 +4354,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -4092,6 +4363,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -4177,7 +4449,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
 
 
 class TrailingStopLossOrderTransaction(BaseEntity):
-    _summary_format = "Create Trailing Stop Loss Order {id} (Close Trade {tradeID})"
+    _summary_format = "Create Trailing Stop Loss Order {id} ({reason}): Close Trade {tradeID}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -4187,6 +4459,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4195,6 +4468,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -4203,6 +4477,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -4211,6 +4486,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -4219,6 +4495,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4227,6 +4504,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER\" in a TrailingStopLossOrderTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "TRAILING_STOP_LOSS_ORDER"
         ),
         Property(
@@ -4235,6 +4513,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -4243,6 +4522,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -4251,6 +4531,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The price distance specified for the TrailingStopLoss Order.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -4259,6 +4540,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -4267,6 +4549,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -4275,6 +4558,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The reason that the Trailing Stop Loss Order was initiated",
             "primitive",
             "transaction.TrailingStopLossOrderReason",
+            False,
             None
         ),
         Property(
@@ -4283,6 +4567,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -4291,6 +4576,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4299,6 +4585,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -4307,6 +4594,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
             "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -4392,7 +4680,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
 
 
 class TrailingStopLossOrderRejectTransaction(BaseEntity):
-    _summary_format = "Reject Trailing Stop Loss Order (Close Trade {tradeID})"
+    _summary_format = "Reject Trailing Stop Loss Order ({reason}): Close Trade {tradeID}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -4402,6 +4690,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4410,6 +4699,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -4418,6 +4708,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -4426,6 +4717,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -4434,6 +4726,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4442,6 +4735,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER_REJECT\" in a TrailingStopLossOrderRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "TRAILING_STOP_LOSS_ORDER_REJECT"
         ),
         Property(
@@ -4450,6 +4744,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The ID of the Trade to close when the price threshold is breached.",
             "primitive",
             "trade.TradeID",
+            True,
             None
         ),
         Property(
@@ -4458,6 +4753,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The client ID of the Trade to be closed when the price threshold is breached.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -4466,6 +4762,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The price distance specified for the TrailingStopLoss Order.",
             "primitive",
             "pricing.PriceValue",
+            True,
             None
         ),
         Property(
@@ -4474,6 +4771,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
             "primitive",
             "order.TimeInForce",
+            True,
             "GTC"
         ),
         Property(
@@ -4482,6 +4780,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -4490,6 +4789,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The reason that the Trailing Stop Loss Order was initiated",
             "primitive",
             "transaction.TrailingStopLossOrderReason",
+            False,
             None
         ),
         Property(
@@ -4498,6 +4798,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -4506,6 +4807,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4514,6 +4816,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -4522,6 +4825,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -4607,7 +4911,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
 
 
 class OrderFillTransaction(BaseEntity):
-    _summary_format = "Fill Order {orderID} ({units} of {instrument} @ {price})"
+    _summary_format = "Fill Order {orderID} ({reason}): {units} of {instrument} @ {price}"
     _name_format = "Transaction {id}"
 
     _properties = [
@@ -4617,6 +4921,7 @@ class OrderFillTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4625,6 +4930,7 @@ class OrderFillTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -4633,6 +4939,7 @@ class OrderFillTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -4641,6 +4948,7 @@ class OrderFillTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -4649,6 +4957,7 @@ class OrderFillTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4657,6 +4966,7 @@ class OrderFillTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"ORDER_FILL\" for an OrderFillTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "ORDER_FILL"
         ),
         Property(
@@ -4665,6 +4975,7 @@ class OrderFillTransaction(BaseEntity):
             "The ID of the Order filled.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -4673,6 +4984,7 @@ class OrderFillTransaction(BaseEntity):
             "The client Order ID of the Order filled (only provided if the client has assigned one).",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -4681,6 +4993,7 @@ class OrderFillTransaction(BaseEntity):
             "The name of the filled Order's instrument.",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -4689,6 +5002,7 @@ class OrderFillTransaction(BaseEntity):
             "The number of units filled by the Order.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -4697,6 +5011,7 @@ class OrderFillTransaction(BaseEntity):
             "The average market price that the Order was filled at.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -4705,6 +5020,7 @@ class OrderFillTransaction(BaseEntity):
             "The reason that an Order was filled",
             "primitive",
             "transaction.OrderFillReason",
+            False,
             None
         ),
         Property(
@@ -4713,6 +5029,7 @@ class OrderFillTransaction(BaseEntity):
             "The profit or loss incurred when the Order was filled.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -4721,6 +5038,7 @@ class OrderFillTransaction(BaseEntity):
             "The financing paid or collected when the Order was filled.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -4729,6 +5047,7 @@ class OrderFillTransaction(BaseEntity):
             "The Account's balance after the Order was filled.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -4737,6 +5056,7 @@ class OrderFillTransaction(BaseEntity):
             "The Trade that was opened when the Order was filled (only  provided if filling the Order resulted in a new Trade).",
             "object",
             "transaction.TradeOpen",
+            False,
             None
         ),
         Property(
@@ -4745,6 +5065,7 @@ class OrderFillTransaction(BaseEntity):
             "The Trades that were closed when the Order was filled (only provided if filling the Order resulted in a closing open Trades).",
             "array_object",
             "TradeReduce",
+            False,
             None
         ),
         Property(
@@ -4753,6 +5074,7 @@ class OrderFillTransaction(BaseEntity):
             "The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade).",
             "object",
             "transaction.TradeReduce",
+            False,
             None
         ),
         Property(
@@ -4761,6 +5083,7 @@ class OrderFillTransaction(BaseEntity):
             "The receipts of filled units with their prices that contributed to the volume-weighted average price that the entire Order was filled at.",
             "array_object",
             "VWAPReceipt",
+            False,
             None
         ),
         Property(
@@ -4769,6 +5092,7 @@ class OrderFillTransaction(BaseEntity):
             "The account financing mode at the time of the Order fill.",
             "primitive",
             "account.AccountFinancingMode",
+            False,
             None
         ),
         Property(
@@ -4777,6 +5101,7 @@ class OrderFillTransaction(BaseEntity):
             "The liquidity regeneration schedule to in effect for this Account and instrument immediately following the OrderFill",
             "object",
             "transaction.LiquidityRegenerationSchedule",
+            False,
             None
         ),
     ]
@@ -4900,6 +5225,7 @@ class OrderCancelTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4908,6 +5234,7 @@ class OrderCancelTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -4916,6 +5243,7 @@ class OrderCancelTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -4924,6 +5252,7 @@ class OrderCancelTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -4932,6 +5261,7 @@ class OrderCancelTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -4940,6 +5270,7 @@ class OrderCancelTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"ORDER_CANCEL\" for an OrderCancelTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             None
         ),
         Property(
@@ -4948,6 +5279,7 @@ class OrderCancelTransaction(BaseEntity):
             "The ID of the Order cancelled",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -4956,6 +5288,7 @@ class OrderCancelTransaction(BaseEntity):
             "The client ID of the Order cancelled (only provided if the Order has a client Order ID).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -4964,6 +5297,7 @@ class OrderCancelTransaction(BaseEntity):
             "The reason that the Order was cancelled.",
             "primitive",
             "transaction.OrderCancelReason",
+            False,
             None
         ),
         Property(
@@ -4972,6 +5306,7 @@ class OrderCancelTransaction(BaseEntity):
             "The ID of the Order that replaced this Order (only provided if this Order was cancelled for replacement).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
     ]
@@ -5041,6 +5376,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5049,6 +5385,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -5057,6 +5394,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -5065,6 +5403,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -5073,6 +5412,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5081,6 +5421,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"ORDER_CANCEL_REJECT\" for an OrderCancelRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "ORDER_CANCEL"
         ),
         Property(
@@ -5089,6 +5430,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The ID of the Order intended to be cancelled",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -5097,6 +5439,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The client ID of the Order intended to be cancelled (only provided if the Order has a client Order ID).",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -5105,6 +5448,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The reason that the Order was to be cancelled.",
             "primitive",
             "transaction.OrderCancelReason",
+            False,
             None
         ),
         Property(
@@ -5113,6 +5457,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -5182,6 +5527,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5190,6 +5536,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -5198,6 +5545,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -5206,6 +5554,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -5214,6 +5563,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5222,6 +5572,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY\" for a OrderClienteExtensionsModifyTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "ORDER_CLIENT_EXTENSIONS_MODIFY"
         ),
         Property(
@@ -5230,6 +5581,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The ID of the Order who's client extensions are to be modified.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -5238,6 +5590,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The original Client ID of the Order who's client extensions are to be modified.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -5246,6 +5599,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The new Client Extensions for the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -5254,6 +5608,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
             "The new Client Extensions for the Order's Trade on fill.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -5327,6 +5682,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5335,6 +5691,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -5343,6 +5700,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -5351,6 +5709,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -5359,6 +5718,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5367,6 +5727,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT\" for a OrderClientExtensionsModifyRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
         ),
         Property(
@@ -5375,6 +5736,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The ID of the Order who's client extensions are to be modified.",
             "primitive",
             "order.OrderID",
+            False,
             None
         ),
         Property(
@@ -5383,6 +5745,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The original Client ID of the Order who's client extensions are to be modified.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -5391,6 +5754,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The new Client Extensions for the Order.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -5399,6 +5763,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The new Client Extensions for the Order's Trade on fill.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -5407,6 +5772,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -5484,6 +5850,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5492,6 +5859,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -5500,6 +5868,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -5508,6 +5877,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -5516,6 +5886,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5524,6 +5895,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"TRADE_CLIENT_EXTENSIONS_MODIFY\" for a TradeClientExtensionsModifyTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "TRADE_CLIENT_EXTENSIONS_MODIFY"
         ),
         Property(
@@ -5532,6 +5904,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The ID of the Trade who's client extensions are to be modified.",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -5540,6 +5913,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The original Client ID of the Trade who's client extensions are to be modified.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -5548,6 +5922,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
             "The new Client Extensions for the Trade.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -5615,6 +5990,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5623,6 +5999,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -5631,6 +6008,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -5639,6 +6017,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -5647,6 +6026,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5655,6 +6035,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT\" for a TradeClientExtensionsModifyRejectTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
         ),
         Property(
@@ -5663,6 +6044,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The ID of the Trade who's client extensions are to be modified.",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -5671,6 +6053,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The original Client ID of the Trade who's client extensions are to be modified.",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -5679,6 +6062,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The new Client Extensions for the Trade.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
         Property(
@@ -5687,6 +6071,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
             "The reason that the Reject Transaction was created",
             "primitive",
             "transaction.TransactionRejectReason",
+            False,
             None
         ),
     ]
@@ -5758,6 +6143,7 @@ class MarginCallEnterTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5766,6 +6152,7 @@ class MarginCallEnterTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -5774,6 +6161,7 @@ class MarginCallEnterTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -5782,6 +6170,7 @@ class MarginCallEnterTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -5790,6 +6179,7 @@ class MarginCallEnterTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5798,6 +6188,7 @@ class MarginCallEnterTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"MARGIN_CALL_ENTER\" for an MarginCallEnterTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "MARGIN_CALL_ENTER"
         ),
     ]
@@ -5851,6 +6242,7 @@ class MarginCallExtendTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5859,6 +6251,7 @@ class MarginCallExtendTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -5867,6 +6260,7 @@ class MarginCallExtendTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -5875,6 +6269,7 @@ class MarginCallExtendTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -5883,6 +6278,7 @@ class MarginCallExtendTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5891,6 +6287,7 @@ class MarginCallExtendTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"MARGIN_CALL_EXTEND\" for an MarginCallExtendTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "MARGIN_CALL_EXTEND"
         ),
         Property(
@@ -5899,6 +6296,7 @@ class MarginCallExtendTransaction(BaseEntity):
             "The number of the extensions to the Account's current margin call that have been applied. This value will be set to 1 for the first MarginCallExtend Transaction",
             "primitive",
             "integer",
+            False,
             None
         ),
     ]
@@ -5956,6 +6354,7 @@ class MarginCallExitTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5964,6 +6363,7 @@ class MarginCallExitTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -5972,6 +6372,7 @@ class MarginCallExitTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -5980,6 +6381,7 @@ class MarginCallExitTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -5988,6 +6390,7 @@ class MarginCallExitTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -5996,6 +6399,7 @@ class MarginCallExitTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"MARGIN_CALL_EXIT\" for an MarginCallExitTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "MARGIN_CALL_EXIT"
         ),
     ]
@@ -6049,6 +6453,7 @@ class DelayedTradeClosureTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -6057,6 +6462,7 @@ class DelayedTradeClosureTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -6065,6 +6471,7 @@ class DelayedTradeClosureTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -6073,6 +6480,7 @@ class DelayedTradeClosureTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -6081,6 +6489,7 @@ class DelayedTradeClosureTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -6089,6 +6498,7 @@ class DelayedTradeClosureTransaction(BaseEntity):
             "The reason for the delayed trade closure",
             "primitive",
             "transaction.MarketOrderReason",
+            False,
             None
         ),
         Property(
@@ -6097,6 +6507,7 @@ class DelayedTradeClosureTransaction(BaseEntity):
             "List of Trade ID's identifying the open trades that will be closed when their respective instruments become tradeable",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
     ]
@@ -6154,6 +6565,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -6162,6 +6574,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -6170,6 +6583,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -6178,6 +6592,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -6186,6 +6601,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -6194,6 +6610,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"DAILY_FINANCING\" for a DailyFinancingTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "DAILY_FINANCING"
         ),
         Property(
@@ -6202,6 +6619,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The amount of financing paid/collected for the Account.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -6210,6 +6628,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The Account's balance after daily financing.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -6218,6 +6637,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The account financing mode at the time of the daily financing.",
             "primitive",
             "account.AccountFinancingMode",
+            False,
             None
         ),
         Property(
@@ -6226,6 +6646,7 @@ class DailyFinancingTransaction(BaseEntity):
             "The financing paid/collected for each Position in the Account.",
             "array_object",
             "PositionFinancing",
+            False,
             None
         ),
     ]
@@ -6297,6 +6718,7 @@ class ResetResettablePLTransaction(BaseEntity):
             "The Transaction's Identifier.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -6305,6 +6727,7 @@ class ResetResettablePLTransaction(BaseEntity):
             "The date/time when the Transaction was created.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -6313,6 +6736,7 @@ class ResetResettablePLTransaction(BaseEntity):
             "The ID of the user that initiated the creation of the Transaction.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -6321,6 +6745,7 @@ class ResetResettablePLTransaction(BaseEntity):
             "The ID of the Account the Transaction was created for.",
             "primitive",
             "account.AccountID",
+            False,
             None
         ),
         Property(
@@ -6329,6 +6754,7 @@ class ResetResettablePLTransaction(BaseEntity):
             "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
         Property(
@@ -6337,6 +6763,7 @@ class ResetResettablePLTransaction(BaseEntity):
             "The Type of the Transaction. Always set to \"RESET_RESETTABLE_PL\" for a ResetResettablePLTransaction.",
             "primitive",
             "transaction.TransactionType",
+            False,
             "RESET_RESETTABLE_PL"
         ),
     ]
@@ -6390,6 +6817,7 @@ class ClientExtensions(BaseEntity):
             "The Client ID of the Order/Trade",
             "primitive",
             "transaction.ClientID",
+            False,
             None
         ),
         Property(
@@ -6398,6 +6826,7 @@ class ClientExtensions(BaseEntity):
             "A tag associated with the Order/Trade",
             "primitive",
             "transaction.ClientTag",
+            False,
             None
         ),
         Property(
@@ -6406,6 +6835,7 @@ class ClientExtensions(BaseEntity):
             "A comment associated with the Order/Trade",
             "primitive",
             "transaction.ClientComment",
+            False,
             None
         ),
     ]
@@ -6447,6 +6877,7 @@ class TakeProfitDetails(BaseEntity):
             "The price that the Take Profit Order will be triggered at.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -6455,6 +6886,7 @@ class TakeProfitDetails(BaseEntity):
             "The time in force for the created Take Profit Order. This may only be GTC, GTD or GFD.",
             "primitive",
             "order.TimeInForce",
+            False,
             "GTC"
         ),
         Property(
@@ -6463,6 +6895,7 @@ class TakeProfitDetails(BaseEntity):
             "The date when the Take Profit Order will be cancelled on if timeInForce is GTD.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -6471,6 +6904,7 @@ class TakeProfitDetails(BaseEntity):
             "The Client Extensions to add to the Take Profit Order when created.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -6518,6 +6952,7 @@ class StopLossDetails(BaseEntity):
             "The price that the Stop Loss Order will be triggered at.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -6526,6 +6961,7 @@ class StopLossDetails(BaseEntity):
             "The time in force for the created Stop Loss Order. This may only be GTC, GTD or GFD.",
             "primitive",
             "order.TimeInForce",
+            False,
             "GTC"
         ),
         Property(
@@ -6534,6 +6970,7 @@ class StopLossDetails(BaseEntity):
             "The date when the Stop Loss Order will be cancelled on if timeInForce is GTD.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -6542,6 +6979,7 @@ class StopLossDetails(BaseEntity):
             "The Client Extensions to add to the Stop Loss Order when created.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -6589,6 +7027,7 @@ class TrailingStopLossDetails(BaseEntity):
             "The distance (in price units) from the Trade's fill price that the Trailing Stop Loss Order will be triggered at.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -6597,6 +7036,7 @@ class TrailingStopLossDetails(BaseEntity):
             "The time in force for the created Trailing Stop Loss Order. This may only be GTC, GTD or GFD.",
             "primitive",
             "order.TimeInForce",
+            False,
             "GTC"
         ),
         Property(
@@ -6605,6 +7045,7 @@ class TrailingStopLossDetails(BaseEntity):
             "The date when the Trailing Stop Loss Order will be cancelled on if timeInForce is GTD.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -6613,6 +7054,7 @@ class TrailingStopLossDetails(BaseEntity):
             "The Client Extensions to add to the Trailing Stop Loss Order when created.",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -6660,6 +7102,7 @@ class TradeOpen(BaseEntity):
             "The ID of the Trade that was opened",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -6668,6 +7111,7 @@ class TradeOpen(BaseEntity):
             "The number of units opened by the Trade",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -6676,6 +7120,7 @@ class TradeOpen(BaseEntity):
             "The client extensions for the newly opened Trade",
             "object",
             "transaction.ClientExtensions",
+            False,
             None
         ),
     ]
@@ -6719,6 +7164,7 @@ class TradeReduce(BaseEntity):
             "The ID of the Trade that was reduced or closed",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -6727,6 +7173,7 @@ class TradeReduce(BaseEntity):
             "The number of units that the Trade was reduced by",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -6735,6 +7182,7 @@ class TradeReduce(BaseEntity):
             "The PL realized when reducing the Trade",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -6743,6 +7191,7 @@ class TradeReduce(BaseEntity):
             "The financing paid/collected when reducing the Trade",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
     ]
@@ -6788,6 +7237,7 @@ class MarketOrderTradeClose(BaseEntity):
             "The ID of the Trade requested to be closed",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -6796,6 +7246,7 @@ class MarketOrderTradeClose(BaseEntity):
             "The client ID of the Trade requested to be closed",
             "primitive",
             "string",
+            False,
             None
         ),
         Property(
@@ -6804,6 +7255,7 @@ class MarketOrderTradeClose(BaseEntity):
             "Indication of how much of the Trade to close. Either \"ALL\", or a DecimalNumber reflection a partial close of the Trade.",
             "primitive",
             "string",
+            False,
             None
         ),
     ]
@@ -6845,6 +7297,7 @@ class MarketOrderMarginCloseout(BaseEntity):
             "The reason the Market Order was created to perform a margin closeout",
             "primitive",
             "transaction.MarketOrderMarginCloseoutReason",
+            False,
             None
         ),
     ]
@@ -6878,6 +7331,7 @@ class MarketOrderDelayedTradeClose(BaseEntity):
             "The ID of the Trade being closed",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -6886,6 +7340,7 @@ class MarketOrderDelayedTradeClose(BaseEntity):
             "The Client ID of the Trade being closed",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -6894,6 +7349,7 @@ class MarketOrderDelayedTradeClose(BaseEntity):
             "The Transaction ID of the DelayedTradeClosure transaction to which this Delayed Trade Close belongs to",
             "primitive",
             "transaction.TransactionID",
+            False,
             None
         ),
     ]
@@ -6935,6 +7391,7 @@ class MarketOrderPositionCloseout(BaseEntity):
             "The instrument of the Position being closed out.",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -6943,6 +7400,7 @@ class MarketOrderPositionCloseout(BaseEntity):
             "Indication of how much of the Position to close. Either \"ALL\", or a DecimalNumber reflection a partial close of the Trade. The DecimalNumber must always be positive, and represent a number that doesn't exceed the absolute size of the Position.",
             "primitive",
             "string",
+            False,
             None
         ),
     ]
@@ -6980,6 +7438,7 @@ class VWAPReceipt(BaseEntity):
             "The number of units filled",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -6988,6 +7447,7 @@ class VWAPReceipt(BaseEntity):
             "The price at which the units were filled",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
     ]
@@ -7025,6 +7485,7 @@ class LiquidityRegenerationSchedule(BaseEntity):
             "The steps in the Liquidity Regeneration Schedule",
             "array_object",
             "LiquidityRegenerationScheduleStep",
+            False,
             None
         ),
     ]
@@ -7060,6 +7521,7 @@ class LiquidityRegenerationScheduleStep(BaseEntity):
             "The timestamp of the schedule step.",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -7068,6 +7530,7 @@ class LiquidityRegenerationScheduleStep(BaseEntity):
             "The amount of bid liquidity used at this step in the schedule.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -7076,6 +7539,7 @@ class LiquidityRegenerationScheduleStep(BaseEntity):
             "The amount of ask liquidity used at this step in the schedule.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
     ]
@@ -7117,6 +7581,7 @@ class OpenTradeFinancing(BaseEntity):
             "The ID of the Trade that financing is being paid/collected for.",
             "primitive",
             "trade.TradeID",
+            False,
             None
         ),
         Property(
@@ -7125,6 +7590,7 @@ class OpenTradeFinancing(BaseEntity):
             "The amount of financing paid/collected for the Trade.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
     ]
@@ -7162,6 +7628,7 @@ class PositionFinancing(BaseEntity):
             "The instrument of the Position that financing is being paid/collected for.",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -7170,6 +7637,7 @@ class PositionFinancing(BaseEntity):
             "The amount of financing paid/collected for the Position.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -7178,6 +7646,7 @@ class PositionFinancing(BaseEntity):
             "The financing paid/collecte for each open Trade within the Position.",
             "array_object",
             "OpenTradeFinancing",
+            False,
             None
         ),
     ]

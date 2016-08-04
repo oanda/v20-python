@@ -1,12 +1,11 @@
 import requests
-import account
-import transaction
-import authorization
-import trade
-import pricing
-import position
-import order
-from response import Response
+from v20 import account
+from v20 import transaction
+from v20 import trade
+from v20 import pricing
+from v20 import position
+from v20 import order
+from v20.response import Response
 
 class AuthenticationError(Exception):
     def __init__(self, username, status, reason):
@@ -31,7 +30,7 @@ class Context(object):
         # Context headers to add to every request sent to the server
         self._headers = {
             "Content-Type" : "application/json",
-            "User-Agent" : "OANDA/3.0.1 (client; python)"
+            "User-Agent" : "OANDA/3.0.2 (client; python)"
         }
 
         # Current authentication token
@@ -52,7 +51,6 @@ class Context(object):
 
         self.account = account.EntitySpec(self)
         self.transaction = transaction.EntitySpec(self)
-        self.authorization = authorization.EntitySpec(self)
         self.trade = trade.EntitySpec(self)
         self.pricing = pricing.EntitySpec(self)
         self.position = position.EntitySpec(self)
@@ -74,20 +72,21 @@ class Context(object):
                 response.reason
             )
 
-        self.token = response.body.get("token")
-
-        self.set_header(
-            'Authorization',
-            "Bearer {}".format(
-                self.token
-            )
-        )
+        self.set_token(response.body.get("token"))
 
         self.username = username
 
         response = self.account.list()
 
         self.token_account_ids = response.body.get("accounts")
+
+    def set_token(self, token):
+        self.token = token
+
+        self.set_header(
+            'Authorization',
+            "Bearer {}".format(token)
+        )
 
     def set_header(self, key, value):
         self._headers[key] = value
@@ -97,7 +96,7 @@ class Context(object):
             del self._headers[key]
 
     def request(self, request):
-        
+
         url = "{}{}".format(self._base_url, request.path)
 
         http_response = self._session.request(
@@ -109,12 +108,15 @@ class Context(object):
             stream=request.stream
         )
 
+        request.headers = http_response.request.headers
+
         response = Response(
+            request,
             request.method,
             http_response.url,
             http_response.status_code,
             http_response.reason,
-            http_response.headers.get("content-type", None),
+            http_response.headers
         )
 
         if request.stream:

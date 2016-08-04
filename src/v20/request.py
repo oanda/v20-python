@@ -9,6 +9,7 @@ class Request(object):
         self.stream = False
         self.body = ""
         self.line_parser = None
+        self.headers = {}
 
     def set_path_param(self, key, value):
         if value is None:

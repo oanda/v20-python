@@ -1,9 +1,9 @@
 import json
-from base_entity import BaseEntity
-from base_entity import Property
-from base_entity import EntityDict
-from request import Request
-import transaction
+from v20.base_entity import BaseEntity
+from v20.base_entity import Property
+from v20.base_entity import EntityDict
+from v20.request import Request
+from v20 import transaction
 
 
 
@@ -18,6 +18,7 @@ class Position(BaseEntity):
             "The Position's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -26,6 +27,7 @@ class Position(BaseEntity):
             "Profit/loss realized by the Position over the lifetime of the Account.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -34,6 +36,7 @@ class Position(BaseEntity):
             "The unrealized profit/loss of all open Trades that contribute to this Position.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -42,6 +45,7 @@ class Position(BaseEntity):
             "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -50,6 +54,7 @@ class Position(BaseEntity):
             "The details of the long side of the Position.",
             "object",
             "position.PositionSide",
+            False,
             None
         ),
         Property(
@@ -58,6 +63,7 @@ class Position(BaseEntity):
             "The details of the short side of the Position.",
             "object",
             "position.PositionSide",
+            False,
             None
         ),
     ]
@@ -115,6 +121,7 @@ class PositionSide(BaseEntity):
             "Number of units in the position (negative value indicates short position, positive indicates long position).",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -123,6 +130,7 @@ class PositionSide(BaseEntity):
             "Volume-weighted average of the underlying Trade open prices for the Position.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -131,6 +139,7 @@ class PositionSide(BaseEntity):
             "List of the open Trade IDs which contribute to the open Position.",
             "array_primitive",
             "TradeID",
+            False,
             None
         ),
         Property(
@@ -139,6 +148,7 @@ class PositionSide(BaseEntity):
             "Profit/loss realized by the PositionSide over the lifetime of the Account.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -147,6 +157,7 @@ class PositionSide(BaseEntity):
             "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -155,6 +166,7 @@ class PositionSide(BaseEntity):
             "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
     ]
@@ -208,6 +220,7 @@ class CalculatedPositionState(BaseEntity):
             "The Position's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -216,6 +229,7 @@ class CalculatedPositionState(BaseEntity):
             "The Position's net unrealized profit/loss",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -224,6 +238,7 @@ class CalculatedPositionState(BaseEntity):
             "The unrealized profit/loss of the Position's long open Trades",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
         Property(
@@ -232,6 +247,7 @@ class CalculatedPositionState(BaseEntity):
             "The unrealized profit/loss of the Position's short open Trades",
             "primitive",
             "primitives.AccountUnits",
+            False,
             None
         ),
     ]
@@ -282,7 +298,8 @@ class EntitySpec(object):
         """List Positions
 
         List all Positions for an Account. The Positions returned are for every
-        instrument that has had a position during the lifetime of an a Account.
+        instrument that has had a position during the lifetime of an the
+        Account.
 
         Parameters
         ----------

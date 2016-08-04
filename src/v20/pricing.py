@@ -1,8 +1,8 @@
 import json
-from base_entity import BaseEntity
-from base_entity import Property
-from base_entity import EntityDict
-from request import Request
+from v20.base_entity import BaseEntity
+from v20.base_entity import Property
+from v20.base_entity import EntityDict
+from v20.request import Request
 
 
 
@@ -17,6 +17,7 @@ class Price(BaseEntity):
             "The Price's Instrument.",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -25,6 +26,7 @@ class Price(BaseEntity):
             "The date/time when the Price was created",
             "primitive",
             "primitives.DateTime",
+            False,
             None
         ),
         Property(
@@ -33,6 +35,7 @@ class Price(BaseEntity):
             "The status of the Price.",
             "primitive",
             "pricing.PriceStatus",
+            False,
             None
         ),
         Property(
@@ -41,6 +44,7 @@ class Price(BaseEntity):
             "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
             "array_object",
             "PriceBucket",
+            False,
             None
         ),
         Property(
@@ -49,6 +53,7 @@ class Price(BaseEntity):
             "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
             "array_object",
             "PriceBucket",
+            False,
             None
         ),
         Property(
@@ -57,6 +62,7 @@ class Price(BaseEntity):
             "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -65,6 +71,7 @@ class Price(BaseEntity):
             "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -73,6 +80,7 @@ class Price(BaseEntity):
             "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency.",
             "object",
             "pricing.QuoteHomeConversionFactors",
+            False,
             None
         ),
         Property(
@@ -81,6 +89,7 @@ class Price(BaseEntity):
             "Representation of many units of an Instrument are available to be traded for both long and short Orders.",
             "object",
             "pricing.UnitsAvailable",
+            False,
             None
         ),
     ]
@@ -154,6 +163,7 @@ class PriceBucket(BaseEntity):
             "The Price offered by the PriceBucket",
             "primitive",
             "pricing.PriceValue",
+            False,
             None
         ),
         Property(
@@ -162,6 +172,7 @@ class PriceBucket(BaseEntity):
             "The amount of liquidity offered by the PriceBucket",
             "primitive",
             "integer",
+            False,
             None
         ),
     ]
@@ -199,6 +210,7 @@ class UnitsAvailable(BaseEntity):
             "The units available breakdown for long Orders.",
             "object",
             "pricing.UnitsAvailableDetails",
+            False,
             None
         ),
         Property(
@@ -207,6 +219,7 @@ class UnitsAvailable(BaseEntity):
             "The units available breakdown for short Orders.",
             "object",
             "pricing.UnitsAvailableDetails",
+            False,
             None
         ),
     ]
@@ -248,6 +261,7 @@ class UnitsAvailableDetails(BaseEntity):
             "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -256,6 +270,7 @@ class UnitsAvailableDetails(BaseEntity):
             "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -264,6 +279,7 @@ class UnitsAvailableDetails(BaseEntity):
             "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -272,6 +288,7 @@ class UnitsAvailableDetails(BaseEntity):
             "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
     ]
@@ -317,6 +334,7 @@ class QuoteHomeConversionFactors(BaseEntity):
             "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -325,6 +343,7 @@ class QuoteHomeConversionFactors(BaseEntity):
             "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
     ]

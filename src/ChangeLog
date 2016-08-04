@@ -1,5 +1,10 @@
 OANDA v20 API Change Log
 
+Version 3.0.2 (August 02, 2016)
+
+	* Added support for Python 3.5
+
+
 Version 3.0.1 (June 09, 2016)
 
 	* Added TransactRejectReason enum

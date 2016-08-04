@@ -1,8 +1,8 @@
 import json
-from base_entity import BaseEntity
-from base_entity import Property
-from base_entity import EntityDict
-from request import Request
+from v20.base_entity import BaseEntity
+from v20.base_entity import Property
+from v20.base_entity import EntityDict
+from v20.request import Request
 
 
 
@@ -17,6 +17,7 @@ class Instrument(BaseEntity):
             "The name of the Instrument",
             "primitive",
             "primitives.InstrumentName",
+            False,
             None
         ),
         Property(
@@ -25,6 +26,7 @@ class Instrument(BaseEntity):
             "The type of the Instrument",
             "primitive",
             "primitives.InstrumentType",
+            False,
             None
         ),
         Property(
@@ -33,6 +35,7 @@ class Instrument(BaseEntity):
             "The display name of the Instrument",
             "primitive",
             "string",
+            False,
             None
         ),
         Property(
@@ -41,6 +44,7 @@ class Instrument(BaseEntity):
             "The location of the \"pip\" for this instrument. The decimal position of the pip in this Instrument's price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001).",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -49,6 +53,7 @@ class Instrument(BaseEntity):
             "The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of \"1\" being displayed as \"1.00000\")",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -57,6 +62,7 @@ class Instrument(BaseEntity):
             "The amount of decimal places that may be provided when specifying the number of units traded for this instrument.",
             "primitive",
             "integer",
+            False,
             None
         ),
         Property(
@@ -65,6 +71,7 @@ class Instrument(BaseEntity):
             "The smallest number of units allowed to be traded for this instrument.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -73,6 +80,7 @@ class Instrument(BaseEntity):
             "The maximum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -81,6 +89,7 @@ class Instrument(BaseEntity):
             "The minimum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -89,6 +98,7 @@ class Instrument(BaseEntity):
             "The maximum position size allowed for this instrument. Specified in units.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -97,6 +107,7 @@ class Instrument(BaseEntity):
             "The maximum units allowed for an Order placed for this instrument. Specified in units.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
         Property(
@@ -105,6 +116,7 @@ class Instrument(BaseEntity):
             "The margin rate for this instrument.",
             "primitive",
             "primitives.DecimalNumber",
+            False,
             None
         ),
     ]
