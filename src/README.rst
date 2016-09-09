@@ -25,7 +25,7 @@ Each REST V20 endpoint in the `documentation <http://developer.oanda.com/rest-li
 property which then has ``get()`` and ``list()`` methods used to get a list of objects (ie. ``/v3/accounts``) or a single
 object (ie ``/v3/accounts/{accountId}``).
 
-.. code-block::
+.. code-block:: python
 
     import v20
 
@@ -43,14 +43,17 @@ keys matching what you see in the `"HTTP 200" response documentation for the acc
 Furthermore, the dict or list values are objects with dot-notation accessible properties matching the object type.
 For example, the list of AccountProperties objects has `these properties <http://developer.oanda.com/rest-live-v20/account-df/#AccountProperties>`_
 
-.. code-block::
+.. code-block:: python
 
     account_id = ctx.account.list().body['accounts'][0].id
     # Now that we have an account_id, get the account summary.
     account_summary = ctx.account.summary(account_id).body['account']
 
-Per documentation of an `AccountSummary object <http://developer.oanda.com/rest-live-v20/account-df/#AccountSummary>`_
- we can access some properties like this::
+
+We can access some properties matching documentation of an `AccountSummary object <http://developer.oanda.com/rest-live-v20/account-df/#AccountSummary>`_
+ 
+
+.. code-block:: python
 
     print account_summary.alias
     print account_summary.balance
