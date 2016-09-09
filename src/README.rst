@@ -51,7 +51,7 @@ For example, the list of AccountProperties objects has `these properties <http:/
 
 
 We can access some properties matching documentation of an `AccountSummary object <http://developer.oanda.com/rest-live-v20/account-df/#AccountSummary>`_
- 
+
 
 .. code-block:: python
 

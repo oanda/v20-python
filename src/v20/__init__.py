@@ -7,6 +7,7 @@ from v20 import position
 from v20 import order
 from v20.response import Response
 
+
 class AuthenticationError(Exception):
     def __init__(self, username, status, reason):
         self.username = username
@@ -20,17 +21,18 @@ class AuthenticationError(Exception):
             self.reason
         )
 
+
 class Context(object):
     def __init__(self, hostname, port, ssl=False):
         """Create an API context for a specific host/port"""
 
-        # Currnet username for the context
+        # Current username for the context
         self.username = None
 
         # Context headers to add to every request sent to the server
         self._headers = {
-            "Content-Type" : "application/json",
-            "User-Agent" : "OANDA/3.0.2 (client; python)"
+            "Content-Type": "application/json",
+            "User-Agent": "OANDA/3.0.2 (client; python)"
         }
 
         # Current authentication token
@@ -59,7 +61,7 @@ class Context(object):
     def authenticate(self, username, password):
         """Log in using a username and password. Store the authorization token
         and fetch the list of Accounts accessible for that token"""
-
+        # TODO write authorization module
         response = self.authorization.login(
             username=username,
             password=password
