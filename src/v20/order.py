@@ -162,7 +162,7 @@ class Order(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions of the Order.",
+            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -253,7 +253,7 @@ class MarketOrder(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions of the Order.",
+            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -388,7 +388,7 @@ class MarketOrder(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -632,7 +632,7 @@ class LimitOrder(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions of the Order.",
+            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -731,7 +731,7 @@ class LimitOrder(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -975,7 +975,7 @@ class StopOrder(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions of the Order.",
+            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -1083,7 +1083,7 @@ class StopOrder(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -1331,7 +1331,7 @@ class MarketIfTouchedOrder(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions of the Order.",
+            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -1448,7 +1448,7 @@ class MarketIfTouchedOrder(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -1700,7 +1700,7 @@ class TakeProfitOrder(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions of the Order.",
+            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -1970,7 +1970,7 @@ class StopLossOrder(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions of the Order.",
+            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2240,7 +2240,7 @@ class TrailingStopLossOrder(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions of the Order.",
+            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2303,7 +2303,7 @@ class TrailingStopLossOrder(BaseEntity):
         Property(
             "trailingStopValue",
             "Trailing Stop Loss Value",
-            "The current trailing stop value for the Trailing Stop Loss Order. The trailingStopValue at the time of the Order's creation is created by combining the Order's distance with its initialTriggerComparePrice.",
+            "The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order's configured \"distance\" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed.",
             "primitive",
             "pricing.PriceValue",
             False,
@@ -2520,7 +2520,7 @@ class MarketOrderRequest(BaseEntity):
             "The type of the Order to Create. Must be set to \"MARKET\" when creating a Market Order.",
             "primitive",
             "order.OrderType",
-            True,
+            False,
             "MARKET"
         ),
         Property(
@@ -2571,7 +2571,7 @@ class MarketOrderRequest(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions to add to the Order.",
+            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2607,7 +2607,7 @@ class MarketOrderRequest(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2754,7 +2754,7 @@ class LimitOrderRequest(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions to add to the Order.",
+            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2790,7 +2790,7 @@ class LimitOrderRequest(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2950,7 +2950,7 @@ class StopOrderRequest(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions to add to the Order.",
+            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2986,7 +2986,7 @@ class StopOrderRequest(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -3150,7 +3150,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions to add to the Order.",
+            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -3186,7 +3186,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -3332,7 +3332,7 @@ class TakeProfitOrderRequest(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions to add to the Order.",
+            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -3446,7 +3446,7 @@ class StopLossOrderRequest(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions to add to the Order.",
+            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -3560,7 +3560,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
         Property(
             "clientExtensions",
             "Client Extensions",
-            "The client extensions to add to the Order.",
+            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -3682,7 +3682,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 201:
+        if str(response.status) == "201":
             if jbody.get('orderCreateTransaction') is not None:
                 parsed_body['orderCreateTransaction'] = \
                     transaction.Transaction.from_dict(
@@ -3722,7 +3722,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('orderRejectTransaction') is not None:
                 parsed_body['orderRejectTransaction'] = \
                     transaction.Transaction.from_dict(
@@ -3746,7 +3746,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3756,7 +3756,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3766,7 +3766,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3856,7 +3856,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('orders') is not None:
                 parsed_body['orders'] = [
                     Order.from_dict(d)
@@ -3868,7 +3868,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3878,7 +3878,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3888,7 +3888,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3942,7 +3942,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('orders') is not None:
                 parsed_body['orders'] = [
                     Order.from_dict(d)
@@ -3954,7 +3954,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3964,7 +3964,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3974,7 +3974,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4036,7 +4036,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('order') is not None:
                 parsed_body['order'] = \
                     Order.from_dict(
@@ -4048,7 +4048,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4058,7 +4058,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4068,7 +4068,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4139,7 +4139,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 201:
+        if str(response.status) == "201":
             if jbody.get('orderCancelTransaction') is not None:
                 parsed_body['orderCancelTransaction'] = \
                     transaction.OrderCancelTransaction.from_dict(
@@ -4185,7 +4185,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('orderRejectTransaction') is not None:
                 parsed_body['orderRejectTransaction'] = \
                     transaction.Transaction.from_dict(
@@ -4209,7 +4209,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4219,7 +4219,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4229,7 +4229,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4291,7 +4291,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('orderCancelTransaction') is not None:
                 parsed_body['orderCancelTransaction'] = \
                     transaction.OrderCancelTransaction.from_dict(
@@ -4307,7 +4307,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4317,7 +4317,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('orderCancelRejectTransaction') is not None:
                 parsed_body['orderCancelRejectTransaction'] = \
                     transaction.OrderCancelRejectTransaction.from_dict(
@@ -4341,7 +4341,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4364,7 +4364,9 @@ class EntitySpec(object):
     ):
         """Set Order Extensions
 
-        Update the Client Extensions for an Order in an Account
+        Update the Client Extensions for an Order in an Account. Do not set,
+        modify, or delete clientExtensions if your account is associated with
+        MT4.
 
         Parameters
         ----------
@@ -4373,10 +4375,12 @@ class EntitySpec(object):
         orderID : 
             ID of the Order cancel
         clientExtensions : None, optional
-            The Client Extensions to update for the Order
+            The Client Extensions to update for the Order. Do not set, modify,
+            or delete clientExtensions if your account is associated with MT4.
         tradeClientExtensions : None, optional
             The Client Extensions to update for the Trade created when the
-            Order is filled
+            Order is filled. Do not set, modify, or delete clientExtensions if
+            your account is associated with MT4.
         """
 
 
@@ -4416,7 +4420,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('orderClientExtensionsModifyTransaction') is not None:
                 parsed_body['orderClientExtensionsModifyTransaction'] = \
                     transaction.OrderClientExtensionsModifyTransaction.from_dict(
@@ -4428,7 +4432,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('orderClientExtensionsModifyRejectTransaction') is not None:
                 parsed_body['orderClientExtensionsModifyRejectTransaction'] = \
                     transaction.OrderClientExtensionsModifyRejectTransaction.from_dict(
@@ -4448,7 +4452,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4458,7 +4462,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -4468,7 +4472,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')

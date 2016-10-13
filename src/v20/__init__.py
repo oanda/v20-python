@@ -1,6 +1,7 @@
 import requests
 from v20 import account
 from v20 import transaction
+from v20 import user
 from v20 import trade
 from v20 import pricing
 from v20 import position
@@ -21,16 +22,23 @@ class AuthenticationError(Exception):
         )
 
 class Context(object):
-    def __init__(self, hostname, port, ssl=False):
+    def __init__(self, hostname, port, ssl=False, application=""):
         """Create an API context for a specific host/port"""
 
         # Currnet username for the context
         self.username = None
 
+        extensions = ""
+
+        if application != "":
+            extensions = " ({})".format(application)
+
         # Context headers to add to every request sent to the server
         self._headers = {
             "Content-Type" : "application/json",
-            "User-Agent" : "OANDA/3.0.2 (client; python)"
+            "OANDA-Agent" : "v20-python/3.0.3{}".format(
+                                extensions
+                            )
         }
 
         # Current authentication token
@@ -51,34 +59,11 @@ class Context(object):
 
         self.account = account.EntitySpec(self)
         self.transaction = transaction.EntitySpec(self)
+        self.user = user.EntitySpec(self)
         self.trade = trade.EntitySpec(self)
         self.pricing = pricing.EntitySpec(self)
         self.position = position.EntitySpec(self)
         self.order = order.EntitySpec(self)
-
-    def authenticate(self, username, password):
-        """Log in using a username and password. Store the authorization token
-        and fetch the list of Accounts accessible for that token"""
-
-        response = self.authorization.login(
-            username=username,
-            password=password
-        )
-
-        if response.status != 200:
-            raise AuthenticationError(
-                username,
-                response.status,
-                response.reason
-            )
-
-        self.set_token(response.body.get("token"))
-
-        self.username = username
-
-        response = self.account.list()
-
-        self.token_account_ids = response.body.get("accounts")
 
     def set_token(self, token):
         self.token = token

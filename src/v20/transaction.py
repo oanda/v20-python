@@ -112,6 +112,8 @@ class Transaction(BaseEntity):
         if type == "ORDER_FILL":
             return OrderFillTransaction.from_dict(data)
         if type == "ORDER_CANCEL":
+            return OrderCancelTransaction.from_dict(data)
+        if type == "ORDER_CANCEL_REJECT":
             return OrderCancelRejectTransaction.from_dict(data)
         if type == "ORDER_CLIENT_EXTENSIONS_MODIFY":
             return OrderClientExtensionsModifyTransaction.from_dict(data)
@@ -1256,7 +1258,7 @@ class MarketOrderTransaction(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -1583,7 +1585,7 @@ class MarketOrderRejectTransaction(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -1887,7 +1889,7 @@ class LimitOrderTransaction(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2178,7 +2180,7 @@ class LimitOrderRejectTransaction(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2478,7 +2480,7 @@ class StopOrderTransaction(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -2782,7 +2784,7 @@ class StopOrderRejectTransaction(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -3086,7 +3088,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -3390,7 +3392,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
         Property(
             "tradeClientExtensions",
             "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
             "object",
             "transaction.ClientExtensions",
             False,
@@ -5053,7 +5055,7 @@ class OrderFillTransaction(BaseEntity):
         Property(
             "tradeOpened",
             "Trade Opened",
-            "The Trade that was opened when the Order was filled (only  provided if filling the Order resulted in a new Trade).",
+            "The Trade that was opened when the Order was filled (only provided if filling the Order resulted in a new Trade).",
             "object",
             "transaction.TradeOpen",
             False,
@@ -5074,33 +5076,6 @@ class OrderFillTransaction(BaseEntity):
             "The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade).",
             "object",
             "transaction.TradeReduce",
-            False,
-            None
-        ),
-        Property(
-            "vwapReceipt",
-            "VWAP Receipt",
-            "The receipts of filled units with their prices that contributed to the volume-weighted average price that the entire Order was filled at.",
-            "array_object",
-            "VWAPReceipt",
-            False,
-            None
-        ),
-        Property(
-            "accountFinancingMode",
-            "Account Financing Mode",
-            "The account financing mode at the time of the Order fill.",
-            "primitive",
-            "account.AccountFinancingMode",
-            False,
-            None
-        ),
-        Property(
-            "liquidityRegenerationSchedule",
-            "Liquidity Regeneration Schedule",
-            "The liquidity regeneration schedule to in effect for this Account and instrument immediately following the OrderFill",
-            "object",
-            "transaction.LiquidityRegenerationSchedule",
             False,
             None
         ),
@@ -5193,22 +5168,6 @@ class OrderFillTransaction(BaseEntity):
                     data['tradeReduced']
                 )
 
-        if data.get('vwapReceipt') is not None:
-            body['vwapReceipt'] = [
-                VWAPReceipt.from_dict(d)
-                for d in data.get('vwapReceipt')
-            ]
-
-        if data.get('accountFinancingMode') is not None:
-            body['accountFinancingMode'] = \
-                data.get('accountFinancingMode')
-
-        if data.get('liquidityRegenerationSchedule') is not None:
-            body['liquidityRegenerationSchedule'] = \
-                LiquidityRegenerationSchedule.from_dict(
-                    data['liquidityRegenerationSchedule']
-                )
-
         self = OrderFillTransaction(**body)
 
         return self
@@ -5271,7 +5230,7 @@ class OrderCancelTransaction(BaseEntity):
             "primitive",
             "transaction.TransactionType",
             False,
-            None
+            "ORDER_CANCEL"
         ),
         Property(
             "orderID",
@@ -5422,7 +5381,7 @@ class OrderCancelRejectTransaction(BaseEntity):
             "primitive",
             "transaction.TransactionType",
             False,
-            "ORDER_CANCEL"
+            "ORDER_CANCEL_REJECT"
         ),
         Property(
             "orderID",
@@ -7678,6 +7637,66 @@ class PositionFinancing(BaseEntity):
 
         return self
 
+
+class Heartbeat(BaseEntity):
+    _summary_format = "Transaction Heartbeat {time}"
+    _name_format = ""
+
+    _properties = [
+        Property(
+            "type",
+            "type",
+            "The string \"HEARTBEAT\"",
+            "primitive",
+            "string",
+            False,
+            "HEARTBEAT"
+        ),
+        Property(
+            "lastTransactionID",
+            "lastTransactionID",
+            "The ID of the most recent Transaction created for the Account",
+            "primitive",
+            "transaction.TransactionID",
+            False,
+            None
+        ),
+        Property(
+            "time",
+            "time",
+            "The date/time when the Heartbeat was created.",
+            "primitive",
+            "primitives.DateTime",
+            False,
+            None
+        ),
+    ]
+
+    def __init__(self, **kwargs):
+        super(Heartbeat, self).__init__()
+        for prop in self._properties:
+            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+
+    @staticmethod
+    def from_dict(data):
+
+        body = {}
+        if data.get('type') is not None:
+            body['type'] = \
+                data.get('type')
+
+        if data.get('lastTransactionID') is not None:
+            body['lastTransactionID'] = \
+                data.get('lastTransactionID')
+
+        if data.get('time') is not None:
+            body['time'] = \
+                data.get('time')
+
+        self = Heartbeat(**body)
+
+        return self
+
 class EntitySpec(object):
     Transaction = Transaction
     CreateTransaction = CreateTransaction
@@ -7729,6 +7748,7 @@ class EntitySpec(object):
     LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep
     OpenTradeFinancing = OpenTradeFinancing
     PositionFinancing = PositionFinancing
+    Heartbeat = Heartbeat
 
     def __init__(self, ctx):
         self.ctx = ctx
@@ -7804,7 +7824,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('from') is not None:
                 parsed_body['from'] = \
                     jbody.get('from')
@@ -7834,7 +7854,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -7844,7 +7864,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -7854,7 +7874,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -7864,7 +7884,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -7874,7 +7894,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 416:
+        if str(response.status) == "416":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -7936,7 +7956,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('transaction') is not None:
                 parsed_body['transaction'] = \
                     Transaction.from_dict(
@@ -7948,7 +7968,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -7958,7 +7978,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -7968,7 +7988,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8044,7 +8064,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('transactions') is not None:
                 parsed_body['transactions'] = [
                     Transaction.from_dict(d)
@@ -8056,7 +8076,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8066,7 +8086,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8076,7 +8096,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8086,7 +8106,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8096,7 +8116,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 416:
+        if str(response.status) == "416":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8159,7 +8179,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('transactions') is not None:
                 parsed_body['transactions'] = [
                     Transaction.from_dict(d)
@@ -8171,7 +8191,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8181,7 +8201,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8191,7 +8211,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8201,7 +8221,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8211,7 +8231,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 416:
+        if str(response.status) == "416":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -8222,6 +8242,70 @@ class EntitySpec(object):
 
 
         response.body = parsed_body
+
+        return response
+
+
+    def stream(
+        self,
+        accountID,
+        **kwargs
+    ):
+        """Transaction Stream
+
+        Get a stream of Transactions for an Account starting from when the
+        request is made.
+
+        Parameters
+        ----------
+        accountID : 
+            ID of the Account to stream Transactions for
+        """
+
+
+        request = Request(
+            'GET',
+            '/v3/accounts/{accountID}/transactions/stream'
+        )
+
+        request.set_path_param(
+            'accountID',
+            accountID
+        )
+
+        request.set_stream(True)
+
+        class Parser():
+            def __init__(self, ctx):
+                self.ctx = ctx
+
+            def __call__(self, line):
+                j = json.loads(line)
+
+                type = j.get("type")
+
+                if type is None:
+                    return ("unknown", j)
+                elif type == "HEARTBEAT":
+                    return (
+                        "transaction.Heartbeat",
+                        self.ctx.transaction.Heartbeat.from_dict(j)
+                    )
+
+                transaction = self.ctx.transaction.Transaction.from_dict(j)
+
+                return (
+                    "transaction.Transaction",
+                    transaction
+                )
+
+                
+        request.set_line_parser(
+            Parser(self.ctx)
+        )
+
+        response = self.ctx.request(request)
+
 
         return response
 

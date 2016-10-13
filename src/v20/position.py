@@ -331,7 +331,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('positions') is not None:
                 parsed_body['positions'] = [
                     Position.from_dict(d)
@@ -343,7 +343,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -353,7 +353,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -363,7 +363,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -418,7 +418,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('positions') is not None:
                 parsed_body['positions'] = [
                     Position.from_dict(d)
@@ -430,7 +430,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -440,7 +440,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -450,7 +450,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -513,7 +513,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('position') is not None:
                 parsed_body['position'] = \
                     Position.from_dict(
@@ -525,7 +525,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -535,7 +535,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -545,7 +545,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -637,7 +637,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('longOrderCreateTransaction') is not None:
                 parsed_body['longOrderCreateTransaction'] = \
                     transaction.MarketOrderTransaction.from_dict(
@@ -683,7 +683,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('longOrderRejectTransaction') is not None:
                 parsed_body['longOrderRejectTransaction'] = \
                     transaction.MarketOrderRejectTransaction.from_dict(
@@ -713,7 +713,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -723,7 +723,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -733,7 +733,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')

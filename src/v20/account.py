@@ -1357,7 +1357,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('accounts') is not None:
                 parsed_body['accounts'] = [
                     AccountProperties.from_dict(d)
@@ -1365,7 +1365,7 @@ class EntitySpec(object):
                 ]
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1375,7 +1375,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1431,7 +1431,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('account') is not None:
                 parsed_body['account'] = \
                     Account.from_dict(
@@ -1443,7 +1443,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1453,7 +1453,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1463,7 +1463,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1517,7 +1517,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('account') is not None:
                 parsed_body['account'] = \
                     AccountSummary.from_dict(
@@ -1529,7 +1529,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1539,7 +1539,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1549,7 +1549,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1571,7 +1571,10 @@ class EntitySpec(object):
     ):
         """Account Instruments
 
-        Get the list of tradeable instruments for the given Account.
+        Get the list of tradeable instruments for the given Account. The list
+        of tradeable instruments is dependent on the regulatory division that
+        the Account is located in, thus should be the same for all Accounts
+        owned by a single user.
 
         Parameters
         ----------
@@ -1610,7 +1613,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('instruments') is not None:
                 parsed_body['instruments'] = [
                     primitives.Instrument.from_dict(d)
@@ -1618,7 +1621,7 @@ class EntitySpec(object):
                 ]
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1628,7 +1631,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1638,7 +1641,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1704,7 +1707,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('configureTransaction') is not None:
                 parsed_body['configureTransaction'] = \
                     transaction.ClientConfigureTransaction.from_dict(
@@ -1716,7 +1719,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('configureRejectTransaction') is not None:
                 parsed_body['configureRejectTransaction'] = \
                     transaction.ClientConfigureRejectTransaction.from_dict(
@@ -1736,7 +1739,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1746,7 +1749,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1756,7 +1759,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1818,7 +1821,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('changes') is not None:
                 parsed_body['changes'] = \
                     AccountChanges.from_dict(
@@ -1836,7 +1839,7 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1846,7 +1849,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1856,7 +1859,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1866,7 +1869,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 416:
+        if str(response.status) == "416":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')

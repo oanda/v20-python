@@ -369,12 +369,60 @@ class QuoteHomeConversionFactors(BaseEntity):
 
         return self
 
+
+class Heartbeat(BaseEntity):
+    _summary_format = "Pricing Heartbeat {time}"
+    _name_format = ""
+
+    _properties = [
+        Property(
+            "type",
+            "type",
+            "The string \"HEARTBEAT\"",
+            "primitive",
+            "string",
+            False,
+            "HEARTBEAT"
+        ),
+        Property(
+            "time",
+            "time",
+            "The date/time when the Heartbeat was created.",
+            "primitive",
+            "primitives.DateTime",
+            False,
+            None
+        ),
+    ]
+
+    def __init__(self, **kwargs):
+        super(Heartbeat, self).__init__()
+        for prop in self._properties:
+            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+
+    @staticmethod
+    def from_dict(data):
+
+        body = {}
+        if data.get('type') is not None:
+            body['type'] = \
+                data.get('type')
+
+        if data.get('time') is not None:
+            body['time'] = \
+                data.get('time')
+
+        self = Heartbeat(**body)
+
+        return self
+
 class EntitySpec(object):
     Price = Price
     PriceBucket = PriceBucket
     UnitsAvailable = UnitsAvailable
     UnitsAvailableDetails = UnitsAvailableDetails
     QuoteHomeConversionFactors = QuoteHomeConversionFactors
+    Heartbeat = Heartbeat
 
     def __init__(self, ctx):
         self.ctx = ctx
@@ -399,6 +447,9 @@ class EntitySpec(object):
         since : , optional
             Date/Time filter to apply to the returned prices. Only prices with
             a time later than this filter will be provided.
+        includeUnitsAvailable : , optional
+            Flag that enables the inclusion of the unitsAvailable field in the
+            returned Price objects.
         """
 
 
@@ -422,6 +473,11 @@ class EntitySpec(object):
             kwargs.get('since')
         )
 
+        request.set_param(
+            'includeUnitsAvailable',
+            kwargs.get('includeUnitsAvailable')
+        )
+
         response = self.ctx.request(request)
 
 
@@ -435,7 +491,7 @@ class EntitySpec(object):
 
         parsed_body = {}
 
-        if response.status is 200:
+        if str(response.status) == "200":
             if jbody.get('prices') is not None:
                 parsed_body['prices'] = [
                     Price.from_dict(d)
@@ -443,7 +499,7 @@ class EntitySpec(object):
                 ]
 
 
-        if response.status is 400:
+        if str(response.status) == "400":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -453,7 +509,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 401:
+        if str(response.status) == "401":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -463,7 +519,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 404:
+        if str(response.status) == "404":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -473,7 +529,7 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
 
-        if response.status is 405:
+        if str(response.status) == "405":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -484,6 +540,86 @@ class EntitySpec(object):
 
 
         response.body = parsed_body
+
+        return response
+
+
+    def stream(
+        self,
+        accountID,
+        **kwargs
+    ):
+        """Price Stream
+
+        Get a stream of Prices for an Account starting from when the request is
+        made.
+
+        Parameters
+        ----------
+        accountID : 
+            ID of the Account to stream Prices for.
+        instruments : array, optional
+            List of Instruments to stream Prices for.
+        snapshot : , optional
+            Flag that enables/disables the sending of a pricing snapshot when
+            initially connecting to the stream.
+        """
+
+
+        request = Request(
+            'GET',
+            '/v3/accounts/{accountID}/pricing/stream'
+        )
+
+        request.set_path_param(
+            'accountID',
+            accountID
+        )
+
+        request.set_param(
+            'instruments',
+            kwargs.get('instruments')
+        )
+
+        request.set_param(
+            'snapshot',
+            kwargs.get('snapshot')
+        )
+
+        request.set_stream(True)
+
+        class Parser():
+            def __init__(self, ctx):
+                self.ctx = ctx
+
+            def __call__(self, line):
+                j = json.loads(line)
+
+                type = j.get("type")
+
+                if type is None:
+                    return (
+                        "pricing.Price",
+                        self.ctx.pricing.Price.from_dict(j)
+                    )
+                elif type == "HEARTBEAT":
+                    return (
+                        "pricing.Heartbeat",
+                        self.ctx.pricing.Heartbeat.from_dict(j)
+                    )
+
+                return (
+                    "pricing.Price",
+                    self.ctx.pricing.Price.from_dict(j)
+                )
+
+                
+        request.set_line_parser(
+            Parser(self.ctx)
+        )
+
+        response = self.ctx.request(request)
+
 
         return response
 

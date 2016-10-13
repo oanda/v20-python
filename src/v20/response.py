@@ -32,6 +32,39 @@ class NoSuchValueError(Exception):
         )
 
 
+class ResponseUnexpectedStatus(Exception):
+    def __init__(self, response, expected_status):
+        self.response = response
+        self.expected_status = expected_status
+
+    def __str__(self):
+        return "{} {} expected status {}, got {} ({})".format(
+            self.response.method,
+            self.response.path,
+            self.expected_status,
+            self.response.status,
+            self.response.reason
+        )
+
+
+class ResponseNoField(Exception):
+    def __init__(self, response, field):
+        self.response = response
+        self.field = field
+
+    def __str__(self):
+        contains = ", ".join(
+            ["'{}'".format(f) for f in self.response.body.keys()]
+        )
+        return "{} response for {} {} does not have field '{}' (contains {})".format(
+            self.response.status,
+            self.response.method,
+            self.response.path,
+            self.field,
+            contains
+        )
+
+
 class Response(object):
     def __init__(self, request, method, path, status, reason, headers):
         self.request = request
@@ -54,6 +87,18 @@ class Response(object):
 
     def set_line_parser(self, parser):
         self.line_parser = parser
+
+    def get(self, field, status=None):
+        if status is not None:
+            if str(self.status) != str(status):
+                raise ResponseUnexpectedStatus(self, status)
+
+        value = self.body.get(field)
+
+        if value is None:
+            raise ResponseNoField(self, field)
+
+        return value
 
     def parts(self):
         def line_parser(line):

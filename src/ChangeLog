@@ -1,5 +1,15 @@
 OANDA v20 API Change Log
 
+Version 3.0.3 (August 25, 2016)
+
+	* Added support for Pricing and Transaction streaming endpoints.
+
+	* Deprecated "includeUnitsAvailable" for REST pricing endpoint.
+
+	* Deprecated "quoteHomeConversionFactors" and "unitsAvailable" for
+	  the Price object.
+
+
 Version 3.0.2 (August 02, 2016)
 
 	* Added support for Python 3.5
