@@ -3,6 +3,7 @@ from v20 import account
 from v20 import transaction
 from v20 import user
 from v20 import trade
+from v20 import instrument
 from v20 import pricing
 from v20 import position
 from v20 import order
@@ -25,7 +26,7 @@ class Context(object):
     def __init__(self, hostname, port, ssl=False, application=""):
         """Create an API context for a specific host/port"""
 
-        # Currnet username for the context
+        # Current username for the context
         self.username = None
 
         extensions = ""
@@ -35,8 +36,8 @@ class Context(object):
 
         # Context headers to add to every request sent to the server
         self._headers = {
-            "Content-Type" : "application/json",
-            "OANDA-Agent" : "v20-python/3.0.3{}".format(
+            "Content-Type": "application/json",
+            "OANDA-Agent": "v20-python/3.0.4{}".format(
                                 extensions
                             )
         }
@@ -61,6 +62,7 @@ class Context(object):
         self.transaction = transaction.EntitySpec(self)
         self.user = user.EntitySpec(self)
         self.trade = trade.EntitySpec(self)
+        self.instrument = instrument.EntitySpec(self)
         self.pricing = pricing.EntitySpec(self)
         self.position = position.EntitySpec(self)
         self.order = order.EntitySpec(self)

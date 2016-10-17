@@ -1,5 +1,10 @@
 OANDA v20 API Change Log
 
+Version 3.0.4 (October 17, 2016)
+
+	* Added instrument endpoints with support for Candles.
+
+
 Version 3.0.3 (August 25, 2016)
 
 	* Added support for Pricing and Transaction streaming endpoints.
