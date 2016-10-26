@@ -4489,25 +4489,234 @@ class EntitySpec(object):
 
 
     def market(self, accountID, **kwargs):
+        """
+        Shortcut to create a Market Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            kwargs : The arguments to create a MarketOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
         return self.create(
             accountID,
             order=MarketOrderRequest(**kwargs)
         )
 
     def limit(self, accountID, **kwargs):
+        """
+        Shortcut to create a Limit Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            kwargs : The arguments to create a LimitOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
         return self.create(
             accountID,
             order=LimitOrderRequest(**kwargs)
         )
 
+    def limit_replace(self, accountID, orderID, **kwargs):
+        """
+        Shortcut to replace a pending Limit Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            orderID : The ID of the Limit Order to replace
+            kwargs : The arguments to create a LimitOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.replace(
+            accountID,
+            orderID,
+            order=LimitOrderRequest(**kwargs)
+        )
+
     def stop(self, accountID, **kwargs):
+        """
+        Shortcut to create a Stop Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            kwargs : The arguments to create a StopOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
         return self.create(
             accountID,
             order=StopOrderRequest(**kwargs)
         )
 
+    def stop_replace(self, accountID, orderID, **kwargs):
+        """
+        Shortcut to replace a pending Stop Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            orderID : The ID of the Stop Order to replace
+            kwargs : The arguments to create a StopOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.replace(
+            accountID,
+            orderID,
+            order=StopOrderRequest(**kwargs)
+        )
+
     def market_if_touched(self, accountID, **kwargs):
+        """
+        Shortcut to create a MarketIfTouched Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            kwargs : The arguments to create a MarketIfTouchedOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
         return self.create(
             accountID,
             order=MarketIfTouchedOrderRequest(**kwargs)
+        )
+
+    def market_if_touched_replace(self, accountID, orderID, **kwargs):
+        """
+        Shortcut to replace a pending MarketIfTouched Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            orderID : The ID of the MarketIfTouched Order to replace
+            kwargs : The arguments to create a MarketIfTouchedOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.replace(
+            accountID,
+            orderID,
+            order=MarketIfTouchedOrderRequest(**kwargs)
+        )
+
+    def take_profit(self, accountID, **kwargs):
+        """
+        Shortcut to create a Take Profit Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            kwargs : The arguments to create a TakeProfitOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.create(
+            accountID,
+            order=TakeProfitOrderRequest(**kwargs)
+        )
+
+    def take_profit_replace(self, accountID, orderID, **kwargs):
+        """
+        Shortcut to replace a pending Take Profit Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            orderID : The ID of the Take Profit Order to replace
+            kwargs : The arguments to create a TakeProfitOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.replace(
+            accountID,
+            orderID,
+            order=TakeProfitOrderRequest(**kwargs)
+        )
+
+    def stop_loss(self, accountID, **kwargs):
+        """
+        Shortcut to create a Stop Loss Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            kwargs : The arguments to create a StopLossOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.create(
+            accountID,
+            order=StopLossOrderRequest(**kwargs)
+        )
+
+    def stop_loss_replace(self, accountID, orderID, **kwargs):
+        """
+        Shortcut to replace a pending Stop Loss Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            orderID : The ID of the Stop Loss Order to replace
+            kwargs : The arguments to create a StopLossOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.replace(
+            accountID,
+            orderID,
+            order=StopLossOrderRequest(**kwargs)
+        )
+
+    def trailing_stop_loss(self, accountID, **kwargs):
+        """
+        Shortcut to create a Trailing Stop Loss Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            kwargs : The arguments to create a TrailingStopLossOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.create(
+            accountID,
+            order=TrailingStopLossOrderRequest(**kwargs)
+        )
+
+    def trailing_stop_loss_replace(self, accountID, orderID, **kwargs):
+        """
+        Shortcut to replace a pending Trailing Stop Loss Order in an Account
+
+        Args:
+            accountID : The ID of the Account
+            orderID : The ID of the Take Profit Order to replace
+            kwargs : The arguments to create a TrailingStopLossOrderRequest
+
+        Returns:
+            v20.response.Response containing the results from submitting
+            the request
+        """
+        return self.replace(
+            accountID,
+            orderID,
+            order=TrailingStopLossOrderRequest(**kwargs)
         )

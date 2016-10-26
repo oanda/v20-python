@@ -12,6 +12,15 @@ class Price(BaseEntity):
 
     _properties = [
         Property(
+            "type",
+            "Type",
+            "The string \"PRICE\". Used to identify the a Price object when found in a stream.",
+            "primitive",
+            "string",
+            False,
+            "PRICE"
+        ),
+        Property(
             "instrument",
             "instrument",
             "The Price's Instrument.",
@@ -103,6 +112,10 @@ class Price(BaseEntity):
     def from_dict(data):
 
         body = {}
+        if data.get('type') is not None:
+            body['type'] = \
+                data.get('type')
+
         if data.get('instrument') is not None:
             body['instrument'] = \
                 data.get('instrument')

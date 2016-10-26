@@ -37,7 +37,7 @@ class Context(object):
         # Context headers to add to every request sent to the server
         self._headers = {
             "Content-Type": "application/json",
-            "OANDA-Agent": "v20-python/3.0.4{}".format(
+            "OANDA-Agent": "v20-python/3.0.5{}".format(
                                 extensions
                             )
         }
