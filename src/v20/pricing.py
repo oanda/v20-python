@@ -606,7 +606,7 @@ class EntitySpec(object):
                 self.ctx = ctx
 
             def __call__(self, line):
-                j = json.loads(line)
+                j = json.loads(line.decode('utf-8'))
 
                 type = j.get("type")
 
