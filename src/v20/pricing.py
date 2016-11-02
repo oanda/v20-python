@@ -446,25 +446,26 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Current Prices
-
+        """
         Get pricing information for a specified list of Instruments within an
         Account.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch current Prices for.
-        instruments : array, optional
-            List of Instruments to get pricing for.
-        since : , optional
-            Date/Time filter to apply to the returned prices. Only prices with
-            a time later than this filter will be provided.
-        includeUnitsAvailable : , optional
-            Flag that enables the inclusion of the unitsAvailable field in the
-            returned Price objects.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch current Prices for.
+            instruments:
+                List of Instruments to get pricing for.
+            since:
+                Date/Time filter to apply to the returned prices. Only prices
+                with a time later than this filter will be provided.
+            includeUnitsAvailable:
+                Flag that enables the inclusion of the unitsAvailable field in
+                the returned Price objects.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -504,6 +505,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('prices') is not None:
                 parsed_body['prices'] = [
@@ -511,46 +515,18 @@ class EntitySpec(object):
                     for d in jbody.get('prices')
                 ]
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "400":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -562,22 +538,23 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Price Stream
-
+        """
         Get a stream of Prices for an Account starting from when the request is
         made.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to stream Prices for.
-        instruments : array, optional
-            List of Instruments to stream Prices for.
-        snapshot : , optional
-            Flag that enables/disables the sending of a pricing snapshot when
-            initially connecting to the stream.
-        """
+        Args:
+            accountID:
+                ID of the Account to stream Prices for.
+            instruments:
+                List of Instruments to stream Prices for.
+            snapshot:
+                Flag that enables/disables the sending of a pricing snapshot
+                when initially connecting to the stream.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -606,7 +583,7 @@ class EntitySpec(object):
                 self.ctx = ctx
 
             def __call__(self, line):
-                j = json.loads(line)
+                j = json.loads(line.decode('utf-8'))
 
                 type = j.get("type")
 

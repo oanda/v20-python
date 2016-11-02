@@ -295,18 +295,19 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """List Positions
-
+        """
         List all Positions for an Account. The Positions returned are for every
         instrument that has had a position during the lifetime of an the
         Account.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch Positions for.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch Positions for.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -331,6 +332,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('positions') is not None:
                 parsed_body['positions'] = [
@@ -342,36 +346,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -383,17 +369,18 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Open Positions
-
+        """
         List all open Positions for an Account. An open Position is a Position
         in an Account that currently has a Trade opened for it.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch open Positions for.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch open Positions for.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -418,6 +405,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('positions') is not None:
                 parsed_body['positions'] = [
@@ -429,36 +419,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -471,19 +443,20 @@ class EntitySpec(object):
         instrument,
         **kwargs
     ):
-        """Instrument Position
-
+        """
         Get the details of a single Instrument's Position in an Account. The
         Position may by open or not.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch Positions for.
-        instrument : 
-            Name of the Instrument fetch the Position of.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch Positions for.
+            instrument:
+                Name of the Instrument fetch the Position of.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -513,6 +486,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('position') is not None:
                 parsed_body['position'] = \
@@ -524,36 +500,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -566,36 +524,37 @@ class EntitySpec(object):
         instrument,
         **kwargs
     ):
-        """Close Position
-
+        """
         Closeout the open Position for a specific instrument in an Account.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to close a Position in.
-        instrument : 
-            Name of the Instrument to close the Positon of.
-        longUnits : string, optional
-            Indication of how much of the long Position to closeout. Either the
-            string "ALL", the string "NONE", or a DecimalNumber representing
-            how many units of the long position to close using a
-            PositionCloseout MarketOrder. The units specified must always be
-            positive.
-        longClientExtensions : None, optional
-            The client extensions to add to the MarketOrder used to close the
-            long position.
-        shortUnits : string, optional
-            Indication of how much of the short Position to closeout. Either
-            the string "ALL", the string "NONE", or a DecimalNumber
-            representing how many units of the short position to close using a
-            PositionCloseout MarketOrder. The units specified must always be
-            positive.
-        shortClientExtensions : None, optional
-            The client extensions to add to the MarketOrder used to close the
-            short position.
-        """
+        Args:
+            accountID:
+                ID of the Account to close a Position in.
+            instrument:
+                Name of the Instrument to close the Positon of.
+            longUnits:
+                Indication of how much of the long Position to closeout. Either
+                the string "ALL", the string "NONE", or a DecimalNumber
+                representing how many units of the long position to close using
+                a PositionCloseout MarketOrder. The units specified must always
+                be positive.
+            longClientExtensions:
+                The client extensions to add to the MarketOrder used to close
+                the long position.
+            shortUnits:
+                Indication of how much of the short Position to closeout.
+                Either the string "ALL", the string "NONE", or a DecimalNumber
+                representing how many units of the short position to close
+                using a PositionCloseout MarketOrder. The units specified must
+                always be positive.
+            shortClientExtensions:
+                The client extensions to add to the MarketOrder used to close
+                the short position.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'PUT',
@@ -637,6 +596,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('longOrderCreateTransaction') is not None:
                 parsed_body['longOrderCreateTransaction'] = \
@@ -682,8 +644,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "400":
+        elif str(response.status) == "400":
             if jbody.get('longOrderRejectTransaction') is not None:
                 parsed_body['longOrderRejectTransaction'] = \
                     transaction.MarketOrderRejectTransaction.from_dict(
@@ -712,36 +673,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 

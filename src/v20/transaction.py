@@ -7759,27 +7759,29 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """List Transactions
-
+        """
         Get a list of Transactions pages that satisfy a time-based Transaction
         query.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch Transactions for.
-        fromTime : , optional
-            The starting time (inclusive) of the time range for the
-            Transactions being queried.
-        toTime : , optional
-            The ending time (inclusive) of the time range for the Transactions
-            being queried.
-        pageSize : integer, optional
-            The number of Transactions to include in each page of the results.
-        type : array, optional
-            A filter for restricting the types of Transactions to retreive.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch Transactions for.
+            fromTime:
+                The starting time (inclusive) of the time range for the
+                Transactions being queried.
+            toTime:
+                The ending time (inclusive) of the time range for the
+                Transactions being queried.
+            pageSize:
+                The number of Transactions to include in each page of the
+                results.
+            type:
+                A filter for restricting the types of Transactions to retreive.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -7824,6 +7826,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('from') is not None:
                 parsed_body['from'] = \
@@ -7853,56 +7858,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "400":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "416":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -7915,18 +7882,19 @@ class EntitySpec(object):
         transactionID,
         **kwargs
     ):
-        """Transaction Details
-
+        """
         Get the details of a single Account Transaction.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch a Transaction for.
-        transactionID : 
-            ID of the Transaction to fetch
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch a Transaction for.
+            transactionID:
+                ID of the Transaction to fetch
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -7956,6 +7924,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('transaction') is not None:
                 parsed_body['transaction'] = \
@@ -7967,36 +7938,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -8008,23 +7961,25 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Transaction ID Range
-
+        """
         Get a range of Transactions for an Account based on the Transaction
         IDs.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch a range of Transactions for.
-        fromID : , optional
-            The starting Transacion ID (inclusive) to fetch.
-        toID : , optional
-            The ending Transaction ID (inclusive) to fetch.
-        type : array, optional
-            The filter that restricts the types of Transactions to retreive.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch a range of Transactions for.
+            fromID:
+                The starting Transacion ID (inclusive) to fetch.
+            toID:
+                The ending Transaction ID (inclusive) to fetch.
+            type:
+                The filter that restricts the types of Transactions to
+                retreive.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -8064,6 +8019,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('transactions') is not None:
                 parsed_body['transactions'] = [
@@ -8075,56 +8033,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "400":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "416":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -8136,20 +8056,21 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Transactions Since ID
-
+        """
         Get a range of Transactions for an Account starting at (but not
         including) a provided Transaction ID.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to Transactions for.
-        id : , optional
-            The ID of the last Transacion fetched. This query will return all
-            Transactions newer than the TransactionID.
-        """
+        Args:
+            accountID:
+                ID of the Account to Transactions for.
+            id:
+                The ID of the last Transacion fetched. This query will return
+                all Transactions newer than the TransactionID.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -8179,6 +8100,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('transactions') is not None:
                 parsed_body['transactions'] = [
@@ -8190,56 +8114,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "400":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "416":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -8251,17 +8137,18 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Transaction Stream
-
+        """
         Get a stream of Transactions for an Account starting from when the
         request is made.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to stream Transactions for
-        """
+        Args:
+            accountID:
+                ID of the Account to stream Transactions for
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -8280,7 +8167,7 @@ class EntitySpec(object):
                 self.ctx = ctx
 
             def __call__(self, line):
-                j = json.loads(line)
+                j = json.loads(line.decode('utf-8'))
 
                 type = j.get("type")
 

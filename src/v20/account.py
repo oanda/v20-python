@@ -1330,14 +1330,15 @@ class EntitySpec(object):
         self,
         **kwargs
     ):
-        """List Accounts
-
+        """
         Get a list of all Accounts authorized for the provided token.
 
-        Parameters
-        ----------
-        """
+        Args:
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -1357,6 +1358,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('accounts') is not None:
                 parsed_body['accounts'] = [
@@ -1364,26 +1368,18 @@ class EntitySpec(object):
                     for d in jbody.get('accounts')
                 ]
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -1395,18 +1391,19 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Account Details
-
+        """
         Get the full details for a single Account that a client has access to.
         Full pending Order, open Trade and open Position representations are
         provided.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -1431,6 +1428,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('account') is not None:
                 parsed_body['account'] = \
@@ -1442,36 +1442,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -1483,16 +1465,17 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Account Summary
-
+        """
         Get a summary for a single Account that a client has access to.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -1517,6 +1500,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('account') is not None:
                 parsed_body['account'] = \
@@ -1528,36 +1514,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -1569,21 +1537,22 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Account Instruments
-
+        """
         Get the list of tradeable instruments for the given Account. The list
         of tradeable instruments is dependent on the regulatory division that
         the Account is located in, thus should be the same for all Accounts
         owned by a single user.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch
-        instruments : array, optional
-            List of instruments to query specifically.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch
+            instruments:
+                List of instruments to query specifically.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -1613,6 +1582,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('instruments') is not None:
                 parsed_body['instruments'] = [
@@ -1620,36 +1592,18 @@ class EntitySpec(object):
                     for d in jbody.get('instruments')\
                 ]
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -1661,20 +1615,21 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Configure Account
-
+        """
         Set the client-configurable portions of an Account.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to configure
-        alias : string, optional
-            Client-defined alias (name) for the Account
-        marginRate : None, optional
-            The string representation of a decimal number.
-        """
+        Args:
+            accountID:
+                ID of the Account to configure
+            alias:
+                Client-defined alias (name) for the Account
+            marginRate:
+                The string representation of a decimal number.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'PATCH',
@@ -1707,6 +1662,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('configureTransaction') is not None:
                 parsed_body['configureTransaction'] = \
@@ -1718,8 +1676,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "400":
+        elif str(response.status) == "400":
             if jbody.get('configureRejectTransaction') is not None:
                 parsed_body['configureRejectTransaction'] = \
                     transaction.ClientConfigureRejectTransaction.from_dict(
@@ -1738,36 +1695,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -1779,19 +1718,20 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Poll Account Updates
-
+        """
         Endpoint used to poll an Account for its current state and changes
         since a specified TransactionID.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to get changes for
-        sinceTransactionID : , optional
-            ID of the Transaction to get Account changes since.
-        """
+        Args:
+            accountID:
+                ID of the Account to get changes for
+            sinceTransactionID:
+                ID of the Transaction to get Account changes since.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -1821,6 +1761,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('changes') is not None:
                 parsed_body['changes'] = \
@@ -1838,46 +1781,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "416":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 

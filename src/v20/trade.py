@@ -536,27 +536,28 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """List Trades
-
+        """
         Get a list of Trades for an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch Trades for.
-        ids : array, optional
-            List of Trade IDs to retrieve.
-        state : , optional
-            The state to filter the requested Trades by.
-        instrument : , optional
-            The instrument to filter the requested Trades by.
-        count : integer, optional
-            The maximum number of Trades to return.
-        beforeID : , optional
-            The maximum Trade ID to return. If not provided the most recent
-            Trades in the Account are returned.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch Trades for.
+            ids:
+                List of Trade IDs to retrieve.
+            state:
+                The state to filter the requested Trades by.
+            instrument:
+                The instrument to filter the requested Trades by.
+            count:
+                The maximum number of Trades to return.
+            beforeID:
+                The maximum Trade ID to return. If not provided the most recent
+                Trades in the Account are returned.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -606,6 +607,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('trades') is not None:
                 parsed_body['trades'] = [
@@ -617,36 +621,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -658,16 +644,17 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """List Open Trades
-
+        """
         Get the list of open Trades for an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch Trades for.
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch Trades for.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -692,6 +679,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('trades') is not None:
                 parsed_body['trades'] = [
@@ -703,36 +693,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -745,18 +717,19 @@ class EntitySpec(object):
         tradeID,
         **kwargs
     ):
-        """Trade Details
-
+        """
         Get the details of a specific Trade in an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch Trades for.
-        tradeID : 
-            ID of the Trade to fetch
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch Trades for.
+            tradeID:
+                ID of the Trade to fetch
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -786,6 +759,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('trade') is not None:
                 parsed_body['trade'] = \
@@ -797,36 +773,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -839,25 +797,26 @@ class EntitySpec(object):
         tradeID,
         **kwargs
     ):
-        """Close Trade
-
+        """
         Close (partially or fully) a specific open Trade in an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to close a Trade in.
-        tradeID : 
-            ID of the Trade to close.
-        units : string, optional
-            Indication of how much of the Trade to close. Either the string
-            "ALL" (indicating that all of the Trade should be closed), or a
-            DecimalNumber representing the number of units of the open Trade to
-            Close using a TradeClose MarketOrder. The units specified must
-            always be positive, and the magnitude of the value cannot exceed
-            the magnitude of the Trade's open units.
-        """
+        Args:
+            accountID:
+                ID of the Account to close a Trade in.
+            tradeID:
+                ID of the Trade to close.
+            units:
+                Indication of how much of the Trade to close. Either the string
+                "ALL" (indicating that all of the Trade should be closed), or a
+                DecimalNumber representing the number of units of the open
+                Trade to Close using a TradeClose MarketOrder. The units
+                specified must always be positive, and the magnitude of the
+                value cannot exceed the magnitude of the Trade's open units.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'PUT',
@@ -893,6 +852,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('orderCreateTransaction') is not None:
                 parsed_body['orderCreateTransaction'] = \
@@ -920,8 +882,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "400":
+        elif str(response.status) == "400":
             if jbody.get('orderRejectTransaction') is not None:
                 parsed_body['orderRejectTransaction'] = \
                     transaction.MarketOrderRejectTransaction.from_dict(
@@ -936,18 +897,7 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
-
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
+        elif str(response.status) == "404":
             if jbody.get('orderRejectTransaction') is not None:
                 parsed_body['orderRejectTransaction'] = \
                     transaction.MarketOrderRejectTransaction.from_dict(
@@ -962,16 +912,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -984,23 +936,24 @@ class EntitySpec(object):
         tradeID,
         **kwargs
     ):
-        """Set Trade Client Extensions
-
+        """
         Update the Client Extensions for a Trade. Do not add, update, or delete
         the Client Extensions if your account is associated with MT4.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account.
-        tradeID : 
-            ID of the Trade to update the Client Extension of.
-        clientExtensions : None, optional
-            The Client Extensions to update the Trade with. Do not add, update,
-            or delete the Client Extensions if your account is associated with
-            MT4.
-        """
+        Args:
+            accountID:
+                ID of the Account.
+            tradeID:
+                ID of the Trade to update the Client Extension of.
+            clientExtensions:
+                The Client Extensions to update the Trade with. Do not add,
+                update, or delete the Client Extensions if your account is
+                associated with MT4.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'PUT',
@@ -1036,6 +989,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('tradeClientExtensionsModifyTransaction') is not None:
                 parsed_body['tradeClientExtensionsModifyTransaction'] = \
@@ -1051,8 +1007,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "400":
+        elif str(response.status) == "400":
             if jbody.get('tradeClientExtensionsModifyRejectTransaction') is not None:
                 parsed_body['tradeClientExtensionsModifyRejectTransaction'] = \
                     transaction.TradeClientExtensionsModifyRejectTransaction.from_dict(
@@ -1071,36 +1026,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -1113,41 +1050,44 @@ class EntitySpec(object):
         tradeID,
         **kwargs
     ):
-        """Set Dependent Orders
-
+        """
         Create, replace and cancel a Trade's dependent Orders (Take Profit,
         Stop Loss and Trailing Stop Loss) through the Trade itself
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account.
-        tradeID : 
-            ID of the Trade to modify the dependent Orders of.
-        takeProfit : None, optional
-            The specification of the Take Profit to create/modify/cancel. If
-            takeProfit is set to null, the Take Profit Order will be cancelled
-            if it exists. If takeProfit is not provided, the exisiting Take
-            Profit Order will not be modified. If a sub-field of takeProfit is
-            not specified, that field will be set to a default value on create,
-            and be inherited by the replacing order on modify.
-        stopLoss : None, optional
-            The specification of the Stop Loss to create/modify/cancel. If
-            stopLoss is set to null, the Stop Loss Order will be cancelled if
-            it exists. If stopLoss is not provided, the exisiting Stop Loss
-            Order will not be modified. If a sub-field of stopLoss is not
-            specified, that field will be set to a default value on create, and
-            be inherited by the replacing order on modify.
-        trailingStopLoss : None, optional
-            The specification of the Trailing Stop Loss to
-            create/modify/cancel. If trailingStopLoss is set to null, the
-            Trailing Stop Loss Order will be cancelled if it exists. If
-            trailingStopLoss is not provided, the exisiting Trailing Stop Loss
-            Order will not be modified. If a sub-field of trailngStopLoss is
-            not specified, that field will be set to a default value on create,
-            and be inherited by the replacing order on modify.
-        """
+        Args:
+            accountID:
+                ID of the Account.
+            tradeID:
+                ID of the Trade to modify the dependent Orders of.
+            takeProfit:
+                The specification of the Take Profit to create/modify/cancel.
+                If takeProfit is set to null, the Take Profit Order will be
+                cancelled if it exists. If takeProfit is not provided, the
+                exisiting Take Profit Order will not be modified. If a sub-
+                field of takeProfit is not specified, that field will be set to
+                a default value on create, and be inherited by the replacing
+                order on modify.
+            stopLoss:
+                The specification of the Stop Loss to create/modify/cancel. If
+                stopLoss is set to null, the Stop Loss Order will be cancelled
+                if it exists. If stopLoss is not provided, the exisiting Stop
+                Loss Order will not be modified. If a sub-field of stopLoss is
+                not specified, that field will be set to a default value on
+                create, and be inherited by the replacing order on modify.
+            trailingStopLoss:
+                The specification of the Trailing Stop Loss to
+                create/modify/cancel. If trailingStopLoss is set to null, the
+                Trailing Stop Loss Order will be cancelled if it exists. If
+                trailingStopLoss is not provided, the exisiting Trailing Stop
+                Loss Order will not be modified. If a sub-field of
+                trailngStopLoss is not specified, that field will be set to a
+                default value on create, and be inherited by the replacing
+                order on modify.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'PUT',
@@ -1187,6 +1127,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('takeProfitOrderCancelTransaction') is not None:
                 parsed_body['takeProfitOrderCancelTransaction'] = \
@@ -1256,8 +1199,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "400":
+        elif str(response.status) == "400":
             if jbody.get('takeProfitOrderCancelRejectTransaction') is not None:
                 parsed_body['takeProfitOrderCancelRejectTransaction'] = \
                     transaction.OrderCancelRejectTransaction.from_dict(
@@ -1306,36 +1248,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 

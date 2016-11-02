@@ -196,52 +196,53 @@ class EntitySpec(object):
         instrument,
         **kwargs
     ):
-        """Get Candlesticks
-
+        """
         Fetch candlestick data for an instrument.
 
-        Parameters
-        ----------
-        instrument : 
-            Instrument to get candlestick data for
-        price : string, optional
-            The Price component(s) to get candlestick data for. Can contain any
-            combination of the characters "M" (midpoint candles) "B" (bid
-            candles) and "A" (ask candles).
-        granularity : , optional
-            The granularity of the candlesticks to fetch
-        count : integer, optional
-            The number of candlesticks to return in the reponse. Count should
-            not be specified if both the start and end parameters are provided,
-            as the time range combined with the graularity will determine the
-            number of candlesticks to return.
-        fromTime : , optional
-            The start of the time range to fetch candlesticks for.
-        toTime : , optional
-            The end of the time range to fetch candlesticks for.
-        smooth : boolean, optional
-            A flag that controls whether the candlestick is "smoothed" or not.
-            A smoothed candlestick uses the previous candle's close price as
-            its open price, while an unsmoothed candlestick uses the first
-            price from its time range as its open price.
-        includeFirst : boolean, optional
-            A flag that controls whether the candlestick that is covered by the
-            from time should be included in the results. This flag enables
-            clients to use the timestamp of the last completed candlestick
-            received to poll for future candlesticks but avoid receiving the
-            previous candlestick repeatedly.
-        dailyAlignment : integer, optional
-            The hour of the day (in the specified timezone) to use for
-            granularities that have daily alignments.
-        alignmentTimezone : string, optional
-            The timezone to use for the dailyAlignment parameter. Candlesticks
-            with daily alignment will be aligned to the dailyAlignment hour
-            within the alignmentTimezone.
-        weeklyAlignment : , optional
-            The day of the week used for granularities that have weekly
-            alignment.
-        """
+        Args:
+            instrument:
+                Instrument to get candlestick data for
+            price:
+                The Price component(s) to get candlestick data for. Can contain
+                any combination of the characters "M" (midpoint candles) "B"
+                (bid candles) and "A" (ask candles).
+            granularity:
+                The granularity of the candlesticks to fetch
+            count:
+                The number of candlesticks to return in the reponse. Count
+                should not be specified if both the start and end parameters
+                are provided, as the time range combined with the graularity
+                will determine the number of candlesticks to return.
+            fromTime:
+                The start of the time range to fetch candlesticks for.
+            toTime:
+                The end of the time range to fetch candlesticks for.
+            smooth:
+                A flag that controls whether the candlestick is "smoothed" or
+                not.  A smoothed candlestick uses the previous candle's close
+                price as its open price, while an unsmoothed candlestick uses
+                the first price from its time range as its open price.
+            includeFirst:
+                A flag that controls whether the candlestick that is covered by
+                the from time should be included in the results. This flag
+                enables clients to use the timestamp of the last completed
+                candlestick received to poll for future candlesticks but avoid
+                receiving the previous candlestick repeatedly.
+            dailyAlignment:
+                The hour of the day (in the specified timezone) to use for
+                granularities that have daily alignments.
+            alignmentTimezone:
+                The timezone to use for the dailyAlignment parameter.
+                Candlesticks with daily alignment will be aligned to the
+                dailyAlignment hour within the alignmentTimezone.
+            weeklyAlignment:
+                The day of the week used for granularities that have weekly
+                alignment.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -316,6 +317,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('instrument') is not None:
                 parsed_body['instrument'] = \
@@ -331,46 +335,18 @@ class EntitySpec(object):
                     for d in jbody.get('candles')
                 ]
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "400":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 

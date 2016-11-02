@@ -3640,18 +3640,19 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Create Order
-
+        """
         Create an Order for an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to create the Order for.
-        order : None, optional
-            Specification of the Order to create
-        """
+        Args:
+            accountID:
+                ID of the Account to create the Order for.
+            order:
+                Specification of the Order to create
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'POST',
@@ -3682,6 +3683,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "201":
             if jbody.get('orderCreateTransaction') is not None:
                 parsed_body['orderCreateTransaction'] = \
@@ -3721,8 +3725,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "400":
+        elif str(response.status) == "400":
             if jbody.get('orderRejectTransaction') is not None:
                 parsed_body['orderRejectTransaction'] = \
                     transaction.Transaction.from_dict(
@@ -3745,36 +3748,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -3786,27 +3771,28 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """List Orders
-
+        """
         Get a list of Orders for an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch Orders for
-        ids : array, optional
-            List of Order IDs to retrieve
-        state : , optional
-            The state to filter the requested Orders by
-        instrument : , optional
-            The instrument to filter the requested orders by
-        count : integer, optional
-            The maximum number of Orders to return
-        beforeID : , optional
-            The maximum Order ID to return. If not provided the most recent
-            Orders in the Account are returned
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch Orders for
+            ids:
+                List of Order IDs to retrieve
+            state:
+                The state to filter the requested Orders by
+            instrument:
+                The instrument to filter the requested orders by
+            count:
+                The maximum number of Orders to return
+            beforeID:
+                The maximum Order ID to return. If not provided the most recent
+                Orders in the Account are returned
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -3856,6 +3842,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('orders') is not None:
                 parsed_body['orders'] = [
@@ -3867,36 +3856,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -3908,16 +3879,17 @@ class EntitySpec(object):
         accountID,
         **kwargs
     ):
-        """Pending Orders
-
+        """
         List all pending Orders in an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch pending Orders for
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch pending Orders for
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -3942,6 +3914,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('orders') is not None:
                 parsed_body['orders'] = [
@@ -3953,36 +3928,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -3995,18 +3952,19 @@ class EntitySpec(object):
         orderID,
         **kwargs
     ):
-        """Get Order
-
+        """
         Get details for a single Order in an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to fetch an Order for
-        orderID : 
-            ID of the Order to fetch
-        """
+        Args:
+            accountID:
+                ID of the Account to fetch an Order for
+            orderID:
+                ID of the Order to fetch
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'GET',
@@ -4036,6 +3994,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('order') is not None:
                 parsed_body['order'] = \
@@ -4047,36 +4008,18 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -4089,21 +4032,22 @@ class EntitySpec(object):
         orderID,
         **kwargs
     ):
-        """Replace Order
-
+        """
         Replace an Order in an Account by simultaneously cancelling it and
         creating a replacement Order
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to cancel and replace the Order for.
-        orderID : 
-            ID of the Order to cancel.
-        order : None, optional
-            Specification of the replacing Order
-        """
+        Args:
+            accountID:
+                ID of the Account to cancel and replace the Order for.
+            orderID:
+                ID of the Order to cancel.
+            order:
+                Specification of the replacing Order
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'PUT',
@@ -4139,6 +4083,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "201":
             if jbody.get('orderCancelTransaction') is not None:
                 parsed_body['orderCancelTransaction'] = \
@@ -4184,8 +4131,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "400":
+        elif str(response.status) == "400":
             if jbody.get('orderRejectTransaction') is not None:
                 parsed_body['orderRejectTransaction'] = \
                     transaction.Transaction.from_dict(
@@ -4208,36 +4154,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -4250,18 +4178,19 @@ class EntitySpec(object):
         orderID,
         **kwargs
     ):
-        """Cancel Order
-
+        """
         Cancel a pending Order in an Account
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account to cancel an Order in
-        orderID : 
-            ID of the Order cancel
-        """
+        Args:
+            accountID:
+                ID of the Account to cancel an Order in
+            orderID:
+                ID of the Order cancel
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'PUT',
@@ -4291,6 +4220,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('orderCancelTransaction') is not None:
                 parsed_body['orderCancelTransaction'] = \
@@ -4306,18 +4238,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
+        elif str(response.status) == "404":
             if jbody.get('orderCancelRejectTransaction') is not None:
                 parsed_body['orderCancelRejectTransaction'] = \
                     transaction.OrderCancelRejectTransaction.from_dict(
@@ -4340,16 +4261,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
@@ -4362,27 +4285,30 @@ class EntitySpec(object):
         orderID,
         **kwargs
     ):
-        """Set Order Extensions
-
+        """
         Update the Client Extensions for an Order in an Account. Do not set,
         modify, or delete clientExtensions if your account is associated with
         MT4.
 
-        Parameters
-        ----------
-        accountID : 
-            ID of the Account whose Order Client Extensions are being modified
-        orderID : 
-            ID of the Order cancel
-        clientExtensions : None, optional
-            The Client Extensions to update for the Order. Do not set, modify,
-            or delete clientExtensions if your account is associated with MT4.
-        tradeClientExtensions : None, optional
-            The Client Extensions to update for the Trade created when the
-            Order is filled. Do not set, modify, or delete clientExtensions if
-            your account is associated with MT4.
-        """
+        Args:
+            accountID:
+                ID of the Account whose Order Client Extensions are being
+                modified
+            orderID:
+                ID of the Order cancel
+            clientExtensions:
+                The Client Extensions to update for the Order. Do not set,
+                modify, or delete clientExtensions if your account is
+                associated with MT4.
+            tradeClientExtensions:
+                The Client Extensions to update for the Trade created when the
+                Order is filled. Do not set, modify, or delete clientExtensions
+                if your account is associated with MT4.
 
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
 
         request = Request(
             'PUT',
@@ -4420,6 +4346,9 @@ class EntitySpec(object):
 
         parsed_body = {}
 
+        #
+        # Parse responses specific to the request
+        #
         if str(response.status) == "200":
             if jbody.get('orderClientExtensionsModifyTransaction') is not None:
                 parsed_body['orderClientExtensionsModifyTransaction'] = \
@@ -4431,8 +4360,7 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
-
-        if str(response.status) == "400":
+        elif str(response.status) == "400":
             if jbody.get('orderClientExtensionsModifyRejectTransaction') is not None:
                 parsed_body['orderClientExtensionsModifyRejectTransaction'] = \
                     transaction.OrderClientExtensionsModifyRejectTransaction.from_dict(
@@ -4451,36 +4379,18 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        #
+        # Assume standard error response with errorCode and errorMessage
+        #
+        else:
+            errorCode = jbody.get('errorCode')
+            errorMessage = jbody.get('errorMessage')
 
-        if str(response.status) == "401":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
+            if errorCode is not None:
+                parsed_body['errorCode'] = errorCode
 
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "404":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
-
-        if str(response.status) == "405":
-            if jbody.get('errorCode') is not None:
-                parsed_body['errorCode'] = \
-                    jbody.get('errorCode')
-
-            if jbody.get('errorMessage') is not None:
-                parsed_body['errorMessage'] = \
-                    jbody.get('errorMessage')
-
+            if errorMessage is not None:
+                parsed_body['errorMessage'] = errorMessage
 
         response.body = parsed_body
 
