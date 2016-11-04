@@ -36,7 +36,7 @@ class Context(object):
         # The format to use when dealing with times
         self.datetime_format = "RFC3339"
 
-        oanda_agent = "v20-python/3.0.6{}".format(extensions)
+        oanda_agent = "v20-python/3.0.7{}".format(extensions)
 
         # Context headers to add to every request sent to the server
         self._headers = {
@@ -61,6 +61,9 @@ class Context(object):
         # The session used for communicating with the REST server
         self._session = requests.Session()
 
+        # The size of each chunk to read when processing a stream
+        # respons
+        self.stream_chunk_size = 512
 
         self.account = account.EntitySpec(self)
         self.transaction = transaction.EntitySpec(self)
@@ -144,6 +147,10 @@ class Context(object):
         return dt.strftime("%Y-%m-%dT%H:%M:%S.000000000Z")
 
 
+    def set_stream_chunk_size(self, size):
+        self.stream_chunk_size = size
+
+
     def request(self, request):
         """
         Perform an HTTP request through the context
@@ -183,7 +190,9 @@ class Context(object):
             )
 
             response.set_lines(
-                http_response.iter_lines(1)
+                http_response.iter_lines(
+                    self.stream_chunk_size
+                )
             )
         else:
             response.set_raw_body(http_response.text)

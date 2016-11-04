@@ -1,5 +1,11 @@
 OANDA v20 API Change Log
 
+Version 3.0.7 (November 02, 2016)
+
+	* Stream chunk size if now configurable in each context and defaults
+	  to 512 bytes
+
+
 Version 3.0.6 (October 31, 2016)
 
 	* Added time format support to v20 python bindings
