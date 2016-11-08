@@ -36,7 +36,7 @@ class Context(object):
         # The format to use when dealing with times
         self.datetime_format = "RFC3339"
 
-        oanda_agent = "v20-python/3.0.7{}".format(extensions)
+        oanda_agent = "v20-python/3.0.8{}".format(extensions)
 
         # Context headers to add to every request sent to the server
         self._headers = {
@@ -65,6 +65,14 @@ class Context(object):
         # respons
         self.stream_chunk_size = 512
 
+        # The timeout to use when making a stream request with the
+        # v20 REST server
+        self.stream_timeout = 10
+
+        # The timeout to use when making a polling request with the
+        # v20 REST server
+        self.poll_timeout = 10
+
         self.account = account.EntitySpec(self)
         self.transaction = transaction.EntitySpec(self)
         self.trade = trade.EntitySpec(self)
@@ -77,7 +85,7 @@ class Context(object):
 
     def set_header(self, key, value):
         """
-        Set an HTTP header for all requests to the v20 API using 
+        Set an HTTP header for all requests to the v20 API using
         this context
         """
 
@@ -151,6 +159,20 @@ class Context(object):
         self.stream_chunk_size = size
 
 
+    def set_stream_timeout(self, timeout):
+        """
+        Set the timeout for stream requests
+        """
+        self.stream_timeout = timeout
+
+
+    def set_poll_timeout(self, timeout):
+        """
+        Set the timeout for poll requests
+        """
+        self.poll_timeout = timeout
+
+
     def request(self, request):
         """
         Perform an HTTP request through the context
@@ -161,8 +183,13 @@ class Context(object):
         Returns:
             A v20.response.Response object
         """
-        
+
         url = "{}{}".format(self._base_url, request.path)
+
+        timeout = self.poll_timeout
+
+        if request.stream is True:
+            timeout = self.stream_timeout
 
         http_response = self._session.request(
             request.method,
@@ -170,7 +197,8 @@ class Context(object):
             headers=self._headers,
             params=request.params,
             data=request.body,
-            stream=request.stream
+            stream=request.stream,
+            timeout=timeout
         )
 
         request.headers = http_response.request.headers

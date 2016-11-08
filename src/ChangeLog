@@ -1,5 +1,11 @@
 OANDA v20 API Change Log
 
+Version 3.0.8 (November 08, 2016)
+
+	* v20-python supports setting timeouts for polling and streaming
+	  requests
+
+
 Version 3.0.7 (November 02, 2016)
 
 	* Stream chunk size if now configurable in each context and defaults
