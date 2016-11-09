@@ -1,287 +1,240 @@
-import json
+import ujson as json
 from v20.base_entity import BaseEntity
-from v20.base_entity import Property
 from v20.base_entity import EntityDict
 from v20.request import Request
+from v20 import entity_properties
 from v20 import transaction
 
 
 
 class Position(BaseEntity):
+    """
+    The specification of a Position within an Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{instrument}, {pl} PL {unrealizedPL} UPL"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Position"
 
-    _properties = [
-        Property(
-            "instrument",
-            "instrument",
-            "The Position's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            False,
-            None
-        ),
-        Property(
-            "pl",
-            "pl",
-            "Profit/loss realized by the Position over the lifetime of the Account.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "unrealizedPL",
-            "unrealizedPL",
-            "The unrealized profit/loss of all open Trades that contribute to this Position.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "resettablePL",
-            "resettablePL",
-            "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "long",
-            "long",
-            "The details of the long side of the Position.",
-            "object",
-            "position.PositionSide",
-            False,
-            None
-        ),
-        Property(
-            "short",
-            "short",
-            "The details of the short side of the Position.",
-            "object",
-            "position.PositionSide",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.position_Position
 
     def __init__(self, **kwargs):
+        """
+        Create a new Position instance
+        """
         super(Position, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Position's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # Profit/loss realized by the Position over the lifetime of the
+        # Account.
+        #
+        self.pl = kwargs.get("pl")
+ 
+        #
+        # The unrealized profit/loss of all open Trades that contribute to this
+        # Position.
+        #
+        self.unrealizedPL = kwargs.get("unrealizedPL")
+ 
+        #
+        # Profit/loss realized by the Position since the Account's resettablePL
+        # was last reset by the client.
+        #
+        self.resettablePL = kwargs.get("resettablePL")
+ 
+        #
+        # The details of the long side of the Position.
+        #
+        self.long = kwargs.get("long")
+ 
+        #
+        # The details of the short side of the Position.
+        #
+        self.short = kwargs.get("short")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new Position from a dict (generally from loading a JSON
+        response). The data used to instantiate the Position is a shallow copy
+        of the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('pl') is not None:
-            body['pl'] = \
-                data.get('pl')
-
-        if data.get('unrealizedPL') is not None:
-            body['unrealizedPL'] = \
-                data.get('unrealizedPL')
-
-        if data.get('resettablePL') is not None:
-            body['resettablePL'] = \
-                data.get('resettablePL')
+        data = data.copy()
 
         if data.get('long') is not None:
-            body['long'] = \
+            data['long'] = \
                 PositionSide.from_dict(
                     data['long']
                 )
 
         if data.get('short') is not None:
-            body['short'] = \
+            data['short'] = \
                 PositionSide.from_dict(
                     data['short']
                 )
 
-        self = Position(**body)
-
-        return self
+        return Position(**data)
 
 
 class PositionSide(BaseEntity):
+    """
+    The representation of a Position for a single direction (long or short).
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "units",
-            "units",
-            "Number of units in the position (negative value indicates short position, positive indicates long position).",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "averagePrice",
-            "averagePrice",
-            "Volume-weighted average of the underlying Trade open prices for the Position.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "tradeIDs",
-            "tradeIDs",
-            "List of the open Trade IDs which contribute to the open Position.",
-            "array_primitive",
-            "TradeID",
-            False,
-            None
-        ),
-        Property(
-            "pl",
-            "pl",
-            "Profit/loss realized by the PositionSide over the lifetime of the Account.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "unrealizedPL",
-            "unrealizedPL",
-            "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "resettablePL",
-            "resettablePL",
-            "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.position_PositionSide
 
     def __init__(self, **kwargs):
+        """
+        Create a new PositionSide instance
+        """
         super(PositionSide, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # Number of units in the position (negative value indicates short
+        # position, positive indicates long position).
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # Volume-weighted average of the underlying Trade open prices for the
+        # Position.
+        #
+        self.averagePrice = kwargs.get("averagePrice")
+ 
+        #
+        # List of the open Trade IDs which contribute to the open Position.
+        #
+        self.tradeIDs = kwargs.get("tradeIDs")
+ 
+        #
+        # Profit/loss realized by the PositionSide over the lifetime of the
+        # Account.
+        #
+        self.pl = kwargs.get("pl")
+ 
+        #
+        # The unrealized profit/loss of all open Trades that contribute to this
+        # PositionSide.
+        #
+        self.unrealizedPL = kwargs.get("unrealizedPL")
+ 
+        #
+        # Profit/loss realized by the PositionSide since the Account's
+        # resettablePL was last reset by the client.
+        #
+        self.resettablePL = kwargs.get("resettablePL")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new PositionSide from a dict (generally from loading a
+        JSON response). The data used to instantiate the PositionSide is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
+        data = data.copy()
 
-        if data.get('averagePrice') is not None:
-            body['averagePrice'] = \
-                data.get('averagePrice')
 
-        if data.get('tradeIDs') is not None:
-            body['tradeIDs'] = \
-                data.get('tradeIDs')
-
-        if data.get('pl') is not None:
-            body['pl'] = \
-                data.get('pl')
-
-        if data.get('unrealizedPL') is not None:
-            body['unrealizedPL'] = \
-                data.get('unrealizedPL')
-
-        if data.get('resettablePL') is not None:
-            body['resettablePL'] = \
-                data.get('resettablePL')
-
-        self = PositionSide(**body)
-
-        return self
+        return PositionSide(**data)
 
 
 class CalculatedPositionState(BaseEntity):
+    """
+    The dynamic (calculated) state of a Position
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "instrument",
-            "instrument",
-            "The Position's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            False,
-            None
-        ),
-        Property(
-            "netUnrealizedPL",
-            "netUnrealizedPL",
-            "The Position's net unrealized profit/loss",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "longUnrealizedPL",
-            "longUnrealizedPL",
-            "The unrealized profit/loss of the Position's long open Trades",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "shortUnrealizedPL",
-            "shortUnrealizedPL",
-            "The unrealized profit/loss of the Position's short open Trades",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.position_CalculatedPositionState
 
     def __init__(self, **kwargs):
+        """
+        Create a new CalculatedPositionState instance
+        """
         super(CalculatedPositionState, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Position's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The Position's net unrealized profit/loss
+        #
+        self.netUnrealizedPL = kwargs.get("netUnrealizedPL")
+ 
+        #
+        # The unrealized profit/loss of the Position's long open Trades
+        #
+        self.longUnrealizedPL = kwargs.get("longUnrealizedPL")
+ 
+        #
+        # The unrealized profit/loss of the Position's short open Trades
+        #
+        self.shortUnrealizedPL = kwargs.get("shortUnrealizedPL")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new CalculatedPositionState from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        CalculatedPositionState is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
+        data = data.copy()
 
-        if data.get('netUnrealizedPL') is not None:
-            body['netUnrealizedPL'] = \
-                data.get('netUnrealizedPL')
+        return CalculatedPositionState(**data)
 
-        if data.get('longUnrealizedPL') is not None:
-            body['longUnrealizedPL'] = \
-                data.get('longUnrealizedPL')
-
-        if data.get('shortUnrealizedPL') is not None:
-            body['shortUnrealizedPL'] = \
-                data.get('shortUnrealizedPL')
-
-        self = CalculatedPositionState(**body)
-
-        return self
 
 class EntitySpec(object):
+    """
+    The position.EntitySpec wraps the position module's type definitions 
+    and API methods so they can be easily accessed through an instance of a v20
+    Context.
+    """
+
     Position = Position
     PositionSide = PositionSide
     CalculatedPositionState = CalculatedPositionState

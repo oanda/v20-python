@@ -1,182 +1,186 @@
-import json
+import ujson as json
 from v20.base_entity import BaseEntity
-from v20.base_entity import Property
 from v20.base_entity import EntityDict
 from v20.request import Request
+from v20 import entity_properties
 from v20 import transaction
 
 
 
 class OrderIdentifier(BaseEntity):
+    """
+    An OrderIdentifier is used to refer to an Order, and contains both the
+    OrderID and the ClientOrderID.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "orderID",
-            "orderID",
-            "The OANDA-assigned Order ID",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "clientOrderID",
-            "clientOrderID",
-            "The client-provided client Order ID",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_OrderIdentifier
 
     def __init__(self, **kwargs):
+        """
+        Create a new OrderIdentifier instance
+        """
         super(OrderIdentifier, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The OANDA-assigned Order ID
+        #
+        self.orderID = kwargs.get("orderID")
+ 
+        #
+        # The client-provided client Order ID
+        #
+        self.clientOrderID = kwargs.get("clientOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new OrderIdentifier from a dict (generally from loading a
+        JSON response). The data used to instantiate the OrderIdentifier is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('orderID') is not None:
-            body['orderID'] = \
-                data.get('orderID')
+        data = data.copy()
 
-        if data.get('clientOrderID') is not None:
-            body['clientOrderID'] = \
-                data.get('clientOrderID')
-
-        self = OrderIdentifier(**body)
-
-        return self
+        return OrderIdentifier(**data)
 
 
 class DynamicOrderState(BaseEntity):
+    """
+    The dynamic state of an Order. This is only relevant to TrailingStopLoss
+    Orders, as no other Order type has dynamic state.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's ID.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopValue",
-            "Trailing Stop Value",
-            "The Order's calculated trailing stop value.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "triggerDistance",
-            "Trigger Distance",
-            "The distance between the Trailing Stop Loss Order's trailingStopValue and the current Market Price. This represents the distance (in price units) of the Order from a triggering price. If the distance could not be determined, this value will not be set.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "isTriggerDistanceExact",
-            "Trigger Distance Is Exact",
-            "True if an exact trigger distance could be calculated. If false, it means the provided trigger distance is a best estimate. If the distance could not be determined, this value will not be set.",
-            "primitive",
-            "bool",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_DynamicOrderState
 
     def __init__(self, **kwargs):
+        """
+        Create a new DynamicOrderState instance
+        """
         super(DynamicOrderState, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's ID.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The Order's calculated trailing stop value.
+        #
+        self.trailingStopValue = kwargs.get("trailingStopValue")
+ 
+        #
+        # The distance between the Trailing Stop Loss Order's trailingStopValue
+        # and the current Market Price. This represents the distance (in price
+        # units) of the Order from a triggering price. If the distance could
+        # not be determined, this value will not be set.
+        #
+        self.triggerDistance = kwargs.get("triggerDistance")
+ 
+        #
+        # True if an exact trigger distance could be calculated. If false, it
+        # means the provided trigger distance is a best estimate. If the
+        # distance could not be determined, this value will not be set.
+        #
+        self.isTriggerDistanceExact = kwargs.get("isTriggerDistanceExact")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new DynamicOrderState from a dict (generally from loading
+        a JSON response). The data used to instantiate the DynamicOrderState is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('trailingStopValue') is not None:
-            body['trailingStopValue'] = \
-                data.get('trailingStopValue')
-
-        if data.get('triggerDistance') is not None:
-            body['triggerDistance'] = \
-                data.get('triggerDistance')
-
-        if data.get('isTriggerDistanceExact') is not None:
-            body['isTriggerDistanceExact'] = \
-                data.get('isTriggerDistanceExact')
-
-        self = DynamicOrderState(**body)
-
-        return self
+        return DynamicOrderState(**data)
 
 
 class Order(BaseEntity):
+    """
+    The base Order definition specifies the properties that are common to all
+    Orders.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Order {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's identifier, unique within the Order's Account.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "createTime",
-            "Create Time",
-            "The time when the Order was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Order.",
-            "primitive",
-            "order.OrderState",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_Order
 
     def __init__(self, **kwargs):
+        """
+        Create a new Order instance
+        """
         super(Order, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new Order from a dict (generally from loading a JSON
+        response). The data used to instantiate the Order is a shallow copy of
+        the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
+
         type = data.get("type")
 
         if type == "MARKET":
@@ -194,3424 +198,2409 @@ class Order(BaseEntity):
         if type == "TRAILING_STOP_LOSS":
             return TrailingStopLossOrder.from_dict(data)
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('createTime') is not None:
-            body['createTime'] = \
-                data.get('createTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        self = Order(**body)
-
-        return self
+        return Order(**data)
 
 
 class MarketOrder(BaseEntity):
+    """
+    A MarketOrder is an order that is filled immediately upon creation using
+    the current market price.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{units} units of {instrument}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Market Order {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's identifier, unique within the Order's Account.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "createTime",
-            "Create Time",
-            "The time when the Order was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Order.",
-            "primitive",
-            "order.OrderState",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The type of the Order. Always set to \"MARKET\" for Market Orders.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "MARKET"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Market Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "FOK"
-        ),
-        Property(
-            "priceBound",
-            "Price Bound",
-            "The worst price that the client is willing to have the Market Order filled at.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "tradeClose",
-            "Trade Close Details",
-            "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
-            "object",
-            "transaction.MarketOrderTradeClose",
-            False,
-            None
-        ),
-        Property(
-            "longPositionCloseout",
-            "Long Position Close Details",
-            "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
-            "object",
-            "transaction.MarketOrderPositionCloseout",
-            False,
-            None
-        ),
-        Property(
-            "shortPositionCloseout",
-            "Short Position Close Details",
-            "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
-            "object",
-            "transaction.MarketOrderPositionCloseout",
-            False,
-            None
-        ),
-        Property(
-            "marginCloseout",
-            "Margin Closeout Details",
-            "Details of the Margin Closeout that this Market Order was created for",
-            "object",
-            "transaction.MarketOrderMarginCloseout",
-            False,
-            None
-        ),
-        Property(
-            "delayedTradeClose",
-            "Delayed Trade Close Details",
-            "Details of the delayed Trade close that this Market Order was created for",
-            "object",
-            "transaction.MarketOrderDelayedTradeClose",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "fillingTransactionID",
-            "Filling Transaction ID",
-            "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "filledTime",
-            "Filled Time",
-            "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "tradeOpenedID",
-            "Trade Opened ID",
-            "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeReducedID",
-            "Trade Reduced ID",
-            "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClosedIDs",
-            "Trade Closed IDs",
-            "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-            "array_primitive",
-            "TradeID",
-            False,
-            None
-        ),
-        Property(
-            "cancellingTransactionID",
-            "Cancelling Transction ID",
-            "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "cancelledTime",
-            "Cancelled Time",
-            "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_MarketOrder
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketOrder instance
+        """
         super(MarketOrder, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The type of the Order. Always set to "MARKET" for Market Orders.
+        #
+        self.type = kwargs.get("type", "MARKET")
+ 
+        #
+        # The Market Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Market Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The time-in-force requested for the Market Order. Restricted to FOK
+        # or IOC for a MarketOrder.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "FOK")
+ 
+        #
+        # The worst price that the client is willing to have the Market Order
+        # filled at.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Details of the Trade requested to be closed, only provided when the
+        # Market Order is being used to explicitly close a Trade.
+        #
+        self.tradeClose = kwargs.get("tradeClose")
+ 
+        #
+        # Details of the long Position requested to be closed out, only
+        # provided when a Market Order is being used to explicitly closeout a
+        # long Position.
+        #
+        self.longPositionCloseout = kwargs.get("longPositionCloseout")
+ 
+        #
+        # Details of the short Position requested to be closed out, only
+        # provided when a Market Order is being used to explicitly closeout a
+        # short Position.
+        #
+        self.shortPositionCloseout = kwargs.get("shortPositionCloseout")
+ 
+        #
+        # Details of the Margin Closeout that this Market Order was created for
+        #
+        self.marginCloseout = kwargs.get("marginCloseout")
+ 
+        #
+        # Details of the delayed Trade close that this Market Order was created
+        # for
+        #
+        self.delayedTradeClose = kwargs.get("delayedTradeClose")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # ID of the Transaction that filled this Order (only provided when the
+        # Order's state is FILLED)
+        #
+        self.fillingTransactionID = kwargs.get("fillingTransactionID")
+ 
+        #
+        # Date/time when the Order was filled (only provided when the Order's
+        # state is FILLED)
+        #
+        self.filledTime = kwargs.get("filledTime")
+ 
+        #
+        # Trade ID of Trade opened when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was opened as a result
+        # of the fill)
+        #
+        self.tradeOpenedID = kwargs.get("tradeOpenedID")
+ 
+        #
+        # Trade ID of Trade reduced when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was reduced as a result
+        # of the fill)
+        #
+        self.tradeReducedID = kwargs.get("tradeReducedID")
+ 
+        #
+        # Trade IDs of Trades closed when the Order was filled (only provided
+        # when the Order's state is FILLED and one or more Trades were closed
+        # as a result of the fill)
+        #
+        self.tradeClosedIDs = kwargs.get("tradeClosedIDs")
+ 
+        #
+        # ID of the Transaction that cancelled the Order (only provided when
+        # the Order's state is CANCELLED)
+        #
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
+ 
+        #
+        # Date/time when the Order was cancelled (only provided when the state
+        # of the Order is CANCELLED)
+        #
+        self.cancelledTime = kwargs.get("cancelledTime")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketOrder from a dict (generally from loading a
+        JSON response). The data used to instantiate the MarketOrder is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('createTime') is not None:
-            body['createTime'] = \
-                data.get('createTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
         if data.get('tradeClose') is not None:
-            body['tradeClose'] = \
+            data['tradeClose'] = \
                 transaction.MarketOrderTradeClose.from_dict(
                     data['tradeClose']
                 )
 
         if data.get('longPositionCloseout') is not None:
-            body['longPositionCloseout'] = \
+            data['longPositionCloseout'] = \
                 transaction.MarketOrderPositionCloseout.from_dict(
                     data['longPositionCloseout']
                 )
 
         if data.get('shortPositionCloseout') is not None:
-            body['shortPositionCloseout'] = \
+            data['shortPositionCloseout'] = \
                 transaction.MarketOrderPositionCloseout.from_dict(
                     data['shortPositionCloseout']
                 )
 
         if data.get('marginCloseout') is not None:
-            body['marginCloseout'] = \
+            data['marginCloseout'] = \
                 transaction.MarketOrderMarginCloseout.from_dict(
                     data['marginCloseout']
                 )
 
         if data.get('delayedTradeClose') is not None:
-            body['delayedTradeClose'] = \
+            data['delayedTradeClose'] = \
                 transaction.MarketOrderDelayedTradeClose.from_dict(
                     data['delayedTradeClose']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 transaction.TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 transaction.StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 transaction.TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('fillingTransactionID') is not None:
-            body['fillingTransactionID'] = \
-                data.get('fillingTransactionID')
 
-        if data.get('filledTime') is not None:
-            body['filledTime'] = \
-                data.get('filledTime')
-
-        if data.get('tradeOpenedID') is not None:
-            body['tradeOpenedID'] = \
-                data.get('tradeOpenedID')
-
-        if data.get('tradeReducedID') is not None:
-            body['tradeReducedID'] = \
-                data.get('tradeReducedID')
-
-        if data.get('tradeClosedIDs') is not None:
-            body['tradeClosedIDs'] = \
-                data.get('tradeClosedIDs')
-
-        if data.get('cancellingTransactionID') is not None:
-            body['cancellingTransactionID'] = \
-                data.get('cancellingTransactionID')
-
-        if data.get('cancelledTime') is not None:
-            body['cancelledTime'] = \
-                data.get('cancelledTime')
-
-        self = MarketOrder(**body)
-
-        return self
+        return MarketOrder(**data)
 
 
 class LimitOrder(BaseEntity):
+    """
+    A LimitOrder is an order that is created with a price threshold, and will
+    only be filled by a price that is equal to or better than the threshold.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{units} units of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Limit Order {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's identifier, unique within the Order's Account.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "createTime",
-            "Create Time",
-            "The time when the Order was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Order.",
-            "primitive",
-            "order.OrderState",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The type of the Order. Always set to \"LIMIT\" for Limit Orders.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "LIMIT"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Limit Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Limit Order.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "fillingTransactionID",
-            "Filling Transaction ID",
-            "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "filledTime",
-            "Filled Time",
-            "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "tradeOpenedID",
-            "Trade Opened ID",
-            "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeReducedID",
-            "Trade Reduced ID",
-            "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClosedIDs",
-            "Trade Closed IDs",
-            "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-            "array_primitive",
-            "TradeID",
-            False,
-            None
-        ),
-        Property(
-            "cancellingTransactionID",
-            "Cancelling Transction ID",
-            "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "cancelledTime",
-            "Cancelled Time",
-            "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedByOrderID",
-            "Replaced by Order ID",
-            "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_LimitOrder
 
     def __init__(self, **kwargs):
+        """
+        Create a new LimitOrder instance
+        """
         super(LimitOrder, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The type of the Order. Always set to "LIMIT" for Limit Orders.
+        #
+        self.type = kwargs.get("type", "LIMIT")
+ 
+        #
+        # The Limit Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Limit Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the Limit Order. The Limit Order
+        # will only be filled by a market price that is equal to or better than
+        # this price.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the Limit Order.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the Limit Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # ID of the Transaction that filled this Order (only provided when the
+        # Order's state is FILLED)
+        #
+        self.fillingTransactionID = kwargs.get("fillingTransactionID")
+ 
+        #
+        # Date/time when the Order was filled (only provided when the Order's
+        # state is FILLED)
+        #
+        self.filledTime = kwargs.get("filledTime")
+ 
+        #
+        # Trade ID of Trade opened when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was opened as a result
+        # of the fill)
+        #
+        self.tradeOpenedID = kwargs.get("tradeOpenedID")
+ 
+        #
+        # Trade ID of Trade reduced when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was reduced as a result
+        # of the fill)
+        #
+        self.tradeReducedID = kwargs.get("tradeReducedID")
+ 
+        #
+        # Trade IDs of Trades closed when the Order was filled (only provided
+        # when the Order's state is FILLED and one or more Trades were closed
+        # as a result of the fill)
+        #
+        self.tradeClosedIDs = kwargs.get("tradeClosedIDs")
+ 
+        #
+        # ID of the Transaction that cancelled the Order (only provided when
+        # the Order's state is CANCELLED)
+        #
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
+ 
+        #
+        # Date/time when the Order was cancelled (only provided when the state
+        # of the Order is CANCELLED)
+        #
+        self.cancelledTime = kwargs.get("cancelledTime")
+ 
+        #
+        # The ID of the Order that was replaced by this Order (only provided if
+        # this Order was created as part of a cancel/replace).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Order that replaced this Order (only provided if this
+        # Order was cancelled as part of a cancel/replace).
+        #
+        self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new LimitOrder from a dict (generally from loading a JSON
+        response). The data used to instantiate the LimitOrder is a shallow
+        copy of the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('createTime') is not None:
-            body['createTime'] = \
-                data.get('createTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 transaction.TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 transaction.StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 transaction.TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('fillingTransactionID') is not None:
-            body['fillingTransactionID'] = \
-                data.get('fillingTransactionID')
 
-        if data.get('filledTime') is not None:
-            body['filledTime'] = \
-                data.get('filledTime')
-
-        if data.get('tradeOpenedID') is not None:
-            body['tradeOpenedID'] = \
-                data.get('tradeOpenedID')
-
-        if data.get('tradeReducedID') is not None:
-            body['tradeReducedID'] = \
-                data.get('tradeReducedID')
-
-        if data.get('tradeClosedIDs') is not None:
-            body['tradeClosedIDs'] = \
-                data.get('tradeClosedIDs')
-
-        if data.get('cancellingTransactionID') is not None:
-            body['cancellingTransactionID'] = \
-                data.get('cancellingTransactionID')
-
-        if data.get('cancelledTime') is not None:
-            body['cancelledTime'] = \
-                data.get('cancelledTime')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedByOrderID') is not None:
-            body['replacedByOrderID'] = \
-                data.get('replacedByOrderID')
-
-        self = LimitOrder(**body)
-
-        return self
+        return LimitOrder(**data)
 
 
 class StopOrder(BaseEntity):
+    """
+    A StopOrder is an order that is created with a price threshold, and will
+    only be filled by a price that is equal to or worse than the threshold.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{units} units of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Stop Order {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's identifier, unique within the Order's Account.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "createTime",
-            "Create Time",
-            "The time when the Order was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Order.",
-            "primitive",
-            "order.OrderState",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The type of the Order. Always set to \"STOP\" for Stop Orders.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "STOP"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Stop Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "priceBound",
-            "Price Bound",
-            "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Stop Order.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "fillingTransactionID",
-            "Filling Transaction ID",
-            "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "filledTime",
-            "Filled Time",
-            "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "tradeOpenedID",
-            "Trade Opened ID",
-            "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeReducedID",
-            "Trade Reduced ID",
-            "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClosedIDs",
-            "Trade Closed IDs",
-            "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-            "array_primitive",
-            "TradeID",
-            False,
-            None
-        ),
-        Property(
-            "cancellingTransactionID",
-            "Cancelling Transction ID",
-            "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "cancelledTime",
-            "Cancelled Time",
-            "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedByOrderID",
-            "Replaced by Order ID",
-            "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_StopOrder
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopOrder instance
+        """
         super(StopOrder, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The type of the Order. Always set to "STOP" for Stop Orders.
+        #
+        self.type = kwargs.get("type", "STOP")
+ 
+        #
+        # The Stop Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Stop Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the Stop Order. The Stop Order will
+        # only be filled by a market price that is equal to or worse than this
+        # price.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The worst market price that may be used to fill this Stop Order. If
+        # the market gaps and crosses through both the price and the
+        # priceBound, the Stop Order will be cancelled instead of being filled.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # The time-in-force requested for the Stop Order.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the Stop Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # ID of the Transaction that filled this Order (only provided when the
+        # Order's state is FILLED)
+        #
+        self.fillingTransactionID = kwargs.get("fillingTransactionID")
+ 
+        #
+        # Date/time when the Order was filled (only provided when the Order's
+        # state is FILLED)
+        #
+        self.filledTime = kwargs.get("filledTime")
+ 
+        #
+        # Trade ID of Trade opened when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was opened as a result
+        # of the fill)
+        #
+        self.tradeOpenedID = kwargs.get("tradeOpenedID")
+ 
+        #
+        # Trade ID of Trade reduced when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was reduced as a result
+        # of the fill)
+        #
+        self.tradeReducedID = kwargs.get("tradeReducedID")
+ 
+        #
+        # Trade IDs of Trades closed when the Order was filled (only provided
+        # when the Order's state is FILLED and one or more Trades were closed
+        # as a result of the fill)
+        #
+        self.tradeClosedIDs = kwargs.get("tradeClosedIDs")
+ 
+        #
+        # ID of the Transaction that cancelled the Order (only provided when
+        # the Order's state is CANCELLED)
+        #
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
+ 
+        #
+        # Date/time when the Order was cancelled (only provided when the state
+        # of the Order is CANCELLED)
+        #
+        self.cancelledTime = kwargs.get("cancelledTime")
+ 
+        #
+        # The ID of the Order that was replaced by this Order (only provided if
+        # this Order was created as part of a cancel/replace).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Order that replaced this Order (only provided if this
+        # Order was cancelled as part of a cancel/replace).
+        #
+        self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopOrder from a dict (generally from loading a JSON
+        response). The data used to instantiate the StopOrder is a shallow copy
+        of the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('createTime') is not None:
-            body['createTime'] = \
-                data.get('createTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 transaction.TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 transaction.StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 transaction.TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('fillingTransactionID') is not None:
-            body['fillingTransactionID'] = \
-                data.get('fillingTransactionID')
 
-        if data.get('filledTime') is not None:
-            body['filledTime'] = \
-                data.get('filledTime')
-
-        if data.get('tradeOpenedID') is not None:
-            body['tradeOpenedID'] = \
-                data.get('tradeOpenedID')
-
-        if data.get('tradeReducedID') is not None:
-            body['tradeReducedID'] = \
-                data.get('tradeReducedID')
-
-        if data.get('tradeClosedIDs') is not None:
-            body['tradeClosedIDs'] = \
-                data.get('tradeClosedIDs')
-
-        if data.get('cancellingTransactionID') is not None:
-            body['cancellingTransactionID'] = \
-                data.get('cancellingTransactionID')
-
-        if data.get('cancelledTime') is not None:
-            body['cancelledTime'] = \
-                data.get('cancelledTime')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedByOrderID') is not None:
-            body['replacedByOrderID'] = \
-                data.get('replacedByOrderID')
-
-        self = StopOrder(**body)
-
-        return self
+        return StopOrder(**data)
 
 
 class MarketIfTouchedOrder(BaseEntity):
+    """
+    A MarketIfTouchedOrder is an order that is created with a price threshold,
+    and will only be filled by a market price that is touches or crosses the
+    threshold.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{units} units of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "MIT Order {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's identifier, unique within the Order's Account.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "createTime",
-            "Create Time",
-            "The time when the Order was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Order.",
-            "primitive",
-            "order.OrderState",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The type of the Order. Always set to \"MARKET_IF_TOUCHED\" for Market If Touched Orders.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "MARKET_IF_TOUCHED"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The MarketIfTouched Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "priceBound",
-            "Price Value",
-            "The worst market price that may be used to fill this MarketIfTouched Order.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "initialMarketPrice",
-            "Initial Market Price",
-            "The Market price at the time when the MarketIfTouched Order was created.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "fillingTransactionID",
-            "Filling Transaction ID",
-            "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "filledTime",
-            "Filled Time",
-            "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "tradeOpenedID",
-            "Trade Opened ID",
-            "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeReducedID",
-            "Trade Reduced ID",
-            "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClosedIDs",
-            "Trade Closed IDs",
-            "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-            "array_primitive",
-            "TradeID",
-            False,
-            None
-        ),
-        Property(
-            "cancellingTransactionID",
-            "Cancelling Transction ID",
-            "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "cancelledTime",
-            "Cancelled Time",
-            "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedByOrderID",
-            "Replaced by Order ID",
-            "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_MarketIfTouchedOrder
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketIfTouchedOrder instance
+        """
         super(MarketIfTouchedOrder, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The type of the Order. Always set to "MARKET_IF_TOUCHED" for Market
+        # If Touched Orders.
+        #
+        self.type = kwargs.get("type", "MARKET_IF_TOUCHED")
+ 
+        #
+        # The MarketIfTouched Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the MarketIfTouched Order. A
+        # posititive number of units results in a long Order, and a negative
+        # number of units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the MarketIfTouched Order. The
+        # MarketIfTouched Order will only be filled by a market price that
+        # crosses this price from the direction of the market price at the time
+        # when the Order was created (the initialMarketPrice). Depending on the
+        # value of the Order's price and initialMarketPrice, the
+        # MarketIfTouchedOrder will behave like a Limit or a Stop Order.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The worst market price that may be used to fill this MarketIfTouched
+        # Order.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # The time-in-force requested for the MarketIfTouched Order. Restricted
+        # to "GTC", "GFD" and "GTD" for MarketIfTouched Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the MarketIfTouched Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The Market price at the time when the MarketIfTouched Order was
+        # created.
+        #
+        self.initialMarketPrice = kwargs.get("initialMarketPrice")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # ID of the Transaction that filled this Order (only provided when the
+        # Order's state is FILLED)
+        #
+        self.fillingTransactionID = kwargs.get("fillingTransactionID")
+ 
+        #
+        # Date/time when the Order was filled (only provided when the Order's
+        # state is FILLED)
+        #
+        self.filledTime = kwargs.get("filledTime")
+ 
+        #
+        # Trade ID of Trade opened when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was opened as a result
+        # of the fill)
+        #
+        self.tradeOpenedID = kwargs.get("tradeOpenedID")
+ 
+        #
+        # Trade ID of Trade reduced when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was reduced as a result
+        # of the fill)
+        #
+        self.tradeReducedID = kwargs.get("tradeReducedID")
+ 
+        #
+        # Trade IDs of Trades closed when the Order was filled (only provided
+        # when the Order's state is FILLED and one or more Trades were closed
+        # as a result of the fill)
+        #
+        self.tradeClosedIDs = kwargs.get("tradeClosedIDs")
+ 
+        #
+        # ID of the Transaction that cancelled the Order (only provided when
+        # the Order's state is CANCELLED)
+        #
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
+ 
+        #
+        # Date/time when the Order was cancelled (only provided when the state
+        # of the Order is CANCELLED)
+        #
+        self.cancelledTime = kwargs.get("cancelledTime")
+ 
+        #
+        # The ID of the Order that was replaced by this Order (only provided if
+        # this Order was created as part of a cancel/replace).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Order that replaced this Order (only provided if this
+        # Order was cancelled as part of a cancel/replace).
+        #
+        self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketIfTouchedOrder from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        MarketIfTouchedOrder is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('createTime') is not None:
-            body['createTime'] = \
-                data.get('createTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
-        if data.get('initialMarketPrice') is not None:
-            body['initialMarketPrice'] = \
-                data.get('initialMarketPrice')
-
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 transaction.TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 transaction.StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 transaction.TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('fillingTransactionID') is not None:
-            body['fillingTransactionID'] = \
-                data.get('fillingTransactionID')
 
-        if data.get('filledTime') is not None:
-            body['filledTime'] = \
-                data.get('filledTime')
-
-        if data.get('tradeOpenedID') is not None:
-            body['tradeOpenedID'] = \
-                data.get('tradeOpenedID')
-
-        if data.get('tradeReducedID') is not None:
-            body['tradeReducedID'] = \
-                data.get('tradeReducedID')
-
-        if data.get('tradeClosedIDs') is not None:
-            body['tradeClosedIDs'] = \
-                data.get('tradeClosedIDs')
-
-        if data.get('cancellingTransactionID') is not None:
-            body['cancellingTransactionID'] = \
-                data.get('cancellingTransactionID')
-
-        if data.get('cancelledTime') is not None:
-            body['cancelledTime'] = \
-                data.get('cancelledTime')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedByOrderID') is not None:
-            body['replacedByOrderID'] = \
-                data.get('replacedByOrderID')
-
-        self = MarketIfTouchedOrder(**body)
-
-        return self
+        return MarketIfTouchedOrder(**data)
 
 
 class TakeProfitOrder(BaseEntity):
+    """
+    A TakeProfitOrder is an order that is linked to an open Trade and created
+    with a price threshold. The Order will be filled (closing the Trade) by the
+    first price that is equal to or better than the threshold. A
+    TakeProfitOrder cannot be used to open a new Position.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Take Profit for Trade {tradeID} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "TP Order {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's identifier, unique within the Order's Account.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "createTime",
-            "Create Time",
-            "The time when the Order was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Order.",
-            "primitive",
-            "order.OrderState",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The type of the Order. Always set to \"TAKE_PROFIT\" for Take Profit Orders.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "TAKE_PROFIT"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "fillingTransactionID",
-            "Filling Transaction ID",
-            "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "filledTime",
-            "Filled Time",
-            "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "tradeOpenedID",
-            "Trade Opened ID",
-            "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeReducedID",
-            "Trade Reduced ID",
-            "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClosedIDs",
-            "Trade Closed IDs",
-            "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-            "array_primitive",
-            "TradeID",
-            False,
-            None
-        ),
-        Property(
-            "cancellingTransactionID",
-            "Cancelling Transction ID",
-            "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "cancelledTime",
-            "Cancelled Time",
-            "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedByOrderID",
-            "Replaced by Order ID",
-            "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_TakeProfitOrder
 
     def __init__(self, **kwargs):
+        """
+        Create a new TakeProfitOrder instance
+        """
         super(TakeProfitOrder, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The type of the Order. Always set to "TAKE_PROFIT" for Take Profit
+        # Orders.
+        #
+        self.type = kwargs.get("type", "TAKE_PROFIT")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price threshold specified for the TakeProfit Order. The
+        # associated Trade will be closed by a market price that is equal to or
+        # better than this threshold.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the TakeProfit Order. Restricted to
+        # "GTC", "GFD" and "GTD" for TakeProfit Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the TakeProfit Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # ID of the Transaction that filled this Order (only provided when the
+        # Order's state is FILLED)
+        #
+        self.fillingTransactionID = kwargs.get("fillingTransactionID")
+ 
+        #
+        # Date/time when the Order was filled (only provided when the Order's
+        # state is FILLED)
+        #
+        self.filledTime = kwargs.get("filledTime")
+ 
+        #
+        # Trade ID of Trade opened when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was opened as a result
+        # of the fill)
+        #
+        self.tradeOpenedID = kwargs.get("tradeOpenedID")
+ 
+        #
+        # Trade ID of Trade reduced when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was reduced as a result
+        # of the fill)
+        #
+        self.tradeReducedID = kwargs.get("tradeReducedID")
+ 
+        #
+        # Trade IDs of Trades closed when the Order was filled (only provided
+        # when the Order's state is FILLED and one or more Trades were closed
+        # as a result of the fill)
+        #
+        self.tradeClosedIDs = kwargs.get("tradeClosedIDs")
+ 
+        #
+        # ID of the Transaction that cancelled the Order (only provided when
+        # the Order's state is CANCELLED)
+        #
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
+ 
+        #
+        # Date/time when the Order was cancelled (only provided when the state
+        # of the Order is CANCELLED)
+        #
+        self.cancelledTime = kwargs.get("cancelledTime")
+ 
+        #
+        # The ID of the Order that was replaced by this Order (only provided if
+        # this Order was created as part of a cancel/replace).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Order that replaced this Order (only provided if this
+        # Order was cancelled as part of a cancel/replace).
+        #
+        self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TakeProfitOrder from a dict (generally from loading a
+        JSON response). The data used to instantiate the TakeProfitOrder is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('createTime') is not None:
-            body['createTime'] = \
-                data.get('createTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
 
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('fillingTransactionID') is not None:
-            body['fillingTransactionID'] = \
-                data.get('fillingTransactionID')
-
-        if data.get('filledTime') is not None:
-            body['filledTime'] = \
-                data.get('filledTime')
-
-        if data.get('tradeOpenedID') is not None:
-            body['tradeOpenedID'] = \
-                data.get('tradeOpenedID')
-
-        if data.get('tradeReducedID') is not None:
-            body['tradeReducedID'] = \
-                data.get('tradeReducedID')
-
-        if data.get('tradeClosedIDs') is not None:
-            body['tradeClosedIDs'] = \
-                data.get('tradeClosedIDs')
-
-        if data.get('cancellingTransactionID') is not None:
-            body['cancellingTransactionID'] = \
-                data.get('cancellingTransactionID')
-
-        if data.get('cancelledTime') is not None:
-            body['cancelledTime'] = \
-                data.get('cancelledTime')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedByOrderID') is not None:
-            body['replacedByOrderID'] = \
-                data.get('replacedByOrderID')
-
-        self = TakeProfitOrder(**body)
-
-        return self
+        return TakeProfitOrder(**data)
 
 
 class StopLossOrder(BaseEntity):
+    """
+    A StopLossOrder is an order that is linked to an open Trade and created
+    with a price threshold. The Order will be filled (closing the Trade) by the
+    first price that is equal to or worse than the threshold. A StopLossOrder
+    cannot be used to open a new Position.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Stop Loss for Trade {tradeID} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "SL Order {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's identifier, unique within the Order's Account.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "createTime",
-            "Create Time",
-            "The time when the Order was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Order.",
-            "primitive",
-            "order.OrderState",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The type of the Order. Always set to \"STOP_LOSS\" for Stop Loss Orders.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "STOP_LOSS"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "fillingTransactionID",
-            "Filling Transaction ID",
-            "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "filledTime",
-            "Filled Time",
-            "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "tradeOpenedID",
-            "Trade Opened ID",
-            "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeReducedID",
-            "Trade Reduced ID",
-            "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClosedIDs",
-            "Trade Closed IDs",
-            "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-            "array_primitive",
-            "TradeID",
-            False,
-            None
-        ),
-        Property(
-            "cancellingTransactionID",
-            "Cancelling Transction ID",
-            "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "cancelledTime",
-            "Cancelled Time",
-            "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedByOrderID",
-            "Replaced by Order ID",
-            "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_StopLossOrder
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopLossOrder instance
+        """
         super(StopLossOrder, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The type of the Order. Always set to "STOP_LOSS" for Stop Loss
+        # Orders.
+        #
+        self.type = kwargs.get("type", "STOP_LOSS")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price threshold specified for the StopLoss Order. The associated
+        # Trade will be closed by a market price that is equal to or worse than
+        # this threshold.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the StopLoss Order. Restricted to
+        # "GTC", "GFD" and "GTD" for StopLoss Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the StopLoss Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # ID of the Transaction that filled this Order (only provided when the
+        # Order's state is FILLED)
+        #
+        self.fillingTransactionID = kwargs.get("fillingTransactionID")
+ 
+        #
+        # Date/time when the Order was filled (only provided when the Order's
+        # state is FILLED)
+        #
+        self.filledTime = kwargs.get("filledTime")
+ 
+        #
+        # Trade ID of Trade opened when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was opened as a result
+        # of the fill)
+        #
+        self.tradeOpenedID = kwargs.get("tradeOpenedID")
+ 
+        #
+        # Trade ID of Trade reduced when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was reduced as a result
+        # of the fill)
+        #
+        self.tradeReducedID = kwargs.get("tradeReducedID")
+ 
+        #
+        # Trade IDs of Trades closed when the Order was filled (only provided
+        # when the Order's state is FILLED and one or more Trades were closed
+        # as a result of the fill)
+        #
+        self.tradeClosedIDs = kwargs.get("tradeClosedIDs")
+ 
+        #
+        # ID of the Transaction that cancelled the Order (only provided when
+        # the Order's state is CANCELLED)
+        #
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
+ 
+        #
+        # Date/time when the Order was cancelled (only provided when the state
+        # of the Order is CANCELLED)
+        #
+        self.cancelledTime = kwargs.get("cancelledTime")
+ 
+        #
+        # The ID of the Order that was replaced by this Order (only provided if
+        # this Order was created as part of a cancel/replace).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Order that replaced this Order (only provided if this
+        # Order was cancelled as part of a cancel/replace).
+        #
+        self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopLossOrder from a dict (generally from loading a
+        JSON response). The data used to instantiate the StopLossOrder is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('createTime') is not None:
-            body['createTime'] = \
-                data.get('createTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
 
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('fillingTransactionID') is not None:
-            body['fillingTransactionID'] = \
-                data.get('fillingTransactionID')
-
-        if data.get('filledTime') is not None:
-            body['filledTime'] = \
-                data.get('filledTime')
-
-        if data.get('tradeOpenedID') is not None:
-            body['tradeOpenedID'] = \
-                data.get('tradeOpenedID')
-
-        if data.get('tradeReducedID') is not None:
-            body['tradeReducedID'] = \
-                data.get('tradeReducedID')
-
-        if data.get('tradeClosedIDs') is not None:
-            body['tradeClosedIDs'] = \
-                data.get('tradeClosedIDs')
-
-        if data.get('cancellingTransactionID') is not None:
-            body['cancellingTransactionID'] = \
-                data.get('cancellingTransactionID')
-
-        if data.get('cancelledTime') is not None:
-            body['cancelledTime'] = \
-                data.get('cancelledTime')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedByOrderID') is not None:
-            body['replacedByOrderID'] = \
-                data.get('replacedByOrderID')
-
-        self = StopLossOrder(**body)
-
-        return self
+        return StopLossOrder(**data)
 
 
 class TrailingStopLossOrder(BaseEntity):
+    """
+    A TrailingStopLossOrder is an order that is linked to an open Trade and
+    created with a price distance. The price distance is used to calculate a
+    trailing stop value for the order that is in the losing direction from the
+    market price at the time of the order's creation. The trailing stop value
+    will follow the market price as it moves in the winning direction, and the
+    order will filled (closing the Trade) by the first price that is equal to
+    or worse than the trailing stop value. A TrailingStopLossOrder cannot be
+    used to open a new Position.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Trailing Stop Loss for Trade {tradeID} @ {trailingStopValue}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "TSL Order {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Order ID",
-            "The Order's identifier, unique within the Order's Account.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "createTime",
-            "Create Time",
-            "The time when the Order was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Order.",
-            "primitive",
-            "order.OrderState",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The type of the Order. Always set to \"TRAILING_STOP_LOSS\" for Trailing Stop Loss Orders.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "TRAILING_STOP_LOSS"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "distance",
-            "Price Distance",
-            "The price distance specified for the TrailingStopLoss Order.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopValue",
-            "Trailing Stop Loss Value",
-            "The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order's configured \"distance\" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "fillingTransactionID",
-            "Filling Transaction ID",
-            "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "filledTime",
-            "Filled Time",
-            "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "tradeOpenedID",
-            "Trade Opened ID",
-            "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeReducedID",
-            "Trade Reduced ID",
-            "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClosedIDs",
-            "Trade Closed IDs",
-            "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-            "array_primitive",
-            "TradeID",
-            False,
-            None
-        ),
-        Property(
-            "cancellingTransactionID",
-            "Cancelling Transction ID",
-            "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "cancelledTime",
-            "Cancelled Time",
-            "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedByOrderID",
-            "Replaced by Order ID",
-            "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_TrailingStopLossOrder
 
     def __init__(self, **kwargs):
+        """
+        Create a new TrailingStopLossOrder instance
+        """
         super(TrailingStopLossOrder, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The type of the Order. Always set to "TRAILING_STOP_LOSS" for
+        # Trailing Stop Loss Orders.
+        #
+        self.type = kwargs.get("type", "TRAILING_STOP_LOSS")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price distance specified for the TrailingStopLoss Order.
+        #
+        self.distance = kwargs.get("distance")
+ 
+        #
+        # The time-in-force requested for the TrailingStopLoss Order.
+        # Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the StopLoss Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The trigger price for the Trailing Stop Loss Order. The trailing stop
+        # value will trail (follow) the market price by the TSL order's
+        # configured "distance" as the market price moves in the winning
+        # direction. If the market price moves to a level that is equal to or
+        # worse than the trailing stop value, the order will be filled and the
+        # Trade will be closed.
+        #
+        self.trailingStopValue = kwargs.get("trailingStopValue")
+ 
+        #
+        # ID of the Transaction that filled this Order (only provided when the
+        # Order's state is FILLED)
+        #
+        self.fillingTransactionID = kwargs.get("fillingTransactionID")
+ 
+        #
+        # Date/time when the Order was filled (only provided when the Order's
+        # state is FILLED)
+        #
+        self.filledTime = kwargs.get("filledTime")
+ 
+        #
+        # Trade ID of Trade opened when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was opened as a result
+        # of the fill)
+        #
+        self.tradeOpenedID = kwargs.get("tradeOpenedID")
+ 
+        #
+        # Trade ID of Trade reduced when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was reduced as a result
+        # of the fill)
+        #
+        self.tradeReducedID = kwargs.get("tradeReducedID")
+ 
+        #
+        # Trade IDs of Trades closed when the Order was filled (only provided
+        # when the Order's state is FILLED and one or more Trades were closed
+        # as a result of the fill)
+        #
+        self.tradeClosedIDs = kwargs.get("tradeClosedIDs")
+ 
+        #
+        # ID of the Transaction that cancelled the Order (only provided when
+        # the Order's state is CANCELLED)
+        #
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
+ 
+        #
+        # Date/time when the Order was cancelled (only provided when the state
+        # of the Order is CANCELLED)
+        #
+        self.cancelledTime = kwargs.get("cancelledTime")
+ 
+        #
+        # The ID of the Order that was replaced by this Order (only provided if
+        # this Order was created as part of a cancel/replace).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Order that replaced this Order (only provided if this
+        # Order was cancelled as part of a cancel/replace).
+        #
+        self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TrailingStopLossOrder from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        TrailingStopLossOrder is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('createTime') is not None:
-            body['createTime'] = \
-                data.get('createTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
 
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('distance') is not None:
-            body['distance'] = \
-                data.get('distance')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('trailingStopValue') is not None:
-            body['trailingStopValue'] = \
-                data.get('trailingStopValue')
-
-        if data.get('fillingTransactionID') is not None:
-            body['fillingTransactionID'] = \
-                data.get('fillingTransactionID')
-
-        if data.get('filledTime') is not None:
-            body['filledTime'] = \
-                data.get('filledTime')
-
-        if data.get('tradeOpenedID') is not None:
-            body['tradeOpenedID'] = \
-                data.get('tradeOpenedID')
-
-        if data.get('tradeReducedID') is not None:
-            body['tradeReducedID'] = \
-                data.get('tradeReducedID')
-
-        if data.get('tradeClosedIDs') is not None:
-            body['tradeClosedIDs'] = \
-                data.get('tradeClosedIDs')
-
-        if data.get('cancellingTransactionID') is not None:
-            body['cancellingTransactionID'] = \
-                data.get('cancellingTransactionID')
-
-        if data.get('cancelledTime') is not None:
-            body['cancelledTime'] = \
-                data.get('cancelledTime')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedByOrderID') is not None:
-            body['replacedByOrderID'] = \
-                data.get('replacedByOrderID')
-
-        self = TrailingStopLossOrder(**body)
-
-        return self
+        return TrailingStopLossOrder(**data)
 
 
 class OrderRequest(BaseEntity):
+    """
+    The base Order specification used when requesting that an Order be created.
+    Each specific Order-type extends this definition.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "OrderRequest"
 
-    _properties = [
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_OrderRequest
 
     def __init__(self, **kwargs):
+        """
+        Create a new OrderRequest instance
+        """
         super(OrderRequest, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new OrderRequest from a dict (generally from loading a
+        JSON response). The data used to instantiate the OrderRequest is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        self = OrderRequest(**body)
+        data = data.copy()
 
-        return self
+        return OrderRequest(**data)
 
 
 class MarketOrderRequest(BaseEntity):
+    """
+    A MarketOrderRequest specifies the parameters that may be set when creating
+    a Market Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{units} units of {instrument}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Market Order Request"
 
-    _properties = [
-        Property(
-            "type",
-            "Type",
-            "The type of the Order to Create. Must be set to \"MARKET\" when creating a Market Order.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "MARKET"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Market Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "FOK"
-        ),
-        Property(
-            "priceBound",
-            "Price Bound",
-            "The worst price that the client is willing to have the Market Order filled at.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_MarketOrderRequest
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketOrderRequest instance
+        """
         super(MarketOrderRequest, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The type of the Order to Create. Must be set to "MARKET" when
+        # creating a Market Order.
+        #
+        self.type = kwargs.get("type", "MARKET")
+ 
+        #
+        # The Market Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Market Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The time-in-force requested for the Market Order. Restricted to FOK
+        # or IOC for a MarketOrder.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "FOK")
+ 
+        #
+        # The worst price that the client is willing to have the Market Order
+        # filled at.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The client extensions to add to the Order. Do not set, modify, or
+        # delete clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketOrderRequest from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        MarketOrderRequest is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 transaction.TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 transaction.StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 transaction.TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        self = MarketOrderRequest(**body)
-
-        return self
+        return MarketOrderRequest(**data)
 
 
 class LimitOrderRequest(BaseEntity):
+    """
+    A LimitOrderRequest specifies the parameters that may be set when creating
+    a Limit Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{units} units of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Limit Order Request"
 
-    _properties = [
-        Property(
-            "type",
-            "Type",
-            "The type of the Order to Create. Must be set to \"LIMIT\" when creating a Market Order.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "LIMIT"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Limit Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Limit Order.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_LimitOrderRequest
 
     def __init__(self, **kwargs):
+        """
+        Create a new LimitOrderRequest instance
+        """
         super(LimitOrderRequest, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The type of the Order to Create. Must be set to "LIMIT" when creating
+        # a Market Order.
+        #
+        self.type = kwargs.get("type", "LIMIT")
+ 
+        #
+        # The Limit Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Limit Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the Limit Order. The Limit Order
+        # will only be filled by a market price that is equal to or better than
+        # this price.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the Limit Order.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the Limit Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The client extensions to add to the Order. Do not set, modify, or
+        # delete clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new LimitOrderRequest from a dict (generally from loading
+        a JSON response). The data used to instantiate the LimitOrderRequest is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 transaction.TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 transaction.StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 transaction.TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        self = LimitOrderRequest(**body)
-
-        return self
+        return LimitOrderRequest(**data)
 
 
 class StopOrderRequest(BaseEntity):
+    """
+    A StopOrderRequest specifies the parameters that may be set when creating a
+    Stop Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{units} units of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Stop Order Request"
 
-    _properties = [
-        Property(
-            "type",
-            "Type",
-            "The type of the Order to Create. Must be set to \"STOP\" when creating a Stop Order.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "STOP"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Stop Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "priceBound",
-            "Price Bound",
-            "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Stop Order.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_StopOrderRequest
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopOrderRequest instance
+        """
         super(StopOrderRequest, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The type of the Order to Create. Must be set to "STOP" when creating
+        # a Stop Order.
+        #
+        self.type = kwargs.get("type", "STOP")
+ 
+        #
+        # The Stop Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Stop Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the Stop Order. The Stop Order will
+        # only be filled by a market price that is equal to or worse than this
+        # price.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The worst market price that may be used to fill this Stop Order. If
+        # the market gaps and crosses through both the price and the
+        # priceBound, the Stop Order will be cancelled instead of being filled.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # The time-in-force requested for the Stop Order.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the Stop Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The client extensions to add to the Order. Do not set, modify, or
+        # delete clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopOrderRequest from a dict (generally from loading
+        a JSON response). The data used to instantiate the StopOrderRequest is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 transaction.TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 transaction.StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 transaction.TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        self = StopOrderRequest(**body)
-
-        return self
+        return StopOrderRequest(**data)
 
 
 class MarketIfTouchedOrderRequest(BaseEntity):
+    """
+    A MarketIfTouchedOrderRequest specifies the parameters that may be set when
+    creating a Market-if-Touched Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{units} units of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "MIT Order Request"
 
-    _properties = [
-        Property(
-            "type",
-            "Type",
-            "The type of the Order to Create. Must be set to \"MARKET_IF_TOUCHED\" when creating a Market If Touched Order.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "MARKET_IF_TOUCHED"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The MarketIfTouched Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "priceBound",
-            "Price Value",
-            "The worst market price that may be used to fill this MarketIfTouched Order.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_MarketIfTouchedOrderRequest
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketIfTouchedOrderRequest instance
+        """
         super(MarketIfTouchedOrderRequest, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The type of the Order to Create. Must be set to "MARKET_IF_TOUCHED"
+        # when creating a Market If Touched Order.
+        #
+        self.type = kwargs.get("type", "MARKET_IF_TOUCHED")
+ 
+        #
+        # The MarketIfTouched Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the MarketIfTouched Order. A
+        # posititive number of units results in a long Order, and a negative
+        # number of units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the MarketIfTouched Order. The
+        # MarketIfTouched Order will only be filled by a market price that
+        # crosses this price from the direction of the market price at the time
+        # when the Order was created (the initialMarketPrice). Depending on the
+        # value of the Order's price and initialMarketPrice, the
+        # MarketIfTouchedOrder will behave like a Limit or a Stop Order.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The worst market price that may be used to fill this MarketIfTouched
+        # Order.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # The time-in-force requested for the MarketIfTouched Order. Restricted
+        # to "GTC", "GFD" and "GTD" for MarketIfTouched Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the MarketIfTouched Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The client extensions to add to the Order. Do not set, modify, or
+        # delete clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketIfTouchedOrderRequest from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        MarketIfTouchedOrderRequest is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 transaction.TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 transaction.StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 transaction.TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        self = MarketIfTouchedOrderRequest(**body)
-
-        return self
+        return MarketIfTouchedOrderRequest(**data)
 
 
 class TakeProfitOrderRequest(BaseEntity):
+    """
+    A TakeProfitOrderRequest specifies the parameters that may be set when
+    creating a Take Profit Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Take Profit for Trade {tradeID} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "TP Order Request"
 
-    _properties = [
-        Property(
-            "type",
-            "Type",
-            "The type of the Order to Create. Must be set to \"TAKE_PROFIT\" when creating a Take Profit Order.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "TAKE_PROFIT"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_TakeProfitOrderRequest
 
     def __init__(self, **kwargs):
+        """
+        Create a new TakeProfitOrderRequest instance
+        """
         super(TakeProfitOrderRequest, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The type of the Order to Create. Must be set to "TAKE_PROFIT" when
+        # creating a Take Profit Order.
+        #
+        self.type = kwargs.get("type", "TAKE_PROFIT")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price threshold specified for the TakeProfit Order. The
+        # associated Trade will be closed by a market price that is equal to or
+        # better than this threshold.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the TakeProfit Order. Restricted to
+        # "GTC", "GFD" and "GTD" for TakeProfit Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the TakeProfit Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The client extensions to add to the Order. Do not set, modify, or
+        # delete clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TakeProfitOrderRequest from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        TakeProfitOrderRequest is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        self = TakeProfitOrderRequest(**body)
-
-        return self
+        return TakeProfitOrderRequest(**data)
 
 
 class StopLossOrderRequest(BaseEntity):
+    """
+    A StopLossOrderRequest specifies the parameters that may be set when
+    creating a Stop Loss Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Stop Loss for Trade {tradeID} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "SL Order Request"
 
-    _properties = [
-        Property(
-            "type",
-            "Type",
-            "The type of the Order to Create. Must be set to \"STOP_LOSS\" when creating a Stop Loss Order.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "STOP_LOSS"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_StopLossOrderRequest
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopLossOrderRequest instance
+        """
         super(StopLossOrderRequest, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The type of the Order to Create. Must be set to "STOP_LOSS" when
+        # creating a Stop Loss Order.
+        #
+        self.type = kwargs.get("type", "STOP_LOSS")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price threshold specified for the StopLoss Order. The associated
+        # Trade will be closed by a market price that is equal to or worse than
+        # this threshold.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the StopLoss Order. Restricted to
+        # "GTC", "GFD" and "GTD" for StopLoss Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the StopLoss Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The client extensions to add to the Order. Do not set, modify, or
+        # delete clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopLossOrderRequest from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        StopLossOrderRequest is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        self = StopLossOrderRequest(**body)
-
-        return self
+        return StopLossOrderRequest(**data)
 
 
 class TrailingStopLossOrderRequest(BaseEntity):
+    """
+    A TrailingStopLossOrderRequest specifies the parameters that may be set
+    when creating a Trailing Stop Loss Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Trailing Stop Loss for Trade {tradeID} @ {trailingStopValue}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "TSL Order Request"
 
-    _properties = [
-        Property(
-            "type",
-            "Type",
-            "The type of the Order to Create. Must be set to \"TRAILING_STOP_LOSS\" when creating a Trailng Stop Loss Order.",
-            "primitive",
-            "order.OrderType",
-            False,
-            "TRAILING_STOP_LOSS"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "distance",
-            "Price Distance",
-            "The price distance specified for the TrailingStopLoss Order.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.order_TrailingStopLossOrderRequest
 
     def __init__(self, **kwargs):
+        """
+        Create a new TrailingStopLossOrderRequest instance
+        """
         super(TrailingStopLossOrderRequest, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The type of the Order to Create. Must be set to "TRAILING_STOP_LOSS"
+        # when creating a Trailng Stop Loss Order.
+        #
+        self.type = kwargs.get("type", "TRAILING_STOP_LOSS")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price distance specified for the TrailingStopLoss Order.
+        #
+        self.distance = kwargs.get("distance")
+ 
+        #
+        # The time-in-force requested for the TrailingStopLoss Order.
+        # Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the StopLoss Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The client extensions to add to the Order. Do not set, modify, or
+        # delete clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TrailingStopLossOrderRequest from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        TrailingStopLossOrderRequest is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('distance') is not None:
-            body['distance'] = \
-                data.get('distance')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        self = TrailingStopLossOrderRequest(**body)
+        return TrailingStopLossOrderRequest(**data)
 
-        return self
 
 class EntitySpec(object):
+    """
+    The order.EntitySpec wraps the order module's type definitions 
+    and API methods so they can be easily accessed through an instance of a v20
+    Context.
+    """
+
     OrderIdentifier = OrderIdentifier
     DynamicOrderState = DynamicOrderState
     Order = Order

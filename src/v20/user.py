@@ -1,144 +1,135 @@
-import json
+import ujson as json
 from v20.base_entity import BaseEntity
-from v20.base_entity import Property
 from v20.base_entity import EntityDict
 from v20.request import Request
+from v20 import entity_properties
 
 
 
 class UserInfo(BaseEntity):
+    """
+    A representation of user information, as provided to the user themself.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "username",
-            "username",
-            "The user-provided username.",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "userID",
-            "The user's OANDA-assigned user ID.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "country",
-            "country",
-            "The country that the user is based in.",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-        Property(
-            "emailAddress",
-            "emailAddress",
-            "The user's email address.",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.user_UserInfo
 
     def __init__(self, **kwargs):
+        """
+        Create a new UserInfo instance
+        """
         super(UserInfo, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The user-provided username.
+        #
+        self.username = kwargs.get("username")
+ 
+        #
+        # The user's OANDA-assigned user ID.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The country that the user is based in.
+        #
+        self.country = kwargs.get("country")
+ 
+        #
+        # The user's email address.
+        #
+        self.emailAddress = kwargs.get("emailAddress")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new UserInfo from a dict (generally from loading a JSON
+        response). The data used to instantiate the UserInfo is a shallow copy
+        of the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('username') is not None:
-            body['username'] = \
-                data.get('username')
+        data = data.copy()
 
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('country') is not None:
-            body['country'] = \
-                data.get('country')
-
-        if data.get('emailAddress') is not None:
-            body['emailAddress'] = \
-                data.get('emailAddress')
-
-        self = UserInfo(**body)
-
-        return self
+        return UserInfo(**data)
 
 
 class UserInfoExternal(BaseEntity):
+    """
+    A representation of user information, as available to external (3rd party)
+    clients.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "userID",
-            "userID",
-            "The user's OANDA-assigned user ID.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "country",
-            "country",
-            "The country that the user is based in.",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-        Property(
-            "FIFO",
-            "FIFO",
-            "Flag indicating if the the user's Accounts adhere to FIFO execution rules.",
-            "primitive",
-            "boolean",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.user_UserInfoExternal
 
     def __init__(self, **kwargs):
+        """
+        Create a new UserInfoExternal instance
+        """
         super(UserInfoExternal, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The user's OANDA-assigned user ID.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The country that the user is based in.
+        #
+        self.country = kwargs.get("country")
+ 
+        #
+        # Flag indicating if the the user's Accounts adhere to FIFO execution
+        # rules.
+        #
+        self.FIFO = kwargs.get("FIFO")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new UserInfoExternal from a dict (generally from loading
+        a JSON response). The data used to instantiate the UserInfoExternal is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
+        data = data.copy()
 
-        if data.get('country') is not None:
-            body['country'] = \
-                data.get('country')
+        return UserInfoExternal(**data)
 
-        if data.get('FIFO') is not None:
-            body['FIFO'] = \
-                data.get('FIFO')
-
-        self = UserInfoExternal(**body)
-
-        return self
 
 class EntitySpec(object):
+    """
+    The user.EntitySpec wraps the user module's type definitions 
+    and API methods so they can be easily accessed through an instance of a v20
+    Context.
+    """
+
     UserInfo = UserInfo
     UserInfoExternal = UserInfoExternal
 

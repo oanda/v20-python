@@ -1,70 +1,73 @@
-import json
+import ujson as json
 from v20.base_entity import BaseEntity
-from v20.base_entity import Property
 from v20.base_entity import EntityDict
 from v20.request import Request
+from v20 import entity_properties
 
 
 
 class Transaction(BaseEntity):
+    """
+    The base Transaction specification. Specifies properties that are common
+    between all Transaction.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_Transaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new Transaction instance
+        """
         super(Transaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new Transaction from a dict (generally from loading a
+        JSON response). The data used to instantiate the Transaction is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
+
         type = data.get("type")
 
         if type == "CREATE":
@@ -134,7570 +137,5259 @@ class Transaction(BaseEntity):
         if type == "RESET_RESETTABLE_PL":
             return ResetResettablePLTransaction.from_dict(data)
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        self = Transaction(**body)
-
-        return self
+        return Transaction(**data)
 
 
 class CreateTransaction(BaseEntity):
+    """
+    A CreateTransaction represents the creation of an Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Create Account {accountID}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"CREATE\" in a CreateTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "CREATE"
-        ),
-        Property(
-            "divisionID",
-            "Division ID",
-            "The ID of the Division that the Account is in",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "siteID",
-            "Site ID",
-            "The ID of the Site that the Account was created at",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountUserID",
-            "Account User ID",
-            "The ID of the user that the Account was created for",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountNumber",
-            "Account Number",
-            "The number of the Account within the site/division/user",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "homeCurrency",
-            "Home Currency",
-            "The home currency of the Account",
-            "primitive",
-            "primitives.Currency",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_CreateTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new CreateTransaction instance
+        """
         super(CreateTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "CREATE" in a
+        # CreateTransaction.
+        #
+        self.type = kwargs.get("type", "CREATE")
+ 
+        #
+        # The ID of the Division that the Account is in
+        #
+        self.divisionID = kwargs.get("divisionID")
+ 
+        #
+        # The ID of the Site that the Account was created at
+        #
+        self.siteID = kwargs.get("siteID")
+ 
+        #
+        # The ID of the user that the Account was created for
+        #
+        self.accountUserID = kwargs.get("accountUserID")
+ 
+        #
+        # The number of the Account within the site/division/user
+        #
+        self.accountNumber = kwargs.get("accountNumber")
+ 
+        #
+        # The home currency of the Account
+        #
+        self.homeCurrency = kwargs.get("homeCurrency")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new CreateTransaction from a dict (generally from loading
+        a JSON response). The data used to instantiate the CreateTransaction is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('divisionID') is not None:
-            body['divisionID'] = \
-                data.get('divisionID')
-
-        if data.get('siteID') is not None:
-            body['siteID'] = \
-                data.get('siteID')
-
-        if data.get('accountUserID') is not None:
-            body['accountUserID'] = \
-                data.get('accountUserID')
-
-        if data.get('accountNumber') is not None:
-            body['accountNumber'] = \
-                data.get('accountNumber')
-
-        if data.get('homeCurrency') is not None:
-            body['homeCurrency'] = \
-                data.get('homeCurrency')
-
-        self = CreateTransaction(**body)
-
-        return self
+        return CreateTransaction(**data)
 
 
 class CloseTransaction(BaseEntity):
+    """
+    A CloseTransaction represents the closing of an Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Close Account {accountID}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"CLOSE\" in a CloseTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "CLOSE"
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_CloseTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new CloseTransaction instance
+        """
         super(CloseTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "CLOSE" in a
+        # CloseTransaction.
+        #
+        self.type = kwargs.get("type", "CLOSE")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new CloseTransaction from a dict (generally from loading
+        a JSON response). The data used to instantiate the CloseTransaction is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        self = CloseTransaction(**body)
-
-        return self
+        return CloseTransaction(**data)
 
 
 class ReopenTransaction(BaseEntity):
+    """
+    A ReopenTransaction represents the re-opening of a closed Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reopen Account {accountID}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"REOPEN\" in a ReopenTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "REOPEN"
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_ReopenTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new ReopenTransaction instance
+        """
         super(ReopenTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "REOPEN" in a
+        # ReopenTransaction.
+        #
+        self.type = kwargs.get("type", "REOPEN")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new ReopenTransaction from a dict (generally from loading
+        a JSON response). The data used to instantiate the ReopenTransaction is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        self = ReopenTransaction(**body)
-
-        return self
+        return ReopenTransaction(**data)
 
 
 class ClientConfigureTransaction(BaseEntity):
+    """
+    A ClientConfigureTransaction represents the configuration of an Account by
+    a client.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Client Configure"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"CLIENT_CONFIGURE\" in a ClientConfigureTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "CLIENT_CONFIGURE"
-        ),
-        Property(
-            "alias",
-            "Account Alias",
-            "The client-provided alias for the Account.",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-        Property(
-            "marginRate",
-            "Margin Rate",
-            "The margin rate override for the Account.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_ClientConfigureTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new ClientConfigureTransaction instance
+        """
         super(ClientConfigureTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "CLIENT_CONFIGURE" in a
+        # ClientConfigureTransaction.
+        #
+        self.type = kwargs.get("type", "CLIENT_CONFIGURE")
+ 
+        #
+        # The client-provided alias for the Account.
+        #
+        self.alias = kwargs.get("alias")
+ 
+        #
+        # The margin rate override for the Account.
+        #
+        self.marginRate = kwargs.get("marginRate")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new ClientConfigureTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        ClientConfigureTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('alias') is not None:
-            body['alias'] = \
-                data.get('alias')
-
-        if data.get('marginRate') is not None:
-            body['marginRate'] = \
-                data.get('marginRate')
-
-        self = ClientConfigureTransaction(**body)
-
-        return self
+        return ClientConfigureTransaction(**data)
 
 
 class ClientConfigureRejectTransaction(BaseEntity):
+    """
+    A ClientConfigureRejectTransaction represents the reject of configuration
+    of an Account by a client.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Client Configure Reject"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"CLIENT_CONFIGURE_REJECT\" in a ClientConfigureRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "CLIENT_CONFIGURE_REJECT"
-        ),
-        Property(
-            "alias",
-            "Account Alias",
-            "The client-provided alias for the Account.",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-        Property(
-            "marginRate",
-            "Margin Rate",
-            "The margin rate override for the Account.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_ClientConfigureRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new ClientConfigureRejectTransaction instance
+        """
         super(ClientConfigureRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "CLIENT_CONFIGURE_REJECT"
+        # in a ClientConfigureRejectTransaction.
+        #
+        self.type = kwargs.get("type", "CLIENT_CONFIGURE_REJECT")
+ 
+        #
+        # The client-provided alias for the Account.
+        #
+        self.alias = kwargs.get("alias")
+ 
+        #
+        # The margin rate override for the Account.
+        #
+        self.marginRate = kwargs.get("marginRate")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new ClientConfigureRejectTransaction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the ClientConfigureRejectTransaction is a shallow copy of the dict
+        passed in, with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('alias') is not None:
-            body['alias'] = \
-                data.get('alias')
-
-        if data.get('marginRate') is not None:
-            body['marginRate'] = \
-                data.get('marginRate')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = ClientConfigureRejectTransaction(**body)
-
-        return self
+        return ClientConfigureRejectTransaction(**data)
 
 
 class TransferFundsTransaction(BaseEntity):
+    """
+    A TransferFundsTransaction represents the transfer of funds in/out of an
+    Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Account Transfer of {amount}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"TRANSFER_FUNDS\" in a TransferFundsTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "TRANSFER_FUNDS"
-        ),
-        Property(
-            "amount",
-            "Transfer Amount",
-            "The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "fundingReason",
-            "Reason",
-            "The reason that an Account is being funded.",
-            "primitive",
-            "transaction.FundingReason",
-            False,
-            None
-        ),
-        Property(
-            "accountBalance",
-            "Account Balance",
-            "The Account's balance after funds are transferred.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TransferFundsTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new TransferFundsTransaction instance
+        """
         super(TransferFundsTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "TRANSFER_FUNDS" in a
+        # TransferFundsTransaction.
+        #
+        self.type = kwargs.get("type", "TRANSFER_FUNDS")
+ 
+        #
+        # The amount to deposit/withdraw from the Account in the Account's home
+        # currency. A positive value indicates a deposit, a negative value
+        # indicates a withdrawal.
+        #
+        self.amount = kwargs.get("amount")
+ 
+        #
+        # The reason that an Account is being funded.
+        #
+        self.fundingReason = kwargs.get("fundingReason")
+ 
+        #
+        # The Account's balance after funds are transferred.
+        #
+        self.accountBalance = kwargs.get("accountBalance")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TransferFundsTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        TransferFundsTransaction is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('amount') is not None:
-            body['amount'] = \
-                data.get('amount')
-
-        if data.get('fundingReason') is not None:
-            body['fundingReason'] = \
-                data.get('fundingReason')
-
-        if data.get('accountBalance') is not None:
-            body['accountBalance'] = \
-                data.get('accountBalance')
-
-        self = TransferFundsTransaction(**body)
-
-        return self
+        return TransferFundsTransaction(**data)
 
 
 class TransferFundsRejectTransaction(BaseEntity):
+    """
+    A TransferFundsRejectTransaction represents the rejection of the transfer
+    of funds in/out of an Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Account Reject Transfer of {amount}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"TRANSFER_FUNDS_REJECT\" in a TransferFundsRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "TRANSFER_FUNDS_REJECT"
-        ),
-        Property(
-            "amount",
-            "Transfer Amount",
-            "The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "fundingReason",
-            "Reason",
-            "The reason that an Account is being funded.",
-            "primitive",
-            "transaction.FundingReason",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TransferFundsRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new TransferFundsRejectTransaction instance
+        """
         super(TransferFundsRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "TRANSFER_FUNDS_REJECT" in
+        # a TransferFundsRejectTransaction.
+        #
+        self.type = kwargs.get("type", "TRANSFER_FUNDS_REJECT")
+ 
+        #
+        # The amount to deposit/withdraw from the Account in the Account's home
+        # currency. A positive value indicates a deposit, a negative value
+        # indicates a withdrawal.
+        #
+        self.amount = kwargs.get("amount")
+ 
+        #
+        # The reason that an Account is being funded.
+        #
+        self.fundingReason = kwargs.get("fundingReason")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TransferFundsRejectTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        TransferFundsRejectTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('amount') is not None:
-            body['amount'] = \
-                data.get('amount')
-
-        if data.get('fundingReason') is not None:
-            body['fundingReason'] = \
-                data.get('fundingReason')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = TransferFundsRejectTransaction(**body)
-
-        return self
+        return TransferFundsRejectTransaction(**data)
 
 
 class MarketOrderTransaction(BaseEntity):
+    """
+    A MarketOrderTransaction represents the creation of a Market Order in the
+    user's account. A Market Order is an Order that is filled immediately at
+    the current market price. Market Orders can be specialized when they are
+    created to accomplish a specific task: to close a Trade, to closeout a
+    Position or to particiate in in a Margin closeout.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Create Market Order {id} ({reason}): {units} of {instrument}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"MARKET_ORDER\" in a MarketOrderTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "MARKET_ORDER"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Market Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "FOK"
-        ),
-        Property(
-            "priceBound",
-            "Price Bound",
-            "The worst price that the client is willing to have the Market Order filled at.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "tradeClose",
-            "Trade Close Details",
-            "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
-            "object",
-            "transaction.MarketOrderTradeClose",
-            False,
-            None
-        ),
-        Property(
-            "longPositionCloseout",
-            "Long Position Close Details",
-            "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
-            "object",
-            "transaction.MarketOrderPositionCloseout",
-            False,
-            None
-        ),
-        Property(
-            "shortPositionCloseout",
-            "Short Position Close Details",
-            "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
-            "object",
-            "transaction.MarketOrderPositionCloseout",
-            False,
-            None
-        ),
-        Property(
-            "marginCloseout",
-            "Margin Closeout Details",
-            "Details of the Margin Closeout that this Market Order was created for",
-            "object",
-            "transaction.MarketOrderMarginCloseout",
-            False,
-            None
-        ),
-        Property(
-            "delayedTradeClose",
-            "Delayed Trade Close Details",
-            "Details of the delayed Trade close that this Market Order was created for",
-            "object",
-            "transaction.MarketOrderDelayedTradeClose",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Market Order was created",
-            "primitive",
-            "transaction.MarketOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarketOrderTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketOrderTransaction instance
+        """
         super(MarketOrderTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "MARKET_ORDER" in a
+        # MarketOrderTransaction.
+        #
+        self.type = kwargs.get("type", "MARKET_ORDER")
+ 
+        #
+        # The Market Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Market Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The time-in-force requested for the Market Order. Restricted to FOK
+        # or IOC for a MarketOrder.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "FOK")
+ 
+        #
+        # The worst price that the client is willing to have the Market Order
+        # filled at.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Details of the Trade requested to be closed, only provided when the
+        # Market Order is being used to explicitly close a Trade.
+        #
+        self.tradeClose = kwargs.get("tradeClose")
+ 
+        #
+        # Details of the long Position requested to be closed out, only
+        # provided when a Market Order is being used to explicitly closeout a
+        # long Position.
+        #
+        self.longPositionCloseout = kwargs.get("longPositionCloseout")
+ 
+        #
+        # Details of the short Position requested to be closed out, only
+        # provided when a Market Order is being used to explicitly closeout a
+        # short Position.
+        #
+        self.shortPositionCloseout = kwargs.get("shortPositionCloseout")
+ 
+        #
+        # Details of the Margin Closeout that this Market Order was created for
+        #
+        self.marginCloseout = kwargs.get("marginCloseout")
+ 
+        #
+        # Details of the delayed Trade close that this Market Order was created
+        # for
+        #
+        self.delayedTradeClose = kwargs.get("delayedTradeClose")
+ 
+        #
+        # The reason that the Market Order was created
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The specification of the Take Profit Order that should be created for
+        # a Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # The specification of the Stop Loss Order that should be created for a
+        # Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # The specification of the Trailing Stop Loss Order that should be
+        # created for a Trade that is opened when the Order is filled (if such
+        # a Trade is created).
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created).  Do not set, modify, delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketOrderTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        MarketOrderTransaction is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
+        data = data.copy()
 
         if data.get('tradeClose') is not None:
-            body['tradeClose'] = \
+            data['tradeClose'] = \
                 MarketOrderTradeClose.from_dict(
                     data['tradeClose']
                 )
 
         if data.get('longPositionCloseout') is not None:
-            body['longPositionCloseout'] = \
+            data['longPositionCloseout'] = \
                 MarketOrderPositionCloseout.from_dict(
                     data['longPositionCloseout']
                 )
 
         if data.get('shortPositionCloseout') is not None:
-            body['shortPositionCloseout'] = \
+            data['shortPositionCloseout'] = \
                 MarketOrderPositionCloseout.from_dict(
                     data['shortPositionCloseout']
                 )
 
         if data.get('marginCloseout') is not None:
-            body['marginCloseout'] = \
+            data['marginCloseout'] = \
                 MarketOrderMarginCloseout.from_dict(
                     data['marginCloseout']
                 )
 
         if data.get('delayedTradeClose') is not None:
-            body['delayedTradeClose'] = \
+            data['delayedTradeClose'] = \
                 MarketOrderDelayedTradeClose.from_dict(
                     data['delayedTradeClose']
                 )
 
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
-
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        self = MarketOrderTransaction(**body)
-
-        return self
+        return MarketOrderTransaction(**data)
 
 
 class MarketOrderRejectTransaction(BaseEntity):
+    """
+    A MarketOrderRejectTransaction represents the rejection of the creation of
+    a Market Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject Market Order ({reason}): {units} of {instrument}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"MARKET_ORDER_REJECT\" in a MarketOrderRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "MARKET_ORDER_REJECT"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Market Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "FOK"
-        ),
-        Property(
-            "priceBound",
-            "Price Bound",
-            "The worst price that the client is willing to have the Market Order filled at.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "tradeClose",
-            "Trade Close Details",
-            "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
-            "object",
-            "transaction.MarketOrderTradeClose",
-            False,
-            None
-        ),
-        Property(
-            "longPositionCloseout",
-            "Long Position Close Details",
-            "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
-            "object",
-            "transaction.MarketOrderPositionCloseout",
-            False,
-            None
-        ),
-        Property(
-            "shortPositionCloseout",
-            "Short Position Close Details",
-            "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
-            "object",
-            "transaction.MarketOrderPositionCloseout",
-            False,
-            None
-        ),
-        Property(
-            "marginCloseout",
-            "Margin Closeout Details",
-            "Details of the Margin Closeout that this Market Order was created for",
-            "object",
-            "transaction.MarketOrderMarginCloseout",
-            False,
-            None
-        ),
-        Property(
-            "delayedTradeClose",
-            "Delayed Trade Close Details",
-            "Details of the delayed Trade close that this Market Order was created for",
-            "object",
-            "transaction.MarketOrderDelayedTradeClose",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Market Order was created",
-            "primitive",
-            "transaction.MarketOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarketOrderRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketOrderRejectTransaction instance
+        """
         super(MarketOrderRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "MARKET_ORDER_REJECT" in a
+        # MarketOrderRejectTransaction.
+        #
+        self.type = kwargs.get("type", "MARKET_ORDER_REJECT")
+ 
+        #
+        # The Market Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Market Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The time-in-force requested for the Market Order. Restricted to FOK
+        # or IOC for a MarketOrder.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "FOK")
+ 
+        #
+        # The worst price that the client is willing to have the Market Order
+        # filled at.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Details of the Trade requested to be closed, only provided when the
+        # Market Order is being used to explicitly close a Trade.
+        #
+        self.tradeClose = kwargs.get("tradeClose")
+ 
+        #
+        # Details of the long Position requested to be closed out, only
+        # provided when a Market Order is being used to explicitly closeout a
+        # long Position.
+        #
+        self.longPositionCloseout = kwargs.get("longPositionCloseout")
+ 
+        #
+        # Details of the short Position requested to be closed out, only
+        # provided when a Market Order is being used to explicitly closeout a
+        # short Position.
+        #
+        self.shortPositionCloseout = kwargs.get("shortPositionCloseout")
+ 
+        #
+        # Details of the Margin Closeout that this Market Order was created for
+        #
+        self.marginCloseout = kwargs.get("marginCloseout")
+ 
+        #
+        # Details of the delayed Trade close that this Market Order was created
+        # for
+        #
+        self.delayedTradeClose = kwargs.get("delayedTradeClose")
+ 
+        #
+        # The reason that the Market Order was created
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The specification of the Take Profit Order that should be created for
+        # a Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # The specification of the Stop Loss Order that should be created for a
+        # Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # The specification of the Trailing Stop Loss Order that should be
+        # created for a Trade that is opened when the Order is filled (if such
+        # a Trade is created).
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created).  Do not set, modify, delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketOrderRejectTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        MarketOrderRejectTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
+        data = data.copy()
 
         if data.get('tradeClose') is not None:
-            body['tradeClose'] = \
+            data['tradeClose'] = \
                 MarketOrderTradeClose.from_dict(
                     data['tradeClose']
                 )
 
         if data.get('longPositionCloseout') is not None:
-            body['longPositionCloseout'] = \
+            data['longPositionCloseout'] = \
                 MarketOrderPositionCloseout.from_dict(
                     data['longPositionCloseout']
                 )
 
         if data.get('shortPositionCloseout') is not None:
-            body['shortPositionCloseout'] = \
+            data['shortPositionCloseout'] = \
                 MarketOrderPositionCloseout.from_dict(
                     data['shortPositionCloseout']
                 )
 
         if data.get('marginCloseout') is not None:
-            body['marginCloseout'] = \
+            data['marginCloseout'] = \
                 MarketOrderMarginCloseout.from_dict(
                     data['marginCloseout']
                 )
 
         if data.get('delayedTradeClose') is not None:
-            body['delayedTradeClose'] = \
+            data['delayedTradeClose'] = \
                 MarketOrderDelayedTradeClose.from_dict(
                     data['delayedTradeClose']
                 )
 
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
-
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = MarketOrderRejectTransaction(**body)
-
-        return self
+        return MarketOrderRejectTransaction(**data)
 
 
 class LimitOrderTransaction(BaseEntity):
+    """
+    A LimitOrderTransaction represents the creation of a Limit Order in the
+    user's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Create Limit Order {id} ({reason}): {units} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"LIMIT_ORDER\" in a LimitOrderTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "LIMIT_ORDER"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Limit Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Limit Order.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Limit Order was initiated",
-            "primitive",
-            "transaction.LimitOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedOrderCancelTransactionID",
-            "Replaces Order Cancel Transaction ID",
-            "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_LimitOrderTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new LimitOrderTransaction instance
+        """
         super(LimitOrderTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "LIMIT_ORDER" in a
+        # LimitOrderTransaction.
+        #
+        self.type = kwargs.get("type", "LIMIT_ORDER")
+ 
+        #
+        # The Limit Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Limit Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the Limit Order. The Limit Order
+        # will only be filled by a market price that is equal to or better than
+        # this price.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the Limit Order.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the Limit Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The reason that the Limit Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The specification of the Take Profit Order that should be created for
+        # a Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # The specification of the Stop Loss Order that should be created for a
+        # Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # The specification of the Trailing Stop Loss Order that should be
+        # created for a Trade that is opened when the Order is filled (if such
+        # a Trade is created).
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created).  Do not set, modify, delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # The ID of the Order that this Order replaces (only provided if this
+        # Order replaces an existing Order).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Transaction that cancels the replaced Order (only
+        # provided if this Order replaces an existing Order).
+        #
+        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new LimitOrderTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        LimitOrderTransaction is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedOrderCancelTransactionID') is not None:
-            body['replacedOrderCancelTransactionID'] = \
-                data.get('replacedOrderCancelTransactionID')
-
-        self = LimitOrderTransaction(**body)
-
-        return self
+        return LimitOrderTransaction(**data)
 
 
 class LimitOrderRejectTransaction(BaseEntity):
+    """
+    A LimitOrderRejectTransaction represents the rejection of the creation of a
+    Limit Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject Limit Order ({reason}): {units} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"LIMIT_ORDER_REJECT\" in a LimitOrderRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "LIMIT_ORDER_REJECT"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Limit Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Limit Order.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Limit Order was initiated",
-            "primitive",
-            "transaction.LimitOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "intendedReplacesOrderID",
-            "Order ID to Replace",
-            "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_LimitOrderRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new LimitOrderRejectTransaction instance
+        """
         super(LimitOrderRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "LIMIT_ORDER_REJECT" in a
+        # LimitOrderRejectTransaction.
+        #
+        self.type = kwargs.get("type", "LIMIT_ORDER_REJECT")
+ 
+        #
+        # The Limit Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Limit Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the Limit Order. The Limit Order
+        # will only be filled by a market price that is equal to or better than
+        # this price.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the Limit Order.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the Limit Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The reason that the Limit Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The specification of the Take Profit Order that should be created for
+        # a Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # The specification of the Stop Loss Order that should be created for a
+        # Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # The specification of the Trailing Stop Loss Order that should be
+        # created for a Trade that is opened when the Order is filled (if such
+        # a Trade is created).
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created).  Do not set, modify, delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # The ID of the Order that this Order was intended to replace (only
+        # provided if this Order was intended to replace an existing Order).
+        #
+        self.intendedReplacesOrderID = kwargs.get("intendedReplacesOrderID")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new LimitOrderRejectTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        LimitOrderRejectTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('intendedReplacesOrderID') is not None:
-            body['intendedReplacesOrderID'] = \
-                data.get('intendedReplacesOrderID')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = LimitOrderRejectTransaction(**body)
-
-        return self
+        return LimitOrderRejectTransaction(**data)
 
 
 class StopOrderTransaction(BaseEntity):
+    """
+    A StopOrderTransaction represents the creation of a Stop Order in the
+    user's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Create Stop Order {id} ({reason}): {units} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"STOP_ORDER\" in a StopOrderTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "STOP_ORDER"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Stop Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "priceBound",
-            "Price Bound",
-            "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Stop Order.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Stop Order was initiated",
-            "primitive",
-            "transaction.StopOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedOrderCancelTransactionID",
-            "Replaces Order Cancel Transaction ID",
-            "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_StopOrderTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopOrderTransaction instance
+        """
         super(StopOrderTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "STOP_ORDER" in a
+        # StopOrderTransaction.
+        #
+        self.type = kwargs.get("type", "STOP_ORDER")
+ 
+        #
+        # The Stop Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Stop Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the Stop Order. The Stop Order will
+        # only be filled by a market price that is equal to or worse than this
+        # price.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The worst market price that may be used to fill this Stop Order. If
+        # the market gaps and crosses through both the price and the
+        # priceBound, the Stop Order will be cancelled instead of being filled.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # The time-in-force requested for the Stop Order.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the Stop Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The reason that the Stop Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The specification of the Take Profit Order that should be created for
+        # a Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # The specification of the Stop Loss Order that should be created for a
+        # Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # The specification of the Trailing Stop Loss Order that should be
+        # created for a Trade that is opened when the Order is filled (if such
+        # a Trade is created).
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created).  Do not set, modify, delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # The ID of the Order that this Order replaces (only provided if this
+        # Order replaces an existing Order).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Transaction that cancels the replaced Order (only
+        # provided if this Order replaces an existing Order).
+        #
+        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopOrderTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        StopOrderTransaction is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedOrderCancelTransactionID') is not None:
-            body['replacedOrderCancelTransactionID'] = \
-                data.get('replacedOrderCancelTransactionID')
-
-        self = StopOrderTransaction(**body)
-
-        return self
+        return StopOrderTransaction(**data)
 
 
 class StopOrderRejectTransaction(BaseEntity):
+    """
+    A StopOrderRejectTransaction represents the rejection of the creation of a
+    Stop Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject Stop Order ({reason}): {units} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"STOP_ORDER_REJECT\" in a StopOrderRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "STOP_ORDER_REJECT"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Stop Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "priceBound",
-            "Price Bound",
-            "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the Stop Order.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Stop Order was initiated",
-            "primitive",
-            "transaction.StopOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "intendedReplacesOrderID",
-            "Order ID to Replace",
-            "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_StopOrderRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopOrderRejectTransaction instance
+        """
         super(StopOrderRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "STOP_ORDER_REJECT" in a
+        # StopOrderRejectTransaction.
+        #
+        self.type = kwargs.get("type", "STOP_ORDER_REJECT")
+ 
+        #
+        # The Stop Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Stop Order. A posititive
+        # number of units results in a long Order, and a negative number of
+        # units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the Stop Order. The Stop Order will
+        # only be filled by a market price that is equal to or worse than this
+        # price.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The worst market price that may be used to fill this Stop Order. If
+        # the market gaps and crosses through both the price and the
+        # priceBound, the Stop Order will be cancelled instead of being filled.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # The time-in-force requested for the Stop Order.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the Stop Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The reason that the Stop Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The specification of the Take Profit Order that should be created for
+        # a Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # The specification of the Stop Loss Order that should be created for a
+        # Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # The specification of the Trailing Stop Loss Order that should be
+        # created for a Trade that is opened when the Order is filled (if such
+        # a Trade is created).
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created).  Do not set, modify, delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # The ID of the Order that this Order was intended to replace (only
+        # provided if this Order was intended to replace an existing Order).
+        #
+        self.intendedReplacesOrderID = kwargs.get("intendedReplacesOrderID")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopOrderRejectTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        StopOrderRejectTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('intendedReplacesOrderID') is not None:
-            body['intendedReplacesOrderID'] = \
-                data.get('intendedReplacesOrderID')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = StopOrderRejectTransaction(**body)
-
-        return self
+        return StopOrderRejectTransaction(**data)
 
 
 class MarketIfTouchedOrderTransaction(BaseEntity):
+    """
+    A MarketIfTouchedOrderTransaction represents the creation of a
+    MarketIfTouched Order in the user's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Create MIT Order {id} ({reason}): {units} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"MARKET_IF_TOUCHED_ORDER\" in a MarketIfTouchedOrderTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "MARKET_IF_TOUCHED_ORDER"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The MarketIfTouched Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "priceBound",
-            "Price Value",
-            "The worst market price that may be used to fill this MarketIfTouched Order.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Market-if-touched Order was initiated",
-            "primitive",
-            "transaction.MarketIfTouchedOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedOrderCancelTransactionID",
-            "Replaces Order Cancel Transaction ID",
-            "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarketIfTouchedOrderTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketIfTouchedOrderTransaction instance
+        """
         super(MarketIfTouchedOrderTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER"
+        # in a MarketIfTouchedOrderTransaction.
+        #
+        self.type = kwargs.get("type", "MARKET_IF_TOUCHED_ORDER")
+ 
+        #
+        # The MarketIfTouched Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the MarketIfTouched Order. A
+        # posititive number of units results in a long Order, and a negative
+        # number of units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the MarketIfTouched Order. The
+        # MarketIfTouched Order will only be filled by a market price that
+        # crosses this price from the direction of the market price at the time
+        # when the Order was created (the initialMarketPrice). Depending on the
+        # value of the Order's price and initialMarketPrice, the
+        # MarketIfTouchedOrder will behave like a Limit or a Stop Order.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The worst market price that may be used to fill this MarketIfTouched
+        # Order.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # The time-in-force requested for the MarketIfTouched Order. Restricted
+        # to "GTC", "GFD" and "GTD" for MarketIfTouched Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the MarketIfTouched Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The reason that the Market-if-touched Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The specification of the Take Profit Order that should be created for
+        # a Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # The specification of the Stop Loss Order that should be created for a
+        # Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # The specification of the Trailing Stop Loss Order that should be
+        # created for a Trade that is opened when the Order is filled (if such
+        # a Trade is created).
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created).  Do not set, modify, delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # The ID of the Order that this Order replaces (only provided if this
+        # Order replaces an existing Order).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Transaction that cancels the replaced Order (only
+        # provided if this Order replaces an existing Order).
+        #
+        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketIfTouchedOrderTransaction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the MarketIfTouchedOrderTransaction is a shallow copy of the dict
+        passed in, with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedOrderCancelTransactionID') is not None:
-            body['replacedOrderCancelTransactionID'] = \
-                data.get('replacedOrderCancelTransactionID')
-
-        self = MarketIfTouchedOrderTransaction(**body)
-
-        return self
+        return MarketIfTouchedOrderTransaction(**data)
 
 
 class MarketIfTouchedOrderRejectTransaction(BaseEntity):
+    """
+    A MarketIfTouchedOrderRejectTransaction represents the rejection of the
+    creation of a MarketIfTouched Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject MIT Order ({reason}): {units} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"MARKET_IF_TOUCHED_ORDER_REJECT\" in a MarketIfTouchedOrderRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "MARKET_IF_TOUCHED_ORDER_REJECT"
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The MarketIfTouched Order's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            True,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            True,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "priceBound",
-            "Price Value",
-            "The worst market price that may be used to fill this MarketIfTouched Order.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "positionFill",
-            "Position Fill",
-            "Specification of how Positions in the Account are modified when the Order is filled.",
-            "primitive",
-            "order.OrderPositionFill",
-            True,
-            "DEFAULT"
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Market-if-touched Order was initiated",
-            "primitive",
-            "transaction.MarketIfTouchedOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOnFill",
-            "Take Profit On Fill",
-            "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TakeProfitDetails",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOnFill",
-            "Stop Loss On Fill",
-            "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.StopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOnFill",
-            "Trailing Stop Loss On Fill",
-            "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
-            "object",
-            "transaction.TrailingStopLossDetails",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensions",
-            "Trade Client Extensions",
-            "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "intendedReplacesOrderID",
-            "Order ID to Replace",
-            "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarketIfTouchedOrderRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketIfTouchedOrderRejectTransaction instance
+        """
         super(MarketIfTouchedOrderRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to
+        # "MARKET_IF_TOUCHED_ORDER_REJECT" in a
+        # MarketIfTouchedOrderRejectTransaction.
+        #
+        self.type = kwargs.get("type", "MARKET_IF_TOUCHED_ORDER_REJECT")
+ 
+        #
+        # The MarketIfTouched Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the MarketIfTouched Order. A
+        # posititive number of units results in a long Order, and a negative
+        # number of units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price threshold specified for the MarketIfTouched Order. The
+        # MarketIfTouched Order will only be filled by a market price that
+        # crosses this price from the direction of the market price at the time
+        # when the Order was created (the initialMarketPrice). Depending on the
+        # value of the Order's price and initialMarketPrice, the
+        # MarketIfTouchedOrder will behave like a Limit or a Stop Order.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The worst market price that may be used to fill this MarketIfTouched
+        # Order.
+        #
+        self.priceBound = kwargs.get("priceBound")
+ 
+        #
+        # The time-in-force requested for the MarketIfTouched Order. Restricted
+        # to "GTC", "GFD" and "GTD" for MarketIfTouched Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the MarketIfTouched Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The reason that the Market-if-touched Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The specification of the Take Profit Order that should be created for
+        # a Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # The specification of the Stop Loss Order that should be created for a
+        # Trade opened when the Order is filled (if such a Trade is created).
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # The specification of the Trailing Stop Loss Order that should be
+        # created for a Trade that is opened when the Order is filled (if such
+        # a Trade is created).
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created).  Do not set, modify, delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # The ID of the Order that this Order was intended to replace (only
+        # provided if this Order was intended to replace an existing Order).
+        #
+        self.intendedReplacesOrderID = kwargs.get("intendedReplacesOrderID")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketIfTouchedOrderRejectTransaction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the MarketIfTouchedOrderRejectTransaction is a shallow copy of the dict
+        passed in, with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('priceBound') is not None:
-            body['priceBound'] = \
-                data.get('priceBound')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('positionFill') is not None:
-            body['positionFill'] = \
-                data.get('positionFill')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOnFill') is not None:
-            body['takeProfitOnFill'] = \
+            data['takeProfitOnFill'] = \
                 TakeProfitDetails.from_dict(
                     data['takeProfitOnFill']
                 )
 
         if data.get('stopLossOnFill') is not None:
-            body['stopLossOnFill'] = \
+            data['stopLossOnFill'] = \
                 StopLossDetails.from_dict(
                     data['stopLossOnFill']
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
-            body['trailingStopLossOnFill'] = \
+            data['trailingStopLossOnFill'] = \
                 TrailingStopLossDetails.from_dict(
                     data['trailingStopLossOnFill']
                 )
 
         if data.get('tradeClientExtensions') is not None:
-            body['tradeClientExtensions'] = \
+            data['tradeClientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensions']
                 )
 
-        if data.get('intendedReplacesOrderID') is not None:
-            body['intendedReplacesOrderID'] = \
-                data.get('intendedReplacesOrderID')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = MarketIfTouchedOrderRejectTransaction(**body)
-
-        return self
+        return MarketIfTouchedOrderRejectTransaction(**data)
 
 
 class TakeProfitOrderTransaction(BaseEntity):
+    """
+    A TakeProfitOrderTransaction represents the creation of a TakeProfit Order
+    in the user's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Create Take Profit Order {id} ({reason}): Close Trade {tradeID} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER\" in a TakeProfitOrderTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "TAKE_PROFIT_ORDER"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Take Profit Order was initiated",
-            "primitive",
-            "transaction.TakeProfitOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "orderFillTransactionID",
-            "Order Fill Transaction ID",
-            "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedOrderCancelTransactionID",
-            "Replaces Order Cancel Transaction ID",
-            "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TakeProfitOrderTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new TakeProfitOrderTransaction instance
+        """
         super(TakeProfitOrderTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER" in a
+        # TakeProfitOrderTransaction.
+        #
+        self.type = kwargs.get("type", "TAKE_PROFIT_ORDER")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price threshold specified for the TakeProfit Order. The
+        # associated Trade will be closed by a market price that is equal to or
+        # better than this threshold.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the TakeProfit Order. Restricted to
+        # "GTC", "GFD" and "GTD" for TakeProfit Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the TakeProfit Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The reason that the Take Profit Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The ID of the OrderFill Transaction that caused this Order to be
+        # created (only provided if this Order was created automatically when
+        # another Order was filled).
+        #
+        self.orderFillTransactionID = kwargs.get("orderFillTransactionID")
+ 
+        #
+        # The ID of the Order that this Order replaces (only provided if this
+        # Order replaces an existing Order).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Transaction that cancels the replaced Order (only
+        # provided if this Order replaces an existing Order).
+        #
+        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TakeProfitOrderTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        TakeProfitOrderTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('orderFillTransactionID') is not None:
-            body['orderFillTransactionID'] = \
-                data.get('orderFillTransactionID')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedOrderCancelTransactionID') is not None:
-            body['replacedOrderCancelTransactionID'] = \
-                data.get('replacedOrderCancelTransactionID')
-
-        self = TakeProfitOrderTransaction(**body)
-
-        return self
+        return TakeProfitOrderTransaction(**data)
 
 
 class TakeProfitOrderRejectTransaction(BaseEntity):
+    """
+    A TakeProfitOrderRejectTransaction represents the rejection of the creation
+    of a TakeProfit Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject Take Profit Order ({reason}): Close Trade {tradeID} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER_REJECT\" in a TakeProfitOrderRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "TAKE_PROFIT_ORDER_REJECT"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Take Profit Order was initiated",
-            "primitive",
-            "transaction.TakeProfitOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "orderFillTransactionID",
-            "Order Fill Transaction ID",
-            "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "intendedReplacesOrderID",
-            "Order ID to Replace",
-            "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TakeProfitOrderRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new TakeProfitOrderRejectTransaction instance
+        """
         super(TakeProfitOrderRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER_REJECT"
+        # in a TakeProfitOrderRejectTransaction.
+        #
+        self.type = kwargs.get("type", "TAKE_PROFIT_ORDER_REJECT")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price threshold specified for the TakeProfit Order. The
+        # associated Trade will be closed by a market price that is equal to or
+        # better than this threshold.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the TakeProfit Order. Restricted to
+        # "GTC", "GFD" and "GTD" for TakeProfit Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the TakeProfit Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The reason that the Take Profit Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The ID of the OrderFill Transaction that caused this Order to be
+        # created (only provided if this Order was created automatically when
+        # another Order was filled).
+        #
+        self.orderFillTransactionID = kwargs.get("orderFillTransactionID")
+ 
+        #
+        # The ID of the Order that this Order was intended to replace (only
+        # provided if this Order was intended to replace an existing Order).
+        #
+        self.intendedReplacesOrderID = kwargs.get("intendedReplacesOrderID")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TakeProfitOrderRejectTransaction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the TakeProfitOrderRejectTransaction is a shallow copy of the dict
+        passed in, with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('orderFillTransactionID') is not None:
-            body['orderFillTransactionID'] = \
-                data.get('orderFillTransactionID')
-
-        if data.get('intendedReplacesOrderID') is not None:
-            body['intendedReplacesOrderID'] = \
-                data.get('intendedReplacesOrderID')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = TakeProfitOrderRejectTransaction(**body)
-
-        return self
+        return TakeProfitOrderRejectTransaction(**data)
 
 
 class StopLossOrderTransaction(BaseEntity):
+    """
+    A StopLossOrderTransaction represents the creation of a StopLoss Order in
+    the user's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Create Stop Loss Order {id} ({reason}): Close Trade {tradeID} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER\" in a StopLossOrderTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "STOP_LOSS_ORDER"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Stop Loss Order was initiated",
-            "primitive",
-            "transaction.StopLossOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "orderFillTransactionID",
-            "Order Fill Transaction ID",
-            "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedOrderCancelTransactionID",
-            "Replaces Order Cancel Transaction ID",
-            "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_StopLossOrderTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopLossOrderTransaction instance
+        """
         super(StopLossOrderTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "STOP_LOSS_ORDER" in a
+        # StopLossOrderTransaction.
+        #
+        self.type = kwargs.get("type", "STOP_LOSS_ORDER")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price threshold specified for the StopLoss Order. The associated
+        # Trade will be closed by a market price that is equal to or worse than
+        # this threshold.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the StopLoss Order. Restricted to
+        # "GTC", "GFD" and "GTD" for StopLoss Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the StopLoss Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The reason that the Stop Loss Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The ID of the OrderFill Transaction that caused this Order to be
+        # created (only provided if this Order was created automatically when
+        # another Order was filled).
+        #
+        self.orderFillTransactionID = kwargs.get("orderFillTransactionID")
+ 
+        #
+        # The ID of the Order that this Order replaces (only provided if this
+        # Order replaces an existing Order).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Transaction that cancels the replaced Order (only
+        # provided if this Order replaces an existing Order).
+        #
+        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopLossOrderTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        StopLossOrderTransaction is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('orderFillTransactionID') is not None:
-            body['orderFillTransactionID'] = \
-                data.get('orderFillTransactionID')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedOrderCancelTransactionID') is not None:
-            body['replacedOrderCancelTransactionID'] = \
-                data.get('replacedOrderCancelTransactionID')
-
-        self = StopLossOrderTransaction(**body)
-
-        return self
+        return StopLossOrderTransaction(**data)
 
 
 class StopLossOrderRejectTransaction(BaseEntity):
+    """
+    A StopLossOrderRejectTransaction represents the rejection of the creation
+    of a StopLoss Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject Stop Loss Order ({reason}): Close Trade {tradeID} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER_REJECT\" in a StopLossOrderRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "STOP_LOSS_ORDER_REJECT"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Price",
-            "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Stop Loss Order was initiated",
-            "primitive",
-            "transaction.StopLossOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "orderFillTransactionID",
-            "Order Fill Transaction ID",
-            "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "intendedReplacesOrderID",
-            "Order ID to Replace",
-            "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_StopLossOrderRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopLossOrderRejectTransaction instance
+        """
         super(StopLossOrderRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "STOP_LOSS_ORDER_REJECT"
+        # in a StopLossOrderRejectTransaction.
+        #
+        self.type = kwargs.get("type", "STOP_LOSS_ORDER_REJECT")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price threshold specified for the StopLoss Order. The associated
+        # Trade will be closed by a market price that is equal to or worse than
+        # this threshold.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time-in-force requested for the StopLoss Order. Restricted to
+        # "GTC", "GFD" and "GTD" for StopLoss Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the StopLoss Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The reason that the Stop Loss Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The ID of the OrderFill Transaction that caused this Order to be
+        # created (only provided if this Order was created automatically when
+        # another Order was filled).
+        #
+        self.orderFillTransactionID = kwargs.get("orderFillTransactionID")
+ 
+        #
+        # The ID of the Order that this Order was intended to replace (only
+        # provided if this Order was intended to replace an existing Order).
+        #
+        self.intendedReplacesOrderID = kwargs.get("intendedReplacesOrderID")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopLossOrderRejectTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        StopLossOrderRejectTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('orderFillTransactionID') is not None:
-            body['orderFillTransactionID'] = \
-                data.get('orderFillTransactionID')
-
-        if data.get('intendedReplacesOrderID') is not None:
-            body['intendedReplacesOrderID'] = \
-                data.get('intendedReplacesOrderID')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = StopLossOrderRejectTransaction(**body)
-
-        return self
+        return StopLossOrderRejectTransaction(**data)
 
 
 class TrailingStopLossOrderTransaction(BaseEntity):
+    """
+    A TrailingStopLossOrderTransaction represents the creation of a
+    TrailingStopLoss Order in the user's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Create Trailing Stop Loss Order {id} ({reason}): Close Trade {tradeID}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER\" in a TrailingStopLossOrderTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "TRAILING_STOP_LOSS_ORDER"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "distance",
-            "Price Distance",
-            "The price distance specified for the TrailingStopLoss Order.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Trailing Stop Loss Order was initiated",
-            "primitive",
-            "transaction.TrailingStopLossOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "orderFillTransactionID",
-            "Order Fill Transaction ID",
-            "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "replacesOrderID",
-            "Replaces Order ID",
-            "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "replacedOrderCancelTransactionID",
-            "Replaces Order Cancel Transaction ID",
-            "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TrailingStopLossOrderTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new TrailingStopLossOrderTransaction instance
+        """
         super(TrailingStopLossOrderTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER"
+        # in a TrailingStopLossOrderTransaction.
+        #
+        self.type = kwargs.get("type", "TRAILING_STOP_LOSS_ORDER")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price distance specified for the TrailingStopLoss Order.
+        #
+        self.distance = kwargs.get("distance")
+ 
+        #
+        # The time-in-force requested for the TrailingStopLoss Order.
+        # Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the StopLoss Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The reason that the Trailing Stop Loss Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The ID of the OrderFill Transaction that caused this Order to be
+        # created (only provided if this Order was created automatically when
+        # another Order was filled).
+        #
+        self.orderFillTransactionID = kwargs.get("orderFillTransactionID")
+ 
+        #
+        # The ID of the Order that this Order replaces (only provided if this
+        # Order replaces an existing Order).
+        #
+        self.replacesOrderID = kwargs.get("replacesOrderID")
+ 
+        #
+        # The ID of the Transaction that cancels the replaced Order (only
+        # provided if this Order replaces an existing Order).
+        #
+        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TrailingStopLossOrderTransaction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the TrailingStopLossOrderTransaction is a shallow copy of the dict
+        passed in, with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('distance') is not None:
-            body['distance'] = \
-                data.get('distance')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('orderFillTransactionID') is not None:
-            body['orderFillTransactionID'] = \
-                data.get('orderFillTransactionID')
-
-        if data.get('replacesOrderID') is not None:
-            body['replacesOrderID'] = \
-                data.get('replacesOrderID')
-
-        if data.get('replacedOrderCancelTransactionID') is not None:
-            body['replacedOrderCancelTransactionID'] = \
-                data.get('replacedOrderCancelTransactionID')
-
-        self = TrailingStopLossOrderTransaction(**body)
-
-        return self
+        return TrailingStopLossOrderTransaction(**data)
 
 
 class TrailingStopLossOrderRejectTransaction(BaseEntity):
+    """
+    A TrailingStopLossOrderRejectTransaction represents the rejection of the
+    creation of a TrailingStopLoss Order.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject Trailing Stop Loss Order ({reason}): Close Trade {tradeID}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER_REJECT\" in a TrailingStopLossOrderRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "TRAILING_STOP_LOSS_ORDER_REJECT"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade to close when the price threshold is breached.",
-            "primitive",
-            "trade.TradeID",
-            True,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade to be closed when the price threshold is breached.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "distance",
-            "Price Distance",
-            "The price distance specified for the TrailingStopLoss Order.",
-            "primitive",
-            "pricing.PriceValue",
-            True,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
-            "primitive",
-            "order.TimeInForce",
-            True,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason that the Trailing Stop Loss Order was initiated",
-            "primitive",
-            "transaction.TrailingStopLossOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Order Client Extensions",
-            "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "orderFillTransactionID",
-            "Order Fill Transaction ID",
-            "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "intendedReplacesOrderID",
-            "Order ID to Replace",
-            "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TrailingStopLossOrderRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new TrailingStopLossOrderRejectTransaction instance
+        """
         super(TrailingStopLossOrderRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to
+        # "TRAILING_STOP_LOSS_ORDER_REJECT" in a
+        # TrailingStopLossOrderRejectTransaction.
+        #
+        self.type = kwargs.get("type", "TRAILING_STOP_LOSS_ORDER_REJECT")
+ 
+        #
+        # The ID of the Trade to close when the price threshold is breached.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade to be closed when the price threshold is
+        # breached.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The price distance specified for the TrailingStopLoss Order.
+        #
+        self.distance = kwargs.get("distance")
+ 
+        #
+        # The time-in-force requested for the TrailingStopLoss Order.
+        # Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date/time when the StopLoss Order will be cancelled if its
+        # timeInForce is "GTD".
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The reason that the Trailing Stop Loss Order was initiated
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # Client Extensions to add to the Order (only provided if the Order is
+        # being created with client extensions).
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The ID of the OrderFill Transaction that caused this Order to be
+        # created (only provided if this Order was created automatically when
+        # another Order was filled).
+        #
+        self.orderFillTransactionID = kwargs.get("orderFillTransactionID")
+ 
+        #
+        # The ID of the Order that this Order was intended to replace (only
+        # provided if this Order was intended to replace an existing Order).
+        #
+        self.intendedReplacesOrderID = kwargs.get("intendedReplacesOrderID")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TrailingStopLossOrderRejectTransaction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the TrailingStopLossOrderRejectTransaction is a shallow copy of the
+        dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('distance') is not None:
-            body['distance'] = \
-                data.get('distance')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('orderFillTransactionID') is not None:
-            body['orderFillTransactionID'] = \
-                data.get('orderFillTransactionID')
-
-        if data.get('intendedReplacesOrderID') is not None:
-            body['intendedReplacesOrderID'] = \
-                data.get('intendedReplacesOrderID')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = TrailingStopLossOrderRejectTransaction(**body)
-
-        return self
+        return TrailingStopLossOrderRejectTransaction(**data)
 
 
 class OrderFillTransaction(BaseEntity):
+    """
+    An OrderFillTransaction represents the filling of an Order in the client's
+    Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Fill Order {orderID} ({reason}): {units} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"ORDER_FILL\" for an OrderFillTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "ORDER_FILL"
-        ),
-        Property(
-            "orderID",
-            "Filled Order ID",
-            "The ID of the Order filled.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "clientOrderID",
-            "Filled Client Order ID",
-            "The client Order ID of the Order filled (only provided if the client has assigned one).",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "instrument",
-            "Fill Instrument",
-            "The name of the filled Order's instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            False,
-            None
-        ),
-        Property(
-            "units",
-            "Fill Units",
-            "The number of units filled by the Order.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Fill Price",
-            "The average market price that the Order was filled at.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Fill Reason",
-            "The reason that an Order was filled",
-            "primitive",
-            "transaction.OrderFillReason",
-            False,
-            None
-        ),
-        Property(
-            "pl",
-            "Profit/Loss",
-            "The profit or loss incurred when the Order was filled.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "financing",
-            "Financing",
-            "The financing paid or collected when the Order was filled.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "accountBalance",
-            "Account Balance",
-            "The Account's balance after the Order was filled.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "tradeOpened",
-            "Trade Opened",
-            "The Trade that was opened when the Order was filled (only provided if filling the Order resulted in a new Trade).",
-            "object",
-            "transaction.TradeOpen",
-            False,
-            None
-        ),
-        Property(
-            "tradesClosed",
-            "Trades Closed",
-            "The Trades that were closed when the Order was filled (only provided if filling the Order resulted in a closing open Trades).",
-            "array_object",
-            "TradeReduce",
-            False,
-            None
-        ),
-        Property(
-            "tradeReduced",
-            "Trade Reduced",
-            "The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade).",
-            "object",
-            "transaction.TradeReduce",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_OrderFillTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new OrderFillTransaction instance
+        """
         super(OrderFillTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "ORDER_FILL" for an
+        # OrderFillTransaction.
+        #
+        self.type = kwargs.get("type", "ORDER_FILL")
+ 
+        #
+        # The ID of the Order filled.
+        #
+        self.orderID = kwargs.get("orderID")
+ 
+        #
+        # The client Order ID of the Order filled (only provided if the client
+        # has assigned one).
+        #
+        self.clientOrderID = kwargs.get("clientOrderID")
+ 
+        #
+        # The name of the filled Order's instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The number of units filled by the Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The average market price that the Order was filled at.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The reason that an Order was filled
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # The profit or loss incurred when the Order was filled.
+        #
+        self.pl = kwargs.get("pl")
+ 
+        #
+        # The financing paid or collected when the Order was filled.
+        #
+        self.financing = kwargs.get("financing")
+ 
+        #
+        # The Account's balance after the Order was filled.
+        #
+        self.accountBalance = kwargs.get("accountBalance")
+ 
+        #
+        # The Trade that was opened when the Order was filled (only provided if
+        # filling the Order resulted in a new Trade).
+        #
+        self.tradeOpened = kwargs.get("tradeOpened")
+ 
+        #
+        # The Trades that were closed when the Order was filled (only provided
+        # if filling the Order resulted in a closing open Trades).
+        #
+        self.tradesClosed = kwargs.get("tradesClosed")
+ 
+        #
+        # The Trade that was reduced when the Order was filled (only provided
+        # if filling the Order resulted in reducing an open Trade).
+        #
+        self.tradeReduced = kwargs.get("tradeReduced")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new OrderFillTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        OrderFillTransaction is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('orderID') is not None:
-            body['orderID'] = \
-                data.get('orderID')
-
-        if data.get('clientOrderID') is not None:
-            body['clientOrderID'] = \
-                data.get('clientOrderID')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
-
-        if data.get('pl') is not None:
-            body['pl'] = \
-                data.get('pl')
-
-        if data.get('financing') is not None:
-            body['financing'] = \
-                data.get('financing')
-
-        if data.get('accountBalance') is not None:
-            body['accountBalance'] = \
-                data.get('accountBalance')
+        data = data.copy()
 
         if data.get('tradeOpened') is not None:
-            body['tradeOpened'] = \
+            data['tradeOpened'] = \
                 TradeOpen.from_dict(
                     data['tradeOpened']
                 )
 
         if data.get('tradesClosed') is not None:
-            body['tradesClosed'] = [
+            data['tradesClosed'] = [
                 TradeReduce.from_dict(d)
                 for d in data.get('tradesClosed')
             ]
 
         if data.get('tradeReduced') is not None:
-            body['tradeReduced'] = \
+            data['tradeReduced'] = \
                 TradeReduce.from_dict(
                     data['tradeReduced']
                 )
 
-        self = OrderFillTransaction(**body)
-
-        return self
+        return OrderFillTransaction(**data)
 
 
 class OrderCancelTransaction(BaseEntity):
+    """
+    An OrderCancelTransaction represents the cancellation of an Order in the
+    client's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Cancel Order {orderID}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"ORDER_CANCEL\" for an OrderCancelTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "ORDER_CANCEL"
-        ),
-        Property(
-            "orderID",
-            "Cancelled Order ID",
-            "The ID of the Order cancelled",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "clientOrderID",
-            "Cancelled Client Order ID",
-            "The client ID of the Order cancelled (only provided if the Order has a client Order ID).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Cancel Reason",
-            "The reason that the Order was cancelled.",
-            "primitive",
-            "transaction.OrderCancelReason",
-            False,
-            None
-        ),
-        Property(
-            "replacedByOrderID",
-            "Replaced By Order ID",
-            "The ID of the Order that replaced this Order (only provided if this Order was cancelled for replacement).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_OrderCancelTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new OrderCancelTransaction instance
+        """
         super(OrderCancelTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "ORDER_CANCEL" for an
+        # OrderCancelTransaction.
+        #
+        self.type = kwargs.get("type", "ORDER_CANCEL")
+ 
+        #
+        # The ID of the Order cancelled
+        #
+        self.orderID = kwargs.get("orderID")
+ 
+        #
+        # The client ID of the Order cancelled (only provided if the Order has
+        # a client Order ID).
+        #
+        self.clientOrderID = kwargs.get("clientOrderID")
+ 
+        #
+        # The reason that the Order was cancelled.
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # The ID of the Order that replaced this Order (only provided if this
+        # Order was cancelled for replacement).
+        #
+        self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new OrderCancelTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        OrderCancelTransaction is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('orderID') is not None:
-            body['orderID'] = \
-                data.get('orderID')
-
-        if data.get('clientOrderID') is not None:
-            body['clientOrderID'] = \
-                data.get('clientOrderID')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
-
-        if data.get('replacedByOrderID') is not None:
-            body['replacedByOrderID'] = \
-                data.get('replacedByOrderID')
-
-        self = OrderCancelTransaction(**body)
-
-        return self
+        return OrderCancelTransaction(**data)
 
 
 class OrderCancelRejectTransaction(BaseEntity):
+    """
+    An OrderCancelRejectTransaction represents the rejection of the
+    cancellation of an Order in the client's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Order Cancel Reject {orderID}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"ORDER_CANCEL_REJECT\" for an OrderCancelRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "ORDER_CANCEL_REJECT"
-        ),
-        Property(
-            "orderID",
-            "Order ID",
-            "The ID of the Order intended to be cancelled",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "clientOrderID",
-            "Client Order ID",
-            "The client ID of the Order intended to be cancelled (only provided if the Order has a client Order ID).",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Cancel Reason",
-            "The reason that the Order was to be cancelled.",
-            "primitive",
-            "transaction.OrderCancelReason",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_OrderCancelRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new OrderCancelRejectTransaction instance
+        """
         super(OrderCancelRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "ORDER_CANCEL_REJECT" for
+        # an OrderCancelRejectTransaction.
+        #
+        self.type = kwargs.get("type", "ORDER_CANCEL_REJECT")
+ 
+        #
+        # The ID of the Order intended to be cancelled
+        #
+        self.orderID = kwargs.get("orderID")
+ 
+        #
+        # The client ID of the Order intended to be cancelled (only provided if
+        # the Order has a client Order ID).
+        #
+        self.clientOrderID = kwargs.get("clientOrderID")
+ 
+        #
+        # The reason that the Order was to be cancelled.
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new OrderCancelRejectTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        OrderCancelRejectTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('orderID') is not None:
-            body['orderID'] = \
-                data.get('orderID')
-
-        if data.get('clientOrderID') is not None:
-            body['clientOrderID'] = \
-                data.get('clientOrderID')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
-
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = OrderCancelRejectTransaction(**body)
-
-        return self
+        return OrderCancelRejectTransaction(**data)
 
 
 class OrderClientExtensionsModifyTransaction(BaseEntity):
+    """
+    A OrderClientExtensionsModifyTransaction represents the modification of an
+    Order's Client Extensions.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Modify Order {orderID} Client Extensions"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY\" for a OrderClienteExtensionsModifyTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "ORDER_CLIENT_EXTENSIONS_MODIFY"
-        ),
-        Property(
-            "orderID",
-            "Order ID",
-            "The ID of the Order who's client extensions are to be modified.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "clientOrderID",
-            "Client Order ID",
-            "The original Client ID of the Order who's client extensions are to be modified.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "orderClientExtensionsModify",
-            "Order Extensions",
-            "The new Client Extensions for the Order.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensionsModify",
-            "Trade Extensions",
-            "The new Client Extensions for the Order's Trade on fill.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_OrderClientExtensionsModifyTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new OrderClientExtensionsModifyTransaction instance
+        """
         super(OrderClientExtensionsModifyTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to
+        # "ORDER_CLIENT_EXTENSIONS_MODIFY" for a
+        # OrderClienteExtensionsModifyTransaction.
+        #
+        self.type = kwargs.get("type", "ORDER_CLIENT_EXTENSIONS_MODIFY")
+ 
+        #
+        # The ID of the Order who's client extensions are to be modified.
+        #
+        self.orderID = kwargs.get("orderID")
+ 
+        #
+        # The original Client ID of the Order who's client extensions are to be
+        # modified.
+        #
+        self.clientOrderID = kwargs.get("clientOrderID")
+ 
+        #
+        # The new Client Extensions for the Order.
+        #
+        self.orderClientExtensionsModify = kwargs.get("orderClientExtensionsModify")
+ 
+        #
+        # The new Client Extensions for the Order's Trade on fill.
+        #
+        self.tradeClientExtensionsModify = kwargs.get("tradeClientExtensionsModify")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new OrderClientExtensionsModifyTransaction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the OrderClientExtensionsModifyTransaction is a shallow copy of the
+        dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('orderID') is not None:
-            body['orderID'] = \
-                data.get('orderID')
-
-        if data.get('clientOrderID') is not None:
-            body['clientOrderID'] = \
-                data.get('clientOrderID')
+        data = data.copy()
 
         if data.get('orderClientExtensionsModify') is not None:
-            body['orderClientExtensionsModify'] = \
+            data['orderClientExtensionsModify'] = \
                 ClientExtensions.from_dict(
                     data['orderClientExtensionsModify']
                 )
 
         if data.get('tradeClientExtensionsModify') is not None:
-            body['tradeClientExtensionsModify'] = \
+            data['tradeClientExtensionsModify'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensionsModify']
                 )
 
-        self = OrderClientExtensionsModifyTransaction(**body)
-
-        return self
+        return OrderClientExtensionsModifyTransaction(**data)
 
 
 class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
+    """
+    A OrderClientExtensionsModifyRejectTransaction represents the rejection of
+    the modification of an Order's Client Extensions.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject Modify Order {orderID} Client Extensions"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT\" for a OrderClientExtensionsModifyRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-        ),
-        Property(
-            "orderID",
-            "Order ID",
-            "The ID of the Order who's client extensions are to be modified.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "clientOrderID",
-            "Client Order ID",
-            "The original Client ID of the Order who's client extensions are to be modified.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "orderClientExtensionsModify",
-            "Order Extensions",
-            "The new Client Extensions for the Order.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensionsModify",
-            "Trade Extensions",
-            "The new Client Extensions for the Order's Trade on fill.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_OrderClientExtensionsModifyRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new OrderClientExtensionsModifyRejectTransaction instance
+        """
         super(OrderClientExtensionsModifyRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to
+        # "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT" for a
+        # OrderClientExtensionsModifyRejectTransaction.
+        #
+        self.type = kwargs.get("type", "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT")
+ 
+        #
+        # The ID of the Order who's client extensions are to be modified.
+        #
+        self.orderID = kwargs.get("orderID")
+ 
+        #
+        # The original Client ID of the Order who's client extensions are to be
+        # modified.
+        #
+        self.clientOrderID = kwargs.get("clientOrderID")
+ 
+        #
+        # The new Client Extensions for the Order.
+        #
+        self.orderClientExtensionsModify = kwargs.get("orderClientExtensionsModify")
+ 
+        #
+        # The new Client Extensions for the Order's Trade on fill.
+        #
+        self.tradeClientExtensionsModify = kwargs.get("tradeClientExtensionsModify")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new OrderClientExtensionsModifyRejectTransaction from a
+        dict (generally from loading a JSON response). The data used to
+        instantiate the OrderClientExtensionsModifyRejectTransaction is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('orderID') is not None:
-            body['orderID'] = \
-                data.get('orderID')
-
-        if data.get('clientOrderID') is not None:
-            body['clientOrderID'] = \
-                data.get('clientOrderID')
+        data = data.copy()
 
         if data.get('orderClientExtensionsModify') is not None:
-            body['orderClientExtensionsModify'] = \
+            data['orderClientExtensionsModify'] = \
                 ClientExtensions.from_dict(
                     data['orderClientExtensionsModify']
                 )
 
         if data.get('tradeClientExtensionsModify') is not None:
-            body['tradeClientExtensionsModify'] = \
+            data['tradeClientExtensionsModify'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensionsModify']
                 )
 
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = OrderClientExtensionsModifyRejectTransaction(**body)
-
-        return self
+        return OrderClientExtensionsModifyRejectTransaction(**data)
 
 
 class TradeClientExtensionsModifyTransaction(BaseEntity):
+    """
+    A TradeClientExtensionsModifyTransaction represents the modification of a
+    Trade's Client Extensions.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Modify Trade {tradeID} Client Extensions"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"TRADE_CLIENT_EXTENSIONS_MODIFY\" for a TradeClientExtensionsModifyTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "TRADE_CLIENT_EXTENSIONS_MODIFY"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade who's client extensions are to be modified.",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The original Client ID of the Trade who's client extensions are to be modified.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensionsModify",
-            "Extensions",
-            "The new Client Extensions for the Trade.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TradeClientExtensionsModifyTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new TradeClientExtensionsModifyTransaction instance
+        """
         super(TradeClientExtensionsModifyTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to
+        # "TRADE_CLIENT_EXTENSIONS_MODIFY" for a
+        # TradeClientExtensionsModifyTransaction.
+        #
+        self.type = kwargs.get("type", "TRADE_CLIENT_EXTENSIONS_MODIFY")
+ 
+        #
+        # The ID of the Trade who's client extensions are to be modified.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The original Client ID of the Trade who's client extensions are to be
+        # modified.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The new Client Extensions for the Trade.
+        #
+        self.tradeClientExtensionsModify = kwargs.get("tradeClientExtensionsModify")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TradeClientExtensionsModifyTransaction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the TradeClientExtensionsModifyTransaction is a shallow copy of the
+        dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
+        data = data.copy()
 
         if data.get('tradeClientExtensionsModify') is not None:
-            body['tradeClientExtensionsModify'] = \
+            data['tradeClientExtensionsModify'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensionsModify']
                 )
 
-        self = TradeClientExtensionsModifyTransaction(**body)
-
-        return self
+        return TradeClientExtensionsModifyTransaction(**data)
 
 
 class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
+    """
+    A TradeClientExtensionsModifyRejectTransaction represents the rejection of
+    the modification of a Trade's Client Extensions.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Reject Modify Trade {tradeID} Client Extensions"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT\" for a TradeClientExtensionsModifyRejectTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-        ),
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade who's client extensions are to be modified.",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The original Client ID of the Trade who's client extensions are to be modified.",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "tradeClientExtensionsModify",
-            "Extensions",
-            "The new Client Extensions for the Trade.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "rejectReason",
-            "Reject Reason",
-            "The reason that the Reject Transaction was created",
-            "primitive",
-            "transaction.TransactionRejectReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TradeClientExtensionsModifyRejectTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new TradeClientExtensionsModifyRejectTransaction instance
+        """
         super(TradeClientExtensionsModifyRejectTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to
+        # "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT" for a
+        # TradeClientExtensionsModifyRejectTransaction.
+        #
+        self.type = kwargs.get("type", "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT")
+ 
+        #
+        # The ID of the Trade who's client extensions are to be modified.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The original Client ID of the Trade who's client extensions are to be
+        # modified.
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The new Client Extensions for the Trade.
+        #
+        self.tradeClientExtensionsModify = kwargs.get("tradeClientExtensionsModify")
+ 
+        #
+        # The reason that the Reject Transaction was created
+        #
+        self.rejectReason = kwargs.get("rejectReason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TradeClientExtensionsModifyRejectTransaction from a
+        dict (generally from loading a JSON response). The data used to
+        instantiate the TradeClientExtensionsModifyRejectTransaction is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
+        data = data.copy()
 
         if data.get('tradeClientExtensionsModify') is not None:
-            body['tradeClientExtensionsModify'] = \
+            data['tradeClientExtensionsModify'] = \
                 ClientExtensions.from_dict(
                     data['tradeClientExtensionsModify']
                 )
 
-        if data.get('rejectReason') is not None:
-            body['rejectReason'] = \
-                data.get('rejectReason')
-
-        self = TradeClientExtensionsModifyRejectTransaction(**body)
-
-        return self
+        return TradeClientExtensionsModifyRejectTransaction(**data)
 
 
 class MarginCallEnterTransaction(BaseEntity):
+    """
+    A MarginCallEnterTransaction is created when an Account enters the margin
+    call state.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Margin Call Enter"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"MARGIN_CALL_ENTER\" for an MarginCallEnterTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "MARGIN_CALL_ENTER"
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarginCallEnterTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarginCallEnterTransaction instance
+        """
         super(MarginCallEnterTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "MARGIN_CALL_ENTER" for an
+        # MarginCallEnterTransaction.
+        #
+        self.type = kwargs.get("type", "MARGIN_CALL_ENTER")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarginCallEnterTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        MarginCallEnterTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        self = MarginCallEnterTransaction(**body)
-
-        return self
+        return MarginCallEnterTransaction(**data)
 
 
 class MarginCallExtendTransaction(BaseEntity):
+    """
+    A MarginCallEnterTransaction is created when an Account enters the margin
+    call state.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Margin Call Enter"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"MARGIN_CALL_EXTEND\" for an MarginCallExtendTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "MARGIN_CALL_EXTEND"
-        ),
-        Property(
-            "extensionNumber",
-            "Extension Number",
-            "The number of the extensions to the Account's current margin call that have been applied. This value will be set to 1 for the first MarginCallExtend Transaction",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarginCallExtendTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarginCallExtendTransaction instance
+        """
         super(MarginCallExtendTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "MARGIN_CALL_EXTEND" for
+        # an MarginCallExtendTransaction.
+        #
+        self.type = kwargs.get("type", "MARGIN_CALL_EXTEND")
+ 
+        #
+        # The number of the extensions to the Account's current margin call
+        # that have been applied. This value will be set to 1 for the first
+        # MarginCallExtend Transaction
+        #
+        self.extensionNumber = kwargs.get("extensionNumber")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarginCallExtendTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        MarginCallExtendTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('extensionNumber') is not None:
-            body['extensionNumber'] = \
-                data.get('extensionNumber')
-
-        self = MarginCallExtendTransaction(**body)
-
-        return self
+        return MarginCallExtendTransaction(**data)
 
 
 class MarginCallExitTransaction(BaseEntity):
+    """
+    A MarginCallExitnterTransaction is created when an Account leaves the
+    margin call state.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Margin Call Exit"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"MARGIN_CALL_EXIT\" for an MarginCallExitTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "MARGIN_CALL_EXIT"
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarginCallExitTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarginCallExitTransaction instance
+        """
         super(MarginCallExitTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "MARGIN_CALL_EXIT" for an
+        # MarginCallExitTransaction.
+        #
+        self.type = kwargs.get("type", "MARGIN_CALL_EXIT")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarginCallExitTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        MarginCallExitTransaction is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        self = MarginCallExitTransaction(**body)
-
-        return self
+        return MarginCallExitTransaction(**data)
 
 
 class DelayedTradeClosureTransaction(BaseEntity):
+    """
+    A DelayedTradeClosure Transaction is created administratively to indicate
+    open trades that should have been closed but weren't because the open
+    trades' instruments were untradeable at the time. Open trades listed in
+    this transaction will be closed once their respective instruments become
+    tradeable.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Delayed Trade Closure"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "reason",
-            "Reason",
-            "The reason for the delayed trade closure",
-            "primitive",
-            "transaction.MarketOrderReason",
-            False,
-            None
-        ),
-        Property(
-            "tradeIDs",
-            "Trade ID's",
-            "List of Trade ID's identifying the open trades that will be closed when their respective instruments become tradeable",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_DelayedTradeClosureTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new DelayedTradeClosureTransaction instance
+        """
         super(DelayedTradeClosureTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The reason for the delayed trade closure
+        #
+        self.reason = kwargs.get("reason")
+ 
+        #
+        # List of Trade ID's identifying the open trades that will be closed
+        # when their respective instruments become tradeable
+        #
+        self.tradeIDs = kwargs.get("tradeIDs")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new DelayedTradeClosureTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        DelayedTradeClosureTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
-
-        if data.get('tradeIDs') is not None:
-            body['tradeIDs'] = \
-                data.get('tradeIDs')
-
-        self = DelayedTradeClosureTransaction(**body)
-
-        return self
+        return DelayedTradeClosureTransaction(**data)
 
 
 class DailyFinancingTransaction(BaseEntity):
+    """
+    A DailyFinancingTransaction represents the daily payment/collection of
+    financing for an Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Daily Account Financing ({financing})"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"DAILY_FINANCING\" for a DailyFinancingTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "DAILY_FINANCING"
-        ),
-        Property(
-            "financing",
-            "Financing",
-            "The amount of financing paid/collected for the Account.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "accountBalance",
-            "Account Balance",
-            "The Account's balance after daily financing.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "accountFinancingMode",
-            "Account Financing Mode",
-            "The account financing mode at the time of the daily financing.",
-            "primitive",
-            "account.AccountFinancingMode",
-            False,
-            None
-        ),
-        Property(
-            "positionFinancings",
-            "Per-Position Financing",
-            "The financing paid/collected for each Position in the Account.",
-            "array_object",
-            "PositionFinancing",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_DailyFinancingTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new DailyFinancingTransaction instance
+        """
         super(DailyFinancingTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "DAILY_FINANCING" for a
+        # DailyFinancingTransaction.
+        #
+        self.type = kwargs.get("type", "DAILY_FINANCING")
+ 
+        #
+        # The amount of financing paid/collected for the Account.
+        #
+        self.financing = kwargs.get("financing")
+ 
+        #
+        # The Account's balance after daily financing.
+        #
+        self.accountBalance = kwargs.get("accountBalance")
+ 
+        #
+        # The account financing mode at the time of the daily financing.
+        #
+        self.accountFinancingMode = kwargs.get("accountFinancingMode")
+ 
+        #
+        # The financing paid/collected for each Position in the Account.
+        #
+        self.positionFinancings = kwargs.get("positionFinancings")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new DailyFinancingTransaction from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        DailyFinancingTransaction is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('financing') is not None:
-            body['financing'] = \
-                data.get('financing')
-
-        if data.get('accountBalance') is not None:
-            body['accountBalance'] = \
-                data.get('accountBalance')
-
-        if data.get('accountFinancingMode') is not None:
-            body['accountFinancingMode'] = \
-                data.get('accountFinancingMode')
+        data = data.copy()
 
         if data.get('positionFinancings') is not None:
-            body['positionFinancings'] = [
+            data['positionFinancings'] = [
                 PositionFinancing.from_dict(d)
                 for d in data.get('positionFinancings')
             ]
 
-        self = DailyFinancingTransaction(**body)
-
-        return self
+        return DailyFinancingTransaction(**data)
 
 
 class ResetResettablePLTransaction(BaseEntity):
+    """
+    A ResetResettablePLTransaction represents the resetting of the Account's
+    resettable PL counters.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "PL Reset"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Transaction {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Transaction ID",
-            "The Transaction's Identifier.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "Time",
-            "The date/time when the Transaction was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "userID",
-            "User ID",
-            "The ID of the user that initiated the creation of the Transaction.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "accountID",
-            "Account ID",
-            "The ID of the Account the Transaction was created for.",
-            "primitive",
-            "account.AccountID",
-            False,
-            None
-        ),
-        Property(
-            "batchID",
-            "Transaction Batch ID",
-            "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "type",
-            "Type",
-            "The Type of the Transaction. Always set to \"RESET_RESETTABLE_PL\" for a ResetResettablePLTransaction.",
-            "primitive",
-            "transaction.TransactionType",
-            False,
-            "RESET_RESETTABLE_PL"
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_ResetResettablePLTransaction
 
     def __init__(self, **kwargs):
+        """
+        Create a new ResetResettablePLTransaction instance
+        """
         super(ResetResettablePLTransaction, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Transaction's Identifier.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The date/time when the Transaction was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The ID of the user that initiated the creation of the Transaction.
+        #
+        self.userID = kwargs.get("userID")
+ 
+        #
+        # The ID of the Account the Transaction was created for.
+        #
+        self.accountID = kwargs.get("accountID")
+ 
+        #
+        # The ID of the "batch" that the Transaction belongs to. Transactions
+        # in the same batch are applied to the Account simultaneously.
+        #
+        self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "RESET_RESETTABLE_PL" for
+        # a ResetResettablePLTransaction.
+        #
+        self.type = kwargs.get("type", "RESET_RESETTABLE_PL")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new ResetResettablePLTransaction from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        ResetResettablePLTransaction is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('userID') is not None:
-            body['userID'] = \
-                data.get('userID')
-
-        if data.get('accountID') is not None:
-            body['accountID'] = \
-                data.get('accountID')
-
-        if data.get('batchID') is not None:
-            body['batchID'] = \
-                data.get('batchID')
-
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        self = ResetResettablePLTransaction(**body)
-
-        return self
+        return ResetResettablePLTransaction(**data)
 
 
 class ClientExtensions(BaseEntity):
+    """
+    A ClientExtensions object allows a client to attach a clientID, tag and
+    comment to Orders and Trades in their Account.  Do not set, modify, or
+    delete this field if your account is associated with MT4.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "id",
-            "Client ID",
-            "The Client ID of the Order/Trade",
-            "primitive",
-            "transaction.ClientID",
-            False,
-            None
-        ),
-        Property(
-            "tag",
-            "Tag",
-            "A tag associated with the Order/Trade",
-            "primitive",
-            "transaction.ClientTag",
-            False,
-            None
-        ),
-        Property(
-            "comment",
-            "Comment",
-            "A comment associated with the Order/Trade",
-            "primitive",
-            "transaction.ClientComment",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_ClientExtensions
 
     def __init__(self, **kwargs):
+        """
+        Create a new ClientExtensions instance
+        """
         super(ClientExtensions, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Client ID of the Order/Trade
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # A tag associated with the Order/Trade
+        #
+        self.tag = kwargs.get("tag")
+ 
+        #
+        # A comment associated with the Order/Trade
+        #
+        self.comment = kwargs.get("comment")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new ClientExtensions from a dict (generally from loading
+        a JSON response). The data used to instantiate the ClientExtensions is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('tag') is not None:
-            body['tag'] = \
-                data.get('tag')
-
-        if data.get('comment') is not None:
-            body['comment'] = \
-                data.get('comment')
-
-        self = ClientExtensions(**body)
-
-        return self
+        return ClientExtensions(**data)
 
 
 class TakeProfitDetails(BaseEntity):
+    """
+    TakeProfitDetails specifies the details of a Take Profit Order to be
+    created on behalf of a client. This may happen when an Order is filled that
+    opens a Trade requiring a Take Profit, or when a Trade's dependent Take
+    Profit Order is modified directly through the Trade.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "price",
-            "Price",
-            "The price that the Take Profit Order will be triggered at.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time in force for the created Take Profit Order. This may only be GTC, GTD or GFD.",
-            "primitive",
-            "order.TimeInForce",
-            False,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date when the Take Profit Order will be cancelled on if timeInForce is GTD.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The Client Extensions to add to the Take Profit Order when created.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TakeProfitDetails
 
     def __init__(self, **kwargs):
+        """
+        Create a new TakeProfitDetails instance
+        """
         super(TakeProfitDetails, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The price that the Take Profit Order will be triggered at.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time in force for the created Take Profit Order. This may only be
+        # GTC, GTD or GFD.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date when the Take Profit Order will be cancelled on if
+        # timeInForce is GTD.
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The Client Extensions to add to the Take Profit Order when created.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TakeProfitDetails from a dict (generally from loading
+        a JSON response). The data used to instantiate the TakeProfitDetails is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        self = TakeProfitDetails(**body)
-
-        return self
+        return TakeProfitDetails(**data)
 
 
 class StopLossDetails(BaseEntity):
+    """
+    StopLossDetails specifies the details of a Stop Loss Order to be created on
+    behalf of a client. This may happen when an Order is filled that opens a
+    Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is
+    modified directly through the Trade.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "price",
-            "Price",
-            "The price that the Stop Loss Order will be triggered at.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time in force for the created Stop Loss Order. This may only be GTC, GTD or GFD.",
-            "primitive",
-            "order.TimeInForce",
-            False,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date when the Stop Loss Order will be cancelled on if timeInForce is GTD.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The Client Extensions to add to the Stop Loss Order when created.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_StopLossDetails
 
     def __init__(self, **kwargs):
+        """
+        Create a new StopLossDetails instance
+        """
         super(StopLossDetails, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The price that the Stop Loss Order will be triggered at.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The time in force for the created Stop Loss Order. This may only be
+        # GTC, GTD or GFD.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date when the Stop Loss Order will be cancelled on if timeInForce
+        # is GTD.
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The Client Extensions to add to the Stop Loss Order when created.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new StopLossDetails from a dict (generally from loading a
+        JSON response). The data used to instantiate the StopLossDetails is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        self = StopLossDetails(**body)
-
-        return self
+        return StopLossDetails(**data)
 
 
 class TrailingStopLossDetails(BaseEntity):
+    """
+    TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order
+    to be created on behalf of a client. This may happen when an Order is
+    filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's
+    dependent Trailing Stop Loss Order is modified directly through the Trade.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "distance",
-            "Trailing Price Distance",
-            "The distance (in price units) from the Trade's fill price that the Trailing Stop Loss Order will be triggered at.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "timeInForce",
-            "Time In Force",
-            "The time in force for the created Trailing Stop Loss Order. This may only be GTC, GTD or GFD.",
-            "primitive",
-            "order.TimeInForce",
-            False,
-            "GTC"
-        ),
-        Property(
-            "gtdTime",
-            "GTD Time",
-            "The date when the Trailing Stop Loss Order will be cancelled on if timeInForce is GTD.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The Client Extensions to add to the Trailing Stop Loss Order when created.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TrailingStopLossDetails
 
     def __init__(self, **kwargs):
+        """
+        Create a new TrailingStopLossDetails instance
+        """
         super(TrailingStopLossDetails, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The distance (in price units) from the Trade's fill price that the
+        # Trailing Stop Loss Order will be triggered at.
+        #
+        self.distance = kwargs.get("distance")
+ 
+        #
+        # The time in force for the created Trailing Stop Loss Order. This may
+        # only be GTC, GTD or GFD.
+        #
+        self.timeInForce = kwargs.get("timeInForce", "GTC")
+ 
+        #
+        # The date when the Trailing Stop Loss Order will be cancelled on if
+        # timeInForce is GTD.
+        #
+        self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # The Client Extensions to add to the Trailing Stop Loss Order when
+        # created.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TrailingStopLossDetails from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        TrailingStopLossDetails is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('distance') is not None:
-            body['distance'] = \
-                data.get('distance')
-
-        if data.get('timeInForce') is not None:
-            body['timeInForce'] = \
-                data.get('timeInForce')
-
-        if data.get('gtdTime') is not None:
-            body['gtdTime'] = \
-                data.get('gtdTime')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        self = TrailingStopLossDetails(**body)
-
-        return self
+        return TrailingStopLossDetails(**data)
 
 
 class TradeOpen(BaseEntity):
+    """
+    A TradeOpen object represents a Trade for an instrument that was opened in
+    an Account. It is found embedded in Transactions that affect the position
+    of an instrument in the Account, specifically the OrderFill Transaction.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade that was opened",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The number of units opened by the Trade",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions for the newly opened Trade",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TradeOpen
 
     def __init__(self, **kwargs):
+        """
+        Create a new TradeOpen instance
+        """
         super(TradeOpen, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The ID of the Trade that was opened
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The number of units opened by the Trade
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The client extensions for the newly opened Trade
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TradeOpen from a dict (generally from loading a JSON
+        response). The data used to instantiate the TradeOpen is a shallow copy
+        of the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
+        data = data.copy()
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        self = TradeOpen(**body)
-
-        return self
+        return TradeOpen(**data)
 
 
 class TradeReduce(BaseEntity):
+    """
+    A TradeReduce object represents a Trade for an instrument that was reduced
+    (either partially or fully) in an Account. It is found embedded in
+    Transactions that affect the position of an instrument in the account,
+    specifically the OrderFill Transaction.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade that was reduced or closed",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "The number of units that the Trade was reduced by",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "realizedPL",
-            "Profit/Loss",
-            "The PL realized when reducing the Trade",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "financing",
-            "Financing",
-            "The financing paid/collected when reducing the Trade",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_TradeReduce
 
     def __init__(self, **kwargs):
+        """
+        Create a new TradeReduce instance
+        """
         super(TradeReduce, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The ID of the Trade that was reduced or closed
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The number of units that the Trade was reduced by
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The PL realized when reducing the Trade
+        #
+        self.realizedPL = kwargs.get("realizedPL")
+ 
+        #
+        # The financing paid/collected when reducing the Trade
+        #
+        self.financing = kwargs.get("financing")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TradeReduce from a dict (generally from loading a
+        JSON response). The data used to instantiate the TradeReduce is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
+        data = data.copy()
 
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        if data.get('realizedPL') is not None:
-            body['realizedPL'] = \
-                data.get('realizedPL')
-
-        if data.get('financing') is not None:
-            body['financing'] = \
-                data.get('financing')
-
-        self = TradeReduce(**body)
-
-        return self
+        return TradeReduce(**data)
 
 
 class MarketOrderTradeClose(BaseEntity):
+    """
+    A MarketOrderTradeClose specifies the extensions to a Market Order that has
+    been created specifically to close a Trade.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade requested to be closed",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The client ID of the Trade requested to be closed",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "Indication of how much of the Trade to close. Either \"ALL\", or a DecimalNumber reflection a partial close of the Trade.",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarketOrderTradeClose
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketOrderTradeClose instance
+        """
         super(MarketOrderTradeClose, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The ID of the Trade requested to be closed
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The client ID of the Trade requested to be closed
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # Indication of how much of the Trade to close. Either "ALL", or a
+        # DecimalNumber reflection a partial close of the Trade.
+        #
+        self.units = kwargs.get("units")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketOrderTradeClose from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        MarketOrderTradeClose is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
+        data = data.copy()
 
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        self = MarketOrderTradeClose(**body)
-
-        return self
+        return MarketOrderTradeClose(**data)
 
 
 class MarketOrderMarginCloseout(BaseEntity):
+    """
+    Details for the Market Order extensions specific to a Market Order placed
+    that is part of a Market Order Margin Closeout in a client's account
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "reason",
-            "Reason",
-            "The reason the Market Order was created to perform a margin closeout",
-            "primitive",
-            "transaction.MarketOrderMarginCloseoutReason",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarketOrderMarginCloseout
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketOrderMarginCloseout instance
+        """
         super(MarketOrderMarginCloseout, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The reason the Market Order was created to perform a margin closeout
+        #
+        self.reason = kwargs.get("reason")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketOrderMarginCloseout from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        MarketOrderMarginCloseout is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('reason') is not None:
-            body['reason'] = \
-                data.get('reason')
+        data = data.copy()
 
-        self = MarketOrderMarginCloseout(**body)
-
-        return self
+        return MarketOrderMarginCloseout(**data)
 
 
 class MarketOrderDelayedTradeClose(BaseEntity):
+    """
+    Details for the Market Order extensions specific to a Market Order placed
+    with the intent of fully closing a specific open trade that should have
+    already been closed but wasn't due to halted market conditions
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "tradeID",
-            "Trade ID",
-            "The ID of the Trade being closed",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "clientTradeID",
-            "Client Trade ID",
-            "The Client ID of the Trade being closed",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "sourceTransactionID",
-            "Source Transaction ID",
-            "The Transaction ID of the DelayedTradeClosure transaction to which this Delayed Trade Close belongs to",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarketOrderDelayedTradeClose
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketOrderDelayedTradeClose instance
+        """
         super(MarketOrderDelayedTradeClose, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The ID of the Trade being closed
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The Client ID of the Trade being closed
+        #
+        self.clientTradeID = kwargs.get("clientTradeID")
+ 
+        #
+        # The Transaction ID of the DelayedTradeClosure transaction to which
+        # this Delayed Trade Close belongs to
+        #
+        self.sourceTransactionID = kwargs.get("sourceTransactionID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketOrderDelayedTradeClose from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        MarketOrderDelayedTradeClose is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
+        data = data.copy()
 
-        if data.get('clientTradeID') is not None:
-            body['clientTradeID'] = \
-                data.get('clientTradeID')
-
-        if data.get('sourceTransactionID') is not None:
-            body['sourceTransactionID'] = \
-                data.get('sourceTransactionID')
-
-        self = MarketOrderDelayedTradeClose(**body)
-
-        return self
+        return MarketOrderDelayedTradeClose(**data)
 
 
 class MarketOrderPositionCloseout(BaseEntity):
+    """
+    A MarketOrderPositionCloseout specifies the extensions to a Market Order
+    when it has been created to closeout a specific Position.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "instrument",
-            "Instrument",
-            "The instrument of the Position being closed out.",
-            "primitive",
-            "primitives.InstrumentName",
-            False,
-            None
-        ),
-        Property(
-            "units",
-            "Amount",
-            "Indication of how much of the Position to close. Either \"ALL\", or a DecimalNumber reflection a partial close of the Trade. The DecimalNumber must always be positive, and represent a number that doesn't exceed the absolute size of the Position.",
-            "primitive",
-            "string",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_MarketOrderPositionCloseout
 
     def __init__(self, **kwargs):
+        """
+        Create a new MarketOrderPositionCloseout instance
+        """
         super(MarketOrderPositionCloseout, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The instrument of the Position being closed out.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # Indication of how much of the Position to close. Either "ALL", or a
+        # DecimalNumber reflection a partial close of the Trade. The
+        # DecimalNumber must always be positive, and represent a number that
+        # doesn't exceed the absolute size of the Position.
+        #
+        self.units = kwargs.get("units")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new MarketOrderPositionCloseout from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        MarketOrderPositionCloseout is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
+        data = data.copy()
 
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
-
-        self = MarketOrderPositionCloseout(**body)
-
-        return self
+        return MarketOrderPositionCloseout(**data)
 
 
 class VWAPReceipt(BaseEntity):
+    """
+    A VWAP Receipt provides a record of how the price for an Order fill is
+    constructed. If the Order is filled with multiple buckets in a depth of
+    market, each bucket will be represented with a VWAP Receipt.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "units",
-            "Fill Amount",
-            "The number of units filled",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Fill Price",
-            "The price at which the units were filled",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_VWAPReceipt
 
     def __init__(self, **kwargs):
+        """
+        Create a new VWAPReceipt instance
+        """
         super(VWAPReceipt, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The number of units filled
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price at which the units were filled
+        #
+        self.price = kwargs.get("price")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new VWAPReceipt from a dict (generally from loading a
+        JSON response). The data used to instantiate the VWAPReceipt is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('units') is not None:
-            body['units'] = \
-                data.get('units')
+        data = data.copy()
 
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        self = VWAPReceipt(**body)
-
-        return self
+        return VWAPReceipt(**data)
 
 
 class LiquidityRegenerationSchedule(BaseEntity):
+    """
+    A LiquidityRegenerationSchedule indicates how liquidity that is used when
+    filling an Order for an instrument is regenerated following the fill.  A
+    liquidity regeneration schedule will be in effect until the timestamp of
+    its final step, but may be replaced by a schedule created for an Order of
+    the same instrument that is filled while it is still in effect.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "steps",
-            "Steps",
-            "The steps in the Liquidity Regeneration Schedule",
-            "array_object",
-            "LiquidityRegenerationScheduleStep",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_LiquidityRegenerationSchedule
 
     def __init__(self, **kwargs):
+        """
+        Create a new LiquidityRegenerationSchedule instance
+        """
         super(LiquidityRegenerationSchedule, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The steps in the Liquidity Regeneration Schedule
+        #
+        self.steps = kwargs.get("steps")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new LiquidityRegenerationSchedule from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        LiquidityRegenerationSchedule is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
+        data = data.copy()
+
         if data.get('steps') is not None:
-            body['steps'] = [
+            data['steps'] = [
                 LiquidityRegenerationScheduleStep.from_dict(d)
                 for d in data.get('steps')
             ]
 
-        self = LiquidityRegenerationSchedule(**body)
-
-        return self
+        return LiquidityRegenerationSchedule(**data)
 
 
 class LiquidityRegenerationScheduleStep(BaseEntity):
+    """
+    A liquidity regeneration schedule Step indicates the amount of bid and ask
+    liquidity that is used by the Account at a certain time. These amounts will
+    only change at the timestamp of the following step.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "timestamp",
-            "Time",
-            "The timestamp of the schedule step.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "bidLiquidityUsed",
-            "Bid Liquidity Used",
-            "The amount of bid liquidity used at this step in the schedule.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "askLiquidityUsed",
-            "Ask Liquidity Used",
-            "The amount of ask liquidity used at this step in the schedule.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_LiquidityRegenerationScheduleStep
 
     def __init__(self, **kwargs):
+        """
+        Create a new LiquidityRegenerationScheduleStep instance
+        """
         super(LiquidityRegenerationScheduleStep, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The timestamp of the schedule step.
+        #
+        self.timestamp = kwargs.get("timestamp")
+ 
+        #
+        # The amount of bid liquidity used at this step in the schedule.
+        #
+        self.bidLiquidityUsed = kwargs.get("bidLiquidityUsed")
+ 
+        #
+        # The amount of ask liquidity used at this step in the schedule.
+        #
+        self.askLiquidityUsed = kwargs.get("askLiquidityUsed")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new LiquidityRegenerationScheduleStep from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the LiquidityRegenerationScheduleStep is a shallow copy of the dict
+        passed in, with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('timestamp') is not None:
-            body['timestamp'] = \
-                data.get('timestamp')
+        data = data.copy()
 
-        if data.get('bidLiquidityUsed') is not None:
-            body['bidLiquidityUsed'] = \
-                data.get('bidLiquidityUsed')
-
-        if data.get('askLiquidityUsed') is not None:
-            body['askLiquidityUsed'] = \
-                data.get('askLiquidityUsed')
-
-        self = LiquidityRegenerationScheduleStep(**body)
-
-        return self
+        return LiquidityRegenerationScheduleStep(**data)
 
 
 class OpenTradeFinancing(BaseEntity):
+    """
+    OpenTradeFinancing is used to pay/collect daily financing charge for an
+    open Trade within an Account
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "tradeID",
-            "tradeID",
-            "The ID of the Trade that financing is being paid/collected for.",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "financing",
-            "Financing",
-            "The amount of financing paid/collected for the Trade.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_OpenTradeFinancing
 
     def __init__(self, **kwargs):
+        """
+        Create a new OpenTradeFinancing instance
+        """
         super(OpenTradeFinancing, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The ID of the Trade that financing is being paid/collected for.
+        #
+        self.tradeID = kwargs.get("tradeID")
+ 
+        #
+        # The amount of financing paid/collected for the Trade.
+        #
+        self.financing = kwargs.get("financing")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new OpenTradeFinancing from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        OpenTradeFinancing is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('tradeID') is not None:
-            body['tradeID'] = \
-                data.get('tradeID')
+        data = data.copy()
 
-        if data.get('financing') is not None:
-            body['financing'] = \
-                data.get('financing')
-
-        self = OpenTradeFinancing(**body)
-
-        return self
+        return OpenTradeFinancing(**data)
 
 
 class PositionFinancing(BaseEntity):
+    """
+    OpenTradeFinancing is used to pay/collect daily financing charge for a
+    Position within an Account
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "instrumentID",
-            "Instrument",
-            "The instrument of the Position that financing is being paid/collected for.",
-            "primitive",
-            "primitives.InstrumentName",
-            False,
-            None
-        ),
-        Property(
-            "financing",
-            "Financing",
-            "The amount of financing paid/collected for the Position.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "openTradeFinancings",
-            "Trade Financings",
-            "The financing paid/collecte for each open Trade within the Position.",
-            "array_object",
-            "OpenTradeFinancing",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_PositionFinancing
 
     def __init__(self, **kwargs):
+        """
+        Create a new PositionFinancing instance
+        """
         super(PositionFinancing, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The instrument of the Position that financing is being paid/collected
+        # for.
+        #
+        self.instrumentID = kwargs.get("instrumentID")
+ 
+        #
+        # The amount of financing paid/collected for the Position.
+        #
+        self.financing = kwargs.get("financing")
+ 
+        #
+        # The financing paid/collecte for each open Trade within the Position.
+        #
+        self.openTradeFinancings = kwargs.get("openTradeFinancings")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new PositionFinancing from a dict (generally from loading
+        a JSON response). The data used to instantiate the PositionFinancing is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('instrumentID') is not None:
-            body['instrumentID'] = \
-                data.get('instrumentID')
-
-        if data.get('financing') is not None:
-            body['financing'] = \
-                data.get('financing')
+        data = data.copy()
 
         if data.get('openTradeFinancings') is not None:
-            body['openTradeFinancings'] = [
+            data['openTradeFinancings'] = [
                 OpenTradeFinancing.from_dict(d)
                 for d in data.get('openTradeFinancings')
             ]
 
-        self = PositionFinancing(**body)
-
-        return self
+        return PositionFinancing(**data)
 
 
 class Heartbeat(BaseEntity):
+    """
+    A Heartbeat object is injected into the Transaction stream to ensure that
+    the HTTP connection remains active.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Transaction Heartbeat {time}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "type",
-            "type",
-            "The string \"HEARTBEAT\"",
-            "primitive",
-            "string",
-            False,
-            "HEARTBEAT"
-        ),
-        Property(
-            "lastTransactionID",
-            "lastTransactionID",
-            "The ID of the most recent Transaction created for the Account",
-            "primitive",
-            "transaction.TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "time",
-            "The date/time when the Heartbeat was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.transaction_Heartbeat
 
     def __init__(self, **kwargs):
+        """
+        Create a new Heartbeat instance
+        """
         super(Heartbeat, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The string "HEARTBEAT"
+        #
+        self.type = kwargs.get("type", "HEARTBEAT")
+ 
+        #
+        # The ID of the most recent Transaction created for the Account
+        #
+        self.lastTransactionID = kwargs.get("lastTransactionID")
+ 
+        #
+        # The date/time when the Heartbeat was created.
+        #
+        self.time = kwargs.get("time")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new Heartbeat from a dict (generally from loading a JSON
+        response). The data used to instantiate the Heartbeat is a shallow copy
+        of the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
+        data = data.copy()
 
-        if data.get('lastTransactionID') is not None:
-            body['lastTransactionID'] = \
-                data.get('lastTransactionID')
+        return Heartbeat(**data)
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        self = Heartbeat(**body)
-
-        return self
 
 class EntitySpec(object):
+    """
+    The transaction.EntitySpec wraps the transaction module's type definitions 
+    and API methods so they can be easily accessed through an instance of a v20
+    Context.
+    """
+
     Transaction = Transaction
     CreateTransaction = CreateTransaction
     CloseTransaction = CloseTransaction

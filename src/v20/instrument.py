@@ -1,189 +1,173 @@
-import json
+import ujson as json
 from v20.base_entity import BaseEntity
-from v20.base_entity import Property
 from v20.base_entity import EntityDict
 from v20.request import Request
+from v20 import entity_properties
 
 
 
 class Candlestick(BaseEntity):
+    """
+    The Candlestick representation
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "time",
-            "time",
-            "The start time of the candlestick",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "bid",
-            "bid",
-            "The candlestick data based on bids. Only provided if bid-based candles were requested.",
-            "object",
-            "instrument.CandlestickData",
-            False,
-            None
-        ),
-        Property(
-            "ask",
-            "ask",
-            "The candlestick data based on asks. Only provided if ask-based candles were requested.",
-            "object",
-            "instrument.CandlestickData",
-            False,
-            None
-        ),
-        Property(
-            "mid",
-            "mid",
-            "The candlestick data based on midpoints. Only provided if midpoint-based candles were requested.",
-            "object",
-            "instrument.CandlestickData",
-            False,
-            None
-        ),
-        Property(
-            "volume",
-            "volume",
-            "The number of prices created during the time-range represented by the candlestick.",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-        Property(
-            "complete",
-            "complete",
-            "A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future.",
-            "primitive",
-            "boolean",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.instrument_Candlestick
 
     def __init__(self, **kwargs):
+        """
+        Create a new Candlestick instance
+        """
         super(Candlestick, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The start time of the candlestick
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The candlestick data based on bids. Only provided if bid-based
+        # candles were requested.
+        #
+        self.bid = kwargs.get("bid")
+ 
+        #
+        # The candlestick data based on asks. Only provided if ask-based
+        # candles were requested.
+        #
+        self.ask = kwargs.get("ask")
+ 
+        #
+        # The candlestick data based on midpoints. Only provided if midpoint-
+        # based candles were requested.
+        #
+        self.mid = kwargs.get("mid")
+ 
+        #
+        # The number of prices created during the time-range represented by the
+        # candlestick.
+        #
+        self.volume = kwargs.get("volume")
+ 
+        #
+        # A flag indicating if the candlestick is complete. A complete
+        # candlestick is one whose ending time is not in the future.
+        #
+        self.complete = kwargs.get("complete")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new Candlestick from a dict (generally from loading a
+        JSON response). The data used to instantiate the Candlestick is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
+        data = data.copy()
 
         if data.get('bid') is not None:
-            body['bid'] = \
+            data['bid'] = \
                 CandlestickData.from_dict(
                     data['bid']
                 )
 
         if data.get('ask') is not None:
-            body['ask'] = \
+            data['ask'] = \
                 CandlestickData.from_dict(
                     data['ask']
                 )
 
         if data.get('mid') is not None:
-            body['mid'] = \
+            data['mid'] = \
                 CandlestickData.from_dict(
                     data['mid']
                 )
 
-        if data.get('volume') is not None:
-            body['volume'] = \
-                data.get('volume')
-
-        if data.get('complete') is not None:
-            body['complete'] = \
-                data.get('complete')
-
-        self = Candlestick(**body)
-
-        return self
+        return Candlestick(**data)
 
 
 class CandlestickData(BaseEntity):
+    """
+    The Candlestick representation
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "o",
-            "o",
-            "The first (open) price in the time-range represented by the candlestick.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "h",
-            "h",
-            "The highest price in the time-range represented by the candlestick.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "l",
-            "l",
-            "The lowest price in the time-range represented by the candlestick.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "c",
-            "c",
-            "The last (closing) price in the time-range represented by the candlestick.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.instrument_CandlestickData
 
     def __init__(self, **kwargs):
+        """
+        Create a new CandlestickData instance
+        """
         super(CandlestickData, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The first (open) price in the time-range represented by the
+        # candlestick.
+        #
+        self.o = kwargs.get("o")
+ 
+        #
+        # The highest price in the time-range represented by the candlestick.
+        #
+        self.h = kwargs.get("h")
+ 
+        #
+        # The lowest price in the time-range represented by the candlestick.
+        #
+        self.l = kwargs.get("l")
+ 
+        #
+        # The last (closing) price in the time-range represented by the
+        # candlestick.
+        #
+        self.c = kwargs.get("c")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new CandlestickData from a dict (generally from loading a
+        JSON response). The data used to instantiate the CandlestickData is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('o') is not None:
-            body['o'] = \
-                data.get('o')
+        data = data.copy()
 
-        if data.get('h') is not None:
-            body['h'] = \
-                data.get('h')
+        return CandlestickData(**data)
 
-        if data.get('l') is not None:
-            body['l'] = \
-                data.get('l')
-
-        if data.get('c') is not None:
-            body['c'] = \
-                data.get('c')
-
-        self = CandlestickData(**body)
-
-        return self
 
 class EntitySpec(object):
+    """
+    The instrument.EntitySpec wraps the instrument module's type definitions 
+    and API methods so they can be easily accessed through an instance of a v20
+    Context.
+    """
+
     Candlestick = Candlestick
     CandlestickData = CandlestickData
 

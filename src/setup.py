@@ -25,14 +25,14 @@ def main():
     # setup dictionary
     setup_options = {
         "name": "v20",
-        "version": "3.0.8.1",
+        "version": "3.0.9.0",
         "description": "OANDA v20 bindings for Python",
         "long_description": read("README.rst"),
         "author": "OANDA Corporation",
         "author_email": "api@oanda.com",
         "url": "https://github.com/oanda/v20-python",
         "license": "MIT",
-        "install_requires": ['requests'],
+        "install_requires": ['requests', 'ujson'],
         "packages": ["v20"],
         "data_files": [('', ['LICENSE.txt', 'ChangeLog'])],
         "platforms": ["any"],

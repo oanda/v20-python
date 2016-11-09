@@ -1,5 +1,22 @@
 OANDA v20 API Change Log
 
+Version 3.0.9 (November 09, 2016)
+
+	* v20-python uses ujson instead of json for improved performance
+
+	* v20-python wrapped some requests exceptions with v20 exceptions
+
+	* v20-python library change v20 class definitions to explicitly
+	  declare properties (with comments) instead of using the property
+	  metadata attached to each class
+
+	* v20-python library isolate property metadata in a single file
+
+	* v20-python object instantiation from dict simplified and cleaned up
+
+	* more v20-python library documentation
+
+
 Version 3.0.8 (November 08, 2016)
 
 	* v20-python supports setting timeouts for polling and streaming

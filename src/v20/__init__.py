@@ -8,7 +8,7 @@ from v20 import position
 from v20 import order
 from v20 import user
 from v20.response import Response
-
+from v20.errors import V20ConnectionError, V20Timeout
 
 class Context(object):
     """
@@ -25,6 +25,12 @@ class Context(object):
             application: Optional name of the application using the v20 bindings
         """
 
+        # V20 REST server hostname
+        self.hostname = hostname
+
+        # V20 REST server port
+        self.port = port
+
         # Current username for the context
         self.username = None
 
@@ -36,7 +42,7 @@ class Context(object):
         # The format to use when dealing with times
         self.datetime_format = "RFC3339"
 
-        oanda_agent = "v20-python/3.0.8{}".format(extensions)
+        oanda_agent = "v20-python/3.0.9{}".format(extensions)
 
         # Context headers to add to every request sent to the server
         self._headers = {
@@ -191,16 +197,23 @@ class Context(object):
         if request.stream is True:
             timeout = self.stream_timeout
 
-        http_response = self._session.request(
-            request.method,
-            url,
-            headers=self._headers,
-            params=request.params,
-            data=request.body,
-            stream=request.stream,
-            timeout=timeout
-        )
-
+        try:
+            http_response = self._session.request(
+                request.method,
+                url,
+                headers=self._headers,
+                params=request.params,
+                data=request.body,
+                stream=request.stream,
+                timeout=timeout
+            )
+        except requests.exceptions.ConnectionError:
+            raise V20ConnectionError(url)
+        except requests.exceptions.ConnectTimeout:
+            raise V20Timeout(url, "connect")
+        except requests.exceptions.ReadTimeout:
+            raise V20Timeout(url, "read")
+            
         request.headers = http_response.request.headers
 
         response = Response(

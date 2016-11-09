@@ -1,528 +1,357 @@
-import json
+import ujson as json
 from v20.base_entity import BaseEntity
-from v20.base_entity import Property
 from v20.base_entity import EntityDict
 from v20.request import Request
+from v20 import entity_properties
 from v20 import transaction
 from v20 import order
 
 
 
 class Trade(BaseEntity):
+    """
+    The specification of a Trade within an Account. This includes the full
+    representation of the Trade's dependent Orders in addition to the IDs of
+    those Orders.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{initialUnits} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Trade {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Trade ID",
-            "The Trade's identifier, unique within the Trade's Account.",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Trade's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Fill Price",
-            "The execution price of the Trade.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "openTime",
-            "Open Time",
-            "The date/time when the Trade was opened.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Trade.",
-            "primitive",
-            "trade.TradeState",
-            False,
-            None
-        ),
-        Property(
-            "initialUnits",
-            "Initial Trade Units",
-            "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "currentUnits",
-            "Current Open Trade Units",
-            "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "realizedPL",
-            "Realized Profit/Loss",
-            "The total profit/loss realized on the closed portion of the Trade.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "unrealizedPL",
-            "Unrealized Profit/Loss",
-            "The unrealized profit/loss on the open portion of the Trade.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "closingTransactionIDs",
-            "Closing Transaction IDs",
-            "The IDs of the Transactions that have closed portions of this Trade.",
-            "array_primitive",
-            "TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "financing",
-            "Financing",
-            "The financing paid/collected for this Trade.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "closeTime",
-            "Close Time",
-            "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Trade.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOrder",
-            "Take Profit Order",
-            "Full representation of the Trade's Take Profit Order, only provided if such an Order exists.",
-            "object",
-            "order.TakeProfitOrder",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOrder",
-            "Stop Loss Order",
-            "Full representation of the Trade's Stop Loss Order, only provided if such an Order exists.",
-            "object",
-            "order.StopLossOrder",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOrder",
-            "Trailing Stop Loss Order",
-            "Full representation of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
-            "object",
-            "order.TrailingStopLossOrder",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.trade_Trade
 
     def __init__(self, **kwargs):
+        """
+        Create a new Trade instance
+        """
         super(Trade, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Trade's identifier, unique within the Trade's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The Trade's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The execution price of the Trade.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The date/time when the Trade was opened.
+        #
+        self.openTime = kwargs.get("openTime")
+ 
+        #
+        # The current state of the Trade.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The initial size of the Trade. Negative values indicate a short
+        # Trade, and positive values indicate a long Trade.
+        #
+        self.initialUnits = kwargs.get("initialUnits")
+ 
+        #
+        # The number of units currently open for the Trade. This value is
+        # reduced to 0.0 as the Trade is closed.
+        #
+        self.currentUnits = kwargs.get("currentUnits")
+ 
+        #
+        # The total profit/loss realized on the closed portion of the Trade.
+        #
+        self.realizedPL = kwargs.get("realizedPL")
+ 
+        #
+        # The unrealized profit/loss on the open portion of the Trade.
+        #
+        self.unrealizedPL = kwargs.get("unrealizedPL")
+ 
+        #
+        # The IDs of the Transactions that have closed portions of this Trade.
+        #
+        self.closingTransactionIDs = kwargs.get("closingTransactionIDs")
+ 
+        #
+        # The financing paid/collected for this Trade.
+        #
+        self.financing = kwargs.get("financing")
+ 
+        #
+        # The date/time when the Trade was fully closed. Only provided for
+        # Trades whose state is CLOSED.
+        #
+        self.closeTime = kwargs.get("closeTime")
+ 
+        #
+        # The client extensions of the Trade.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # Full representation of the Trade's Take Profit Order, only provided
+        # if such an Order exists.
+        #
+        self.takeProfitOrder = kwargs.get("takeProfitOrder")
+ 
+        #
+        # Full representation of the Trade's Stop Loss Order, only provided if
+        # such an Order exists.
+        #
+        self.stopLossOrder = kwargs.get("stopLossOrder")
+ 
+        #
+        # Full representation of the Trade's Trailing Stop Loss Order, only
+        # provided if such an Order exists.
+        #
+        self.trailingStopLossOrder = kwargs.get("trailingStopLossOrder")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new Trade from a dict (generally from loading a JSON
+        response). The data used to instantiate the Trade is a shallow copy of
+        the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('openTime') is not None:
-            body['openTime'] = \
-                data.get('openTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
-
-        if data.get('initialUnits') is not None:
-            body['initialUnits'] = \
-                data.get('initialUnits')
-
-        if data.get('currentUnits') is not None:
-            body['currentUnits'] = \
-                data.get('currentUnits')
-
-        if data.get('realizedPL') is not None:
-            body['realizedPL'] = \
-                data.get('realizedPL')
-
-        if data.get('unrealizedPL') is not None:
-            body['unrealizedPL'] = \
-                data.get('unrealizedPL')
-
-        if data.get('closingTransactionIDs') is not None:
-            body['closingTransactionIDs'] = \
-                data.get('closingTransactionIDs')
-
-        if data.get('financing') is not None:
-            body['financing'] = \
-                data.get('financing')
-
-        if data.get('closeTime') is not None:
-            body['closeTime'] = \
-                data.get('closeTime')
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
         if data.get('takeProfitOrder') is not None:
-            body['takeProfitOrder'] = \
+            data['takeProfitOrder'] = \
                 order.TakeProfitOrder.from_dict(
                     data['takeProfitOrder']
                 )
 
         if data.get('stopLossOrder') is not None:
-            body['stopLossOrder'] = \
+            data['stopLossOrder'] = \
                 order.StopLossOrder.from_dict(
                     data['stopLossOrder']
                 )
 
         if data.get('trailingStopLossOrder') is not None:
-            body['trailingStopLossOrder'] = \
+            data['trailingStopLossOrder'] = \
                 order.TrailingStopLossOrder.from_dict(
                     data['trailingStopLossOrder']
                 )
 
-        self = Trade(**body)
-
-        return self
+        return Trade(**data)
 
 
 class TradeSummary(BaseEntity):
+    """
+    The summary of a Trade within an Account. This representation does not
+    provide the full details of the Trade's dependent Orders.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "{initialUnits} of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = "Trade {id}"
 
-    _properties = [
-        Property(
-            "id",
-            "Trade ID",
-            "The Trade's identifier, unique within the Trade's Account.",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "instrument",
-            "Instrument",
-            "The Trade's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            False,
-            None
-        ),
-        Property(
-            "price",
-            "Fill Price",
-            "The execution price of the Trade.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "openTime",
-            "Open Time",
-            "The date/time when the Trade was opened.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "state",
-            "State",
-            "The current state of the Trade.",
-            "primitive",
-            "trade.TradeState",
-            False,
-            None
-        ),
-        Property(
-            "initialUnits",
-            "Initial Trade Units",
-            "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "currentUnits",
-            "Current Open Trade Units",
-            "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "realizedPL",
-            "Realized Profit/Loss",
-            "The total profit/loss realized on the closed portion of the Trade.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "unrealizedPL",
-            "Unrealized Profit/Loss",
-            "The unrealized profit/loss on the open portion of the Trade.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "closingTransactionIDs",
-            "Closing Transaction IDs",
-            "The IDs of the Transactions that have closed portions of this Trade.",
-            "array_primitive",
-            "TransactionID",
-            False,
-            None
-        ),
-        Property(
-            "financing",
-            "Financing",
-            "The financing paid/collected for this Trade.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-        Property(
-            "closeTime",
-            "Close Time",
-            "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "clientExtensions",
-            "Client Extensions",
-            "The client extensions of the Trade.",
-            "object",
-            "transaction.ClientExtensions",
-            False,
-            None
-        ),
-        Property(
-            "takeProfitOrderID",
-            "Take Profit Order ID",
-            "ID of the Trade's Take Profit Order, only provided if such an Order exists.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "stopLossOrderID",
-            "Stop Loss Order ID",
-            "ID of the Trade's Stop Loss Order, only provided if such an Order exists.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-        Property(
-            "trailingStopLossOrderID",
-            "Trailing Stop Loss Order ID",
-            "ID of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
-            "primitive",
-            "order.OrderID",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.trade_TradeSummary
 
     def __init__(self, **kwargs):
+        """
+        Create a new TradeSummary instance
+        """
         super(TradeSummary, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Trade's identifier, unique within the Trade's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The Trade's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The execution price of the Trade.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The date/time when the Trade was opened.
+        #
+        self.openTime = kwargs.get("openTime")
+ 
+        #
+        # The current state of the Trade.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The initial size of the Trade. Negative values indicate a short
+        # Trade, and positive values indicate a long Trade.
+        #
+        self.initialUnits = kwargs.get("initialUnits")
+ 
+        #
+        # The number of units currently open for the Trade. This value is
+        # reduced to 0.0 as the Trade is closed.
+        #
+        self.currentUnits = kwargs.get("currentUnits")
+ 
+        #
+        # The total profit/loss realized on the closed portion of the Trade.
+        #
+        self.realizedPL = kwargs.get("realizedPL")
+ 
+        #
+        # The unrealized profit/loss on the open portion of the Trade.
+        #
+        self.unrealizedPL = kwargs.get("unrealizedPL")
+ 
+        #
+        # The IDs of the Transactions that have closed portions of this Trade.
+        #
+        self.closingTransactionIDs = kwargs.get("closingTransactionIDs")
+ 
+        #
+        # The financing paid/collected for this Trade.
+        #
+        self.financing = kwargs.get("financing")
+ 
+        #
+        # The date/time when the Trade was fully closed. Only provided for
+        # Trades whose state is CLOSED.
+        #
+        self.closeTime = kwargs.get("closeTime")
+ 
+        #
+        # The client extensions of the Trade.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # ID of the Trade's Take Profit Order, only provided if such an Order
+        # exists.
+        #
+        self.takeProfitOrderID = kwargs.get("takeProfitOrderID")
+ 
+        #
+        # ID of the Trade's Stop Loss Order, only provided if such an Order
+        # exists.
+        #
+        self.stopLossOrderID = kwargs.get("stopLossOrderID")
+ 
+        #
+        # ID of the Trade's Trailing Stop Loss Order, only provided if such an
+        # Order exists.
+        #
+        self.trailingStopLossOrderID = kwargs.get("trailingStopLossOrderID")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new TradeSummary from a dict (generally from loading a
+        JSON response). The data used to instantiate the TradeSummary is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
-
-        if data.get('openTime') is not None:
-            body['openTime'] = \
-                data.get('openTime')
-
-        if data.get('state') is not None:
-            body['state'] = \
-                data.get('state')
-
-        if data.get('initialUnits') is not None:
-            body['initialUnits'] = \
-                data.get('initialUnits')
-
-        if data.get('currentUnits') is not None:
-            body['currentUnits'] = \
-                data.get('currentUnits')
-
-        if data.get('realizedPL') is not None:
-            body['realizedPL'] = \
-                data.get('realizedPL')
-
-        if data.get('unrealizedPL') is not None:
-            body['unrealizedPL'] = \
-                data.get('unrealizedPL')
-
-        if data.get('closingTransactionIDs') is not None:
-            body['closingTransactionIDs'] = \
-                data.get('closingTransactionIDs')
-
-        if data.get('financing') is not None:
-            body['financing'] = \
-                data.get('financing')
-
-        if data.get('closeTime') is not None:
-            body['closeTime'] = \
-                data.get('closeTime')
 
         if data.get('clientExtensions') is not None:
-            body['clientExtensions'] = \
+            data['clientExtensions'] = \
                 transaction.ClientExtensions.from_dict(
                     data['clientExtensions']
                 )
 
-        if data.get('takeProfitOrderID') is not None:
-            body['takeProfitOrderID'] = \
-                data.get('takeProfitOrderID')
-
-        if data.get('stopLossOrderID') is not None:
-            body['stopLossOrderID'] = \
-                data.get('stopLossOrderID')
-
-        if data.get('trailingStopLossOrderID') is not None:
-            body['trailingStopLossOrderID'] = \
-                data.get('trailingStopLossOrderID')
-
-        self = TradeSummary(**body)
-
-        return self
+        return TradeSummary(**data)
 
 
 class CalculatedTradeState(BaseEntity):
+    """
+    The dynamic (calculated) state of an open Trade
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "id",
-            "Trade ID",
-            "The Trade's ID.",
-            "primitive",
-            "trade.TradeID",
-            False,
-            None
-        ),
-        Property(
-            "unrealizedPL",
-            "Trade UPL",
-            "The Trade's unrealized profit/loss.",
-            "primitive",
-            "primitives.AccountUnits",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.trade_CalculatedTradeState
 
     def __init__(self, **kwargs):
+        """
+        Create a new CalculatedTradeState instance
+        """
         super(CalculatedTradeState, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Trade's ID.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The Trade's unrealized profit/loss.
+        #
+        self.unrealizedPL = kwargs.get("unrealizedPL")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new CalculatedTradeState from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        CalculatedTradeState is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('id') is not None:
-            body['id'] = \
-                data.get('id')
+        data = data.copy()
 
-        if data.get('unrealizedPL') is not None:
-            body['unrealizedPL'] = \
-                data.get('unrealizedPL')
+        return CalculatedTradeState(**data)
 
-        self = CalculatedTradeState(**body)
-
-        return self
 
 class EntitySpec(object):
+    """
+    The trade.EntitySpec wraps the trade module's type definitions 
+    and API methods so they can be easily accessed through an instance of a v20
+    Context.
+    """
+
     Trade = Trade
     TradeSummary = TradeSummary
     CalculatedTradeState = CalculatedTradeState

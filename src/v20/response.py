@@ -1,69 +1,5 @@
-class UnexpectedStatusError(Exception):
-    def __init__(self, method, path, status, expectedStatus):
-        self.method = method
-        self.path = path
-        self.status = status
-        self.expectedStatus = expectedStatus
-
-    def __str__(self):
-        return "{} {} returned unexpected status {} (expected {})".format(
-            self.method,
-            self.path,
-            self.status,
-            self.expectedStatus
-        )
-
-
-class NoSuchValueError(Exception):
-    def __init__(self, method, path, status, key, availableKeys):
-        self.method = method
-        self.path = path
-        self.status = status
-        self.key = key
-        self.availableKeys = availableKeys
-
-    def __str__(self):
-        return "{} {} result {} does not have field '{}' (available keys are {})".format(
-            self.method,
-            self.path,
-            self.status,
-            self.key,
-            self.availableKeys
-        )
-
-
-class ResponseUnexpectedStatus(Exception):
-    def __init__(self, response, expected_status):
-        self.response = response
-        self.expected_status = expected_status
-
-    def __str__(self):
-        return "{} {} expected status {}, got {} ({})".format(
-            self.response.method,
-            self.response.path,
-            self.expected_status,
-            self.response.status,
-            self.response.reason
-        )
-
-
-class ResponseNoField(Exception):
-    def __init__(self, response, field):
-        self.response = response
-        self.field = field
-
-    def __str__(self):
-        contains = ", ".join(
-            ["'{}'".format(f) for f in self.response.body.keys()]
-        )
-        return "{} response for {} {} does not have field '{}' (contains {})".format(
-            self.response.status,
-            self.response.method,
-            self.response.path,
-            self.field,
-            contains
-        )
-
+import requests
+from v20.errors import ResponseUnexpectedStatus, ResponseNoField, V20Timeout
 
 class Response(object):
     def __init__(self, request, method, path, status, reason, headers):
@@ -112,8 +48,11 @@ class Response(object):
         if self.lines is None:
             return
 
-        for line in self.lines:
-            yield parser(line)
+        try:
+            for line in self.lines:
+                yield parser(line)
+        except requests.exceptions.ConnectionError:
+            raise V20Timeout(self.path, "stream")
 
     def __str__(self):
         s  = "Method = {}\n".format(self.method)

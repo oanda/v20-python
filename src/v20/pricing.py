@@ -1,435 +1,433 @@
-import json
+import ujson as json
 from v20.base_entity import BaseEntity
-from v20.base_entity import Property
 from v20.base_entity import EntityDict
 from v20.request import Request
+from v20 import entity_properties
 
 
 
 class Price(BaseEntity):
+    """
+    The specification of an Account-specific Price.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "type",
-            "Type",
-            "The string \"PRICE\". Used to identify the a Price object when found in a stream.",
-            "primitive",
-            "string",
-            False,
-            "PRICE"
-        ),
-        Property(
-            "instrument",
-            "instrument",
-            "The Price's Instrument.",
-            "primitive",
-            "primitives.InstrumentName",
-            False,
-            None
-        ),
-        Property(
-            "time",
-            "time",
-            "The date/time when the Price was created",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-        Property(
-            "status",
-            "status",
-            "The status of the Price.",
-            "primitive",
-            "pricing.PriceStatus",
-            False,
-            None
-        ),
-        Property(
-            "bids",
-            "bids",
-            "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
-            "array_object",
-            "PriceBucket",
-            False,
-            None
-        ),
-        Property(
-            "asks",
-            "asks",
-            "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
-            "array_object",
-            "PriceBucket",
-            False,
-            None
-        ),
-        Property(
-            "closeoutBid",
-            "closeoutBid",
-            "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "closeoutAsk",
-            "closeoutAsk",
-            "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "quoteHomeConversionFactors",
-            "quoteHomeConversionFactors",
-            "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency.",
-            "object",
-            "pricing.QuoteHomeConversionFactors",
-            False,
-            None
-        ),
-        Property(
-            "unitsAvailable",
-            "unitsAvailable",
-            "Representation of many units of an Instrument are available to be traded for both long and short Orders.",
-            "object",
-            "pricing.UnitsAvailable",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.pricing_Price
 
     def __init__(self, **kwargs):
+        """
+        Create a new Price instance
+        """
         super(Price, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The string "PRICE". Used to identify the a Price object when found in
+        # a stream.
+        #
+        self.type = kwargs.get("type", "PRICE")
+ 
+        #
+        # The Price's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The date/time when the Price was created
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The status of the Price.
+        #
+        self.status = kwargs.get("status")
+ 
+        #
+        # The list of prices and liquidity available on the Instrument's bid
+        # side. It is possible for this list to be empty if there is no bid
+        # liquidity currently available for the Instrument in the Account.
+        #
+        self.bids = kwargs.get("bids")
+ 
+        #
+        # The list of prices and liquidity available on the Instrument's ask
+        # side. It is possible for this list to be empty if there is no ask
+        # liquidity currently available for the Instrument in the Account.
+        #
+        self.asks = kwargs.get("asks")
+ 
+        #
+        # The closeout bid Price. This Price is used when a bid is required to
+        # closeout a Position (margin closeout or manual) yet there is no bid
+        # liquidity. The closeout bid is never used to open a new position.
+        #
+        self.closeoutBid = kwargs.get("closeoutBid")
+ 
+        #
+        # The closeout ask Price. This Price is used when a ask is required to
+        # closeout a Position (margin closeout or manual) yet there is no ask
+        # liquidity. The closeout ask is never used to open a new position.
+        #
+        self.closeoutAsk = kwargs.get("closeoutAsk")
+ 
+        #
+        # The factors used to convert quantities of this price's Instrument's
+        # quote currency into a quantity of the Account's home currency.
+        #
+        self.quoteHomeConversionFactors = kwargs.get("quoteHomeConversionFactors")
+ 
+        #
+        # Representation of many units of an Instrument are available to be
+        # traded for both long and short Orders.
+        #
+        self.unitsAvailable = kwargs.get("unitsAvailable")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new Price from a dict (generally from loading a JSON
+        response). The data used to instantiate the Price is a shallow copy of
+        the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
-
-        if data.get('instrument') is not None:
-            body['instrument'] = \
-                data.get('instrument')
-
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
-
-        if data.get('status') is not None:
-            body['status'] = \
-                data.get('status')
+        data = data.copy()
 
         if data.get('bids') is not None:
-            body['bids'] = [
+            data['bids'] = [
                 PriceBucket.from_dict(d)
                 for d in data.get('bids')
             ]
 
         if data.get('asks') is not None:
-            body['asks'] = [
+            data['asks'] = [
                 PriceBucket.from_dict(d)
                 for d in data.get('asks')
             ]
 
-        if data.get('closeoutBid') is not None:
-            body['closeoutBid'] = \
-                data.get('closeoutBid')
-
-        if data.get('closeoutAsk') is not None:
-            body['closeoutAsk'] = \
-                data.get('closeoutAsk')
-
         if data.get('quoteHomeConversionFactors') is not None:
-            body['quoteHomeConversionFactors'] = \
+            data['quoteHomeConversionFactors'] = \
                 QuoteHomeConversionFactors.from_dict(
                     data['quoteHomeConversionFactors']
                 )
 
         if data.get('unitsAvailable') is not None:
-            body['unitsAvailable'] = \
+            data['unitsAvailable'] = \
                 UnitsAvailable.from_dict(
                     data['unitsAvailable']
                 )
 
-        self = Price(**body)
-
-        return self
+        return Price(**data)
 
 
 class PriceBucket(BaseEntity):
+    """
+    Price Bucket
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "price",
-            "price",
-            "The Price offered by the PriceBucket",
-            "primitive",
-            "pricing.PriceValue",
-            False,
-            None
-        ),
-        Property(
-            "liquidity",
-            "liquidity",
-            "The amount of liquidity offered by the PriceBucket",
-            "primitive",
-            "integer",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.pricing_PriceBucket
 
     def __init__(self, **kwargs):
+        """
+        Create a new PriceBucket instance
+        """
         super(PriceBucket, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The Price offered by the PriceBucket
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The amount of liquidity offered by the PriceBucket
+        #
+        self.liquidity = kwargs.get("liquidity")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new PriceBucket from a dict (generally from loading a
+        JSON response). The data used to instantiate the PriceBucket is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('price') is not None:
-            body['price'] = \
-                data.get('price')
+        data = data.copy()
 
-        if data.get('liquidity') is not None:
-            body['liquidity'] = \
-                data.get('liquidity')
-
-        self = PriceBucket(**body)
-
-        return self
+        return PriceBucket(**data)
 
 
 class UnitsAvailable(BaseEntity):
+    """
+    Representation of many units of an Instrument are available to be traded
+    for both long and short Orders.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "long",
-            "long",
-            "The units available breakdown for long Orders.",
-            "object",
-            "pricing.UnitsAvailableDetails",
-            False,
-            None
-        ),
-        Property(
-            "short",
-            "short",
-            "The units available breakdown for short Orders.",
-            "object",
-            "pricing.UnitsAvailableDetails",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.pricing_UnitsAvailable
 
     def __init__(self, **kwargs):
+        """
+        Create a new UnitsAvailable instance
+        """
         super(UnitsAvailable, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The units available breakdown for long Orders.
+        #
+        self.long = kwargs.get("long")
+ 
+        #
+        # The units available breakdown for short Orders.
+        #
+        self.short = kwargs.get("short")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new UnitsAvailable from a dict (generally from loading a
+        JSON response). The data used to instantiate the UnitsAvailable is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
 
-        body = {}
+        data = data.copy()
+
         if data.get('long') is not None:
-            body['long'] = \
+            data['long'] = \
                 UnitsAvailableDetails.from_dict(
                     data['long']
                 )
 
         if data.get('short') is not None:
-            body['short'] = \
+            data['short'] = \
                 UnitsAvailableDetails.from_dict(
                     data['short']
                 )
 
-        self = UnitsAvailable(**body)
-
-        return self
+        return UnitsAvailable(**data)
 
 
 class UnitsAvailableDetails(BaseEntity):
+    """
+    Representation of how many units of an Instrument are available to be
+    traded by an Order depending on its postionFill option.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "default",
-            "default",
-            "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "reduceFirst",
-            "reduceFirst",
-            "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "reduceOnly",
-            "reduceOnly",
-            "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "openOnly",
-            "openOnly",
-            "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.pricing_UnitsAvailableDetails
 
     def __init__(self, **kwargs):
+        """
+        Create a new UnitsAvailableDetails instance
+        """
         super(UnitsAvailableDetails, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The number of units that are available to be traded using an Order
+        # with a positionFill option of "DEFAULT". For an Account with hedging
+        # enabled, this value will be the same as the "OPEN_ONLY" value. For an
+        # Account without hedging enabled, this value will be the same as the
+        # "REDUCE_FIRST" value.
+        #
+        self.default = kwargs.get("default")
+ 
+        #
+        # The number of units that may are available to be traded with an Order
+        # with a positionFill option of "REDUCE_FIRST".
+        #
+        self.reduceFirst = kwargs.get("reduceFirst")
+ 
+        #
+        # The number of units that may are available to be traded with an Order
+        # with a positionFill option of "REDUCE_ONLY".
+        #
+        self.reduceOnly = kwargs.get("reduceOnly")
+ 
+        #
+        # The number of units that may are available to be traded with an Order
+        # with a positionFill option of "OPEN_ONLY".
+        #
+        self.openOnly = kwargs.get("openOnly")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new UnitsAvailableDetails from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        UnitsAvailableDetails is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('default') is not None:
-            body['default'] = \
-                data.get('default')
+        data = data.copy()
 
-        if data.get('reduceFirst') is not None:
-            body['reduceFirst'] = \
-                data.get('reduceFirst')
-
-        if data.get('reduceOnly') is not None:
-            body['reduceOnly'] = \
-                data.get('reduceOnly')
-
-        if data.get('openOnly') is not None:
-            body['openOnly'] = \
-                data.get('openOnly')
-
-        self = UnitsAvailableDetails(**body)
-
-        return self
+        return UnitsAvailableDetails(**data)
 
 
 class QuoteHomeConversionFactors(BaseEntity):
+    """
+    QuoteHomeConversionFactors represents the factors that can be used used to
+    convert quantities of a Price's Instrument's quote currency into the
+    Account's home currency.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "positiveUnits",
-            "positiveUnits",
-            "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-        Property(
-            "negativeUnits",
-            "negativeUnits",
-            "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
-            "primitive",
-            "primitives.DecimalNumber",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.pricing_QuoteHomeConversionFactors
 
     def __init__(self, **kwargs):
+        """
+        Create a new QuoteHomeConversionFactors instance
+        """
         super(QuoteHomeConversionFactors, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The factor used to convert a positive amount of the Price's
+        # Instrument's quote currency into a positive amount of the Account's
+        # home currency.  Conversion is performed by multiplying the quote
+        # units by the conversion factor.
+        #
+        self.positiveUnits = kwargs.get("positiveUnits")
+ 
+        #
+        # The factor used to convert a negative amount of the Price's
+        # Instrument's quote currency into a negative amount of the Account's
+        # home currency.  Conversion is performed by multiplying the quote
+        # units by the conversion factor.
+        #
+        self.negativeUnits = kwargs.get("negativeUnits")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new QuoteHomeConversionFactors from a dict (generally
+        from loading a JSON response). The data used to instantiate the
+        QuoteHomeConversionFactors is a shallow copy of the dict passed in,
+        with any complex child types instantiated appropriately.
+        """
 
-        body = {}
-        if data.get('positiveUnits') is not None:
-            body['positiveUnits'] = \
-                data.get('positiveUnits')
+        data = data.copy()
 
-        if data.get('negativeUnits') is not None:
-            body['negativeUnits'] = \
-                data.get('negativeUnits')
-
-        self = QuoteHomeConversionFactors(**body)
-
-        return self
+        return QuoteHomeConversionFactors(**data)
 
 
 class Heartbeat(BaseEntity):
+    """
+    A Heartbeat object is injected into the Pricing stream to ensure that the
+    HTTP connection remains active.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
     _summary_format = "Pricing Heartbeat {time}"
+
+    #
+    # Format string used when generating a name for this object
+    #
     _name_format = ""
 
-    _properties = [
-        Property(
-            "type",
-            "type",
-            "The string \"HEARTBEAT\"",
-            "primitive",
-            "string",
-            False,
-            "HEARTBEAT"
-        ),
-        Property(
-            "time",
-            "time",
-            "The date/time when the Heartbeat was created.",
-            "primitive",
-            "primitives.DateTime",
-            False,
-            None
-        ),
-    ]
+    #
+    # Property metadata for this object
+    #
+    _properties = entity_properties.pricing_Heartbeat
 
     def __init__(self, **kwargs):
+        """
+        Create a new Heartbeat instance
+        """
         super(Heartbeat, self).__init__()
-        for prop in self._properties:
-            setattr(self, prop.name, kwargs.get(prop.name, prop.default))
+ 
+        #
+        # The string "HEARTBEAT"
+        #
+        self.type = kwargs.get("type", "HEARTBEAT")
+ 
+        #
+        # The date/time when the Heartbeat was created.
+        #
+        self.time = kwargs.get("time")
 
     @staticmethod
     def from_dict(data):
+        """
+        Instantiate a new Heartbeat from a dict (generally from loading a JSON
+        response). The data used to instantiate the Heartbeat is a shallow copy
+        of the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
 
-        body = {}
-        if data.get('type') is not None:
-            body['type'] = \
-                data.get('type')
+        data = data.copy()
 
-        if data.get('time') is not None:
-            body['time'] = \
-                data.get('time')
+        return Heartbeat(**data)
 
-        self = Heartbeat(**body)
-
-        return self
 
 class EntitySpec(object):
+    """
+    The pricing.EntitySpec wraps the pricing module's type definitions 
+    and API methods so they can be easily accessed through an instance of a v20
+    Context.
+    """
+
     Price = Price
     PriceBucket = PriceBucket
     UnitsAvailable = UnitsAvailable
