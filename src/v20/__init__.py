@@ -14,7 +14,19 @@ class Context(object):
     """
     A v20.Context encapuslates a connection to OANDA's v20 REST API
     """
-    def __init__(self, hostname, port, ssl=False, application=""):
+    def __init__(
+        self,
+        hostname,
+        port=443,
+        ssl=True,
+        application="",
+        token=None,
+        decimal_number_as_float=True,
+        stream_chunk_size=512,
+        stream_timeout=10,
+        datetime_format="RFC3339",
+        poll_timeout=2
+    ):
         """
         Create an API context for v20 access
 
@@ -23,61 +35,99 @@ class Context(object):
             port: The port of the v20 REST server
             ssl: Flag to enable/disable SSL
             application: Optional name of the application using the v20 bindings
+            token: The authorization token to use when making requests to the
+                v20 server
+            decimal_number_as_float: Flag that controls whether the string
+                representation of floats received from the server should be
+                converted into floats or not
+            stream_chunk_size: The size of each chunk to read when processing a
+                stream response
+            stream_timeout: The timeout to use when making a stream request
+                with the v20 REST server
+            datetime_format: The format to request when dealing with times
+            poll_timeout: The timeout to use when making a polling request with
+                the v20 REST server
         """
 
+        #
         # V20 REST server hostname
+        #
         self.hostname = hostname
 
+        #
         # V20 REST server port
+        #
         self.port = port
 
-        # Current username for the context
-        self.username = None
+        #
+        # The format to use when dealing with times
+        #
+        self.datetime_format = datetime_format
 
+        #
+        # Form the value for the OANDA-Agent header
+        #
         extensions = ""
 
         if application != "":
             extensions = " ({})".format(application)
 
-        # The format to use when dealing with times
-        self.datetime_format = "RFC3339"
+        oanda_agent = "v20-python/3.0.10{}".format(extensions)
 
-        oanda_agent = "v20-python/3.0.9{}".format(extensions)
-
+        #
         # Context headers to add to every request sent to the server
+        #
         self._headers = {
             "Content-Type": "application/json",
             "OANDA-Agent": oanda_agent,
             "Accept-Datetime-Format": self.datetime_format
         }
 
+        #
         # Current authentication token
+        #
         self.token = None
 
-        # The list of accounts accessible for the current token
-        self.token_account_ids = []
+        if token is not None:
+            self.set_token(token)
 
+        #
         # The base URL for every request made using the context
+        #
         self._base_url = "http{}://{}:{}".format(
             "s" if ssl else "",
             hostname,
             port
         )
 
+        #
         # The session used for communicating with the REST server
+        #
         self._session = requests.Session()
 
-        # The size of each chunk to read when processing a stream
-        # respons
-        self.stream_chunk_size = 512
+        #
+        # Flag that controls whether the string representation of floats
+        # received from the server should be converted into floats or not
+        #
+        self.decimal_number_as_float = decimal_number_as_float
 
+        #
+        # The size of each chunk to read when processing a stream
+        # response
+        #
+        self.stream_chunk_size = stream_chunk_size
+
+        #
         # The timeout to use when making a stream request with the
         # v20 REST server
-        self.stream_timeout = 10
+        #
+        self.stream_timeout = stream_timeout
 
+        #
         # The timeout to use when making a polling request with the
         # v20 REST server
-        self.poll_timeout = 10
+        #
+        self.poll_timeout = poll_timeout
 
         self.account = account.EntitySpec(self)
         self.transaction = transaction.EntitySpec(self)
@@ -93,6 +143,10 @@ class Context(object):
         """
         Set an HTTP header for all requests to the v20 API using
         this context
+
+        Args:
+            key: header key to set
+            value: header value
         """
 
         self._headers[key] = value
@@ -101,6 +155,9 @@ class Context(object):
     def delete_header(self, key):
         """
         Remove an HTTP header from the context
+
+        Args:
+            key: header key to remove
         """
         if key in self._headers:
             del self._headers[key]
@@ -126,8 +183,11 @@ class Context(object):
         """
         Set the Accept-Datetime-Format header to an acceptable
         value
+
+        Args:
+            format: UNIX or RFC3339
         """
-        if not format in ["UNIX", "RFC3330"]:
+        if not format in ["UNIX", "RFC3339"]:
             return
 
         self.datetime_format = format
@@ -153,6 +213,9 @@ class Context(object):
         """
         Format a datetime object as a string depending on how the
         context has been configured.
+
+        Args:
+            dt: A datetime object to convert to a string
         """
 
         if self.datetime_format == "UNIX":
@@ -161,7 +224,36 @@ class Context(object):
         return dt.strftime("%Y-%m-%dT%H:%M:%S.000000000Z")
 
 
+    def set_convert_decimal_number_to_native(self, value):
+        """
+        Enable or disable the conversion of string-represented decimal
+        numbers to native format (floats).
+
+        Args:
+            value: True of False to enable/disable this feature
+        """
+        self.decimal_number_as_float = value
+
+
+    def convert_decimal_number(self, value):
+        """
+        Parse a wire-format DecimalNumber, AccountValue or PriceValue (i.e. a
+        string-formatted float) either to a float or leave as a string
+        depending on how the context is configured
+
+        Args:
+            value: A string representation of a float to parse
+        """
+        if self.decimal_number_as_float:
+            return float(value)
+
+        return value
+
+
     def set_stream_chunk_size(self, size):
+        """
+        Set the chunk size when iterating over the lines of a stream response
+        """
         self.stream_chunk_size = size
 
 

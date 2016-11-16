@@ -45,7 +45,7 @@ class OrderIdentifier(BaseEntity):
         self.clientOrderID = kwargs.get("clientOrderID")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new OrderIdentifier from a dict (generally from loading a
         JSON response). The data used to instantiate the OrderIdentifier is a
@@ -111,7 +111,7 @@ class DynamicOrderState(BaseEntity):
         self.isTriggerDistanceExact = kwargs.get("isTriggerDistanceExact")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new DynamicOrderState from a dict (generally from loading
         a JSON response). The data used to instantiate the DynamicOrderState is
@@ -120,6 +120,16 @@ class DynamicOrderState(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('trailingStopValue') is not None:
+            data['trailingStopValue'] = ctx.convert_decimal_number(
+                data.get('trailingStopValue')
+            )
+
+        if data.get('triggerDistance') is not None:
+            data['triggerDistance'] = ctx.convert_decimal_number(
+                data.get('triggerDistance')
+            )
 
         return DynamicOrderState(**data)
 
@@ -173,7 +183,7 @@ class Order(BaseEntity):
         self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new Order from a dict (generally from loading a JSON
         response). The data used to instantiate the Order is a shallow copy of
@@ -184,26 +194,26 @@ class Order(BaseEntity):
         type = data.get("type")
 
         if type == "MARKET":
-            return MarketOrder.from_dict(data)
+            return MarketOrder.from_dict(data, ctx)
         if type == "LIMIT":
-            return LimitOrder.from_dict(data)
+            return LimitOrder.from_dict(data, ctx)
         if type == "STOP":
-            return StopOrder.from_dict(data)
+            return StopOrder.from_dict(data, ctx)
         if type == "MARKET_IF_TOUCHED":
-            return MarketIfTouchedOrder.from_dict(data)
+            return MarketIfTouchedOrder.from_dict(data, ctx)
         if type == "TAKE_PROFIT":
-            return TakeProfitOrder.from_dict(data)
+            return TakeProfitOrder.from_dict(data, ctx)
         if type == "STOP_LOSS":
-            return StopLossOrder.from_dict(data)
+            return StopLossOrder.from_dict(data, ctx)
         if type == "TRAILING_STOP_LOSS":
-            return TrailingStopLossOrder.from_dict(data)
+            return TrailingStopLossOrder.from_dict(data, ctx)
 
         data = data.copy()
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
 
         return Order(**data)
@@ -401,7 +411,7 @@ class MarketOrder(BaseEntity):
         self.cancelledTime = kwargs.get("cancelledTime")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new MarketOrder from a dict (generally from loading a
         JSON response). The data used to instantiate the MarketOrder is a
@@ -413,62 +423,72 @@ class MarketOrder(BaseEntity):
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
 
         if data.get('tradeClose') is not None:
             data['tradeClose'] = \
-                transaction.MarketOrderTradeClose.from_dict(
-                    data['tradeClose']
+                ctx.transaction.MarketOrderTradeClose.from_dict(
+                    data['tradeClose'], ctx
                 )
 
         if data.get('longPositionCloseout') is not None:
             data['longPositionCloseout'] = \
-                transaction.MarketOrderPositionCloseout.from_dict(
-                    data['longPositionCloseout']
+                ctx.transaction.MarketOrderPositionCloseout.from_dict(
+                    data['longPositionCloseout'], ctx
                 )
 
         if data.get('shortPositionCloseout') is not None:
             data['shortPositionCloseout'] = \
-                transaction.MarketOrderPositionCloseout.from_dict(
-                    data['shortPositionCloseout']
+                ctx.transaction.MarketOrderPositionCloseout.from_dict(
+                    data['shortPositionCloseout'], ctx
                 )
 
         if data.get('marginCloseout') is not None:
             data['marginCloseout'] = \
-                transaction.MarketOrderMarginCloseout.from_dict(
-                    data['marginCloseout']
+                ctx.transaction.MarketOrderMarginCloseout.from_dict(
+                    data['marginCloseout'], ctx
                 )
 
         if data.get('delayedTradeClose') is not None:
             data['delayedTradeClose'] = \
-                transaction.MarketOrderDelayedTradeClose.from_dict(
-                    data['delayedTradeClose']
+                ctx.transaction.MarketOrderDelayedTradeClose.from_dict(
+                    data['delayedTradeClose'], ctx
                 )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
-                transaction.TakeProfitDetails.from_dict(
-                    data['takeProfitOnFill']
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
                 )
 
         if data.get('stopLossOnFill') is not None:
             data['stopLossOnFill'] = \
-                transaction.StopLossDetails.from_dict(
-                    data['stopLossOnFill']
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
             data['trailingStopLossOnFill'] = \
-                transaction.TrailingStopLossDetails.from_dict(
-                    data['trailingStopLossOnFill']
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
                 )
 
         if data.get('tradeClientExtensions') is not None:
             data['tradeClientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['tradeClientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
                 )
 
 
@@ -654,7 +674,7 @@ class LimitOrder(BaseEntity):
         self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new LimitOrder from a dict (generally from loading a JSON
         response). The data used to instantiate the LimitOrder is a shallow
@@ -666,32 +686,42 @@ class LimitOrder(BaseEntity):
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
-                transaction.TakeProfitDetails.from_dict(
-                    data['takeProfitOnFill']
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
                 )
 
         if data.get('stopLossOnFill') is not None:
             data['stopLossOnFill'] = \
-                transaction.StopLossDetails.from_dict(
-                    data['stopLossOnFill']
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
             data['trailingStopLossOnFill'] = \
-                transaction.TrailingStopLossDetails.from_dict(
-                    data['trailingStopLossOnFill']
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
                 )
 
         if data.get('tradeClientExtensions') is not None:
             data['tradeClientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['tradeClientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
                 )
 
 
@@ -884,7 +914,7 @@ class StopOrder(BaseEntity):
         self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new StopOrder from a dict (generally from loading a JSON
         response). The data used to instantiate the StopOrder is a shallow copy
@@ -896,32 +926,47 @@ class StopOrder(BaseEntity):
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
-                transaction.TakeProfitDetails.from_dict(
-                    data['takeProfitOnFill']
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
                 )
 
         if data.get('stopLossOnFill') is not None:
             data['stopLossOnFill'] = \
-                transaction.StopLossDetails.from_dict(
-                    data['stopLossOnFill']
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
             data['trailingStopLossOnFill'] = \
-                transaction.TrailingStopLossDetails.from_dict(
-                    data['trailingStopLossOnFill']
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
                 )
 
         if data.get('tradeClientExtensions') is not None:
             data['tradeClientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['tradeClientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
                 )
 
 
@@ -1125,7 +1170,7 @@ class MarketIfTouchedOrder(BaseEntity):
         self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new MarketIfTouchedOrder from a dict (generally from
         loading a JSON response). The data used to instantiate the
@@ -1137,32 +1182,52 @@ class MarketIfTouchedOrder(BaseEntity):
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
+        if data.get('initialMarketPrice') is not None:
+            data['initialMarketPrice'] = ctx.convert_decimal_number(
+                data.get('initialMarketPrice')
+            )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
-                transaction.TakeProfitDetails.from_dict(
-                    data['takeProfitOnFill']
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
                 )
 
         if data.get('stopLossOnFill') is not None:
             data['stopLossOnFill'] = \
-                transaction.StopLossDetails.from_dict(
-                    data['stopLossOnFill']
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
             data['trailingStopLossOnFill'] = \
-                transaction.TrailingStopLossDetails.from_dict(
-                    data['trailingStopLossOnFill']
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
                 )
 
         if data.get('tradeClientExtensions') is not None:
             data['tradeClientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['tradeClientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
                 )
 
 
@@ -1313,7 +1378,7 @@ class TakeProfitOrder(BaseEntity):
         self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new TakeProfitOrder from a dict (generally from loading a
         JSON response). The data used to instantiate the TakeProfitOrder is a
@@ -1325,9 +1390,14 @@ class TakeProfitOrder(BaseEntity):
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
 
         return TakeProfitOrder(**data)
@@ -1477,7 +1547,7 @@ class StopLossOrder(BaseEntity):
         self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new StopLossOrder from a dict (generally from loading a
         JSON response). The data used to instantiate the StopLossOrder is a
@@ -1489,9 +1559,14 @@ class StopLossOrder(BaseEntity):
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
 
         return StopLossOrder(**data)
@@ -1653,7 +1728,7 @@ class TrailingStopLossOrder(BaseEntity):
         self.replacedByOrderID = kwargs.get("replacedByOrderID")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new TrailingStopLossOrder from a dict (generally from
         loading a JSON response). The data used to instantiate the
@@ -1665,9 +1740,19 @@ class TrailingStopLossOrder(BaseEntity):
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
+
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
+            )
+
+        if data.get('trailingStopValue') is not None:
+            data['trailingStopValue'] = ctx.convert_decimal_number(
+                data.get('trailingStopValue')
+            )
 
 
         return TrailingStopLossOrder(**data)
@@ -1701,7 +1786,7 @@ class OrderRequest(BaseEntity):
         super(OrderRequest, self).__init__()
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new OrderRequest from a dict (generally from loading a
         JSON response). The data used to instantiate the OrderRequest is a
@@ -1816,7 +1901,7 @@ class MarketOrderRequest(BaseEntity):
         self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new MarketOrderRequest from a dict (generally from
         loading a JSON response). The data used to instantiate the
@@ -1826,34 +1911,44 @@ class MarketOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
-                transaction.TakeProfitDetails.from_dict(
-                    data['takeProfitOnFill']
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
                 )
 
         if data.get('stopLossOnFill') is not None:
             data['stopLossOnFill'] = \
-                transaction.StopLossDetails.from_dict(
-                    data['stopLossOnFill']
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
             data['trailingStopLossOnFill'] = \
-                transaction.TrailingStopLossDetails.from_dict(
-                    data['trailingStopLossOnFill']
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
                 )
 
         if data.get('tradeClientExtensions') is not None:
             data['tradeClientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['tradeClientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
                 )
 
         return MarketOrderRequest(**data)
@@ -1967,7 +2062,7 @@ class LimitOrderRequest(BaseEntity):
         self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new LimitOrderRequest from a dict (generally from loading
         a JSON response). The data used to instantiate the LimitOrderRequest is
@@ -1977,34 +2072,44 @@ class LimitOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
-                transaction.TakeProfitDetails.from_dict(
-                    data['takeProfitOnFill']
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
                 )
 
         if data.get('stopLossOnFill') is not None:
             data['stopLossOnFill'] = \
-                transaction.StopLossDetails.from_dict(
-                    data['stopLossOnFill']
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
             data['trailingStopLossOnFill'] = \
-                transaction.TrailingStopLossDetails.from_dict(
-                    data['trailingStopLossOnFill']
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
                 )
 
         if data.get('tradeClientExtensions') is not None:
             data['tradeClientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['tradeClientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
                 )
 
         return LimitOrderRequest(**data)
@@ -2125,7 +2230,7 @@ class StopOrderRequest(BaseEntity):
         self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new StopOrderRequest from a dict (generally from loading
         a JSON response). The data used to instantiate the StopOrderRequest is
@@ -2135,34 +2240,49 @@ class StopOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
-                transaction.TakeProfitDetails.from_dict(
-                    data['takeProfitOnFill']
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
                 )
 
         if data.get('stopLossOnFill') is not None:
             data['stopLossOnFill'] = \
-                transaction.StopLossDetails.from_dict(
-                    data['stopLossOnFill']
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
             data['trailingStopLossOnFill'] = \
-                transaction.TrailingStopLossDetails.from_dict(
-                    data['trailingStopLossOnFill']
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
                 )
 
         if data.get('tradeClientExtensions') is not None:
             data['tradeClientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['tradeClientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
                 )
 
         return StopOrderRequest(**data)
@@ -2286,7 +2406,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
         self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new MarketIfTouchedOrderRequest from a dict (generally
         from loading a JSON response). The data used to instantiate the
@@ -2296,34 +2416,49 @@ class MarketIfTouchedOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
-                transaction.TakeProfitDetails.from_dict(
-                    data['takeProfitOnFill']
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
                 )
 
         if data.get('stopLossOnFill') is not None:
             data['stopLossOnFill'] = \
-                transaction.StopLossDetails.from_dict(
-                    data['stopLossOnFill']
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
                 )
 
         if data.get('trailingStopLossOnFill') is not None:
             data['trailingStopLossOnFill'] = \
-                transaction.TrailingStopLossDetails.from_dict(
-                    data['trailingStopLossOnFill']
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
                 )
 
         if data.get('tradeClientExtensions') is not None:
             data['tradeClientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['tradeClientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
                 )
 
         return MarketIfTouchedOrderRequest(**data)
@@ -2399,7 +2534,7 @@ class TakeProfitOrderRequest(BaseEntity):
         self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new TakeProfitOrderRequest from a dict (generally from
         loading a JSON response). The data used to instantiate the
@@ -2409,10 +2544,15 @@ class TakeProfitOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
 
         return TakeProfitOrderRequest(**data)
@@ -2488,7 +2628,7 @@ class StopLossOrderRequest(BaseEntity):
         self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new StopLossOrderRequest from a dict (generally from
         loading a JSON response). The data used to instantiate the
@@ -2498,10 +2638,15 @@ class StopLossOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
 
         return StopLossOrderRequest(**data)
@@ -2575,7 +2720,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
         self.clientExtensions = kwargs.get("clientExtensions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new TrailingStopLossOrderRequest from a dict (generally
         from loading a JSON response). The data used to instantiate the
@@ -2585,10 +2730,15 @@ class TrailingStopLossOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
-                transaction.ClientExtensions.from_dict(
-                    data['clientExtensions']
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
                 )
 
         return TrailingStopLossOrderRequest(**data)
@@ -2678,32 +2828,37 @@ class EntitySpec(object):
         if str(response.status) == "201":
             if jbody.get('orderCreateTransaction') is not None:
                 parsed_body['orderCreateTransaction'] = \
-                    transaction.Transaction.from_dict(
-                        jbody['orderCreateTransaction']
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderCreateTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('orderFillTransaction') is not None:
                 parsed_body['orderFillTransaction'] = \
-                    transaction.OrderFillTransaction.from_dict(
-                        jbody['orderFillTransaction']
+                    self.ctx.transaction.OrderFillTransaction.from_dict(
+                        jbody['orderFillTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('orderCancelTransaction') is not None:
                 parsed_body['orderCancelTransaction'] = \
-                    transaction.OrderCancelTransaction.from_dict(
-                        jbody['orderCancelTransaction']
+                    self.ctx.transaction.OrderCancelTransaction.from_dict(
+                        jbody['orderCancelTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('orderReissueTransaction') is not None:
                 parsed_body['orderReissueTransaction'] = \
-                    transaction.Transaction.from_dict(
-                        jbody['orderReissueTransaction']
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderReissueTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('orderReissueRejectTransaction') is not None:
                 parsed_body['orderReissueRejectTransaction'] = \
-                    transaction.Transaction.from_dict(
-                        jbody['orderReissueRejectTransaction']
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderReissueRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('relatedTransactionIDs') is not None:
@@ -2717,8 +2872,9 @@ class EntitySpec(object):
         elif str(response.status) == "400":
             if jbody.get('orderRejectTransaction') is not None:
                 parsed_body['orderRejectTransaction'] = \
-                    transaction.Transaction.from_dict(
-                        jbody['orderRejectTransaction']
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('relatedTransactionIDs') is not None:
@@ -2837,7 +2993,7 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('orders') is not None:
                 parsed_body['orders'] = [
-                    Order.from_dict(d)
+                    self.ctx.order.Order.from_dict(d, self.ctx)
                     for d in jbody.get('orders')
                 ]
 
@@ -2909,7 +3065,7 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('orders') is not None:
                 parsed_body['orders'] = [
-                    Order.from_dict(d)
+                    self.ctx.order.Order.from_dict(d, self.ctx)
                     for d in jbody.get('orders')
                 ]
 
@@ -2989,8 +3145,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('order') is not None:
                 parsed_body['order'] = \
-                    Order.from_dict(
-                        jbody['order']
+                    self.ctx.order.Order.from_dict(
+                        jbody['order'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:
@@ -3078,38 +3235,44 @@ class EntitySpec(object):
         if str(response.status) == "201":
             if jbody.get('orderCancelTransaction') is not None:
                 parsed_body['orderCancelTransaction'] = \
-                    transaction.OrderCancelTransaction.from_dict(
-                        jbody['orderCancelTransaction']
+                    self.ctx.transaction.OrderCancelTransaction.from_dict(
+                        jbody['orderCancelTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('orderCreateTransaction') is not None:
                 parsed_body['orderCreateTransaction'] = \
-                    transaction.Transaction.from_dict(
-                        jbody['orderCreateTransaction']
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderCreateTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('orderFillTransaction') is not None:
                 parsed_body['orderFillTransaction'] = \
-                    transaction.OrderFillTransaction.from_dict(
-                        jbody['orderFillTransaction']
+                    self.ctx.transaction.OrderFillTransaction.from_dict(
+                        jbody['orderFillTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('orderReissueTransaction') is not None:
                 parsed_body['orderReissueTransaction'] = \
-                    transaction.Transaction.from_dict(
-                        jbody['orderReissueTransaction']
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderReissueTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('orderReissueRejectTransaction') is not None:
                 parsed_body['orderReissueRejectTransaction'] = \
-                    transaction.Transaction.from_dict(
-                        jbody['orderReissueRejectTransaction']
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderReissueRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('replacingOrderCancelTransaction') is not None:
                 parsed_body['replacingOrderCancelTransaction'] = \
-                    transaction.OrderCancelTransaction.from_dict(
-                        jbody['replacingOrderCancelTransaction']
+                    self.ctx.transaction.OrderCancelTransaction.from_dict(
+                        jbody['replacingOrderCancelTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('relatedTransactionIDs') is not None:
@@ -3123,8 +3286,9 @@ class EntitySpec(object):
         elif str(response.status) == "400":
             if jbody.get('orderRejectTransaction') is not None:
                 parsed_body['orderRejectTransaction'] = \
-                    transaction.Transaction.from_dict(
-                        jbody['orderRejectTransaction']
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('relatedTransactionIDs') is not None:
@@ -3215,8 +3379,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('orderCancelTransaction') is not None:
                 parsed_body['orderCancelTransaction'] = \
-                    transaction.OrderCancelTransaction.from_dict(
-                        jbody['orderCancelTransaction']
+                    self.ctx.transaction.OrderCancelTransaction.from_dict(
+                        jbody['orderCancelTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('relatedTransactionIDs') is not None:
@@ -3230,8 +3395,9 @@ class EntitySpec(object):
         elif str(response.status) == "404":
             if jbody.get('orderCancelRejectTransaction') is not None:
                 parsed_body['orderCancelRejectTransaction'] = \
-                    transaction.OrderCancelRejectTransaction.from_dict(
-                        jbody['orderCancelRejectTransaction']
+                    self.ctx.transaction.OrderCancelRejectTransaction.from_dict(
+                        jbody['orderCancelRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('relatedTransactionIDs') is not None:
@@ -3341,8 +3507,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('orderClientExtensionsModifyTransaction') is not None:
                 parsed_body['orderClientExtensionsModifyTransaction'] = \
-                    transaction.OrderClientExtensionsModifyTransaction.from_dict(
-                        jbody['orderClientExtensionsModifyTransaction']
+                    self.ctx.transaction.OrderClientExtensionsModifyTransaction.from_dict(
+                        jbody['orderClientExtensionsModifyTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:
@@ -3352,8 +3519,9 @@ class EntitySpec(object):
         elif str(response.status) == "400":
             if jbody.get('orderClientExtensionsModifyRejectTransaction') is not None:
                 parsed_body['orderClientExtensionsModifyRejectTransaction'] = \
-                    transaction.OrderClientExtensionsModifyRejectTransaction.from_dict(
-                        jbody['orderClientExtensionsModifyRejectTransaction']
+                    self.ctx.transaction.OrderClientExtensionsModifyRejectTransaction.from_dict(
+                        jbody['orderClientExtensionsModifyRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:
@@ -3386,7 +3554,6 @@ class EntitySpec(object):
         return response
 
 
-
     def market(self, accountID, **kwargs):
         """
         Shortcut to create a Market Order in an Account
@@ -3404,6 +3571,7 @@ class EntitySpec(object):
             order=MarketOrderRequest(**kwargs)
         )
 
+
     def limit(self, accountID, **kwargs):
         """
         Shortcut to create a Limit Order in an Account
@@ -3420,6 +3588,7 @@ class EntitySpec(object):
             accountID,
             order=LimitOrderRequest(**kwargs)
         )
+
 
     def limit_replace(self, accountID, orderID, **kwargs):
         """
@@ -3440,6 +3609,7 @@ class EntitySpec(object):
             order=LimitOrderRequest(**kwargs)
         )
 
+
     def stop(self, accountID, **kwargs):
         """
         Shortcut to create a Stop Order in an Account
@@ -3456,6 +3626,7 @@ class EntitySpec(object):
             accountID,
             order=StopOrderRequest(**kwargs)
         )
+
 
     def stop_replace(self, accountID, orderID, **kwargs):
         """
@@ -3476,6 +3647,7 @@ class EntitySpec(object):
             order=StopOrderRequest(**kwargs)
         )
 
+
     def market_if_touched(self, accountID, **kwargs):
         """
         Shortcut to create a MarketIfTouched Order in an Account
@@ -3492,6 +3664,7 @@ class EntitySpec(object):
             accountID,
             order=MarketIfTouchedOrderRequest(**kwargs)
         )
+
 
     def market_if_touched_replace(self, accountID, orderID, **kwargs):
         """
@@ -3512,6 +3685,7 @@ class EntitySpec(object):
             order=MarketIfTouchedOrderRequest(**kwargs)
         )
 
+
     def take_profit(self, accountID, **kwargs):
         """
         Shortcut to create a Take Profit Order in an Account
@@ -3528,6 +3702,7 @@ class EntitySpec(object):
             accountID,
             order=TakeProfitOrderRequest(**kwargs)
         )
+
 
     def take_profit_replace(self, accountID, orderID, **kwargs):
         """
@@ -3548,6 +3723,7 @@ class EntitySpec(object):
             order=TakeProfitOrderRequest(**kwargs)
         )
 
+
     def stop_loss(self, accountID, **kwargs):
         """
         Shortcut to create a Stop Loss Order in an Account
@@ -3564,6 +3740,7 @@ class EntitySpec(object):
             accountID,
             order=StopLossOrderRequest(**kwargs)
         )
+
 
     def stop_loss_replace(self, accountID, orderID, **kwargs):
         """
@@ -3584,6 +3761,7 @@ class EntitySpec(object):
             order=StopLossOrderRequest(**kwargs)
         )
 
+
     def trailing_stop_loss(self, accountID, **kwargs):
         """
         Shortcut to create a Trailing Stop Loss Order in an Account
@@ -3600,6 +3778,7 @@ class EntitySpec(object):
             accountID,
             order=TrailingStopLossOrderRequest(**kwargs)
         )
+
 
     def trailing_stop_loss_replace(self, accountID, orderID, **kwargs):
         """

@@ -1,5 +1,24 @@
 OANDA v20 API Change Log
 
+Version 3.0.10 (November 16, 2016)
+
+	* v20-python accepts floats for numeric values, and will convert them
+	  to their string representation before sending them over the wire
+
+	* v20-python automatically decodes string-encoded floats into native
+	  python floats. This behaviour can be disabled/enabled through the
+	  Context
+
+	* v20-python Context initialiser sets default values port=443,
+	  ssl=True
+
+	* v20-python Context initialiser allows configuration of token,
+	  string to float conversion, stream_chunk_size, stream_timeout,
+	  datetime_format and poll_timeout
+
+	* v20-python poll_timeout default changed from 10 to 2
+
+
 Version 3.0.9 (November 09, 2016)
 
 	* v20-python uses ujson instead of json for improved performance

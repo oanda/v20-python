@@ -1,4 +1,4 @@
-import json
+import ujson as json
 
 class Request(object):
     def __init__(self, method, path):

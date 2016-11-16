@@ -67,7 +67,7 @@ class Position(BaseEntity):
         self.short = kwargs.get("short")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new Position from a dict (generally from loading a JSON
         response). The data used to instantiate the Position is a shallow copy
@@ -79,14 +79,14 @@ class Position(BaseEntity):
 
         if data.get('long') is not None:
             data['long'] = \
-                PositionSide.from_dict(
-                    data['long']
+                ctx.position.PositionSide.from_dict(
+                    data['long'], ctx
                 )
 
         if data.get('short') is not None:
             data['short'] = \
-                PositionSide.from_dict(
-                    data['short']
+                ctx.position.PositionSide.from_dict(
+                    data['short'], ctx
                 )
 
         return Position(**data)
@@ -154,7 +154,7 @@ class PositionSide(BaseEntity):
         self.resettablePL = kwargs.get("resettablePL")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new PositionSide from a dict (generally from loading a
         JSON response). The data used to instantiate the PositionSide is a
@@ -163,6 +163,16 @@ class PositionSide(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('averagePrice') is not None:
+            data['averagePrice'] = ctx.convert_decimal_number(
+                data.get('averagePrice')
+            )
 
 
         return PositionSide(**data)
@@ -215,7 +225,7 @@ class CalculatedPositionState(BaseEntity):
         self.shortUnrealizedPL = kwargs.get("shortUnrealizedPL")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new CalculatedPositionState from a dict (generally from
         loading a JSON response). The data used to instantiate the
@@ -291,7 +301,7 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('positions') is not None:
                 parsed_body['positions'] = [
-                    Position.from_dict(d)
+                    self.ctx.position.Position.from_dict(d, self.ctx)
                     for d in jbody.get('positions')
                 ]
 
@@ -364,7 +374,7 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('positions') is not None:
                 parsed_body['positions'] = [
-                    Position.from_dict(d)
+                    self.ctx.position.Position.from_dict(d, self.ctx)
                     for d in jbody.get('positions')
                 ]
 
@@ -445,8 +455,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('position') is not None:
                 parsed_body['position'] = \
-                    Position.from_dict(
-                        jbody['position']
+                    self.ctx.position.Position.from_dict(
+                        jbody['position'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:
@@ -555,38 +566,44 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('longOrderCreateTransaction') is not None:
                 parsed_body['longOrderCreateTransaction'] = \
-                    transaction.MarketOrderTransaction.from_dict(
-                        jbody['longOrderCreateTransaction']
+                    self.ctx.transaction.MarketOrderTransaction.from_dict(
+                        jbody['longOrderCreateTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('longOrderFillTransaction') is not None:
                 parsed_body['longOrderFillTransaction'] = \
-                    transaction.OrderFillTransaction.from_dict(
-                        jbody['longOrderFillTransaction']
+                    self.ctx.transaction.OrderFillTransaction.from_dict(
+                        jbody['longOrderFillTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('longOrderCancelTransaction') is not None:
                 parsed_body['longOrderCancelTransaction'] = \
-                    transaction.OrderCancelTransaction.from_dict(
-                        jbody['longOrderCancelTransaction']
+                    self.ctx.transaction.OrderCancelTransaction.from_dict(
+                        jbody['longOrderCancelTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('shortOrderCreateTransaction') is not None:
                 parsed_body['shortOrderCreateTransaction'] = \
-                    transaction.MarketOrderTransaction.from_dict(
-                        jbody['shortOrderCreateTransaction']
+                    self.ctx.transaction.MarketOrderTransaction.from_dict(
+                        jbody['shortOrderCreateTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('shortOrderFillTransaction') is not None:
                 parsed_body['shortOrderFillTransaction'] = \
-                    transaction.OrderFillTransaction.from_dict(
-                        jbody['shortOrderFillTransaction']
+                    self.ctx.transaction.OrderFillTransaction.from_dict(
+                        jbody['shortOrderFillTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('shortOrderCancelTransaction') is not None:
                 parsed_body['shortOrderCancelTransaction'] = \
-                    transaction.OrderCancelTransaction.from_dict(
-                        jbody['shortOrderCancelTransaction']
+                    self.ctx.transaction.OrderCancelTransaction.from_dict(
+                        jbody['shortOrderCancelTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('relatedTransactionIDs') is not None:
@@ -600,14 +617,16 @@ class EntitySpec(object):
         elif str(response.status) == "400":
             if jbody.get('longOrderRejectTransaction') is not None:
                 parsed_body['longOrderRejectTransaction'] = \
-                    transaction.MarketOrderRejectTransaction.from_dict(
-                        jbody['longOrderRejectTransaction']
+                    self.ctx.transaction.MarketOrderRejectTransaction.from_dict(
+                        jbody['longOrderRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('shortOrderRejectTransaction') is not None:
                 parsed_body['shortOrderRejectTransaction'] = \
-                    transaction.MarketOrderRejectTransaction.from_dict(
-                        jbody['shortOrderRejectTransaction']
+                    self.ctx.transaction.MarketOrderRejectTransaction.from_dict(
+                        jbody['shortOrderRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('relatedTransactionIDs') is not None:

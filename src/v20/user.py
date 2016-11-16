@@ -53,7 +53,7 @@ class UserInfo(BaseEntity):
         self.emailAddress = kwargs.get("emailAddress")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new UserInfo from a dict (generally from loading a JSON
         response). The data used to instantiate the UserInfo is a shallow copy
@@ -110,7 +110,7 @@ class UserInfoExternal(BaseEntity):
         self.FIFO = kwargs.get("FIFO")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new UserInfoExternal from a dict (generally from loading
         a JSON response). The data used to instantiate the UserInfoExternal is
@@ -185,8 +185,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('userInfo') is not None:
                 parsed_body['userInfo'] = \
-                    UserInfo.from_dict(
-                        jbody['userInfo']
+                    self.ctx.user.UserInfo.from_dict(
+                        jbody['userInfo'],
+                        self.ctx
                     )
 
         #
@@ -255,8 +256,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('userInfo') is not None:
                 parsed_body['userInfo'] = \
-                    UserInfoExternal.from_dict(
-                        jbody['userInfo']
+                    self.ctx.user.UserInfoExternal.from_dict(
+                        jbody['userInfo'],
+                        self.ctx
                     )
 
         #

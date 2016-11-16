@@ -221,7 +221,7 @@ class Account(BaseEntity):
         self.orders = kwargs.get("orders")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new Account from a dict (generally from loading a JSON
         response). The data used to instantiate the Account is a shallow copy
@@ -231,21 +231,36 @@ class Account(BaseEntity):
 
         data = data.copy()
 
+        if data.get('marginRate') is not None:
+            data['marginRate'] = ctx.convert_decimal_number(
+                data.get('marginRate')
+            )
+
+        if data.get('marginCloseoutPercent') is not None:
+            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPercent')
+            )
+
+        if data.get('marginCallPercent') is not None:
+            data['marginCallPercent'] = ctx.convert_decimal_number(
+                data.get('marginCallPercent')
+            )
+
         if data.get('trades') is not None:
             data['trades'] = [
-                trade.TradeSummary.from_dict(d)
+                ctx.trade.TradeSummary.from_dict(d, ctx)
                 for d in data.get('trades')
             ]
 
         if data.get('positions') is not None:
             data['positions'] = [
-                position.Position.from_dict(d)
+                ctx.position.Position.from_dict(d, ctx)
                 for d in data.get('positions')
             ]
 
         if data.get('orders') is not None:
             data['orders'] = [
-                order.Order.from_dict(d)
+                ctx.order.Order.from_dict(d, ctx)
                 for d in data.get('orders')
             ]
 
@@ -365,7 +380,7 @@ class AccountState(BaseEntity):
         self.positions = kwargs.get("positions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new AccountState from a dict (generally from loading a
         JSON response). The data used to instantiate the AccountState is a
@@ -375,21 +390,31 @@ class AccountState(BaseEntity):
 
         data = data.copy()
 
+        if data.get('marginCloseoutPercent') is not None:
+            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPercent')
+            )
+
+        if data.get('marginCallPercent') is not None:
+            data['marginCallPercent'] = ctx.convert_decimal_number(
+                data.get('marginCallPercent')
+            )
+
         if data.get('orders') is not None:
             data['orders'] = [
-                order.DynamicOrderState.from_dict(d)
+                ctx.order.DynamicOrderState.from_dict(d, ctx)
                 for d in data.get('orders')
             ]
 
         if data.get('trades') is not None:
             data['trades'] = [
-                trade.CalculatedTradeState.from_dict(d)
+                ctx.trade.CalculatedTradeState.from_dict(d, ctx)
                 for d in data.get('trades')
             ]
 
         if data.get('positions') is not None:
             data['positions'] = [
-                position.CalculatedPositionState.from_dict(d)
+                ctx.position.CalculatedPositionState.from_dict(d, ctx)
                 for d in data.get('positions')
             ]
 
@@ -439,7 +464,7 @@ class AccountProperties(BaseEntity):
         self.tags = kwargs.get("tags")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new AccountProperties from a dict (generally from loading
         a JSON response). The data used to instantiate the AccountProperties is
@@ -648,7 +673,7 @@ class AccountSummary(BaseEntity):
         self.lastTransactionID = kwargs.get("lastTransactionID")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new AccountSummary from a dict (generally from loading a
         JSON response). The data used to instantiate the AccountSummary is a
@@ -657,6 +682,21 @@ class AccountSummary(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('marginRate') is not None:
+            data['marginRate'] = ctx.convert_decimal_number(
+                data.get('marginRate')
+            )
+
+        if data.get('marginCloseoutPercent') is not None:
+            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPercent')
+            )
+
+        if data.get('marginCallPercent') is not None:
+            data['marginCallPercent'] = ctx.convert_decimal_number(
+                data.get('marginCallPercent')
+            )
 
         return AccountSummary(**data)
 
@@ -736,7 +776,7 @@ class AccountChanges(BaseEntity):
         self.transactions = kwargs.get("transactions")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new AccountChanges from a dict (generally from loading a
         JSON response). The data used to instantiate the AccountChanges is a
@@ -748,55 +788,55 @@ class AccountChanges(BaseEntity):
 
         if data.get('ordersCreated') is not None:
             data['ordersCreated'] = [
-                order.Order.from_dict(d)
+                ctx.order.Order.from_dict(d, ctx)
                 for d in data.get('ordersCreated')
             ]
 
         if data.get('ordersCancelled') is not None:
             data['ordersCancelled'] = [
-                order.Order.from_dict(d)
+                ctx.order.Order.from_dict(d, ctx)
                 for d in data.get('ordersCancelled')
             ]
 
         if data.get('ordersFilled') is not None:
             data['ordersFilled'] = [
-                order.Order.from_dict(d)
+                ctx.order.Order.from_dict(d, ctx)
                 for d in data.get('ordersFilled')
             ]
 
         if data.get('ordersTriggered') is not None:
             data['ordersTriggered'] = [
-                order.Order.from_dict(d)
+                ctx.order.Order.from_dict(d, ctx)
                 for d in data.get('ordersTriggered')
             ]
 
         if data.get('tradesOpened') is not None:
             data['tradesOpened'] = [
-                trade.Trade.from_dict(d)
+                ctx.trade.Trade.from_dict(d, ctx)
                 for d in data.get('tradesOpened')
             ]
 
         if data.get('tradesReduced') is not None:
             data['tradesReduced'] = [
-                trade.Trade.from_dict(d)
+                ctx.trade.Trade.from_dict(d, ctx)
                 for d in data.get('tradesReduced')
             ]
 
         if data.get('tradesClosed') is not None:
             data['tradesClosed'] = [
-                trade.Trade.from_dict(d)
+                ctx.trade.Trade.from_dict(d, ctx)
                 for d in data.get('tradesClosed')
             ]
 
         if data.get('positions') is not None:
             data['positions'] = [
-                position.Position.from_dict(d)
+                ctx.position.Position.from_dict(d, ctx)
                 for d in data.get('positions')
             ]
 
         if data.get('transactions') is not None:
             data['transactions'] = [
-                transaction.Transaction.from_dict(d)
+                ctx.transaction.Transaction.from_dict(d, ctx)
                 for d in data.get('transactions')
             ]
 
@@ -858,7 +898,7 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('accounts') is not None:
                 parsed_body['accounts'] = [
-                    AccountProperties.from_dict(d)
+                    self.ctx.account.AccountProperties.from_dict(d, self.ctx)
                     for d in jbody.get('accounts')
                 ]
 
@@ -928,8 +968,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('account') is not None:
                 parsed_body['account'] = \
-                    Account.from_dict(
-                        jbody['account']
+                    self.ctx.account.Account.from_dict(
+                        jbody['account'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:
@@ -1000,8 +1041,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('account') is not None:
                 parsed_body['account'] = \
-                    AccountSummary.from_dict(
-                        jbody['account']
+                    self.ctx.account.AccountSummary.from_dict(
+                        jbody['account'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:
@@ -1082,8 +1124,8 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('instruments') is not None:
                 parsed_body['instruments'] = [
-                    primitives.Instrument.from_dict(d)
-                    for d in jbody.get('instruments')\
+                    self.ctx.primitives.Instrument.from_dict(d, self.ctx)
+                    for d in jbody.get('instruments')
                 ]
 
         #
@@ -1162,8 +1204,9 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('configureTransaction') is not None:
                 parsed_body['configureTransaction'] = \
-                    transaction.ClientConfigureTransaction.from_dict(
-                        jbody['configureTransaction']
+                    self.ctx.transaction.ClientConfigureTransaction.from_dict(
+                        jbody['configureTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:
@@ -1173,8 +1216,9 @@ class EntitySpec(object):
         elif str(response.status) == "400":
             if jbody.get('configureRejectTransaction') is not None:
                 parsed_body['configureRejectTransaction'] = \
-                    transaction.ClientConfigureRejectTransaction.from_dict(
-                        jbody['configureRejectTransaction']
+                    self.ctx.transaction.ClientConfigureRejectTransaction.from_dict(
+                        jbody['configureRejectTransaction'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:
@@ -1261,14 +1305,16 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('changes') is not None:
                 parsed_body['changes'] = \
-                    AccountChanges.from_dict(
-                        jbody['changes']
+                    self.ctx.account.AccountChanges.from_dict(
+                        jbody['changes'],
+                        self.ctx
                     )
 
             if jbody.get('state') is not None:
                 parsed_body['state'] = \
-                    AccountState.from_dict(
-                        jbody['state']
+                    self.ctx.account.AccountState.from_dict(
+                        jbody['state'],
+                        self.ctx
                     )
 
             if jbody.get('lastTransactionID') is not None:

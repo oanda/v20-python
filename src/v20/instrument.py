@@ -68,7 +68,7 @@ class Candlestick(BaseEntity):
         self.complete = kwargs.get("complete")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new Candlestick from a dict (generally from loading a
         JSON response). The data used to instantiate the Candlestick is a
@@ -80,20 +80,20 @@ class Candlestick(BaseEntity):
 
         if data.get('bid') is not None:
             data['bid'] = \
-                CandlestickData.from_dict(
-                    data['bid']
+                ctx.instrument.CandlestickData.from_dict(
+                    data['bid'], ctx
                 )
 
         if data.get('ask') is not None:
             data['ask'] = \
-                CandlestickData.from_dict(
-                    data['ask']
+                ctx.instrument.CandlestickData.from_dict(
+                    data['ask'], ctx
                 )
 
         if data.get('mid') is not None:
             data['mid'] = \
-                CandlestickData.from_dict(
-                    data['mid']
+                ctx.instrument.CandlestickData.from_dict(
+                    data['mid'], ctx
                 )
 
         return Candlestick(**data)
@@ -148,7 +148,7 @@ class CandlestickData(BaseEntity):
         self.c = kwargs.get("c")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new CandlestickData from a dict (generally from loading a
         JSON response). The data used to instantiate the CandlestickData is a
@@ -157,6 +157,26 @@ class CandlestickData(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('o') is not None:
+            data['o'] = ctx.convert_decimal_number(
+                data.get('o')
+            )
+
+        if data.get('h') is not None:
+            data['h'] = ctx.convert_decimal_number(
+                data.get('h')
+            )
+
+        if data.get('l') is not None:
+            data['l'] = ctx.convert_decimal_number(
+                data.get('l')
+            )
+
+        if data.get('c') is not None:
+            data['c'] = ctx.convert_decimal_number(
+                data.get('c')
+            )
 
         return CandlestickData(**data)
 
@@ -315,7 +335,7 @@ class EntitySpec(object):
 
             if jbody.get('candles') is not None:
                 parsed_body['candles'] = [
-                    Candlestick.from_dict(d)
+                    self.ctx.instrument.Candlestick.from_dict(d, self.ctx)
                     for d in jbody.get('candles')
                 ]
 

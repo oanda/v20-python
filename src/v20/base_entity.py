@@ -98,7 +98,7 @@ class BaseEntity(object):
             key = m[1:-1]
             value = getattr(self, key)
             if value is not None:
-                name_string = name_string.replace(m, value)
+                name_string = name_string.replace(m, str(value))
 
         return name_string
 
@@ -109,7 +109,7 @@ class BaseEntity(object):
             key = m[1:-1]
             value = getattr(self, key)
             if value is not None:
-                summary_string = summary_string.replace(m, value)
+                summary_string = summary_string.replace(m, str(value))
 
         return summary_string
 
@@ -151,7 +151,12 @@ class BaseEntity(object):
     def dict(self):
         entity = EntityDict()
         for field in self.fields():
-            entity.set(field.name, field.value)
+            if field.typeName == "primitives.DecimalNumber" or \
+               field.typeName == "primitives.AccountUnits" or \
+               field.typeName == "pricing.PriceValue":
+                entity.set(field.name, str(field.value))
+            else:
+                entity.set(field.name, field.value)
         return entity.dict
 
     def json(self):

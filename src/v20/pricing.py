@@ -94,7 +94,7 @@ class Price(BaseEntity):
         self.unitsAvailable = kwargs.get("unitsAvailable")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new Price from a dict (generally from loading a JSON
         response). The data used to instantiate the Price is a shallow copy of
@@ -106,26 +106,36 @@ class Price(BaseEntity):
 
         if data.get('bids') is not None:
             data['bids'] = [
-                PriceBucket.from_dict(d)
+                ctx.pricing.PriceBucket.from_dict(d, ctx)
                 for d in data.get('bids')
             ]
 
         if data.get('asks') is not None:
             data['asks'] = [
-                PriceBucket.from_dict(d)
+                ctx.pricing.PriceBucket.from_dict(d, ctx)
                 for d in data.get('asks')
             ]
 
+        if data.get('closeoutBid') is not None:
+            data['closeoutBid'] = ctx.convert_decimal_number(
+                data.get('closeoutBid')
+            )
+
+        if data.get('closeoutAsk') is not None:
+            data['closeoutAsk'] = ctx.convert_decimal_number(
+                data.get('closeoutAsk')
+            )
+
         if data.get('quoteHomeConversionFactors') is not None:
             data['quoteHomeConversionFactors'] = \
-                QuoteHomeConversionFactors.from_dict(
-                    data['quoteHomeConversionFactors']
+                ctx.pricing.QuoteHomeConversionFactors.from_dict(
+                    data['quoteHomeConversionFactors'], ctx
                 )
 
         if data.get('unitsAvailable') is not None:
             data['unitsAvailable'] = \
-                UnitsAvailable.from_dict(
-                    data['unitsAvailable']
+                ctx.pricing.UnitsAvailable.from_dict(
+                    data['unitsAvailable'], ctx
                 )
 
         return Price(**data)
@@ -133,7 +143,7 @@ class Price(BaseEntity):
 
 class PriceBucket(BaseEntity):
     """
-    Price Bucket
+    A Price Bucket represents a price available for an amount of liquidity
     """
 
     #
@@ -168,7 +178,7 @@ class PriceBucket(BaseEntity):
         self.liquidity = kwargs.get("liquidity")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new PriceBucket from a dict (generally from loading a
         JSON response). The data used to instantiate the PriceBucket is a
@@ -177,6 +187,11 @@ class PriceBucket(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
         return PriceBucket(**data)
 
@@ -219,7 +234,7 @@ class UnitsAvailable(BaseEntity):
         self.short = kwargs.get("short")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new UnitsAvailable from a dict (generally from loading a
         JSON response). The data used to instantiate the UnitsAvailable is a
@@ -231,14 +246,14 @@ class UnitsAvailable(BaseEntity):
 
         if data.get('long') is not None:
             data['long'] = \
-                UnitsAvailableDetails.from_dict(
-                    data['long']
+                ctx.pricing.UnitsAvailableDetails.from_dict(
+                    data['long'], ctx
                 )
 
         if data.get('short') is not None:
             data['short'] = \
-                UnitsAvailableDetails.from_dict(
-                    data['short']
+                ctx.pricing.UnitsAvailableDetails.from_dict(
+                    data['short'], ctx
                 )
 
         return UnitsAvailable(**data)
@@ -299,7 +314,7 @@ class UnitsAvailableDetails(BaseEntity):
         self.openOnly = kwargs.get("openOnly")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new UnitsAvailableDetails from a dict (generally from
         loading a JSON response). The data used to instantiate the
@@ -308,6 +323,26 @@ class UnitsAvailableDetails(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('default') is not None:
+            data['default'] = ctx.convert_decimal_number(
+                data.get('default')
+            )
+
+        if data.get('reduceFirst') is not None:
+            data['reduceFirst'] = ctx.convert_decimal_number(
+                data.get('reduceFirst')
+            )
+
+        if data.get('reduceOnly') is not None:
+            data['reduceOnly'] = ctx.convert_decimal_number(
+                data.get('reduceOnly')
+            )
+
+        if data.get('openOnly') is not None:
+            data['openOnly'] = ctx.convert_decimal_number(
+                data.get('openOnly')
+            )
 
         return UnitsAvailableDetails(**data)
 
@@ -357,7 +392,7 @@ class QuoteHomeConversionFactors(BaseEntity):
         self.negativeUnits = kwargs.get("negativeUnits")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new QuoteHomeConversionFactors from a dict (generally
         from loading a JSON response). The data used to instantiate the
@@ -366,6 +401,16 @@ class QuoteHomeConversionFactors(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('positiveUnits') is not None:
+            data['positiveUnits'] = ctx.convert_decimal_number(
+                data.get('positiveUnits')
+            )
+
+        if data.get('negativeUnits') is not None:
+            data['negativeUnits'] = ctx.convert_decimal_number(
+                data.get('negativeUnits')
+            )
 
         return QuoteHomeConversionFactors(**data)
 
@@ -408,7 +453,7 @@ class Heartbeat(BaseEntity):
         self.time = kwargs.get("time")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new Heartbeat from a dict (generally from loading a JSON
         response). The data used to instantiate the Heartbeat is a shallow copy
@@ -509,7 +554,7 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('prices') is not None:
                 parsed_body['prices'] = [
-                    Price.from_dict(d)
+                    self.ctx.pricing.Price.from_dict(d, self.ctx)
                     for d in jbody.get('prices')
                 ]
 
@@ -588,17 +633,17 @@ class EntitySpec(object):
                 if type is None:
                     return (
                         "pricing.Price",
-                        self.ctx.pricing.Price.from_dict(j)
+                        self.ctx.pricing.Price.from_dict(j, self.ctx)
                     )
                 elif type == "HEARTBEAT":
                     return (
                         "pricing.Heartbeat",
-                        self.ctx.pricing.Heartbeat.from_dict(j)
+                        self.ctx.pricing.Heartbeat.from_dict(j, self.ctx)
                     )
 
                 return (
                     "pricing.Price",
-                    self.ctx.pricing.Price.from_dict(j)
+                    self.ctx.pricing.Price.from_dict(j, self.ctx)
                 )
 
                 

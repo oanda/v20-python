@@ -104,7 +104,7 @@ class Instrument(BaseEntity):
         self.marginRate = kwargs.get("marginRate")
 
     @staticmethod
-    def from_dict(data):
+    def from_dict(data, ctx):
         """
         Instantiate a new Instrument from a dict (generally from loading a JSON
         response). The data used to instantiate the Instrument is a shallow
@@ -113,6 +113,36 @@ class Instrument(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('minimumTradeSize') is not None:
+            data['minimumTradeSize'] = ctx.convert_decimal_number(
+                data.get('minimumTradeSize')
+            )
+
+        if data.get('maximumTrailingStopDistance') is not None:
+            data['maximumTrailingStopDistance'] = ctx.convert_decimal_number(
+                data.get('maximumTrailingStopDistance')
+            )
+
+        if data.get('minimumTrailingStopDistance') is not None:
+            data['minimumTrailingStopDistance'] = ctx.convert_decimal_number(
+                data.get('minimumTrailingStopDistance')
+            )
+
+        if data.get('maximumPositionSize') is not None:
+            data['maximumPositionSize'] = ctx.convert_decimal_number(
+                data.get('maximumPositionSize')
+            )
+
+        if data.get('maximumOrderUnits') is not None:
+            data['maximumOrderUnits'] = ctx.convert_decimal_number(
+                data.get('maximumOrderUnits')
+            )
+
+        if data.get('marginRate') is not None:
+            data['marginRate'] = ctx.convert_decimal_number(
+                data.get('marginRate')
+            )
 
         return Instrument(**data)
 
