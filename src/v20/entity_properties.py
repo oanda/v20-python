@@ -5319,6 +5319,16 @@ transaction_DelayedTradeClosureTransaction = [
     ),
  
     Property( 
+        "type",
+        "Type",
+        "The Type of the Transaction. Always set to \"DELAYED_TRADE_CLOSURE\" for an DelayedTradeClosureTransaction.",
+        "primitive",
+        "transaction.TransactionType",
+        False,
+        "DELAYED_TRADE_CLOSURE"
+    ),
+ 
+    Property( 
         "reason",
         "Reason",
         "The reason for the delayed trade closure",

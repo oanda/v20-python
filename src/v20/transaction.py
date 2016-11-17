@@ -132,6 +132,8 @@ class Transaction(BaseEntity):
             return MarginCallExtendTransaction.from_dict(data, ctx)
         if type == "MARGIN_CALL_EXIT":
             return MarginCallExitTransaction.from_dict(data, ctx)
+        if type == "DELAYED_TRADE_CLOSURE":
+            return DelayedTradeClosureTransaction.from_dict(data, ctx)
         if type == "DAILY_FINANCING":
             return DailyFinancingTransaction.from_dict(data, ctx)
         if type == "RESET_RESETTABLE_PL":
@@ -4182,8 +4184,8 @@ class MarginCallEnterTransaction(BaseEntity):
 
 class MarginCallExtendTransaction(BaseEntity):
     """
-    A MarginCallEnterTransaction is created when an Account enters the margin
-    call state.
+    A MarginCallExtendTransaction is created when the margin call state for an
+    Account has been extended.
     """
 
     #
@@ -4388,6 +4390,12 @@ class DelayedTradeClosureTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Type of the Transaction. Always set to "DELAYED_TRADE_CLOSURE"
+        # for an DelayedTradeClosureTransaction.
+        #
+        self.type = kwargs.get("type", "DELAYED_TRADE_CLOSURE")
  
         #
         # The reason for the delayed trade closure

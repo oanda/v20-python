@@ -1,5 +1,22 @@
 OANDA v20 API Change Log
 
+Version 3.0.11 (November 17, 2016)
+
+	* stop using custom Boolean definition
+
+	* publish Header specifications for responses
+
+	* fixed the MarginCallExtenTransaction description
+
+	* added missing ORDER_CANCEL_REJECT to appropriate enums
+
+	* fixed some candlestick documentation
+
+	* added delayed trade closure transaction type
+
+	* added response Headers to documentation
+
+
 Version 3.0.10 (November 16, 2016)
 
 	* v20-python accepts floats for numeric values, and will convert them

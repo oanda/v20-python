@@ -101,7 +101,7 @@ class Candlestick(BaseEntity):
 
 class CandlestickData(BaseEntity):
     """
-    The Candlestick representation
+    The price data (open, high, low, close) for the Candlestick representation.
     """
 
     #
