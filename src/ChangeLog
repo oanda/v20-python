@@ -1,5 +1,16 @@
 OANDA v20 API Change Log
 
+Version 3.0.12 (December 07, 2016)
+
+	* v20-python fixed bug when parsing an Instrument from
+	  ctx.acccount.instruments() request
+
+	* v20-python intercept requests.exceptions.ChunkedEncodingError when
+	  a stream is interrupted
+
+	* prepping for first openapi specification release
+
+
 Version 3.0.11 (November 17, 2016)
 
 	* stop using custom Boolean definition

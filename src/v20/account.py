@@ -2,7 +2,7 @@ import ujson as json
 from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
-from v20 import entity_properties
+from v20 import spec_properties
 from v20 import trade
 from v20 import position
 from v20 import order
@@ -30,7 +30,7 @@ class Account(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.account_Account
+    _properties = spec_properties.account_Account
 
     def __init__(self, **kwargs):
         """
@@ -231,21 +231,6 @@ class Account(BaseEntity):
 
         data = data.copy()
 
-        if data.get('marginRate') is not None:
-            data['marginRate'] = ctx.convert_decimal_number(
-                data.get('marginRate')
-            )
-
-        if data.get('marginCloseoutPercent') is not None:
-            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
-                data.get('marginCloseoutPercent')
-            )
-
-        if data.get('marginCallPercent') is not None:
-            data['marginCallPercent'] = ctx.convert_decimal_number(
-                data.get('marginCallPercent')
-            )
-
         if data.get('trades') is not None:
             data['trades'] = [
                 ctx.trade.TradeSummary.from_dict(d, ctx)
@@ -288,7 +273,7 @@ class AccountState(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.account_AccountState
+    _properties = spec_properties.account_AccountState
 
     def __init__(self, **kwargs):
         """
@@ -390,16 +375,6 @@ class AccountState(BaseEntity):
 
         data = data.copy()
 
-        if data.get('marginCloseoutPercent') is not None:
-            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
-                data.get('marginCloseoutPercent')
-            )
-
-        if data.get('marginCallPercent') is not None:
-            data['marginCallPercent'] = ctx.convert_decimal_number(
-                data.get('marginCallPercent')
-            )
-
         if data.get('orders') is not None:
             data['orders'] = [
                 ctx.order.DynamicOrderState.from_dict(d, ctx)
@@ -439,7 +414,7 @@ class AccountProperties(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.account_AccountProperties
+    _properties = spec_properties.account_AccountProperties
 
     def __init__(self, **kwargs):
         """
@@ -497,7 +472,7 @@ class AccountSummary(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.account_AccountSummary
+    _properties = spec_properties.account_AccountSummary
 
     def __init__(self, **kwargs):
         """
@@ -683,21 +658,6 @@ class AccountSummary(BaseEntity):
 
         data = data.copy()
 
-        if data.get('marginRate') is not None:
-            data['marginRate'] = ctx.convert_decimal_number(
-                data.get('marginRate')
-            )
-
-        if data.get('marginCloseoutPercent') is not None:
-            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
-                data.get('marginCloseoutPercent')
-            )
-
-        if data.get('marginCallPercent') is not None:
-            data['marginCallPercent'] = ctx.convert_decimal_number(
-                data.get('marginCallPercent')
-            )
-
         return AccountSummary(**data)
 
 
@@ -721,7 +681,7 @@ class AccountChanges(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.account_AccountChanges
+    _properties = spec_properties.account_AccountChanges
 
     def __init__(self, **kwargs):
         """
@@ -893,7 +853,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('accounts') is not None:
@@ -902,18 +862,29 @@ class EntitySpec(object):
                     for d in jbody.get('accounts')
                 ]
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -932,7 +903,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch
+                Account Identifier
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -963,7 +934,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('account') is not None:
@@ -977,18 +948,38 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -1005,7 +996,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch
+                Account Identifier
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -1036,7 +1027,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('account') is not None:
@@ -1050,18 +1041,38 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -1081,7 +1092,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch
+                Account Identifier
             instruments:
                 List of instruments to query specifically.
 
@@ -1119,7 +1130,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('instruments') is not None:
@@ -1128,18 +1139,38 @@ class EntitySpec(object):
                     for d in jbody.get('instruments')
                 ]
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -1156,7 +1187,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to configure
+                Account Identifier
             alias:
                 Client-defined alias (name) for the Account
             marginRate:
@@ -1199,7 +1230,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('configureTransaction') is not None:
@@ -1233,18 +1264,38 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -1262,7 +1313,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to get changes for
+                Account Identifier
             sinceTransactionID:
                 ID of the Transaction to get Account changes since.
 
@@ -1300,7 +1351,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('changes') is not None:
@@ -1321,18 +1372,47 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "416":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 

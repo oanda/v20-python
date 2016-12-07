@@ -2,7 +2,7 @@ import ujson as json
 from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
-from v20 import entity_properties
+from v20 import spec_properties
 
 
 
@@ -25,7 +25,7 @@ class Transaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_Transaction
+    _properties = spec_properties.transaction_Transaction
 
     def __init__(self, **kwargs):
         """
@@ -162,7 +162,7 @@ class CreateTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_CreateTransaction
+    _properties = spec_properties.transaction_CreateTransaction
 
     def __init__(self, **kwargs):
         """
@@ -259,7 +259,7 @@ class CloseTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_CloseTransaction
+    _properties = spec_properties.transaction_CloseTransaction
 
     def __init__(self, **kwargs):
         """
@@ -331,7 +331,7 @@ class ReopenTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_ReopenTransaction
+    _properties = spec_properties.transaction_ReopenTransaction
 
     def __init__(self, **kwargs):
         """
@@ -404,7 +404,7 @@ class ClientConfigureTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_ClientConfigureTransaction
+    _properties = spec_properties.transaction_ClientConfigureTransaction
 
     def __init__(self, **kwargs):
         """
@@ -465,11 +465,6 @@ class ClientConfigureTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('marginRate') is not None:
-            data['marginRate'] = ctx.convert_decimal_number(
-                data.get('marginRate')
-            )
-
         return ClientConfigureTransaction(**data)
 
 
@@ -492,7 +487,7 @@ class ClientConfigureRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_ClientConfigureRejectTransaction
+    _properties = spec_properties.transaction_ClientConfigureRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -558,11 +553,6 @@ class ClientConfigureRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('marginRate') is not None:
-            data['marginRate'] = ctx.convert_decimal_number(
-                data.get('marginRate')
-            )
-
         return ClientConfigureRejectTransaction(**data)
 
 
@@ -585,7 +575,7 @@ class TransferFundsTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TransferFundsTransaction
+    _properties = spec_properties.transaction_TransferFundsTransaction
 
     def __init__(self, **kwargs):
         """
@@ -675,7 +665,7 @@ class TransferFundsRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TransferFundsRejectTransaction
+    _properties = spec_properties.transaction_TransferFundsRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -768,7 +758,7 @@ class MarketOrderTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarketOrderTransaction
+    _properties = spec_properties.transaction_MarketOrderTransaction
 
     def __init__(self, **kwargs):
         """
@@ -917,16 +907,6 @@ class MarketOrderTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('tradeClose') is not None:
             data['tradeClose'] = \
                 ctx.transaction.MarketOrderTradeClose.from_dict(
@@ -1009,7 +989,7 @@ class MarketOrderRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarketOrderRejectTransaction
+    _properties = spec_properties.transaction_MarketOrderRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -1163,16 +1143,6 @@ class MarketOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('tradeClose') is not None:
             data['tradeClose'] = \
                 ctx.transaction.MarketOrderTradeClose.from_dict(
@@ -1255,7 +1225,7 @@ class LimitOrderTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_LimitOrderTransaction
+    _properties = spec_properties.transaction_LimitOrderTransaction
 
     def __init__(self, **kwargs):
         """
@@ -1391,16 +1361,6 @@ class LimitOrderTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -1453,7 +1413,7 @@ class LimitOrderRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_LimitOrderRejectTransaction
+    _properties = spec_properties.transaction_LimitOrderRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -1588,16 +1548,6 @@ class LimitOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -1650,7 +1600,7 @@ class StopOrderTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_StopOrderTransaction
+    _properties = spec_properties.transaction_StopOrderTransaction
 
     def __init__(self, **kwargs):
         """
@@ -1793,21 +1743,6 @@ class StopOrderTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -1860,7 +1795,7 @@ class StopOrderRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_StopOrderRejectTransaction
+    _properties = spec_properties.transaction_StopOrderRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -2002,21 +1937,6 @@ class StopOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2069,7 +1989,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarketIfTouchedOrderTransaction
+    _properties = spec_properties.transaction_MarketIfTouchedOrderTransaction
 
     def __init__(self, **kwargs):
         """
@@ -2215,21 +2135,6 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2282,7 +2187,7 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarketIfTouchedOrderRejectTransaction
+    _properties = spec_properties.transaction_MarketIfTouchedOrderRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -2428,21 +2333,6 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2495,7 +2385,7 @@ class TakeProfitOrderTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TakeProfitOrderTransaction
+    _properties = spec_properties.transaction_TakeProfitOrderTransaction
 
     def __init__(self, **kwargs):
         """
@@ -2606,11 +2496,6 @@ class TakeProfitOrderTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2639,7 +2524,7 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TakeProfitOrderRejectTransaction
+    _properties = spec_properties.transaction_TakeProfitOrderRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -2749,11 +2634,6 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2782,7 +2662,7 @@ class StopLossOrderTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_StopLossOrderTransaction
+    _properties = spec_properties.transaction_StopLossOrderTransaction
 
     def __init__(self, **kwargs):
         """
@@ -2893,11 +2773,6 @@ class StopLossOrderTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2926,7 +2801,7 @@ class StopLossOrderRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_StopLossOrderRejectTransaction
+    _properties = spec_properties.transaction_StopLossOrderRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -3036,11 +2911,6 @@ class StopLossOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -3069,7 +2939,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TrailingStopLossOrderTransaction
+    _properties = spec_properties.transaction_TrailingStopLossOrderTransaction
 
     def __init__(self, **kwargs):
         """
@@ -3178,11 +3048,6 @@ class TrailingStopLossOrderTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('distance') is not None:
-            data['distance'] = ctx.convert_decimal_number(
-                data.get('distance')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -3211,7 +3076,7 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TrailingStopLossOrderRejectTransaction
+    _properties = spec_properties.transaction_TrailingStopLossOrderRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -3321,11 +3186,6 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('distance') is not None:
-            data['distance'] = ctx.convert_decimal_number(
-                data.get('distance')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -3354,7 +3214,7 @@ class OrderFillTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_OrderFillTransaction
+    _properties = spec_properties.transaction_OrderFillTransaction
 
     def __init__(self, **kwargs):
         """
@@ -3469,16 +3329,6 @@ class OrderFillTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('tradeOpened') is not None:
             data['tradeOpened'] = \
                 ctx.transaction.TradeOpen.from_dict(
@@ -3519,7 +3369,7 @@ class OrderCancelTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_OrderCancelTransaction
+    _properties = spec_properties.transaction_OrderCancelTransaction
 
     def __init__(self, **kwargs):
         """
@@ -3614,7 +3464,7 @@ class OrderCancelRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_OrderCancelRejectTransaction
+    _properties = spec_properties.transaction_OrderCancelRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -3708,7 +3558,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_OrderClientExtensionsModifyTransaction
+    _properties = spec_properties.transaction_OrderClientExtensionsModifyTransaction
 
     def __init__(self, **kwargs):
         """
@@ -3816,7 +3666,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_OrderClientExtensionsModifyRejectTransaction
+    _properties = spec_properties.transaction_OrderClientExtensionsModifyRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -3929,7 +3779,7 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TradeClientExtensionsModifyTransaction
+    _properties = spec_properties.transaction_TradeClientExtensionsModifyTransaction
 
     def __init__(self, **kwargs):
         """
@@ -4026,7 +3876,7 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TradeClientExtensionsModifyRejectTransaction
+    _properties = spec_properties.transaction_TradeClientExtensionsModifyRejectTransaction
 
     def __init__(self, **kwargs):
         """
@@ -4128,7 +3978,7 @@ class MarginCallEnterTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarginCallEnterTransaction
+    _properties = spec_properties.transaction_MarginCallEnterTransaction
 
     def __init__(self, **kwargs):
         """
@@ -4201,7 +4051,7 @@ class MarginCallExtendTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarginCallExtendTransaction
+    _properties = spec_properties.transaction_MarginCallExtendTransaction
 
     def __init__(self, **kwargs):
         """
@@ -4281,7 +4131,7 @@ class MarginCallExitTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarginCallExitTransaction
+    _properties = spec_properties.transaction_MarginCallExitTransaction
 
     def __init__(self, **kwargs):
         """
@@ -4357,7 +4207,7 @@ class DelayedTradeClosureTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_DelayedTradeClosureTransaction
+    _properties = spec_properties.transaction_DelayedTradeClosureTransaction
 
     def __init__(self, **kwargs):
         """
@@ -4441,7 +4291,7 @@ class DailyFinancingTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_DailyFinancingTransaction
+    _properties = spec_properties.transaction_DailyFinancingTransaction
 
     def __init__(self, **kwargs):
         """
@@ -4540,7 +4390,7 @@ class ResetResettablePLTransaction(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_ResetResettablePLTransaction
+    _properties = spec_properties.transaction_ResetResettablePLTransaction
 
     def __init__(self, **kwargs):
         """
@@ -4614,7 +4464,7 @@ class ClientExtensions(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_ClientExtensions
+    _properties = spec_properties.transaction_ClientExtensions
 
     def __init__(self, **kwargs):
         """
@@ -4672,7 +4522,7 @@ class TakeProfitDetails(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TakeProfitDetails
+    _properties = spec_properties.transaction_TakeProfitDetails
 
     def __init__(self, **kwargs):
         """
@@ -4713,11 +4563,6 @@ class TakeProfitDetails(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -4748,7 +4593,7 @@ class StopLossDetails(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_StopLossDetails
+    _properties = spec_properties.transaction_StopLossDetails
 
     def __init__(self, **kwargs):
         """
@@ -4789,11 +4634,6 @@ class StopLossDetails(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -4824,7 +4664,7 @@ class TrailingStopLossDetails(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TrailingStopLossDetails
+    _properties = spec_properties.transaction_TrailingStopLossDetails
 
     def __init__(self, **kwargs):
         """
@@ -4867,11 +4707,6 @@ class TrailingStopLossDetails(BaseEntity):
 
         data = data.copy()
 
-        if data.get('distance') is not None:
-            data['distance'] = ctx.convert_decimal_number(
-                data.get('distance')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -4901,7 +4736,7 @@ class TradeOpen(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TradeOpen
+    _properties = spec_properties.transaction_TradeOpen
 
     def __init__(self, **kwargs):
         """
@@ -4935,11 +4770,6 @@ class TradeOpen(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -4970,7 +4800,7 @@ class TradeReduce(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_TradeReduce
+    _properties = spec_properties.transaction_TradeReduce
 
     def __init__(self, **kwargs):
         """
@@ -5009,11 +4839,6 @@ class TradeReduce(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
         return TradeReduce(**data)
 
 
@@ -5036,7 +4861,7 @@ class MarketOrderTradeClose(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarketOrderTradeClose
+    _properties = spec_properties.transaction_MarketOrderTradeClose
 
     def __init__(self, **kwargs):
         """
@@ -5093,7 +4918,7 @@ class MarketOrderMarginCloseout(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarketOrderMarginCloseout
+    _properties = spec_properties.transaction_MarketOrderMarginCloseout
 
     def __init__(self, **kwargs):
         """
@@ -5140,7 +4965,7 @@ class MarketOrderDelayedTradeClose(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarketOrderDelayedTradeClose
+    _properties = spec_properties.transaction_MarketOrderDelayedTradeClose
 
     def __init__(self, **kwargs):
         """
@@ -5197,7 +5022,7 @@ class MarketOrderPositionCloseout(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_MarketOrderPositionCloseout
+    _properties = spec_properties.transaction_MarketOrderPositionCloseout
 
     def __init__(self, **kwargs):
         """
@@ -5252,7 +5077,7 @@ class VWAPReceipt(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_VWAPReceipt
+    _properties = spec_properties.transaction_VWAPReceipt
 
     def __init__(self, **kwargs):
         """
@@ -5281,16 +5106,6 @@ class VWAPReceipt(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         return VWAPReceipt(**data)
 
 
@@ -5316,7 +5131,7 @@ class LiquidityRegenerationSchedule(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_LiquidityRegenerationSchedule
+    _properties = spec_properties.transaction_LiquidityRegenerationSchedule
 
     def __init__(self, **kwargs):
         """
@@ -5369,7 +5184,7 @@ class LiquidityRegenerationScheduleStep(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_LiquidityRegenerationScheduleStep
+    _properties = spec_properties.transaction_LiquidityRegenerationScheduleStep
 
     def __init__(self, **kwargs):
         """
@@ -5403,16 +5218,6 @@ class LiquidityRegenerationScheduleStep(BaseEntity):
 
         data = data.copy()
 
-        if data.get('bidLiquidityUsed') is not None:
-            data['bidLiquidityUsed'] = ctx.convert_decimal_number(
-                data.get('bidLiquidityUsed')
-            )
-
-        if data.get('askLiquidityUsed') is not None:
-            data['askLiquidityUsed'] = ctx.convert_decimal_number(
-                data.get('askLiquidityUsed')
-            )
-
         return LiquidityRegenerationScheduleStep(**data)
 
 
@@ -5435,7 +5240,7 @@ class OpenTradeFinancing(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_OpenTradeFinancing
+    _properties = spec_properties.transaction_OpenTradeFinancing
 
     def __init__(self, **kwargs):
         """
@@ -5486,7 +5291,7 @@ class PositionFinancing(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_PositionFinancing
+    _properties = spec_properties.transaction_PositionFinancing
 
     def __init__(self, **kwargs):
         """
@@ -5530,10 +5335,10 @@ class PositionFinancing(BaseEntity):
         return PositionFinancing(**data)
 
 
-class Heartbeat(BaseEntity):
+class TransactionHeartbeat(BaseEntity):
     """
-    A Heartbeat object is injected into the Transaction stream to ensure that
-    the HTTP connection remains active.
+    A TransactionHeartbeat object is injected into the Transaction stream to
+    ensure that the HTTP connection remains active.
     """
 
     #
@@ -5549,13 +5354,13 @@ class Heartbeat(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.transaction_Heartbeat
+    _properties = spec_properties.transaction_TransactionHeartbeat
 
     def __init__(self, **kwargs):
         """
-        Create a new Heartbeat instance
+        Create a new TransactionHeartbeat instance
         """
-        super(Heartbeat, self).__init__()
+        super(TransactionHeartbeat, self).__init__()
  
         #
         # The string "HEARTBEAT"
@@ -5568,22 +5373,22 @@ class Heartbeat(BaseEntity):
         self.lastTransactionID = kwargs.get("lastTransactionID")
  
         #
-        # The date/time when the Heartbeat was created.
+        # The date/time when the TransactionHeartbeat was created.
         #
         self.time = kwargs.get("time")
 
     @staticmethod
     def from_dict(data, ctx):
         """
-        Instantiate a new Heartbeat from a dict (generally from loading a JSON
-        response). The data used to instantiate the Heartbeat is a shallow copy
-        of the dict passed in, with any complex child types instantiated
-        appropriately.
+        Instantiate a new TransactionHeartbeat from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        TransactionHeartbeat is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
         """
 
         data = data.copy()
 
-        return Heartbeat(**data)
+        return TransactionHeartbeat(**data)
 
 
 class EntitySpec(object):
@@ -5643,7 +5448,7 @@ class EntitySpec(object):
     LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep
     OpenTradeFinancing = OpenTradeFinancing
     PositionFinancing = PositionFinancing
-    Heartbeat = Heartbeat
+    TransactionHeartbeat = TransactionHeartbeat
 
     def __init__(self, ctx):
         self.ctx = ctx
@@ -5660,7 +5465,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch Transactions for.
+                Account Identifier
             fromTime:
                 The starting time (inclusive) of the time range for the
                 Transactions being queried.
@@ -5722,7 +5527,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('from') is not None:
@@ -5753,18 +5558,65 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "403":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "416":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -5782,9 +5634,9 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch a Transaction for.
+                Account Identifier
             transactionID:
-                ID of the Transaction to fetch
+                A Transaction ID
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -5820,7 +5672,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('transaction') is not None:
@@ -5834,18 +5686,38 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -5863,7 +5735,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch a range of Transactions for.
+                Account Identifier
             fromID:
                 The starting Transacion ID (inclusive) to fetch.
             toID:
@@ -5916,7 +5788,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('transactions') is not None:
@@ -5929,18 +5801,56 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "416":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -5958,7 +5868,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to Transactions for.
+                Account Identifier
             id:
                 The ID of the last Transacion fetched. This query will return
                 all Transactions newer than the TransactionID.
@@ -5997,7 +5907,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('transactions') is not None:
@@ -6010,18 +5920,56 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "416":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -6039,7 +5987,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to stream Transactions for
+                Account Identifier
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -6071,8 +6019,11 @@ class EntitySpec(object):
                     return ("unknown", j)
                 elif type == "HEARTBEAT":
                     return (
-                        "transaction.Heartbeat",
-                        self.ctx.transaction.Heartbeat.from_dict(j, self.ctx)
+                        "transaction.TransactionHeartbeat",
+                        self.ctx.transaction.TransactionHeartbeat.from_dict(
+                            j,
+                            self.ctx
+                        )
                     )
 
                 transaction = self.ctx.transaction.Transaction.from_dict(

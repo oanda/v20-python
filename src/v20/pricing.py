@@ -2,7 +2,7 @@ import ujson as json
 from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
-from v20 import entity_properties
+from v20 import spec_properties
 
 
 
@@ -24,7 +24,7 @@ class Price(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.pricing_Price
+    _properties = spec_properties.pricing_Price
 
     def __init__(self, **kwargs):
         """
@@ -116,16 +116,6 @@ class Price(BaseEntity):
                 for d in data.get('asks')
             ]
 
-        if data.get('closeoutBid') is not None:
-            data['closeoutBid'] = ctx.convert_decimal_number(
-                data.get('closeoutBid')
-            )
-
-        if data.get('closeoutAsk') is not None:
-            data['closeoutAsk'] = ctx.convert_decimal_number(
-                data.get('closeoutAsk')
-            )
-
         if data.get('quoteHomeConversionFactors') is not None:
             data['quoteHomeConversionFactors'] = \
                 ctx.pricing.QuoteHomeConversionFactors.from_dict(
@@ -159,7 +149,7 @@ class PriceBucket(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.pricing_PriceBucket
+    _properties = spec_properties.pricing_PriceBucket
 
     def __init__(self, **kwargs):
         """
@@ -188,11 +178,6 @@ class PriceBucket(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         return PriceBucket(**data)
 
 
@@ -215,7 +200,7 @@ class UnitsAvailable(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.pricing_UnitsAvailable
+    _properties = spec_properties.pricing_UnitsAvailable
 
     def __init__(self, **kwargs):
         """
@@ -278,7 +263,7 @@ class UnitsAvailableDetails(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.pricing_UnitsAvailableDetails
+    _properties = spec_properties.pricing_UnitsAvailableDetails
 
     def __init__(self, **kwargs):
         """
@@ -324,26 +309,6 @@ class UnitsAvailableDetails(BaseEntity):
 
         data = data.copy()
 
-        if data.get('default') is not None:
-            data['default'] = ctx.convert_decimal_number(
-                data.get('default')
-            )
-
-        if data.get('reduceFirst') is not None:
-            data['reduceFirst'] = ctx.convert_decimal_number(
-                data.get('reduceFirst')
-            )
-
-        if data.get('reduceOnly') is not None:
-            data['reduceOnly'] = ctx.convert_decimal_number(
-                data.get('reduceOnly')
-            )
-
-        if data.get('openOnly') is not None:
-            data['openOnly'] = ctx.convert_decimal_number(
-                data.get('openOnly')
-            )
-
         return UnitsAvailableDetails(**data)
 
 
@@ -367,7 +332,7 @@ class QuoteHomeConversionFactors(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.pricing_QuoteHomeConversionFactors
+    _properties = spec_properties.pricing_QuoteHomeConversionFactors
 
     def __init__(self, **kwargs):
         """
@@ -402,23 +367,13 @@ class QuoteHomeConversionFactors(BaseEntity):
 
         data = data.copy()
 
-        if data.get('positiveUnits') is not None:
-            data['positiveUnits'] = ctx.convert_decimal_number(
-                data.get('positiveUnits')
-            )
-
-        if data.get('negativeUnits') is not None:
-            data['negativeUnits'] = ctx.convert_decimal_number(
-                data.get('negativeUnits')
-            )
-
         return QuoteHomeConversionFactors(**data)
 
 
-class Heartbeat(BaseEntity):
+class PricingHeartbeat(BaseEntity):
     """
-    A Heartbeat object is injected into the Pricing stream to ensure that the
-    HTTP connection remains active.
+    A PricingHeartbeat object is injected into the Pricing stream to ensure
+    that the HTTP connection remains active.
     """
 
     #
@@ -434,13 +389,13 @@ class Heartbeat(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.pricing_Heartbeat
+    _properties = spec_properties.pricing_PricingHeartbeat
 
     def __init__(self, **kwargs):
         """
-        Create a new Heartbeat instance
+        Create a new PricingHeartbeat instance
         """
-        super(Heartbeat, self).__init__()
+        super(PricingHeartbeat, self).__init__()
  
         #
         # The string "HEARTBEAT"
@@ -455,15 +410,15 @@ class Heartbeat(BaseEntity):
     @staticmethod
     def from_dict(data, ctx):
         """
-        Instantiate a new Heartbeat from a dict (generally from loading a JSON
-        response). The data used to instantiate the Heartbeat is a shallow copy
-        of the dict passed in, with any complex child types instantiated
-        appropriately.
+        Instantiate a new PricingHeartbeat from a dict (generally from loading
+        a JSON response). The data used to instantiate the PricingHeartbeat is
+        a shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
         """
 
         data = data.copy()
 
-        return Heartbeat(**data)
+        return PricingHeartbeat(**data)
 
 
 class EntitySpec(object):
@@ -478,7 +433,7 @@ class EntitySpec(object):
     UnitsAvailable = UnitsAvailable
     UnitsAvailableDetails = UnitsAvailableDetails
     QuoteHomeConversionFactors = QuoteHomeConversionFactors
-    Heartbeat = Heartbeat
+    PricingHeartbeat = PricingHeartbeat
 
     def __init__(self, ctx):
         self.ctx = ctx
@@ -495,7 +450,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch current Prices for.
+                Account Identifier
             instruments:
                 List of Instruments to get pricing for.
             since:
@@ -549,7 +504,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('prices') is not None:
@@ -558,18 +513,47 @@ class EntitySpec(object):
                     for d in jbody.get('prices')
                 ]
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -587,7 +571,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to stream Prices for.
+                Account Identifier
             instruments:
                 List of Instruments to stream Prices for.
             snapshot:
@@ -637,8 +621,8 @@ class EntitySpec(object):
                     )
                 elif type == "HEARTBEAT":
                     return (
-                        "pricing.Heartbeat",
-                        self.ctx.pricing.Heartbeat.from_dict(j, self.ctx)
+                        "pricing.PricingHeartbeat",
+                        self.ctx.pricing.PricingHeartbeat.from_dict(j, self.ctx)
                     )
 
                 return (

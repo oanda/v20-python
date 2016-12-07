@@ -2,7 +2,7 @@ import ujson as json
 from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
-from v20 import entity_properties
+from v20 import spec_properties
 
 
 
@@ -24,7 +24,7 @@ class Instrument(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.primitives_Instrument
+    _properties = spec_properties.primitives_Instrument
 
     def __init__(self, **kwargs):
         """
@@ -113,36 +113,6 @@ class Instrument(BaseEntity):
         """
 
         data = data.copy()
-
-        if data.get('minimumTradeSize') is not None:
-            data['minimumTradeSize'] = ctx.convert_decimal_number(
-                data.get('minimumTradeSize')
-            )
-
-        if data.get('maximumTrailingStopDistance') is not None:
-            data['maximumTrailingStopDistance'] = ctx.convert_decimal_number(
-                data.get('maximumTrailingStopDistance')
-            )
-
-        if data.get('minimumTrailingStopDistance') is not None:
-            data['minimumTrailingStopDistance'] = ctx.convert_decimal_number(
-                data.get('minimumTrailingStopDistance')
-            )
-
-        if data.get('maximumPositionSize') is not None:
-            data['maximumPositionSize'] = ctx.convert_decimal_number(
-                data.get('maximumPositionSize')
-            )
-
-        if data.get('maximumOrderUnits') is not None:
-            data['maximumOrderUnits'] = ctx.convert_decimal_number(
-                data.get('maximumOrderUnits')
-            )
-
-        if data.get('marginRate') is not None:
-            data['marginRate'] = ctx.convert_decimal_number(
-                data.get('marginRate')
-            )
 
         return Instrument(**data)
 

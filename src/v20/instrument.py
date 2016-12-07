@@ -2,7 +2,7 @@ import ujson as json
 from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
-from v20 import entity_properties
+from v20 import spec_properties
 
 
 
@@ -24,7 +24,7 @@ class Candlestick(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.instrument_Candlestick
+    _properties = spec_properties.instrument_Candlestick
 
     def __init__(self, **kwargs):
         """
@@ -117,7 +117,7 @@ class CandlestickData(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.instrument_CandlestickData
+    _properties = spec_properties.instrument_CandlestickData
 
     def __init__(self, **kwargs):
         """
@@ -158,26 +158,6 @@ class CandlestickData(BaseEntity):
 
         data = data.copy()
 
-        if data.get('o') is not None:
-            data['o'] = ctx.convert_decimal_number(
-                data.get('o')
-            )
-
-        if data.get('h') is not None:
-            data['h'] = ctx.convert_decimal_number(
-                data.get('h')
-            )
-
-        if data.get('l') is not None:
-            data['l'] = ctx.convert_decimal_number(
-                data.get('l')
-            )
-
-        if data.get('c') is not None:
-            data['c'] = ctx.convert_decimal_number(
-                data.get('c')
-            )
-
         return CandlestickData(**data)
 
 
@@ -205,7 +185,7 @@ class EntitySpec(object):
 
         Args:
             instrument:
-                Instrument to get candlestick data for
+                Name of the Instrument
             price:
                 The Price component(s) to get candlestick data for. Can contain
                 any combination of the characters "M" (midpoint candles) "B"
@@ -322,7 +302,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('instrument') is not None:
@@ -339,18 +319,47 @@ class EntitySpec(object):
                     for d in jbody.get('candles')
                 ]
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 

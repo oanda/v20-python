@@ -149,15 +149,15 @@ class BaseEntity(object):
         return s
 
     def dict(self):
-        entity = EntityDict()
+        spec = EntityDict()
         for field in self.fields():
             if field.typeName == "primitives.DecimalNumber" or \
                field.typeName == "primitives.AccountUnits" or \
                field.typeName == "pricing.PriceValue":
-                entity.set(field.name, str(field.value))
+                spec.set(field.name, str(field.value))
             else:
-                entity.set(field.name, field.value)
-        return entity.dict
+                spec.set(field.name, field.value)
+        return spec.dict
 
     def json(self):
         return json.dumps(self.dict())

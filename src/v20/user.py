@@ -2,7 +2,7 @@ import ujson as json
 from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
-from v20 import entity_properties
+from v20 import spec_properties
 
 
 
@@ -24,7 +24,7 @@ class UserInfo(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.user_UserInfo
+    _properties = spec_properties.user_UserInfo
 
     def __init__(self, **kwargs):
         """
@@ -85,7 +85,7 @@ class UserInfoExternal(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.user_UserInfoExternal
+    _properties = spec_properties.user_UserInfoExternal
 
     def __init__(self, **kwargs):
         """
@@ -137,7 +137,7 @@ class EntitySpec(object):
         self.ctx = ctx
 
 
-    def get(
+    def get_info(
         self,
         userSpecifier,
         **kwargs
@@ -149,7 +149,7 @@ class EntitySpec(object):
 
         Args:
             userSpecifier:
-                The specifier for the User to fetch user information for.
+                The User Specifier
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -180,7 +180,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('userInfo') is not None:
@@ -190,25 +190,45 @@ class EntitySpec(object):
                         self.ctx
                     )
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "403":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
         return response
 
 
-    def get_external(
+    def get_external_info(
         self,
         userSpecifier,
         **kwargs
@@ -220,7 +240,7 @@ class EntitySpec(object):
 
         Args:
             userSpecifier:
-                The specifier for the User to fetch user information for.
+                The User Specifier
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -251,7 +271,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('userInfo') is not None:
@@ -261,18 +281,38 @@ class EntitySpec(object):
                         self.ctx
                     )
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "403":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 

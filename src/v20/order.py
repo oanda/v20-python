@@ -2,7 +2,7 @@ import ujson as json
 from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
-from v20 import entity_properties
+from v20 import spec_properties
 from v20 import transaction
 
 
@@ -26,7 +26,7 @@ class OrderIdentifier(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_OrderIdentifier
+    _properties = spec_properties.order_OrderIdentifier
 
     def __init__(self, **kwargs):
         """
@@ -77,7 +77,7 @@ class DynamicOrderState(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_DynamicOrderState
+    _properties = spec_properties.order_DynamicOrderState
 
     def __init__(self, **kwargs):
         """
@@ -121,16 +121,6 @@ class DynamicOrderState(BaseEntity):
 
         data = data.copy()
 
-        if data.get('trailingStopValue') is not None:
-            data['trailingStopValue'] = ctx.convert_decimal_number(
-                data.get('trailingStopValue')
-            )
-
-        if data.get('triggerDistance') is not None:
-            data['triggerDistance'] = ctx.convert_decimal_number(
-                data.get('triggerDistance')
-            )
-
         return DynamicOrderState(**data)
 
 
@@ -153,7 +143,7 @@ class Order(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_Order
+    _properties = spec_properties.order_Order
 
     def __init__(self, **kwargs):
         """
@@ -193,6 +183,12 @@ class Order(BaseEntity):
 
         type = data.get("type")
 
+        if type == "TAKE_PROFIT":
+            return TakeProfitOrder.from_dict(data, ctx)
+        if type == "STOP_LOSS":
+            return StopLossOrder.from_dict(data, ctx)
+        if type == "TRAILING_STOP_LOSS":
+            return TrailingStopLossOrder.from_dict(data, ctx)
         if type == "MARKET":
             return MarketOrder.from_dict(data, ctx)
         if type == "LIMIT":
@@ -201,12 +197,6 @@ class Order(BaseEntity):
             return StopOrder.from_dict(data, ctx)
         if type == "MARKET_IF_TOUCHED":
             return MarketIfTouchedOrder.from_dict(data, ctx)
-        if type == "TAKE_PROFIT":
-            return TakeProfitOrder.from_dict(data, ctx)
-        if type == "STOP_LOSS":
-            return StopLossOrder.from_dict(data, ctx)
-        if type == "TRAILING_STOP_LOSS":
-            return TrailingStopLossOrder.from_dict(data, ctx)
 
         data = data.copy()
 
@@ -238,7 +228,7 @@ class MarketOrder(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_MarketOrder
+    _properties = spec_properties.order_MarketOrder
 
     def __init__(self, **kwargs):
         """
@@ -427,16 +417,6 @@ class MarketOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('tradeClose') is not None:
             data['tradeClose'] = \
                 ctx.transaction.MarketOrderTradeClose.from_dict(
@@ -514,7 +494,7 @@ class LimitOrder(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_LimitOrder
+    _properties = spec_properties.order_LimitOrder
 
     def __init__(self, **kwargs):
         """
@@ -690,16 +670,6 @@ class LimitOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
                 ctx.transaction.TakeProfitDetails.from_dict(
@@ -747,7 +717,7 @@ class StopOrder(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_StopOrder
+    _properties = spec_properties.order_StopOrder
 
     def __init__(self, **kwargs):
         """
@@ -930,21 +900,6 @@ class StopOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
                 ctx.transaction.TakeProfitDetails.from_dict(
@@ -993,7 +948,7 @@ class MarketIfTouchedOrder(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_MarketIfTouchedOrder
+    _properties = spec_properties.order_MarketIfTouchedOrder
 
     def __init__(self, **kwargs):
         """
@@ -1186,26 +1141,6 @@ class MarketIfTouchedOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
-        if data.get('initialMarketPrice') is not None:
-            data['initialMarketPrice'] = ctx.convert_decimal_number(
-                data.get('initialMarketPrice')
-            )
-
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
                 ctx.transaction.TakeProfitDetails.from_dict(
@@ -1255,7 +1190,7 @@ class TakeProfitOrder(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_TakeProfitOrder
+    _properties = spec_properties.order_TakeProfitOrder
 
     def __init__(self, **kwargs):
         """
@@ -1394,11 +1329,6 @@ class TakeProfitOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
 
         return TakeProfitOrder(**data)
 
@@ -1424,7 +1354,7 @@ class StopLossOrder(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_StopLossOrder
+    _properties = spec_properties.order_StopLossOrder
 
     def __init__(self, **kwargs):
         """
@@ -1563,11 +1493,6 @@ class StopLossOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
 
         return StopLossOrder(**data)
 
@@ -1597,7 +1522,7 @@ class TrailingStopLossOrder(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_TrailingStopLossOrder
+    _properties = spec_properties.order_TrailingStopLossOrder
 
     def __init__(self, **kwargs):
         """
@@ -1744,16 +1669,6 @@ class TrailingStopLossOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
-        if data.get('distance') is not None:
-            data['distance'] = ctx.convert_decimal_number(
-                data.get('distance')
-            )
-
-        if data.get('trailingStopValue') is not None:
-            data['trailingStopValue'] = ctx.convert_decimal_number(
-                data.get('trailingStopValue')
-            )
-
 
         return TrailingStopLossOrder(**data)
 
@@ -1777,7 +1692,7 @@ class OrderRequest(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_OrderRequest
+    _properties = spec_properties.order_OrderRequest
 
     def __init__(self, **kwargs):
         """
@@ -1818,7 +1733,7 @@ class MarketOrderRequest(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_MarketOrderRequest
+    _properties = spec_properties.order_MarketOrderRequest
 
     def __init__(self, **kwargs):
         """
@@ -1911,16 +1826,6 @@ class MarketOrderRequest(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -1973,7 +1878,7 @@ class LimitOrderRequest(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_LimitOrderRequest
+    _properties = spec_properties.order_LimitOrderRequest
 
     def __init__(self, **kwargs):
         """
@@ -2072,16 +1977,6 @@ class LimitOrderRequest(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2134,7 +2029,7 @@ class StopOrderRequest(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_StopOrderRequest
+    _properties = spec_properties.order_StopOrderRequest
 
     def __init__(self, **kwargs):
         """
@@ -2240,21 +2135,6 @@ class StopOrderRequest(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2307,7 +2187,7 @@ class MarketIfTouchedOrderRequest(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_MarketIfTouchedOrderRequest
+    _properties = spec_properties.order_MarketIfTouchedOrderRequest
 
     def __init__(self, **kwargs):
         """
@@ -2416,21 +2296,6 @@ class MarketIfTouchedOrderRequest(BaseEntity):
 
         data = data.copy()
 
-        if data.get('units') is not None:
-            data['units'] = ctx.convert_decimal_number(
-                data.get('units')
-            )
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        if data.get('priceBound') is not None:
-            data['priceBound'] = ctx.convert_decimal_number(
-                data.get('priceBound')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2483,7 +2348,7 @@ class TakeProfitOrderRequest(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_TakeProfitOrderRequest
+    _properties = spec_properties.order_TakeProfitOrderRequest
 
     def __init__(self, **kwargs):
         """
@@ -2544,11 +2409,6 @@ class TakeProfitOrderRequest(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2577,7 +2437,7 @@ class StopLossOrderRequest(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_StopLossOrderRequest
+    _properties = spec_properties.order_StopLossOrderRequest
 
     def __init__(self, **kwargs):
         """
@@ -2638,11 +2498,6 @@ class StopLossOrderRequest(BaseEntity):
 
         data = data.copy()
 
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2671,7 +2526,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = entity_properties.order_TrailingStopLossOrderRequest
+    _properties = spec_properties.order_TrailingStopLossOrderRequest
 
     def __init__(self, **kwargs):
         """
@@ -2730,11 +2585,6 @@ class TrailingStopLossOrderRequest(BaseEntity):
 
         data = data.copy()
 
-        if data.get('distance') is not None:
-            data['distance'] = ctx.convert_decimal_number(
-                data.get('distance')
-            )
-
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2784,7 +2634,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to create the Order for.
+                Account Identifier
             order:
                 Specification of the Order to create
 
@@ -2823,7 +2673,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "201":
             if jbody.get('orderCreateTransaction') is not None:
@@ -2893,18 +2743,38 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -2921,7 +2791,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch Orders for
+                Account Identifier
             ids:
                 List of Order IDs to retrieve
             state:
@@ -2988,7 +2858,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('orders') is not None:
@@ -3001,18 +2871,38 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -3029,7 +2919,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch pending Orders for
+                Account Identifier
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -3060,7 +2950,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('orders') is not None:
@@ -3073,18 +2963,38 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -3094,7 +3004,7 @@ class EntitySpec(object):
     def get(
         self,
         accountID,
-        orderID,
+        orderSpecifier,
         **kwargs
     ):
         """
@@ -3102,9 +3012,9 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to fetch an Order for
-            orderID:
-                ID of the Order to fetch
+                Account Identifier
+            orderSpecifier:
+                The Order Specifier
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -3113,7 +3023,7 @@ class EntitySpec(object):
 
         request = Request(
             'GET',
-            '/v3/accounts/{accountID}/orders/{orderID}'
+            '/v3/accounts/{accountID}/orders/{orderSpecifier}'
         )
 
         request.set_path_param(
@@ -3122,8 +3032,8 @@ class EntitySpec(object):
         )
 
         request.set_path_param(
-            'orderID',
-            orderID
+            'orderSpecifier',
+            orderSpecifier
         )
 
         response = self.ctx.request(request)
@@ -3140,7 +3050,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('order') is not None:
@@ -3154,18 +3064,38 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -3184,7 +3114,7 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to cancel and replace the Order for.
+                Account Identifier
             orderID:
                 ID of the Order to cancel.
             order:
@@ -3197,7 +3127,7 @@ class EntitySpec(object):
 
         request = Request(
             'PUT',
-            '/v3/accounts/{accountID}/orders/{orderID}'
+            '/v3/accounts/{accountID}/orders/{orderSpecifier}'
         )
 
         request.set_path_param(
@@ -3230,7 +3160,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "201":
             if jbody.get('orderCancelTransaction') is not None:
@@ -3307,18 +3237,38 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -3328,7 +3278,7 @@ class EntitySpec(object):
     def cancel(
         self,
         accountID,
-        orderID,
+        orderSpecifier,
         **kwargs
     ):
         """
@@ -3336,9 +3286,9 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account to cancel an Order in
-            orderID:
-                ID of the Order cancel
+                Account Identifier
+            orderSpecifier:
+                The Order Specifier
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -3347,7 +3297,7 @@ class EntitySpec(object):
 
         request = Request(
             'PUT',
-            '/v3/accounts/{accountID}/orders/{orderID}/cancel'
+            '/v3/accounts/{accountID}/orders/{orderSpecifier}/cancel'
         )
 
         request.set_path_param(
@@ -3356,8 +3306,8 @@ class EntitySpec(object):
         )
 
         request.set_path_param(
-            'orderID',
-            orderID
+            'orderSpecifier',
+            orderSpecifier
         )
 
         response = self.ctx.request(request)
@@ -3374,7 +3324,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('orderCancelTransaction') is not None:
@@ -3391,6 +3341,15 @@ class EntitySpec(object):
             if jbody.get('lastTransactionID') is not None:
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
 
         elif str(response.status) == "404":
             if jbody.get('orderCancelRejectTransaction') is not None:
@@ -3416,18 +3375,20 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 
@@ -3437,7 +3398,7 @@ class EntitySpec(object):
     def set_client_extensions(
         self,
         accountID,
-        orderID,
+        orderSpecifier,
         **kwargs
     ):
         """
@@ -3447,10 +3408,9 @@ class EntitySpec(object):
 
         Args:
             accountID:
-                ID of the Account whose Order Client Extensions are being
-                modified
-            orderID:
-                ID of the Order cancel
+                Account Identifier
+            orderSpecifier:
+                The Order Specifier
             clientExtensions:
                 The Client Extensions to update for the Order. Do not set,
                 modify, or delete clientExtensions if your account is
@@ -3467,7 +3427,7 @@ class EntitySpec(object):
 
         request = Request(
             'PUT',
-            '/v3/accounts/{accountID}/orders/{orderID}/clientExtensions'
+            '/v3/accounts/{accountID}/orders/{orderSpecifier}/clientExtensions'
         )
 
         request.set_path_param(
@@ -3476,8 +3436,8 @@ class EntitySpec(object):
         )
 
         request.set_path_param(
-            'orderID',
-            orderID
+            'orderSpecifier',
+            orderSpecifier
         )
 
         body = EntityDict()
@@ -3502,7 +3462,7 @@ class EntitySpec(object):
         parsed_body = {}
 
         #
-        # Parse responses specific to the request
+        # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
             if jbody.get('orderClientExtensionsModifyTransaction') is not None:
@@ -3536,18 +3496,38 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         #
-        # Assume standard error response with errorCode and errorMessage
+        # Unexpected response status
         #
         else:
-            errorCode = jbody.get('errorCode')
-            errorMessage = jbody.get('errorMessage')
-
-            if errorCode is not None:
-                parsed_body['errorCode'] = errorCode
-
-            if errorMessage is not None:
-                parsed_body['errorMessage'] = errorMessage
+            parsed_body = jbody
 
         response.body = parsed_body
 

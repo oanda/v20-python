@@ -1,5 +1,5 @@
 import requests
-from v20.errors import ResponseUnexpectedStatus, ResponseNoField, V20Timeout
+from v20.errors import ResponseUnexpectedStatus, ResponseNoField, V20Timeout, V20ConnectionError
 
 class Response(object):
     def __init__(self, request, method, path, status, reason, headers):
@@ -53,6 +53,8 @@ class Response(object):
                 yield parser(line)
         except requests.exceptions.ConnectionError:
             raise V20Timeout(self.path, "stream")
+        except requests.exceptions.ChunkedEncodingError:
+            raise V20ConnectionError(self.path)
 
     def __str__(self):
         s  = "Method = {}\n".format(self.method)
