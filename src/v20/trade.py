@@ -133,6 +133,36 @@ class Trade(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('initialUnits') is not None:
+            data['initialUnits'] = ctx.convert_decimal_number(
+                data.get('initialUnits')
+            )
+
+        if data.get('currentUnits') is not None:
+            data['currentUnits'] = ctx.convert_decimal_number(
+                data.get('currentUnits')
+            )
+
+        if data.get('realizedPL') is not None:
+            data['realizedPL'] = ctx.convert_decimal_number(
+                data.get('realizedPL')
+            )
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
+
+
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -285,6 +315,36 @@ class TradeSummary(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('initialUnits') is not None:
+            data['initialUnits'] = ctx.convert_decimal_number(
+                data.get('initialUnits')
+            )
+
+        if data.get('currentUnits') is not None:
+            data['currentUnits'] = ctx.convert_decimal_number(
+                data.get('currentUnits')
+            )
+
+        if data.get('realizedPL') is not None:
+            data['realizedPL'] = ctx.convert_decimal_number(
+                data.get('realizedPL')
+            )
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
+
+
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -341,6 +401,11 @@ class CalculatedTradeState(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
 
         return CalculatedTradeState(**data)
 

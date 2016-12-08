@@ -121,6 +121,16 @@ class DynamicOrderState(BaseEntity):
 
         data = data.copy()
 
+        if data.get('trailingStopValue') is not None:
+            data['trailingStopValue'] = ctx.convert_decimal_number(
+                data.get('trailingStopValue')
+            )
+
+        if data.get('triggerDistance') is not None:
+            data['triggerDistance'] = ctx.convert_decimal_number(
+                data.get('triggerDistance')
+            )
+
         return DynamicOrderState(**data)
 
 
@@ -417,6 +427,16 @@ class MarketOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('tradeClose') is not None:
             data['tradeClose'] = \
                 ctx.transaction.MarketOrderTradeClose.from_dict(
@@ -670,6 +690,16 @@ class LimitOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
                 ctx.transaction.TakeProfitDetails.from_dict(
@@ -899,6 +929,21 @@ class StopOrder(BaseEntity):
                 ctx.transaction.ClientExtensions.from_dict(
                     data['clientExtensions'], ctx
                 )
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
 
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
@@ -1141,6 +1186,26 @@ class MarketIfTouchedOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
+        if data.get('initialMarketPrice') is not None:
+            data['initialMarketPrice'] = ctx.convert_decimal_number(
+                data.get('initialMarketPrice')
+            )
+
         if data.get('takeProfitOnFill') is not None:
             data['takeProfitOnFill'] = \
                 ctx.transaction.TakeProfitDetails.from_dict(
@@ -1329,6 +1394,11 @@ class TakeProfitOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
 
         return TakeProfitOrder(**data)
 
@@ -1492,6 +1562,11 @@ class StopLossOrder(BaseEntity):
                 ctx.transaction.ClientExtensions.from_dict(
                     data['clientExtensions'], ctx
                 )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
 
         return StopLossOrder(**data)
@@ -1669,6 +1744,16 @@ class TrailingStopLossOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
+            )
+
+        if data.get('trailingStopValue') is not None:
+            data['trailingStopValue'] = ctx.convert_decimal_number(
+                data.get('trailingStopValue')
+            )
+
 
         return TrailingStopLossOrder(**data)
 
@@ -1826,6 +1911,16 @@ class MarketOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -1976,6 +2071,16 @@ class LimitOrderRequest(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -2134,6 +2239,21 @@ class StopOrderRequest(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -2296,6 +2416,21 @@ class MarketIfTouchedOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2409,6 +2544,11 @@ class TakeProfitOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2498,6 +2638,11 @@ class StopLossOrderRequest(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2584,6 +2729,11 @@ class TrailingStopLossOrderRequest(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \

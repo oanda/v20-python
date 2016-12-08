@@ -465,6 +465,11 @@ class ClientConfigureTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('marginRate') is not None:
+            data['marginRate'] = ctx.convert_decimal_number(
+                data.get('marginRate')
+            )
+
         return ClientConfigureTransaction(**data)
 
 
@@ -552,6 +557,11 @@ class ClientConfigureRejectTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('marginRate') is not None:
+            data['marginRate'] = ctx.convert_decimal_number(
+                data.get('marginRate')
+            )
 
         return ClientConfigureRejectTransaction(**data)
 
@@ -643,6 +653,16 @@ class TransferFundsTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('amount') is not None:
+            data['amount'] = ctx.convert_decimal_number(
+                data.get('amount')
+            )
+
+        if data.get('accountBalance') is not None:
+            data['accountBalance'] = ctx.convert_decimal_number(
+                data.get('accountBalance')
+            )
+
         return TransferFundsTransaction(**data)
 
 
@@ -732,6 +752,11 @@ class TransferFundsRejectTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('amount') is not None:
+            data['amount'] = ctx.convert_decimal_number(
+                data.get('amount')
+            )
 
         return TransferFundsRejectTransaction(**data)
 
@@ -906,6 +931,16 @@ class MarketOrderTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
 
         if data.get('tradeClose') is not None:
             data['tradeClose'] = \
@@ -1143,6 +1178,16 @@ class MarketOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('tradeClose') is not None:
             data['tradeClose'] = \
                 ctx.transaction.MarketOrderTradeClose.from_dict(
@@ -1361,6 +1406,16 @@ class LimitOrderTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -1547,6 +1602,16 @@ class LimitOrderRejectTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -1743,6 +1808,21 @@ class StopOrderTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -1936,6 +2016,21 @@ class StopOrderRejectTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -2135,6 +2230,21 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2333,6 +2443,21 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('priceBound') is not None:
+            data['priceBound'] = ctx.convert_decimal_number(
+                data.get('priceBound')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2496,6 +2621,11 @@ class TakeProfitOrderTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2633,6 +2763,11 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -2773,6 +2908,11 @@ class StopLossOrderTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -2911,6 +3051,11 @@ class StopLossOrderRejectTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -3047,6 +3192,11 @@ class TrailingStopLossOrderTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -3185,6 +3335,11 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -3328,6 +3483,31 @@ class OrderFillTransaction(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('pl') is not None:
+            data['pl'] = ctx.convert_decimal_number(
+                data.get('pl')
+            )
+
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
+
+        if data.get('accountBalance') is not None:
+            data['accountBalance'] = ctx.convert_decimal_number(
+                data.get('accountBalance')
+            )
 
         if data.get('tradeOpened') is not None:
             data['tradeOpened'] = \
@@ -4362,6 +4542,16 @@ class DailyFinancingTransaction(BaseEntity):
 
         data = data.copy()
 
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
+
+        if data.get('accountBalance') is not None:
+            data['accountBalance'] = ctx.convert_decimal_number(
+                data.get('accountBalance')
+            )
+
         if data.get('positionFinancings') is not None:
             data['positionFinancings'] = [
                 ctx.transaction.PositionFinancing.from_dict(d, ctx)
@@ -4563,6 +4753,11 @@ class TakeProfitDetails(BaseEntity):
 
         data = data.copy()
 
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -4633,6 +4828,11 @@ class StopLossDetails(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -4707,6 +4907,11 @@ class TrailingStopLossDetails(BaseEntity):
 
         data = data.copy()
 
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
+            )
+
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
                 ctx.transaction.ClientExtensions.from_dict(
@@ -4769,6 +4974,11 @@ class TradeOpen(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
 
         if data.get('clientExtensions') is not None:
             data['clientExtensions'] = \
@@ -4838,6 +5048,21 @@ class TradeReduce(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('realizedPL') is not None:
+            data['realizedPL'] = ctx.convert_decimal_number(
+                data.get('realizedPL')
+            )
+
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
 
         return TradeReduce(**data)
 
@@ -5106,6 +5331,16 @@ class VWAPReceipt(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
         return VWAPReceipt(**data)
 
 
@@ -5218,6 +5453,16 @@ class LiquidityRegenerationScheduleStep(BaseEntity):
 
         data = data.copy()
 
+        if data.get('bidLiquidityUsed') is not None:
+            data['bidLiquidityUsed'] = ctx.convert_decimal_number(
+                data.get('bidLiquidityUsed')
+            )
+
+        if data.get('askLiquidityUsed') is not None:
+            data['askLiquidityUsed'] = ctx.convert_decimal_number(
+                data.get('askLiquidityUsed')
+            )
+
         return LiquidityRegenerationScheduleStep(**data)
 
 
@@ -5268,6 +5513,11 @@ class OpenTradeFinancing(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
 
         return OpenTradeFinancing(**data)
 
@@ -5325,6 +5575,11 @@ class PositionFinancing(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
 
         if data.get('openTradeFinancings') is not None:
             data['openTradeFinancings'] = [

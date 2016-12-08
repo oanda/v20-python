@@ -1,5 +1,12 @@
 OANDA v20 API Change Log
 
+Version 3.0.13 (December 08, 2016)
+
+	* Fixed v20-python string-to-float regression
+
+	* First OpenAPI specification release
+
+
 Version 3.0.12 (December 07, 2016)
 
 	* v20-python fixed bug when parsing an Instrument from

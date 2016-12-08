@@ -116,6 +116,16 @@ class Price(BaseEntity):
                 for d in data.get('asks')
             ]
 
+        if data.get('closeoutBid') is not None:
+            data['closeoutBid'] = ctx.convert_decimal_number(
+                data.get('closeoutBid')
+            )
+
+        if data.get('closeoutAsk') is not None:
+            data['closeoutAsk'] = ctx.convert_decimal_number(
+                data.get('closeoutAsk')
+            )
+
         if data.get('quoteHomeConversionFactors') is not None:
             data['quoteHomeConversionFactors'] = \
                 ctx.pricing.QuoteHomeConversionFactors.from_dict(
@@ -177,6 +187,11 @@ class PriceBucket(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
 
         return PriceBucket(**data)
 
@@ -309,6 +324,26 @@ class UnitsAvailableDetails(BaseEntity):
 
         data = data.copy()
 
+        if data.get('default') is not None:
+            data['default'] = ctx.convert_decimal_number(
+                data.get('default')
+            )
+
+        if data.get('reduceFirst') is not None:
+            data['reduceFirst'] = ctx.convert_decimal_number(
+                data.get('reduceFirst')
+            )
+
+        if data.get('reduceOnly') is not None:
+            data['reduceOnly'] = ctx.convert_decimal_number(
+                data.get('reduceOnly')
+            )
+
+        if data.get('openOnly') is not None:
+            data['openOnly'] = ctx.convert_decimal_number(
+                data.get('openOnly')
+            )
+
         return UnitsAvailableDetails(**data)
 
 
@@ -366,6 +401,16 @@ class QuoteHomeConversionFactors(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('positiveUnits') is not None:
+            data['positiveUnits'] = ctx.convert_decimal_number(
+                data.get('positiveUnits')
+            )
+
+        if data.get('negativeUnits') is not None:
+            data['negativeUnits'] = ctx.convert_decimal_number(
+                data.get('negativeUnits')
+            )
 
         return QuoteHomeConversionFactors(**data)
 

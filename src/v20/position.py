@@ -77,6 +77,21 @@ class Position(BaseEntity):
 
         data = data.copy()
 
+        if data.get('pl') is not None:
+            data['pl'] = ctx.convert_decimal_number(
+                data.get('pl')
+            )
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
+
+        if data.get('resettablePL') is not None:
+            data['resettablePL'] = ctx.convert_decimal_number(
+                data.get('resettablePL')
+            )
+
         if data.get('long') is not None:
             data['long'] = \
                 ctx.position.PositionSide.from_dict(
@@ -164,6 +179,31 @@ class PositionSide(BaseEntity):
 
         data = data.copy()
 
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('averagePrice') is not None:
+            data['averagePrice'] = ctx.convert_decimal_number(
+                data.get('averagePrice')
+            )
+
+
+        if data.get('pl') is not None:
+            data['pl'] = ctx.convert_decimal_number(
+                data.get('pl')
+            )
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
+
+        if data.get('resettablePL') is not None:
+            data['resettablePL'] = ctx.convert_decimal_number(
+                data.get('resettablePL')
+            )
 
         return PositionSide(**data)
 
@@ -224,6 +264,21 @@ class CalculatedPositionState(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('netUnrealizedPL') is not None:
+            data['netUnrealizedPL'] = ctx.convert_decimal_number(
+                data.get('netUnrealizedPL')
+            )
+
+        if data.get('longUnrealizedPL') is not None:
+            data['longUnrealizedPL'] = ctx.convert_decimal_number(
+                data.get('longUnrealizedPL')
+            )
+
+        if data.get('shortUnrealizedPL') is not None:
+            data['shortUnrealizedPL'] = ctx.convert_decimal_number(
+                data.get('shortUnrealizedPL')
+            )
 
         return CalculatedPositionState(**data)
 

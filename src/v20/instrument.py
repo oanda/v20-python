@@ -158,6 +158,26 @@ class CandlestickData(BaseEntity):
 
         data = data.copy()
 
+        if data.get('o') is not None:
+            data['o'] = ctx.convert_decimal_number(
+                data.get('o')
+            )
+
+        if data.get('h') is not None:
+            data['h'] = ctx.convert_decimal_number(
+                data.get('h')
+            )
+
+        if data.get('l') is not None:
+            data['l'] = ctx.convert_decimal_number(
+                data.get('l')
+            )
+
+        if data.get('c') is not None:
+            data['c'] = ctx.convert_decimal_number(
+                data.get('c')
+            )
+
         return CandlestickData(**data)
 
 

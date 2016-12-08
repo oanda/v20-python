@@ -231,6 +231,86 @@ class Account(BaseEntity):
 
         data = data.copy()
 
+        if data.get('balance') is not None:
+            data['balance'] = ctx.convert_decimal_number(
+                data.get('balance')
+            )
+
+        if data.get('pl') is not None:
+            data['pl'] = ctx.convert_decimal_number(
+                data.get('pl')
+            )
+
+        if data.get('resettabledPL') is not None:
+            data['resettabledPL'] = ctx.convert_decimal_number(
+                data.get('resettabledPL')
+            )
+
+        if data.get('marginRate') is not None:
+            data['marginRate'] = ctx.convert_decimal_number(
+                data.get('marginRate')
+            )
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
+
+        if data.get('NAV') is not None:
+            data['NAV'] = ctx.convert_decimal_number(
+                data.get('NAV')
+            )
+
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
+            )
+
+        if data.get('marginAvailable') is not None:
+            data['marginAvailable'] = ctx.convert_decimal_number(
+                data.get('marginAvailable')
+            )
+
+        if data.get('positionValue') is not None:
+            data['positionValue'] = ctx.convert_decimal_number(
+                data.get('positionValue')
+            )
+
+        if data.get('marginCloseoutUnrealizedPL') is not None:
+            data['marginCloseoutUnrealizedPL'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutUnrealizedPL')
+            )
+
+        if data.get('marginCloseoutNAV') is not None:
+            data['marginCloseoutNAV'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutNAV')
+            )
+
+        if data.get('marginCloseoutMarginUsed') is not None:
+            data['marginCloseoutMarginUsed'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutMarginUsed')
+            )
+
+        if data.get('marginCloseoutPercent') is not None:
+            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPercent')
+            )
+
+        if data.get('withdrawalLimit') is not None:
+            data['withdrawalLimit'] = ctx.convert_decimal_number(
+                data.get('withdrawalLimit')
+            )
+
+        if data.get('marginCallMarginUsed') is not None:
+            data['marginCallMarginUsed'] = ctx.convert_decimal_number(
+                data.get('marginCallMarginUsed')
+            )
+
+        if data.get('marginCallPercent') is not None:
+            data['marginCallPercent'] = ctx.convert_decimal_number(
+                data.get('marginCallPercent')
+            )
+
         if data.get('trades') is not None:
             data['trades'] = [
                 ctx.trade.TradeSummary.from_dict(d, ctx)
@@ -374,6 +454,66 @@ class AccountState(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
+
+        if data.get('NAV') is not None:
+            data['NAV'] = ctx.convert_decimal_number(
+                data.get('NAV')
+            )
+
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
+            )
+
+        if data.get('marginAvailable') is not None:
+            data['marginAvailable'] = ctx.convert_decimal_number(
+                data.get('marginAvailable')
+            )
+
+        if data.get('positionValue') is not None:
+            data['positionValue'] = ctx.convert_decimal_number(
+                data.get('positionValue')
+            )
+
+        if data.get('marginCloseoutUnrealizedPL') is not None:
+            data['marginCloseoutUnrealizedPL'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutUnrealizedPL')
+            )
+
+        if data.get('marginCloseoutNAV') is not None:
+            data['marginCloseoutNAV'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutNAV')
+            )
+
+        if data.get('marginCloseoutMarginUsed') is not None:
+            data['marginCloseoutMarginUsed'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutMarginUsed')
+            )
+
+        if data.get('marginCloseoutPercent') is not None:
+            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPercent')
+            )
+
+        if data.get('withdrawalLimit') is not None:
+            data['withdrawalLimit'] = ctx.convert_decimal_number(
+                data.get('withdrawalLimit')
+            )
+
+        if data.get('marginCallMarginUsed') is not None:
+            data['marginCallMarginUsed'] = ctx.convert_decimal_number(
+                data.get('marginCallMarginUsed')
+            )
+
+        if data.get('marginCallPercent') is not None:
+            data['marginCallPercent'] = ctx.convert_decimal_number(
+                data.get('marginCallPercent')
+            )
 
         if data.get('orders') is not None:
             data['orders'] = [
@@ -657,6 +797,86 @@ class AccountSummary(BaseEntity):
         """
 
         data = data.copy()
+
+        if data.get('balance') is not None:
+            data['balance'] = ctx.convert_decimal_number(
+                data.get('balance')
+            )
+
+        if data.get('pl') is not None:
+            data['pl'] = ctx.convert_decimal_number(
+                data.get('pl')
+            )
+
+        if data.get('resettabledPL') is not None:
+            data['resettabledPL'] = ctx.convert_decimal_number(
+                data.get('resettabledPL')
+            )
+
+        if data.get('marginRate') is not None:
+            data['marginRate'] = ctx.convert_decimal_number(
+                data.get('marginRate')
+            )
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
+
+        if data.get('NAV') is not None:
+            data['NAV'] = ctx.convert_decimal_number(
+                data.get('NAV')
+            )
+
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
+            )
+
+        if data.get('marginAvailable') is not None:
+            data['marginAvailable'] = ctx.convert_decimal_number(
+                data.get('marginAvailable')
+            )
+
+        if data.get('positionValue') is not None:
+            data['positionValue'] = ctx.convert_decimal_number(
+                data.get('positionValue')
+            )
+
+        if data.get('marginCloseoutUnrealizedPL') is not None:
+            data['marginCloseoutUnrealizedPL'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutUnrealizedPL')
+            )
+
+        if data.get('marginCloseoutNAV') is not None:
+            data['marginCloseoutNAV'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutNAV')
+            )
+
+        if data.get('marginCloseoutMarginUsed') is not None:
+            data['marginCloseoutMarginUsed'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutMarginUsed')
+            )
+
+        if data.get('marginCloseoutPercent') is not None:
+            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPercent')
+            )
+
+        if data.get('withdrawalLimit') is not None:
+            data['withdrawalLimit'] = ctx.convert_decimal_number(
+                data.get('withdrawalLimit')
+            )
+
+        if data.get('marginCallMarginUsed') is not None:
+            data['marginCallMarginUsed'] = ctx.convert_decimal_number(
+                data.get('marginCallMarginUsed')
+            )
+
+        if data.get('marginCallPercent') is not None:
+            data['marginCallPercent'] = ctx.convert_decimal_number(
+                data.get('marginCallPercent')
+            )
 
         return AccountSummary(**data)
 
