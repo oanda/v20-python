@@ -3368,7 +3368,7 @@ position_Position = [
  
     Property( 
         "instrument",
-        "instrument",
+        "Instrument",
         "The Position's Instrument.",
         "primitive",
         "primitives.InstrumentName",
@@ -3378,7 +3378,7 @@ position_Position = [
  
     Property( 
         "pl",
-        "pl",
+        "Profit/Loss",
         "Profit/loss realized by the Position over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
@@ -3388,7 +3388,7 @@ position_Position = [
  
     Property( 
         "unrealizedPL",
-        "unrealizedPL",
+        "Unrealized Profit/Loss",
         "The unrealized profit/loss of all open Trades that contribute to this Position.",
         "primitive",
         "primitives.AccountUnits",
@@ -3398,7 +3398,7 @@ position_Position = [
  
     Property( 
         "resettablePL",
-        "resettablePL",
+        "Resettable Profit/Loss",
         "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
         "primitive",
         "primitives.AccountUnits",
@@ -3408,7 +3408,7 @@ position_Position = [
  
     Property( 
         "long",
-        "long",
+        "Long Side",
         "The details of the long side of the Position.",
         "object",
         "position.PositionSide",
@@ -3418,7 +3418,7 @@ position_Position = [
  
     Property( 
         "short",
-        "short",
+        "Short Side",
         "The details of the short side of the Position.",
         "object",
         "position.PositionSide",
@@ -3431,7 +3431,7 @@ position_PositionSide = [
  
     Property( 
         "units",
-        "units",
+        "Units",
         "Number of units in the position (negative value indicates short position, positive indicates long position).",
         "primitive",
         "primitives.DecimalNumber",
@@ -3441,7 +3441,7 @@ position_PositionSide = [
  
     Property( 
         "averagePrice",
-        "averagePrice",
+        "Average Price",
         "Volume-weighted average of the underlying Trade open prices for the Position.",
         "primitive",
         "pricing.PriceValue",
@@ -3451,7 +3451,7 @@ position_PositionSide = [
  
     Property( 
         "tradeIDs",
-        "tradeIDs",
+        "Trade IDs",
         "List of the open Trade IDs which contribute to the open Position.",
         "array_primitive",
         "TradeID",
@@ -3461,7 +3461,7 @@ position_PositionSide = [
  
     Property( 
         "pl",
-        "pl",
+        "Profit/Loss",
         "Profit/loss realized by the PositionSide over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
@@ -3471,7 +3471,7 @@ position_PositionSide = [
  
     Property( 
         "unrealizedPL",
-        "unrealizedPL",
+        "Unrealized Profit/Loss",
         "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
         "primitive",
         "primitives.AccountUnits",
@@ -3481,7 +3481,7 @@ position_PositionSide = [
  
     Property( 
         "resettablePL",
-        "resettablePL",
+        "Resettable Profit/Loss",
         "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
         "primitive",
         "primitives.AccountUnits",
@@ -3494,7 +3494,7 @@ position_CalculatedPositionState = [
  
     Property( 
         "instrument",
-        "instrument",
+        "Instrument",
         "The Position's Instrument.",
         "primitive",
         "primitives.InstrumentName",
@@ -3504,7 +3504,7 @@ position_CalculatedPositionState = [
  
     Property( 
         "netUnrealizedPL",
-        "netUnrealizedPL",
+        "Net Unrealized Profit/Loss",
         "The Position's net unrealized profit/loss",
         "primitive",
         "primitives.AccountUnits",
@@ -3514,7 +3514,7 @@ position_CalculatedPositionState = [
  
     Property( 
         "longUnrealizedPL",
-        "longUnrealizedPL",
+        "Long Unrealized Profit/Loss",
         "The unrealized profit/loss of the Position's long open Trades",
         "primitive",
         "primitives.AccountUnits",
@@ -3524,7 +3524,7 @@ position_CalculatedPositionState = [
  
     Property( 
         "shortUnrealizedPL",
-        "shortUnrealizedPL",
+        "Short Unrealized Profit/Loss",
         "The unrealized profit/loss of the Position's short open Trades",
         "primitive",
         "primitives.AccountUnits",
@@ -8716,7 +8716,7 @@ pricing_Price = [
  
     Property( 
         "instrument",
-        "instrument",
+        "Instrument",
         "The Price's Instrument.",
         "primitive",
         "primitives.InstrumentName",
@@ -8726,7 +8726,7 @@ pricing_Price = [
  
     Property( 
         "time",
-        "time",
+        "Time",
         "The date/time when the Price was created",
         "primitive",
         "primitives.DateTime",
@@ -8736,7 +8736,7 @@ pricing_Price = [
  
     Property( 
         "status",
-        "status",
+        "Status",
         "The status of the Price.",
         "primitive",
         "pricing.PriceStatus",
@@ -8746,7 +8746,7 @@ pricing_Price = [
  
     Property( 
         "bids",
-        "bids",
+        "Bids",
         "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
         "array_object",
         "PriceBucket",
@@ -8756,7 +8756,7 @@ pricing_Price = [
  
     Property( 
         "asks",
-        "asks",
+        "Asks",
         "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
         "array_object",
         "PriceBucket",
@@ -8766,7 +8766,7 @@ pricing_Price = [
  
     Property( 
         "closeoutBid",
-        "closeoutBid",
+        "Closeout Bid",
         "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
         "primitive",
         "pricing.PriceValue",
@@ -8776,7 +8776,7 @@ pricing_Price = [
  
     Property( 
         "closeoutAsk",
-        "closeoutAsk",
+        "Closeout Ask",
         "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
         "primitive",
         "pricing.PriceValue",
@@ -8786,7 +8786,7 @@ pricing_Price = [
  
     Property( 
         "quoteHomeConversionFactors",
-        "quoteHomeConversionFactors",
+        "Quote Home Conversions",
         "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency.",
         "object",
         "pricing.QuoteHomeConversionFactors",
@@ -8796,7 +8796,7 @@ pricing_Price = [
  
     Property( 
         "unitsAvailable",
-        "unitsAvailable",
+        "Units Available",
         "Representation of many units of an Instrument are available to be traded for both long and short Orders.",
         "object",
         "pricing.UnitsAvailable",
@@ -8809,7 +8809,7 @@ pricing_PriceBucket = [
  
     Property( 
         "price",
-        "price",
+        "Price",
         "The Price offered by the PriceBucket",
         "primitive",
         "pricing.PriceValue",
@@ -8819,7 +8819,7 @@ pricing_PriceBucket = [
  
     Property( 
         "liquidity",
-        "liquidity",
+        "Liquidity",
         "The amount of liquidity offered by the PriceBucket",
         "primitive",
         "integer",
@@ -8832,7 +8832,7 @@ pricing_UnitsAvailable = [
  
     Property( 
         "long",
-        "long",
+        "Long",
         "The units available breakdown for long Orders.",
         "object",
         "pricing.UnitsAvailableDetails",
@@ -8842,7 +8842,7 @@ pricing_UnitsAvailable = [
  
     Property( 
         "short",
-        "short",
+        "Short",
         "The units available breakdown for short Orders.",
         "object",
         "pricing.UnitsAvailableDetails",
@@ -8855,7 +8855,7 @@ pricing_UnitsAvailableDetails = [
  
     Property( 
         "default",
-        "default",
+        "Default",
         "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
         "primitive",
         "primitives.DecimalNumber",
@@ -8865,7 +8865,7 @@ pricing_UnitsAvailableDetails = [
  
     Property( 
         "reduceFirst",
-        "reduceFirst",
+        "Reduce First",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
         "primitive",
         "primitives.DecimalNumber",
@@ -8875,7 +8875,7 @@ pricing_UnitsAvailableDetails = [
  
     Property( 
         "reduceOnly",
-        "reduceOnly",
+        "Reduce Only",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
         "primitive",
         "primitives.DecimalNumber",
@@ -8885,7 +8885,7 @@ pricing_UnitsAvailableDetails = [
  
     Property( 
         "openOnly",
-        "openOnly",
+        "Open Only",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
         "primitive",
         "primitives.DecimalNumber",
@@ -8898,7 +8898,7 @@ pricing_QuoteHomeConversionFactors = [
  
     Property( 
         "positiveUnits",
-        "positiveUnits",
+        "Positive Units",
         "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
         "primitive",
         "primitives.DecimalNumber",
@@ -8908,7 +8908,7 @@ pricing_QuoteHomeConversionFactors = [
  
     Property( 
         "negativeUnits",
-        "negativeUnits",
+        "Negative Units",
         "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
         "primitive",
         "primitives.DecimalNumber",
@@ -8921,7 +8921,7 @@ pricing_PricingHeartbeat = [
  
     Property( 
         "type",
-        "type",
+        "Type",
         "The string \"HEARTBEAT\"",
         "primitive",
         "string",
@@ -8931,7 +8931,7 @@ pricing_PricingHeartbeat = [
  
     Property( 
         "time",
-        "time",
+        "Time",
         "The date/time when the Heartbeat was created.",
         "primitive",
         "primitives.DateTime",
