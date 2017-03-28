@@ -78,7 +78,7 @@ account_Account = [
     ),
  
     Property( 
-        "resettabledPL",
+        "resettablePL",
         "Resettable Profit/Loss",
         "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
         "primitive",
@@ -268,6 +268,16 @@ account_Account = [
     ),
  
     Property( 
+        "marginCloseoutPositionValue",
+        "Margin Closeout Position Value",
+        "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "withdrawalLimit",
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
@@ -338,7 +348,7 @@ account_Account = [
     ),
 ]
 
-account_AccountState = [
+account_AccountChangesState = [
  
     Property( 
         "unrealizedPL",
@@ -424,6 +434,16 @@ account_AccountState = [
         "marginCloseoutPercent",
         "Margin Closeout Percentage",
         "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "marginCloseoutPositionValue",
+        "Margin Closeout Position Value",
+        "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
         "primitive",
         "primitives.DecimalNumber",
         None,
@@ -597,7 +617,7 @@ account_AccountSummary = [
     ),
  
     Property( 
-        "resettabledPL",
+        "resettablePL",
         "Resettable Profit/Loss",
         "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
         "primitive",
@@ -787,6 +807,16 @@ account_AccountSummary = [
     ),
  
     Property( 
+        "marginCloseoutPositionValue",
+        "Margin Closeout Position Value",
+        "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "withdrawalLimit",
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
@@ -874,7 +904,7 @@ account_AccountChanges = [
         "Trades Opened",
         "The Trades opened.",
         "array_object",
-        "Trade",
+        "TradeSummary",
         None,
         None 
     ),
@@ -884,7 +914,7 @@ account_AccountChanges = [
         "Trades Reduced",
         "The Trades reduced.",
         "array_object",
-        "Trade",
+        "TradeSummary",
         None,
         None 
     ),
@@ -894,7 +924,7 @@ account_AccountChanges = [
         "Trades Closed",
         "The Trades closed.",
         "array_object",
-        "Trade",
+        "TradeSummary",
         None,
         None 
     ),
@@ -1405,6 +1435,16 @@ order_LimitOrder = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
@@ -1653,6 +1693,16 @@ order_StopOrder = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         "primitive",
         "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
@@ -1911,6 +1961,16 @@ order_MarketIfTouchedOrder = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "initialMarketPrice",
         "Initial Market Price",
         "The Market price at the time when the MarketIfTouched Order was created.",
@@ -2154,6 +2214,16 @@ order_TakeProfitOrder = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
@@ -2347,6 +2417,16 @@ order_StopLossOrder = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
@@ -2537,6 +2617,16 @@ order_TrailingStopLossOrder = [
         "primitives.DateTime",
         None,
         None 
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
     ),
  
     Property( 
@@ -2829,6 +2919,16 @@ order_LimitOrderRequest = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
@@ -2957,6 +3057,16 @@ order_StopOrderRequest = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         "primitive",
         "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
@@ -3095,6 +3205,16 @@ order_MarketIfTouchedOrderRequest = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
@@ -3208,6 +3328,16 @@ order_TakeProfitOrderRequest = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
@@ -3281,6 +3411,16 @@ order_StopLossOrderRequest = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
@@ -3351,6 +3491,16 @@ order_TrailingStopLossOrderRequest = [
         "primitives.DateTime",
         None,
         None 
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
     ),
  
     Property( 
@@ -3660,6 +3810,16 @@ transaction_Transaction = [
         None,
         None 
     ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
 ]
 
 transaction_CreateTransaction = [
@@ -3710,6 +3870,16 @@ transaction_CreateTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -3828,6 +3998,16 @@ transaction_CloseTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"CLOSE\" in a CloseTransaction.",
@@ -3891,6 +4071,16 @@ transaction_ReopenTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"REOPEN\" in a ReopenTransaction.",
@@ -3949,6 +4139,16 @@ transaction_ClientConfigureTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -4032,6 +4232,16 @@ transaction_ClientConfigureRejectTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -4130,6 +4340,16 @@ transaction_TransferFundsTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRANSFER_FUNDS\" in a TransferFundsTransaction.",
@@ -4155,6 +4375,16 @@ transaction_TransferFundsTransaction = [
         "The reason that an Account is being funded.",
         "primitive",
         "transaction.FundingReason",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "comment",
+        "Comment",
+        "An optional comment that may be attached to a fund transfer for audit purposes",
+        "primitive",
+        "string",
         None,
         None 
     ),
@@ -4223,6 +4453,16 @@ transaction_TransferFundsRejectTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRANSFER_FUNDS_REJECT\" in a TransferFundsRejectTransaction.",
@@ -4248,6 +4488,16 @@ transaction_TransferFundsRejectTransaction = [
         "The reason that an Account is being funded.",
         "primitive",
         "transaction.FundingReason",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "comment",
+        "Comment",
+        "An optional comment that may be attached to a fund transfer for audit purposes",
+        "primitive",
+        "string",
         None,
         None 
     ),
@@ -4311,6 +4561,16 @@ transaction_MarketOrderTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -4534,6 +4794,16 @@ transaction_MarketOrderRejectTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -4772,6 +5042,16 @@ transaction_LimitOrderTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"LIMIT_ORDER\" in a LimitOrderTransaction.",
@@ -4837,6 +5117,16 @@ transaction_LimitOrderTransaction = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         "primitive",
         "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
@@ -4912,7 +5202,7 @@ transaction_LimitOrderTransaction = [
     ),
  
     Property( 
-        "replacedOrderCancelTransactionID",
+        "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
@@ -4970,6 +5260,16 @@ transaction_LimitOrderRejectTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -5040,6 +5340,16 @@ transaction_LimitOrderRejectTransaction = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         "primitive",
         "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
@@ -5178,6 +5488,16 @@ transaction_StopOrderTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"STOP_ORDER\" in a StopOrderTransaction.",
@@ -5258,6 +5578,16 @@ transaction_StopOrderTransaction = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "reason",
         "Reason",
         "The reason that the Stop Order was initiated",
@@ -5328,7 +5658,7 @@ transaction_StopOrderTransaction = [
     ),
  
     Property( 
-        "replacedOrderCancelTransactionID",
+        "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
@@ -5386,6 +5716,16 @@ transaction_StopOrderRejectTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -5466,6 +5806,16 @@ transaction_StopOrderRejectTransaction = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         "primitive",
         "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
@@ -5604,6 +5954,16 @@ transaction_MarketIfTouchedOrderTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARKET_IF_TOUCHED_ORDER\" in a MarketIfTouchedOrderTransaction.",
@@ -5684,6 +6044,16 @@ transaction_MarketIfTouchedOrderTransaction = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "reason",
         "Reason",
         "The reason that the Market-if-touched Order was initiated",
@@ -5754,7 +6124,7 @@ transaction_MarketIfTouchedOrderTransaction = [
     ),
  
     Property( 
-        "replacedOrderCancelTransactionID",
+        "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
@@ -5812,6 +6182,16 @@ transaction_MarketIfTouchedOrderRejectTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -5892,6 +6272,16 @@ transaction_MarketIfTouchedOrderRejectTransaction = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         "primitive",
         "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
@@ -6030,6 +6420,16 @@ transaction_TakeProfitOrderTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER\" in a TakeProfitOrderTransaction.",
@@ -6090,6 +6490,16 @@ transaction_TakeProfitOrderTransaction = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "reason",
         "Reason",
         "The reason that the Take Profit Order was initiated",
@@ -6130,7 +6540,7 @@ transaction_TakeProfitOrderTransaction = [
     ),
  
     Property( 
-        "replacedOrderCancelTransactionID",
+        "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
@@ -6193,6 +6603,16 @@ transaction_TakeProfitOrderRejectTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER_REJECT\" in a TakeProfitOrderRejectTransaction.",
@@ -6250,6 +6670,16 @@ transaction_TakeProfitOrderRejectTransaction = [
         "primitives.DateTime",
         None,
         None 
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
     ),
  
     Property( 
@@ -6356,6 +6786,16 @@ transaction_StopLossOrderTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER\" in a StopLossOrderTransaction.",
@@ -6416,6 +6856,16 @@ transaction_StopLossOrderTransaction = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "reason",
         "Reason",
         "The reason that the Stop Loss Order was initiated",
@@ -6456,7 +6906,7 @@ transaction_StopLossOrderTransaction = [
     ),
  
     Property( 
-        "replacedOrderCancelTransactionID",
+        "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
@@ -6519,6 +6969,16 @@ transaction_StopLossOrderRejectTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER_REJECT\" in a StopLossOrderRejectTransaction.",
@@ -6576,6 +7036,16 @@ transaction_StopLossOrderRejectTransaction = [
         "primitives.DateTime",
         None,
         None 
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
     ),
  
     Property( 
@@ -6682,6 +7152,16 @@ transaction_TrailingStopLossOrderTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER\" in a TrailingStopLossOrderTransaction.",
@@ -6742,6 +7222,16 @@ transaction_TrailingStopLossOrderTransaction = [
     ),
  
     Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+ 
+    Property( 
         "reason",
         "Reason",
         "The reason that the Trailing Stop Loss Order was initiated",
@@ -6782,7 +7272,7 @@ transaction_TrailingStopLossOrderTransaction = [
     ),
  
     Property( 
-        "replacedOrderCancelTransactionID",
+        "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
@@ -6845,6 +7335,16 @@ transaction_TrailingStopLossOrderRejectTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER_REJECT\" in a TrailingStopLossOrderRejectTransaction.",
@@ -6902,6 +7402,16 @@ transaction_TrailingStopLossOrderRejectTransaction = [
         "primitives.DateTime",
         None,
         None 
+    ),
+ 
+    Property( 
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
     ),
  
     Property( 
@@ -7003,6 +7513,16 @@ transaction_OrderFillTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -7191,6 +7711,16 @@ transaction_OrderCancelTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CANCEL\" for an OrderCancelTransaction.",
@@ -7289,6 +7819,16 @@ transaction_OrderCancelRejectTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -7397,6 +7937,16 @@ transaction_OrderClientExtensionsModifyTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY\" for a OrderClienteExtensionsModifyTransaction.",
@@ -7427,7 +7977,7 @@ transaction_OrderClientExtensionsModifyTransaction = [
     ),
  
     Property( 
-        "orderClientExtensionsModify",
+        "clientExtensionsModify",
         "Order Extensions",
         "The new Client Extensions for the Order.",
         "object",
@@ -7500,6 +8050,16 @@ transaction_OrderClientExtensionsModifyRejectTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT\" for a OrderClientExtensionsModifyRejectTransaction.",
@@ -7530,7 +8090,7 @@ transaction_OrderClientExtensionsModifyRejectTransaction = [
     ),
  
     Property( 
-        "orderClientExtensionsModify",
+        "clientExtensionsModify",
         "Order Extensions",
         "The new Client Extensions for the Order.",
         "object",
@@ -7608,6 +8168,16 @@ transaction_TradeClientExtensionsModifyTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -7701,6 +8271,16 @@ transaction_TradeClientExtensionsModifyRejectTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -7809,6 +8389,16 @@ transaction_MarginCallEnterTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARGIN_CALL_ENTER\" for an MarginCallEnterTransaction.",
@@ -7867,6 +8457,16 @@ transaction_MarginCallExtendTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -7945,6 +8545,16 @@ transaction_MarginCallExitTransaction = [
     ),
  
     Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARGIN_CALL_EXIT\" for an MarginCallExitTransaction.",
@@ -8003,6 +8613,16 @@ transaction_DelayedTradeClosureTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -8086,6 +8706,16 @@ transaction_DailyFinancingTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -8189,6 +8819,16 @@ transaction_ResetResettablePLTransaction = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
         None,
         None 
     ),
@@ -8745,6 +9385,16 @@ pricing_Price = [
     ),
  
     Property( 
+        "tradeable",
+        "Is Tradeable",
+        "Flag indicating if the Price is tradeable or not",
+        "primitive",
+        "boolean",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "bids",
         "Bids",
         "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
@@ -8797,7 +9447,7 @@ pricing_Price = [
     Property( 
         "unitsAvailable",
         "Units Available",
-        "Representation of many units of an Instrument are available to be traded for both long and short Orders.",
+        "Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.",
         "object",
         "pricing.UnitsAvailable",
         None,
@@ -8828,14 +9478,14 @@ pricing_PriceBucket = [
     ),
 ]
 
-pricing_UnitsAvailable = [
+pricing_UnitsAvailableDetails = [
  
     Property( 
         "long",
         "Long",
-        "The units available breakdown for long Orders.",
-        "object",
-        "pricing.UnitsAvailableDetails",
+        "The units available for long Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
         None,
         None 
     ),
@@ -8843,22 +9493,22 @@ pricing_UnitsAvailable = [
     Property( 
         "short",
         "Short",
-        "The units available breakdown for short Orders.",
-        "object",
-        "pricing.UnitsAvailableDetails",
+        "The units available for short Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
         None,
         None 
     ),
 ]
 
-pricing_UnitsAvailableDetails = [
+pricing_UnitsAvailable = [
  
     Property( 
         "default",
         "Default",
         "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
-        "primitive",
-        "primitives.DecimalNumber",
+        "object",
+        "pricing.UnitsAvailableDetails",
         None,
         None 
     ),
@@ -8867,8 +9517,8 @@ pricing_UnitsAvailableDetails = [
         "reduceFirst",
         "Reduce First",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
-        "primitive",
-        "primitives.DecimalNumber",
+        "object",
+        "pricing.UnitsAvailableDetails",
         None,
         None 
     ),
@@ -8877,8 +9527,8 @@ pricing_UnitsAvailableDetails = [
         "reduceOnly",
         "Reduce Only",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
-        "primitive",
-        "primitives.DecimalNumber",
+        "object",
+        "pricing.UnitsAvailableDetails",
         None,
         None 
     ),
@@ -8887,8 +9537,8 @@ pricing_UnitsAvailableDetails = [
         "openOnly",
         "Open Only",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
-        "primitive",
-        "primitives.DecimalNumber",
+        "object",
+        "pricing.UnitsAvailableDetails",
         None,
         None 
     ),
@@ -9156,6 +9806,16 @@ trade_Trade = [
     ),
  
     Property( 
+        "averageClosePrice",
+        "Average Close Price",
+        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "closingTransactionIDs",
         "Closing Transaction IDs",
         "The IDs of the Transactions that have closed portions of this Trade.",
@@ -9314,6 +9974,16 @@ trade_TradeSummary = [
         "The unrealized profit/loss on the open portion of the Trade.",
         "primitive",
         "primitives.AccountUnits",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "averageClosePrice",
+        "Average Close Price",
+        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
+        "primitive",
+        "pricing.PriceValue",
         None,
         None 
     ),

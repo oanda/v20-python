@@ -183,7 +183,7 @@ class CandlestickData(BaseEntity):
 
 class EntitySpec(object):
     """
-    The instrument.EntitySpec wraps the instrument module's type definitions 
+    The instrument.EntitySpec wraps the instrument module's type definitions
     and API methods so they can be easily accessed through an instance of a v20
     Context.
     """

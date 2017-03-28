@@ -54,6 +54,11 @@ class Price(BaseEntity):
         self.status = kwargs.get("status")
  
         #
+        # Flag indicating if the Price is tradeable or not
+        #
+        self.tradeable = kwargs.get("tradeable")
+ 
+        #
         # The list of prices and liquidity available on the Instrument's bid
         # side. It is possible for this list to be empty if there is no bid
         # liquidity currently available for the Instrument in the Account.
@@ -88,8 +93,8 @@ class Price(BaseEntity):
         self.quoteHomeConversionFactors = kwargs.get("quoteHomeConversionFactors")
  
         #
-        # Representation of many units of an Instrument are available to be
-        # traded for both long and short Orders.
+        # Representation of how many units of an Instrument are available to be
+        # traded by an Order depending on its postionFill option.
         #
         self.unitsAvailable = kwargs.get("unitsAvailable")
 
@@ -196,73 +201,10 @@ class PriceBucket(BaseEntity):
         return PriceBucket(**data)
 
 
-class UnitsAvailable(BaseEntity):
+class UnitsAvailableDetails(BaseEntity):
     """
     Representation of many units of an Instrument are available to be traded
     for both long and short Orders.
-    """
-
-    #
-    # Format string used when generating a summary for this object
-    #
-    _summary_format = ""
-
-    #
-    # Format string used when generating a name for this object
-    #
-    _name_format = ""
-
-    #
-    # Property metadata for this object
-    #
-    _properties = spec_properties.pricing_UnitsAvailable
-
-    def __init__(self, **kwargs):
-        """
-        Create a new UnitsAvailable instance
-        """
-        super(UnitsAvailable, self).__init__()
- 
-        #
-        # The units available breakdown for long Orders.
-        #
-        self.long = kwargs.get("long")
- 
-        #
-        # The units available breakdown for short Orders.
-        #
-        self.short = kwargs.get("short")
-
-    @staticmethod
-    def from_dict(data, ctx):
-        """
-        Instantiate a new UnitsAvailable from a dict (generally from loading a
-        JSON response). The data used to instantiate the UnitsAvailable is a
-        shallow copy of the dict passed in, with any complex child types
-        instantiated appropriately.
-        """
-
-        data = data.copy()
-
-        if data.get('long') is not None:
-            data['long'] = \
-                ctx.pricing.UnitsAvailableDetails.from_dict(
-                    data['long'], ctx
-                )
-
-        if data.get('short') is not None:
-            data['short'] = \
-                ctx.pricing.UnitsAvailableDetails.from_dict(
-                    data['short'], ctx
-                )
-
-        return UnitsAvailable(**data)
-
-
-class UnitsAvailableDetails(BaseEntity):
-    """
-    Representation of how many units of an Instrument are available to be
-    traded by an Order depending on its postionFill option.
     """
 
     #
@@ -285,6 +227,67 @@ class UnitsAvailableDetails(BaseEntity):
         Create a new UnitsAvailableDetails instance
         """
         super(UnitsAvailableDetails, self).__init__()
+ 
+        #
+        # The units available for long Orders.
+        #
+        self.long = kwargs.get("long")
+ 
+        #
+        # The units available for short Orders.
+        #
+        self.short = kwargs.get("short")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new UnitsAvailableDetails from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        UnitsAvailableDetails is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('long') is not None:
+            data['long'] = ctx.convert_decimal_number(
+                data.get('long')
+            )
+
+        if data.get('short') is not None:
+            data['short'] = ctx.convert_decimal_number(
+                data.get('short')
+            )
+
+        return UnitsAvailableDetails(**data)
+
+
+class UnitsAvailable(BaseEntity):
+    """
+    Representation of how many units of an Instrument are available to be
+    traded by an Order depending on its postionFill option.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.pricing_UnitsAvailable
+
+    def __init__(self, **kwargs):
+        """
+        Create a new UnitsAvailable instance
+        """
+        super(UnitsAvailable, self).__init__()
  
         #
         # The number of units that are available to be traded using an Order
@@ -316,35 +319,39 @@ class UnitsAvailableDetails(BaseEntity):
     @staticmethod
     def from_dict(data, ctx):
         """
-        Instantiate a new UnitsAvailableDetails from a dict (generally from
-        loading a JSON response). The data used to instantiate the
-        UnitsAvailableDetails is a shallow copy of the dict passed in, with any
-        complex child types instantiated appropriately.
+        Instantiate a new UnitsAvailable from a dict (generally from loading a
+        JSON response). The data used to instantiate the UnitsAvailable is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
         """
 
         data = data.copy()
 
         if data.get('default') is not None:
-            data['default'] = ctx.convert_decimal_number(
-                data.get('default')
-            )
+            data['default'] = \
+                ctx.pricing.UnitsAvailableDetails.from_dict(
+                    data['default'], ctx
+                )
 
         if data.get('reduceFirst') is not None:
-            data['reduceFirst'] = ctx.convert_decimal_number(
-                data.get('reduceFirst')
-            )
+            data['reduceFirst'] = \
+                ctx.pricing.UnitsAvailableDetails.from_dict(
+                    data['reduceFirst'], ctx
+                )
 
         if data.get('reduceOnly') is not None:
-            data['reduceOnly'] = ctx.convert_decimal_number(
-                data.get('reduceOnly')
-            )
+            data['reduceOnly'] = \
+                ctx.pricing.UnitsAvailableDetails.from_dict(
+                    data['reduceOnly'], ctx
+                )
 
         if data.get('openOnly') is not None:
-            data['openOnly'] = ctx.convert_decimal_number(
-                data.get('openOnly')
-            )
+            data['openOnly'] = \
+                ctx.pricing.UnitsAvailableDetails.from_dict(
+                    data['openOnly'], ctx
+                )
 
-        return UnitsAvailableDetails(**data)
+        return UnitsAvailable(**data)
 
 
 class QuoteHomeConversionFactors(BaseEntity):
@@ -468,15 +475,15 @@ class PricingHeartbeat(BaseEntity):
 
 class EntitySpec(object):
     """
-    The pricing.EntitySpec wraps the pricing module's type definitions 
+    The pricing.EntitySpec wraps the pricing module's type definitions
     and API methods so they can be easily accessed through an instance of a v20
     Context.
     """
 
     Price = Price
     PriceBucket = PriceBucket
-    UnitsAvailable = UnitsAvailable
     UnitsAvailableDetails = UnitsAvailableDetails
+    UnitsAvailable = UnitsAvailable
     QuoteHomeConversionFactors = QuoteHomeConversionFactors
     PricingHeartbeat = PricingHeartbeat
 
@@ -611,8 +618,18 @@ class EntitySpec(object):
         **kwargs
     ):
         """
-        Get a stream of Prices for an Account starting from when the request is
-        made.
+        Get a stream of Account Prices starting from when the request is made.
+        This pricing stream does not include every single price created for the
+        Account, but instead will provide at most 4 prices per second (every
+        250 milliseconds) for each instrument being requested. If more than one
+        price is created for an instrument during the 250 millisecond window,
+        only the price in effect at the end of the window is sent. This means
+        that during periods of rapid price movement, subscribers to this stream
+        will not be sent every price. Pricing windows for different connections
+        to the price stream are not all aligned in the same way (i.e. they are
+        not all aligned to the top of the second). This means that during
+        periods of rapid price movement, different subscribers may observe
+        different prices depending on their alignment.
 
         Args:
             accountID:

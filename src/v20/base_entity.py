@@ -55,9 +55,9 @@ class Field(Property):
     def __init__(self, property, value):
         super(Field, self).__init__(
             property.name,
-            property.displayName, 
-            property.description, 
-            property.typeClass, 
+            property.displayName,
+            property.description,
+            property.typeClass,
             property.typeName,
             property.required,
             property.default
@@ -107,9 +107,6 @@ class EntityDict(object):
         return value
 
     def set(self, key, value):
-        if value is None:
-            return
-
         if isinstance(value, list):
             self.dict[key] = [self.prop_dict_value(v) for v in value]
         else:
@@ -153,7 +150,7 @@ class BaseEntity(object):
     def title(self):
         name = self.name()
         summary  = self.summary()
-        
+
         title_string = name
 
         if len(name) > 0 and len(summary) > 0:
@@ -203,7 +200,7 @@ class BaseEntity(object):
             default_flow_style=False,
             indent=2
         ).strip()
-        
+
 
     def dict(self):
         spec = EntityDict()

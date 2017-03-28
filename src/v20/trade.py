@@ -3,8 +3,6 @@ from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
 from v20 import spec_properties
-from v20 import transaction
-from v20 import order
 
 
 
@@ -84,6 +82,12 @@ class Trade(BaseEntity):
         self.unrealizedPL = kwargs.get("unrealizedPL")
  
         #
+        # The average closing price of the Trade. Only present if the Trade has
+        # been closed or reduced at least once.
+        #
+        self.averageClosePrice = kwargs.get("averageClosePrice")
+ 
+        #
         # The IDs of the Transactions that have closed portions of this Trade.
         #
         self.closingTransactionIDs = kwargs.get("closingTransactionIDs")
@@ -156,6 +160,11 @@ class Trade(BaseEntity):
         if data.get('unrealizedPL') is not None:
             data['unrealizedPL'] = ctx.convert_decimal_number(
                 data.get('unrealizedPL')
+            )
+
+        if data.get('averageClosePrice') is not None:
+            data['averageClosePrice'] = ctx.convert_decimal_number(
+                data.get('averageClosePrice')
             )
 
 
@@ -266,6 +275,12 @@ class TradeSummary(BaseEntity):
         self.unrealizedPL = kwargs.get("unrealizedPL")
  
         #
+        # The average closing price of the Trade. Only present if the Trade has
+        # been closed or reduced at least once.
+        #
+        self.averageClosePrice = kwargs.get("averageClosePrice")
+ 
+        #
         # The IDs of the Transactions that have closed portions of this Trade.
         #
         self.closingTransactionIDs = kwargs.get("closingTransactionIDs")
@@ -340,6 +355,11 @@ class TradeSummary(BaseEntity):
                 data.get('unrealizedPL')
             )
 
+        if data.get('averageClosePrice') is not None:
+            data['averageClosePrice'] = ctx.convert_decimal_number(
+                data.get('averageClosePrice')
+            )
+
 
         if data.get('financing') is not None:
             data['financing'] = ctx.convert_decimal_number(
@@ -412,7 +432,7 @@ class CalculatedTradeState(BaseEntity):
 
 class EntitySpec(object):
     """
-    The trade.EntitySpec wraps the trade module's type definitions 
+    The trade.EntitySpec wraps the trade module's type definitions
     and API methods so they can be easily accessed through an instance of a v20
     Context.
     """
@@ -790,7 +810,8 @@ class EntitySpec(object):
 
         body = EntityDict()
 
-        body.set('units', kwargs.get('units'))
+        if 'units' in kwargs:
+            body.set('units', kwargs['units'])
 
         request.set_body_dict(body.dict)
 
@@ -873,6 +894,14 @@ class EntitySpec(object):
                         self.ctx
                     )
 
+            if jbody.get('lastTransactionID') is not None:
+                parsed_body['lastTransactionID'] = \
+                    jbody.get('lastTransactionID')
+
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
+
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -943,7 +972,8 @@ class EntitySpec(object):
 
         body = EntityDict()
 
-        body.set('clientExtensions', kwargs.get('clientExtensions'))
+        if 'clientExtensions' in kwargs:
+            body.set('clientExtensions', kwargs['clientExtensions'])
 
         request.set_body_dict(body.dict)
 
@@ -991,6 +1021,10 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
+
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1009,6 +1043,21 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
         elif str(response.status) == "404":
+            if jbody.get('tradeClientExtensionsModifyRejectTransaction') is not None:
+                parsed_body['tradeClientExtensionsModifyRejectTransaction'] = \
+                    self.ctx.transaction.TradeClientExtensionsModifyRejectTransaction.from_dict(
+                        jbody['tradeClientExtensionsModifyRejectTransaction'],
+                        self.ctx
+                    )
+
+            if jbody.get('lastTransactionID') is not None:
+                parsed_body['lastTransactionID'] = \
+                    jbody.get('lastTransactionID')
+
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
+
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -1099,11 +1148,14 @@ class EntitySpec(object):
 
         body = EntityDict()
 
-        body.set('takeProfit', kwargs.get('takeProfit'))
+        if 'takeProfit' in kwargs:
+            body.set('takeProfit', kwargs['takeProfit'])
 
-        body.set('stopLoss', kwargs.get('stopLoss'))
+        if 'stopLoss' in kwargs:
+            body.set('stopLoss', kwargs['stopLoss'])
 
-        body.set('trailingStopLoss', kwargs.get('trailingStopLoss'))
+        if 'trailingStopLoss' in kwargs:
+            body.set('trailingStopLoss', kwargs['trailingStopLoss'])
 
         request.set_body_dict(body.dict)
 
@@ -1248,6 +1300,10 @@ class EntitySpec(object):
             if jbody.get('lastTransactionID') is not None:
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
+
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
 
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \

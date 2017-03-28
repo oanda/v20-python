@@ -5,6 +5,7 @@ from v20 import position
 from v20 import user
 from v20 import transaction
 from v20 import pricing
+from v20 import primitives
 from v20 import trade
 from v20 import instrument
 from v20.response import Response
@@ -72,7 +73,7 @@ class Context(object):
         if application != "":
             extensions = " ({})".format(application)
 
-        oanda_agent = "v20-python/3.0.14{}".format(extensions)
+        oanda_agent = "v20-python/3.0.15{}".format(extensions)
 
         #
         # Context headers to add to every request sent to the server

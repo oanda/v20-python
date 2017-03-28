@@ -3,11 +3,6 @@ from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
 from v20 import spec_properties
-from v20 import trade
-from v20 import position
-from v20 import order
-from v20 import transaction
-from v20 import primitives
 
 
 
@@ -80,7 +75,7 @@ class Account(BaseEntity):
         # The total realized profit/loss for the Account since it was last
         # reset by the client. Represented in the Account's home currency.
         #
-        self.resettabledPL = kwargs.get("resettabledPL")
+        self.resettablePL = kwargs.get("resettablePL")
  
         #
         # The date/time that the Account's resettablePL was last reset.
@@ -184,6 +179,12 @@ class Account(BaseEntity):
         self.marginCloseoutPercent = kwargs.get("marginCloseoutPercent")
  
         #
+        # The value of the Account's open positions as used for margin closeout
+        # calculations represented in the Account's home currency.
+        #
+        self.marginCloseoutPositionValue = kwargs.get("marginCloseoutPositionValue")
+ 
+        #
         # The current WithdrawalLimit for the account which will be zero or a
         # positive value indicating how much can be withdrawn from the account.
         #
@@ -241,9 +242,9 @@ class Account(BaseEntity):
                 data.get('pl')
             )
 
-        if data.get('resettabledPL') is not None:
-            data['resettabledPL'] = ctx.convert_decimal_number(
-                data.get('resettabledPL')
+        if data.get('resettablePL') is not None:
+            data['resettablePL'] = ctx.convert_decimal_number(
+                data.get('resettablePL')
             )
 
         if data.get('marginRate') is not None:
@@ -296,6 +297,11 @@ class Account(BaseEntity):
                 data.get('marginCloseoutPercent')
             )
 
+        if data.get('marginCloseoutPositionValue') is not None:
+            data['marginCloseoutPositionValue'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPositionValue')
+            )
+
         if data.get('withdrawalLimit') is not None:
             data['withdrawalLimit'] = ctx.convert_decimal_number(
                 data.get('withdrawalLimit')
@@ -332,7 +338,7 @@ class Account(BaseEntity):
         return Account(**data)
 
 
-class AccountState(BaseEntity):
+class AccountChangesState(BaseEntity):
     """
     An AccountState Object is used to represent an Account's current price-
     dependent state. Price-dependent Account state is dependent on OANDA's
@@ -353,13 +359,13 @@ class AccountState(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = spec_properties.account_AccountState
+    _properties = spec_properties.account_AccountChangesState
 
     def __init__(self, **kwargs):
         """
-        Create a new AccountState instance
+        Create a new AccountChangesState instance
         """
-        super(AccountState, self).__init__()
+        super(AccountChangesState, self).__init__()
  
         #
         # The total unrealized profit/loss for all Trades currently open in the
@@ -413,6 +419,12 @@ class AccountState(BaseEntity):
         self.marginCloseoutPercent = kwargs.get("marginCloseoutPercent")
  
         #
+        # The value of the Account's open positions as used for margin closeout
+        # calculations represented in the Account's home currency.
+        #
+        self.marginCloseoutPositionValue = kwargs.get("marginCloseoutPositionValue")
+ 
+        #
         # The current WithdrawalLimit for the account which will be zero or a
         # positive value indicating how much can be withdrawn from the account.
         #
@@ -447,10 +459,10 @@ class AccountState(BaseEntity):
     @staticmethod
     def from_dict(data, ctx):
         """
-        Instantiate a new AccountState from a dict (generally from loading a
-        JSON response). The data used to instantiate the AccountState is a
-        shallow copy of the dict passed in, with any complex child types
-        instantiated appropriately.
+        Instantiate a new AccountChangesState from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        AccountChangesState is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
         """
 
         data = data.copy()
@@ -500,6 +512,11 @@ class AccountState(BaseEntity):
                 data.get('marginCloseoutPercent')
             )
 
+        if data.get('marginCloseoutPositionValue') is not None:
+            data['marginCloseoutPositionValue'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPositionValue')
+            )
+
         if data.get('withdrawalLimit') is not None:
             data['withdrawalLimit'] = ctx.convert_decimal_number(
                 data.get('withdrawalLimit')
@@ -533,7 +550,7 @@ class AccountState(BaseEntity):
                 for d in data.get('positions')
             ]
 
-        return AccountState(**data)
+        return AccountChangesState(**data)
 
 
 class AccountProperties(BaseEntity):
@@ -662,7 +679,7 @@ class AccountSummary(BaseEntity):
         # The total realized profit/loss for the Account since it was last
         # reset by the client. Represented in the Account's home currency.
         #
-        self.resettabledPL = kwargs.get("resettabledPL")
+        self.resettablePL = kwargs.get("resettablePL")
  
         #
         # The date/time that the Account's resettablePL was last reset.
@@ -766,6 +783,12 @@ class AccountSummary(BaseEntity):
         self.marginCloseoutPercent = kwargs.get("marginCloseoutPercent")
  
         #
+        # The value of the Account's open positions as used for margin closeout
+        # calculations represented in the Account's home currency.
+        #
+        self.marginCloseoutPositionValue = kwargs.get("marginCloseoutPositionValue")
+ 
+        #
         # The current WithdrawalLimit for the account which will be zero or a
         # positive value indicating how much can be withdrawn from the account.
         #
@@ -808,9 +831,9 @@ class AccountSummary(BaseEntity):
                 data.get('pl')
             )
 
-        if data.get('resettabledPL') is not None:
-            data['resettabledPL'] = ctx.convert_decimal_number(
-                data.get('resettabledPL')
+        if data.get('resettablePL') is not None:
+            data['resettablePL'] = ctx.convert_decimal_number(
+                data.get('resettablePL')
             )
 
         if data.get('marginRate') is not None:
@@ -861,6 +884,11 @@ class AccountSummary(BaseEntity):
         if data.get('marginCloseoutPercent') is not None:
             data['marginCloseoutPercent'] = ctx.convert_decimal_number(
                 data.get('marginCloseoutPercent')
+            )
+
+        if data.get('marginCloseoutPositionValue') is not None:
+            data['marginCloseoutPositionValue'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPositionValue')
             )
 
         if data.get('withdrawalLimit') is not None:
@@ -992,19 +1020,19 @@ class AccountChanges(BaseEntity):
 
         if data.get('tradesOpened') is not None:
             data['tradesOpened'] = [
-                ctx.trade.Trade.from_dict(d, ctx)
+                ctx.trade.TradeSummary.from_dict(d, ctx)
                 for d in data.get('tradesOpened')
             ]
 
         if data.get('tradesReduced') is not None:
             data['tradesReduced'] = [
-                ctx.trade.Trade.from_dict(d, ctx)
+                ctx.trade.TradeSummary.from_dict(d, ctx)
                 for d in data.get('tradesReduced')
             ]
 
         if data.get('tradesClosed') is not None:
             data['tradesClosed'] = [
-                ctx.trade.Trade.from_dict(d, ctx)
+                ctx.trade.TradeSummary.from_dict(d, ctx)
                 for d in data.get('tradesClosed')
             ]
 
@@ -1025,13 +1053,13 @@ class AccountChanges(BaseEntity):
 
 class EntitySpec(object):
     """
-    The account.EntitySpec wraps the account module's type definitions 
+    The account.EntitySpec wraps the account module's type definitions
     and API methods so they can be easily accessed through an instance of a v20
     Context.
     """
 
     Account = Account
-    AccountState = AccountState
+    AccountChangesState = AccountChangesState
     AccountProperties = AccountProperties
     AccountSummary = AccountSummary
     AccountChanges = AccountChanges
@@ -1359,6 +1387,10 @@ class EntitySpec(object):
                     for d in jbody.get('instruments')
                 ]
 
+            if jbody.get('lastTransactionID') is not None:
+                parsed_body['lastTransactionID'] = \
+                    jbody.get('lastTransactionID')
+
         elif str(response.status) == "400":
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
@@ -1430,9 +1462,11 @@ class EntitySpec(object):
 
         body = EntityDict()
 
-        body.set('alias', kwargs.get('alias'))
+        if 'alias' in kwargs:
+            body.set('alias', kwargs['alias'])
 
-        body.set('marginRate', kwargs.get('marginRate'))
+        if 'marginRate' in kwargs:
+            body.set('marginRate', kwargs['marginRate'])
 
         request.set_body_dict(body.dict)
 
@@ -1453,10 +1487,10 @@ class EntitySpec(object):
         # Parse responses as defined by the API specification
         #
         if str(response.status) == "200":
-            if jbody.get('configureTransaction') is not None:
-                parsed_body['configureTransaction'] = \
+            if jbody.get('clientConfigureTransaction') is not None:
+                parsed_body['clientConfigureTransaction'] = \
                     self.ctx.transaction.ClientConfigureTransaction.from_dict(
-                        jbody['configureTransaction'],
+                        jbody['clientConfigureTransaction'],
                         self.ctx
                     )
 
@@ -1465,10 +1499,30 @@ class EntitySpec(object):
                     jbody.get('lastTransactionID')
 
         elif str(response.status) == "400":
-            if jbody.get('configureRejectTransaction') is not None:
-                parsed_body['configureRejectTransaction'] = \
+            if jbody.get('clientConfigureRejectTransaction') is not None:
+                parsed_body['clientConfigureRejectTransaction'] = \
                     self.ctx.transaction.ClientConfigureRejectTransaction.from_dict(
-                        jbody['configureRejectTransaction'],
+                        jbody['clientConfigureRejectTransaction'],
+                        self.ctx
+                    )
+
+            if jbody.get('lastTransactionID') is not None:
+                parsed_body['lastTransactionID'] = \
+                    jbody.get('lastTransactionID')
+
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "403":
+            if jbody.get('clientConfigureRejectTransaction') is not None:
+                parsed_body['clientConfigureRejectTransaction'] = \
+                    self.ctx.transaction.ClientConfigureRejectTransaction.from_dict(
+                        jbody['clientConfigureRejectTransaction'],
                         self.ctx
                     )
 
@@ -1583,7 +1637,7 @@ class EntitySpec(object):
 
             if jbody.get('state') is not None:
                 parsed_body['state'] = \
-                    self.ctx.account.AccountState.from_dict(
+                    self.ctx.account.AccountChangesState.from_dict(
                         jbody['state'],
                         self.ctx
                     )

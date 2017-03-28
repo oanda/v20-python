@@ -58,6 +58,11 @@ class Transaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -197,6 +202,11 @@ class CreateTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "CREATE" in a
         # CreateTransaction.
         #
@@ -294,6 +304,11 @@ class CloseTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "CLOSE" in a
         # CloseTransaction.
         #
@@ -364,6 +379,11 @@ class ReopenTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "REOPEN" in a
@@ -437,6 +457,11 @@ class ClientConfigureTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "CLIENT_CONFIGURE" in a
@@ -525,6 +550,11 @@ class ClientConfigureRejectTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "CLIENT_CONFIGURE_REJECT"
@@ -620,6 +650,11 @@ class TransferFundsTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "TRANSFER_FUNDS" in a
         # TransferFundsTransaction.
         #
@@ -636,6 +671,12 @@ class TransferFundsTransaction(BaseEntity):
         # The reason that an Account is being funded.
         #
         self.fundingReason = kwargs.get("fundingReason")
+ 
+        #
+        # An optional comment that may be attached to a fund transfer for audit
+        # purposes
+        #
+        self.comment = kwargs.get("comment")
  
         #
         # The Account's balance after funds are transferred.
@@ -720,6 +761,11 @@ class TransferFundsRejectTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "TRANSFER_FUNDS_REJECT" in
         # a TransferFundsRejectTransaction.
         #
@@ -736,6 +782,12 @@ class TransferFundsRejectTransaction(BaseEntity):
         # The reason that an Account is being funded.
         #
         self.fundingReason = kwargs.get("fundingReason")
+ 
+        #
+        # An optional comment that may be attached to a fund transfer for audit
+        # purposes
+        #
+        self.comment = kwargs.get("comment")
  
         #
         # The reason that the Reject Transaction was created
@@ -816,6 +868,11 @@ class MarketOrderTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "MARKET_ORDER" in a
@@ -1057,6 +1114,11 @@ class MarketOrderRejectTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "MARKET_ORDER_REJECT" in a
@@ -1305,6 +1367,11 @@ class LimitOrderTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "LIMIT_ORDER" in a
         # LimitOrderTransaction.
         #
@@ -1345,6 +1412,12 @@ class LimitOrderTransaction(BaseEntity):
         # Order is filled.
         #
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The reason that the Limit Order was initiated
@@ -1393,7 +1466,7 @@ class LimitOrderTransaction(BaseEntity):
         # The ID of the Transaction that cancels the replaced Order (only
         # provided if this Order replaces an existing Order).
         #
-        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -1503,6 +1576,11 @@ class LimitOrderRejectTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "LIMIT_ORDER_REJECT" in a
         # LimitOrderRejectTransaction.
         #
@@ -1543,6 +1621,12 @@ class LimitOrderRejectTransaction(BaseEntity):
         # Order is filled.
         #
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The reason that the Limit Order was initiated
@@ -1700,6 +1784,11 @@ class StopOrderTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "STOP_ORDER" in a
         # StopOrderTransaction.
         #
@@ -1749,6 +1838,12 @@ class StopOrderTransaction(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The reason that the Stop Order was initiated
         #
         self.reason = kwargs.get("reason")
@@ -1795,7 +1890,7 @@ class StopOrderTransaction(BaseEntity):
         # The ID of the Transaction that cancels the replaced Order (only
         # provided if this Order replaces an existing Order).
         #
-        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -1910,6 +2005,11 @@ class StopOrderRejectTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "STOP_ORDER_REJECT" in a
         # StopOrderRejectTransaction.
         #
@@ -1957,6 +2057,12 @@ class StopOrderRejectTransaction(BaseEntity):
         # Order is filled.
         #
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The reason that the Stop Order was initiated
@@ -2119,6 +2225,11 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER"
         # in a MarketIfTouchedOrderTransaction.
         #
@@ -2171,6 +2282,12 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The reason that the Market-if-touched Order was initiated
         #
         self.reason = kwargs.get("reason")
@@ -2217,7 +2334,7 @@ class MarketIfTouchedOrderTransaction(BaseEntity):
         # The ID of the Transaction that cancels the replaced Order (only
         # provided if this Order replaces an existing Order).
         #
-        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -2332,6 +2449,11 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to
         # "MARKET_IF_TOUCHED_ORDER_REJECT" in a
         # MarketIfTouchedOrderRejectTransaction.
@@ -2383,6 +2505,12 @@ class MarketIfTouchedOrderRejectTransaction(BaseEntity):
         # Order is filled.
         #
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The reason that the Market-if-touched Order was initiated
@@ -2545,6 +2673,11 @@ class TakeProfitOrderTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER" in a
         # TakeProfitOrderTransaction.
         #
@@ -2581,6 +2714,12 @@ class TakeProfitOrderTransaction(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The reason that the Take Profit Order was initiated
         #
         self.reason = kwargs.get("reason")
@@ -2608,7 +2747,7 @@ class TakeProfitOrderTransaction(BaseEntity):
         # The ID of the Transaction that cancels the replaced Order (only
         # provided if this Order replaces an existing Order).
         #
-        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -2689,6 +2828,11 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER_REJECT"
         # in a TakeProfitOrderRejectTransaction.
         #
@@ -2723,6 +2867,12 @@ class TakeProfitOrderRejectTransaction(BaseEntity):
         # timeInForce is "GTD".
         #
         self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The reason that the Take Profit Order was initiated
@@ -2832,6 +2982,11 @@ class StopLossOrderTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "STOP_LOSS_ORDER" in a
         # StopLossOrderTransaction.
         #
@@ -2868,6 +3023,12 @@ class StopLossOrderTransaction(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The reason that the Stop Loss Order was initiated
         #
         self.reason = kwargs.get("reason")
@@ -2895,7 +3056,7 @@ class StopLossOrderTransaction(BaseEntity):
         # The ID of the Transaction that cancels the replaced Order (only
         # provided if this Order replaces an existing Order).
         #
-        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -2976,6 +3137,11 @@ class StopLossOrderRejectTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "STOP_LOSS_ORDER_REJECT"
         # in a StopLossOrderRejectTransaction.
         #
@@ -3010,6 +3176,12 @@ class StopLossOrderRejectTransaction(BaseEntity):
         # timeInForce is "GTD".
         #
         self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The reason that the Stop Loss Order was initiated
@@ -3119,6 +3291,11 @@ class TrailingStopLossOrderTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER"
         # in a TrailingStopLossOrderTransaction.
         #
@@ -3153,6 +3330,12 @@ class TrailingStopLossOrderTransaction(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The reason that the Trailing Stop Loss Order was initiated
         #
         self.reason = kwargs.get("reason")
@@ -3180,7 +3363,7 @@ class TrailingStopLossOrderTransaction(BaseEntity):
         # The ID of the Transaction that cancels the replaced Order (only
         # provided if this Order replaces an existing Order).
         #
-        self.replacedOrderCancelTransactionID = kwargs.get("replacedOrderCancelTransactionID")
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -3261,6 +3444,11 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to
         # "TRAILING_STOP_LOSS_ORDER_REJECT" in a
         # TrailingStopLossOrderRejectTransaction.
@@ -3294,6 +3482,12 @@ class TrailingStopLossOrderRejectTransaction(BaseEntity):
         # timeInForce is "GTD".
         #
         self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The reason that the Trailing Stop Loss Order was initiated
@@ -3402,6 +3596,11 @@ class OrderFillTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "ORDER_FILL" for an
@@ -3584,6 +3783,11 @@ class OrderCancelTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "ORDER_CANCEL" for an
         # OrderCancelTransaction.
         #
@@ -3677,6 +3881,11 @@ class OrderCancelRejectTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "ORDER_CANCEL_REJECT" for
@@ -3773,6 +3982,11 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to
         # "ORDER_CLIENT_EXTENSIONS_MODIFY" for a
         # OrderClienteExtensionsModifyTransaction.
@@ -3793,7 +4007,7 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
         #
         # The new Client Extensions for the Order.
         #
-        self.orderClientExtensionsModify = kwargs.get("orderClientExtensionsModify")
+        self.clientExtensionsModify = kwargs.get("clientExtensionsModify")
  
         #
         # The new Client Extensions for the Order's Trade on fill.
@@ -3812,10 +4026,10 @@ class OrderClientExtensionsModifyTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('orderClientExtensionsModify') is not None:
-            data['orderClientExtensionsModify'] = \
+        if data.get('clientExtensionsModify') is not None:
+            data['clientExtensionsModify'] = \
                 ctx.transaction.ClientExtensions.from_dict(
-                    data['orderClientExtensionsModify'], ctx
+                    data['clientExtensionsModify'], ctx
                 )
 
         if data.get('tradeClientExtensionsModify') is not None:
@@ -3881,6 +4095,11 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to
         # "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT" for a
         # OrderClientExtensionsModifyRejectTransaction.
@@ -3901,7 +4120,7 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
         #
         # The new Client Extensions for the Order.
         #
-        self.orderClientExtensionsModify = kwargs.get("orderClientExtensionsModify")
+        self.clientExtensionsModify = kwargs.get("clientExtensionsModify")
  
         #
         # The new Client Extensions for the Order's Trade on fill.
@@ -3925,10 +4144,10 @@ class OrderClientExtensionsModifyRejectTransaction(BaseEntity):
 
         data = data.copy()
 
-        if data.get('orderClientExtensionsModify') is not None:
-            data['orderClientExtensionsModify'] = \
+        if data.get('clientExtensionsModify') is not None:
+            data['clientExtensionsModify'] = \
                 ctx.transaction.ClientExtensions.from_dict(
-                    data['orderClientExtensionsModify'], ctx
+                    data['clientExtensionsModify'], ctx
                 )
 
         if data.get('tradeClientExtensionsModify') is not None:
@@ -3992,6 +4211,11 @@ class TradeClientExtensionsModifyTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to
@@ -4089,6 +4313,11 @@ class TradeClientExtensionsModifyRejectTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to
@@ -4193,6 +4422,11 @@ class MarginCallEnterTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "MARGIN_CALL_ENTER" for an
         # MarginCallEnterTransaction.
         #
@@ -4264,6 +4498,11 @@ class MarginCallExtendTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "MARGIN_CALL_EXTEND" for
@@ -4346,6 +4585,11 @@ class MarginCallExitTransaction(BaseEntity):
         self.batchID = kwargs.get("batchID")
  
         #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
+ 
+        #
         # The Type of the Transaction. Always set to "MARGIN_CALL_EXIT" for an
         # MarginCallExitTransaction.
         #
@@ -4420,6 +4664,11 @@ class DelayedTradeClosureTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "DELAYED_TRADE_CLOSURE"
@@ -4504,6 +4753,11 @@ class DailyFinancingTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "DAILY_FINANCING" for a
@@ -4613,6 +4867,11 @@ class ResetResettablePLTransaction(BaseEntity):
         # in the same batch are applied to the Account simultaneously.
         #
         self.batchID = kwargs.get("batchID")
+ 
+        #
+        # The Request ID of the request which generated the transaction.
+        #
+        self.requestID = kwargs.get("requestID")
  
         #
         # The Type of the Transaction. Always set to "RESET_RESETTABLE_PL" for
@@ -5648,7 +5907,7 @@ class TransactionHeartbeat(BaseEntity):
 
 class EntitySpec(object):
     """
-    The transaction.EntitySpec wraps the transaction module's type definitions 
+    The transaction.EntitySpec wraps the transaction module's type definitions
     and API methods so they can be easily accessed through an instance of a v20
     Context.
     """

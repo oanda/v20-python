@@ -1,6 +1,11 @@
 OANDA v20 API Change Log
 
-Version 3.0.14 (January 16, 2017)
+Version 3.0.15 (Unreleased)
+
+	* Various bug fixes
+
+
+Version 3.0.14 (Unreleased)
 
 	* Changed v20-python entity __str__ representation to use yaml
 

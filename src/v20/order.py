@@ -3,7 +3,6 @@ from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
 from v20 import spec_properties
-from v20 import transaction
 
 
 
@@ -193,12 +192,6 @@ class Order(BaseEntity):
 
         type = data.get("type")
 
-        if type == "TAKE_PROFIT":
-            return TakeProfitOrder.from_dict(data, ctx)
-        if type == "STOP_LOSS":
-            return StopLossOrder.from_dict(data, ctx)
-        if type == "TRAILING_STOP_LOSS":
-            return TrailingStopLossOrder.from_dict(data, ctx)
         if type == "MARKET":
             return MarketOrder.from_dict(data, ctx)
         if type == "LIMIT":
@@ -207,6 +200,12 @@ class Order(BaseEntity):
             return StopOrder.from_dict(data, ctx)
         if type == "MARKET_IF_TOUCHED":
             return MarketIfTouchedOrder.from_dict(data, ctx)
+        if type == "TAKE_PROFIT":
+            return TakeProfitOrder.from_dict(data, ctx)
+        if type == "STOP_LOSS":
+            return StopLossOrder.from_dict(data, ctx)
+        if type == "TRAILING_STOP_LOSS":
+            return TrailingStopLossOrder.from_dict(data, ctx)
 
         data = data.copy()
 
@@ -585,6 +584,12 @@ class LimitOrder(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # TakeProfitDetails specifies the details of a Take Profit Order to be
         # created on behalf of a client. This may happen when an Order is
         # filled that opens a Trade requiring a Take Profit, or when a Trade's
@@ -823,6 +828,12 @@ class StopOrder(BaseEntity):
         # Order is filled.
         #
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # TakeProfitDetails specifies the details of a Take Profit Order to be
@@ -1075,6 +1086,12 @@ class MarketIfTouchedOrder(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The Market price at the time when the MarketIfTouched Order was
         # created.
         #
@@ -1321,6 +1338,12 @@ class TakeProfitOrder(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # ID of the Transaction that filled this Order (only provided when the
         # Order's state is FILLED)
         #
@@ -1488,6 +1511,12 @@ class StopLossOrder(BaseEntity):
         # timeInForce is "GTD".
         #
         self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # ID of the Transaction that filled this Order (only provided when the
@@ -1659,6 +1688,12 @@ class TrailingStopLossOrder(BaseEntity):
         # timeInForce is "GTD".
         #
         self.gtdTime = kwargs.get("gtdTime")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The trigger price for the Trailing Stop Loss Order. The trailing stop
@@ -2024,6 +2059,12 @@ class LimitOrderRequest(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The client extensions to add to the Order. Do not set, modify, or
         # delete clientExtensions if your account is associated with MT4.
         #
@@ -2190,6 +2231,12 @@ class StopOrderRequest(BaseEntity):
         # Order is filled.
         #
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
         #
         # The client extensions to add to the Order. Do not set, modify, or
@@ -2368,6 +2415,12 @@ class MarketIfTouchedOrderRequest(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The client extensions to add to the Order. Do not set, modify, or
         # delete clientExtensions if your account is associated with MT4.
         #
@@ -2528,6 +2581,12 @@ class TakeProfitOrderRequest(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The client extensions to add to the Order. Do not set, modify, or
         # delete clientExtensions if your account is associated with MT4.
         #
@@ -2622,6 +2681,12 @@ class StopLossOrderRequest(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The client extensions to add to the Order. Do not set, modify, or
         # delete clientExtensions if your account is associated with MT4.
         #
@@ -2714,6 +2779,12 @@ class TrailingStopLossOrderRequest(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
+        # Specification of what component of a price should be used for
+        # comparison when determining if the Order should be filled.
+        #
+        self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
         # The client extensions to add to the Order. Do not set, modify, or
         # delete clientExtensions if your account is associated with MT4.
         #
@@ -2746,7 +2817,7 @@ class TrailingStopLossOrderRequest(BaseEntity):
 
 class EntitySpec(object):
     """
-    The order.EntitySpec wraps the order module's type definitions 
+    The order.EntitySpec wraps the order module's type definitions
     and API methods so they can be easily accessed through an instance of a v20
     Context.
     """
@@ -2805,7 +2876,8 @@ class EntitySpec(object):
 
         body = EntityDict()
 
-        body.set('order', kwargs.get('order'))
+        if 'order' in kwargs:
+            body.set('order', kwargs['order'])
 
         request.set_body_dict(body.dict)
 
@@ -2902,7 +2974,31 @@ class EntitySpec(object):
                 parsed_body['errorMessage'] = \
                     jbody.get('errorMessage')
 
+        elif str(response.status) == "403":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
         elif str(response.status) == "404":
+            if jbody.get('orderRejectTransaction') is not None:
+                parsed_body['orderRejectTransaction'] = \
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderRejectTransaction'],
+                        self.ctx
+                    )
+
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
+
+            if jbody.get('lastTransactionID') is not None:
+                parsed_body['lastTransactionID'] = \
+                    jbody.get('lastTransactionID')
+
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3255,7 +3351,7 @@ class EntitySpec(object):
     def replace(
         self,
         accountID,
-        orderID,
+        orderSpecifier,
         **kwargs
     ):
         """
@@ -3265,8 +3361,8 @@ class EntitySpec(object):
         Args:
             accountID:
                 Account Identifier
-            orderID:
-                ID of the Order to cancel.
+            orderSpecifier:
+                The Order Specifier
             order:
                 Specification of the replacing Order
 
@@ -3286,13 +3382,14 @@ class EntitySpec(object):
         )
 
         request.set_path_param(
-            'orderID',
-            orderID
+            'orderSpecifier',
+            orderSpecifier
         )
 
         body = EntityDict()
 
-        body.set('order', kwargs.get('order'))
+        if 'order' in kwargs:
+            body.set('order', kwargs['order'])
 
         request.set_body_dict(body.dict)
 
@@ -3397,6 +3494,21 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
         elif str(response.status) == "404":
+            if jbody.get('orderCancelRejectTransaction') is not None:
+                parsed_body['orderCancelRejectTransaction'] = \
+                    self.ctx.transaction.Transaction.from_dict(
+                        jbody['orderCancelRejectTransaction'],
+                        self.ctx
+                    )
+
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
+
+            if jbody.get('lastTransactionID') is not None:
+                parsed_body['lastTransactionID'] = \
+                    jbody.get('lastTransactionID')
+
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')
@@ -3592,9 +3704,11 @@ class EntitySpec(object):
 
         body = EntityDict()
 
-        body.set('clientExtensions', kwargs.get('clientExtensions'))
+        if 'clientExtensions' in kwargs:
+            body.set('clientExtensions', kwargs['clientExtensions'])
 
-        body.set('tradeClientExtensions', kwargs.get('tradeClientExtensions'))
+        if 'tradeClientExtensions' in kwargs:
+            body.set('tradeClientExtensions', kwargs['tradeClientExtensions'])
 
         request.set_body_dict(body.dict)
 
@@ -3626,6 +3740,10 @@ class EntitySpec(object):
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
 
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
+
         elif str(response.status) == "400":
             if jbody.get('orderClientExtensionsModifyRejectTransaction') is not None:
                 parsed_body['orderClientExtensionsModifyRejectTransaction'] = \
@@ -3637,6 +3755,10 @@ class EntitySpec(object):
             if jbody.get('lastTransactionID') is not None:
                 parsed_body['lastTransactionID'] = \
                     jbody.get('lastTransactionID')
+
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
 
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
@@ -3656,6 +3778,21 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
         elif str(response.status) == "404":
+            if jbody.get('orderClientExtensionsModifyRejectTransaction') is not None:
+                parsed_body['orderClientExtensionsModifyRejectTransaction'] = \
+                    self.ctx.transaction.OrderClientExtensionsModifyRejectTransaction.from_dict(
+                        jbody['orderClientExtensionsModifyRejectTransaction'],
+                        self.ctx
+                    )
+
+            if jbody.get('lastTransactionID') is not None:
+                parsed_body['lastTransactionID'] = \
+                    jbody.get('lastTransactionID')
+
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
+
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')

@@ -3,7 +3,6 @@ from v20.base_entity import BaseEntity
 from v20.base_entity import EntityDict
 from v20.request import Request
 from v20 import spec_properties
-from v20 import transaction
 
 
 
@@ -285,7 +284,7 @@ class CalculatedPositionState(BaseEntity):
 
 class EntitySpec(object):
     """
-    The position.EntitySpec wraps the position module's type definitions 
+    The position.EntitySpec wraps the position module's type definitions
     and API methods so they can be easily accessed through an instance of a v20
     Context.
     """
@@ -642,13 +641,17 @@ class EntitySpec(object):
 
         body = EntityDict()
 
-        body.set('longUnits', kwargs.get('longUnits'))
+        if 'longUnits' in kwargs:
+            body.set('longUnits', kwargs['longUnits'])
 
-        body.set('longClientExtensions', kwargs.get('longClientExtensions'))
+        if 'longClientExtensions' in kwargs:
+            body.set('longClientExtensions', kwargs['longClientExtensions'])
 
-        body.set('shortUnits', kwargs.get('shortUnits'))
+        if 'shortUnits' in kwargs:
+            body.set('shortUnits', kwargs['shortUnits'])
 
-        body.set('shortClientExtensions', kwargs.get('shortClientExtensions'))
+        if 'shortClientExtensions' in kwargs:
+            body.set('shortClientExtensions', kwargs['shortClientExtensions'])
 
         request.set_body_dict(body.dict)
 
@@ -760,6 +763,28 @@ class EntitySpec(object):
                     jbody.get('errorMessage')
 
         elif str(response.status) == "404":
+            if jbody.get('longOrderRejectTransaction') is not None:
+                parsed_body['longOrderRejectTransaction'] = \
+                    self.ctx.transaction.MarketOrderRejectTransaction.from_dict(
+                        jbody['longOrderRejectTransaction'],
+                        self.ctx
+                    )
+
+            if jbody.get('shortOrderRejectTransaction') is not None:
+                parsed_body['shortOrderRejectTransaction'] = \
+                    self.ctx.transaction.MarketOrderRejectTransaction.from_dict(
+                        jbody['shortOrderRejectTransaction'],
+                        self.ctx
+                    )
+
+            if jbody.get('relatedTransactionIDs') is not None:
+                parsed_body['relatedTransactionIDs'] = \
+                    jbody.get('relatedTransactionIDs')
+
+            if jbody.get('lastTransactionID') is not None:
+                parsed_body['lastTransactionID'] = \
+                    jbody.get('lastTransactionID')
+
             if jbody.get('errorCode') is not None:
                 parsed_body['errorCode'] = \
                     jbody.get('errorCode')

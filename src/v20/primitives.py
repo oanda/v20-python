@@ -149,7 +149,7 @@ class Instrument(BaseEntity):
 
 class EntitySpec(object):
     """
-    The primitives.EntitySpec wraps the primitives module's type definitions 
+    The primitives.EntitySpec wraps the primitives module's type definitions
     and API methods so they can be easily accessed through an instance of a v20
     Context.
     """
