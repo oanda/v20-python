@@ -1,6 +1,6 @@
 OANDA v20 API Change Log
 
-Version 3.0.15 (Unreleased)
+Version 3.0.15 (March 28, 2017)
 
 	* Various bug fixes
 
@@ -17,7 +17,7 @@ Version 3.0.13 (December 08, 2016)
 	* First OpenAPI specification release
 
 
-Version 3.0.12 (December 07, 2016)
+Version 3.0.12 (Unreleased)
 
 	* v20-python fixed bug when parsing an Instrument from
 	  ctx.acccount.instruments() request
@@ -28,7 +28,7 @@ Version 3.0.12 (December 07, 2016)
 	* prepping for first openapi specification release
 
 
-Version 3.0.11 (November 17, 2016)
+Version 3.0.11 (Unreleased)
 
 	* stop using custom Boolean definition
 
@@ -45,7 +45,7 @@ Version 3.0.11 (November 17, 2016)
 	* added response Headers to documentation
 
 
-Version 3.0.10 (November 16, 2016)
+Version 3.0.10 (Unreleased)
 
 	* v20-python accepts floats for numeric values, and will convert them
 	  to their string representation before sending them over the wire
@@ -64,7 +64,7 @@ Version 3.0.10 (November 16, 2016)
 	* v20-python poll_timeout default changed from 10 to 2
 
 
-Version 3.0.9 (November 09, 2016)
+Version 3.0.9 (Unreleased)
 
 	* v20-python uses ujson instead of json for improved performance
 
@@ -81,19 +81,19 @@ Version 3.0.9 (November 09, 2016)
 	* more v20-python library documentation
 
 
-Version 3.0.8 (November 08, 2016)
+Version 3.0.8 (Unreleased)
 
 	* v20-python supports setting timeouts for polling and streaming
 	  requests
 
 
-Version 3.0.7 (November 02, 2016)
+Version 3.0.7 (Unreleased)
 
 	* Stream chunk size if now configurable in each context and defaults
 	  to 512 bytes
 
 
-Version 3.0.6 (October 31, 2016)
+Version 3.0.6 (Unreleased)
 
 	* Added time format support to v20 python bindings
 
@@ -102,17 +102,17 @@ Version 3.0.6 (October 31, 2016)
 	* Factored all common HTTP error responses out of API
 
 
-Version 3.0.5 (October 26, 2016)
+Version 3.0.5 (Unreleased)
 
 	* Added v20 python aliases for creation and replacement of orders
 
 
-Version 3.0.4 (October 17, 2016)
+Version 3.0.4 (Unreleased)
 
 	* Added instrument endpoints with support for Candles.
 
 
-Version 3.0.3 (August 25, 2016)
+Version 3.0.3 (Unreleased)
 
 	* Added support for Pricing and Transaction streaming endpoints.
 
@@ -122,17 +122,17 @@ Version 3.0.3 (August 25, 2016)
 	  the Price object.
 
 
-Version 3.0.2 (August 02, 2016)
+Version 3.0.2 (Unreleased)
 
 	* Added support for Python 3.5
 
 
-Version 3.0.1 (June 09, 2016)
+Version 3.0.1 (Unreleased)
 
 	* Added TransactRejectReason enum
 
 
-Version 3.0.0 (April 26, 2016)
+Version 3.0.0 (Unreleased)
 
 	* Initial Release
 
