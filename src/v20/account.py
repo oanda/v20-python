@@ -83,6 +83,12 @@ class Account(BaseEntity):
         self.resettabledPLTime = kwargs.get("resettabledPLTime")
  
         #
+        # The total amount of commission paid over the lifetime of the Account.
+        # Represented in the Account's home currency.
+        #
+        self.commission = kwargs.get("commission")
+ 
+        #
         # Client-provided margin rate override for the Account. The effective
         # margin rate of the Account is the lesser of this value and the OANDA
         # margin rate for the Account's division. This value is only provided
@@ -245,6 +251,11 @@ class Account(BaseEntity):
         if data.get('resettablePL') is not None:
             data['resettablePL'] = ctx.convert_decimal_number(
                 data.get('resettablePL')
+            )
+
+        if data.get('commission') is not None:
+            data['commission'] = ctx.convert_decimal_number(
+                data.get('commission')
             )
 
         if data.get('marginRate') is not None:
@@ -687,6 +698,12 @@ class AccountSummary(BaseEntity):
         self.resettabledPLTime = kwargs.get("resettabledPLTime")
  
         #
+        # The total amount of commission paid over the lifetime of the Account.
+        # Represented in the Account's home currency.
+        #
+        self.commission = kwargs.get("commission")
+ 
+        #
         # Client-provided margin rate override for the Account. The effective
         # margin rate of the Account is the lesser of this value and the OANDA
         # margin rate for the Account's division. This value is only provided
@@ -834,6 +851,11 @@ class AccountSummary(BaseEntity):
         if data.get('resettablePL') is not None:
             data['resettablePL'] = ctx.convert_decimal_number(
                 data.get('resettablePL')
+            )
+
+        if data.get('commission') is not None:
+            data['commission'] = ctx.convert_decimal_number(
+                data.get('commission')
             )
 
         if data.get('marginRate') is not None:

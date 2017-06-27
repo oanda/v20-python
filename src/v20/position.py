@@ -56,6 +56,12 @@ class Position(BaseEntity):
         self.resettablePL = kwargs.get("resettablePL")
  
         #
+        # The total amount of commission paid for this instrument over the
+        # lifetime of the Account. Represented in the Account's home currency.
+        #
+        self.commission = kwargs.get("commission")
+ 
+        #
         # The details of the long side of the Position.
         #
         self.long = kwargs.get("long")
@@ -91,6 +97,11 @@ class Position(BaseEntity):
                 data.get('resettablePL')
             )
 
+        if data.get('commission') is not None:
+            data['commission'] = ctx.convert_decimal_number(
+                data.get('commission')
+            )
+
         if data.get('long') is not None:
             data['long'] = \
                 ctx.position.PositionSide.from_dict(
@@ -114,7 +125,7 @@ class PositionSide(BaseEntity):
     #
     # Format string used when generating a summary for this object
     #
-    _summary_format = ""
+    _summary_format = "{units} @ {averagePrice}, {pl} PL {unrealizedPL} UPL"
 
     #
     # Format string used when generating a name for this object

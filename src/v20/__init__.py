@@ -73,7 +73,7 @@ class Context(object):
         if application != "":
             extensions = " ({})".format(application)
 
-        oanda_agent = "v20-python/3.0.15{}".format(extensions)
+        oanda_agent = "v20-python/3.0.18{}".format(extensions)
 
         #
         # Context headers to add to every request sent to the server

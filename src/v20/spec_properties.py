@@ -98,6 +98,16 @@ account_Account = [
     ),
  
     Property( 
+        "commission",
+        "Commission",
+        "The total amount of commission paid over the lifetime of the Account. Represented in the Account's home currency.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "marginRate",
         "Margin Rate",
         "Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.",
@@ -632,6 +642,16 @@ account_AccountSummary = [
         "The date/time that the Account's resettablePL was last reset.",
         "primitive",
         "primitives.DateTime",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "commission",
+        "Commission",
+        "The total amount of commission paid over the lifetime of the Account. Represented in the Account's home currency.",
+        "primitive",
+        "primitives.AccountUnits",
         None,
         None 
     ),
@@ -3514,6 +3534,72 @@ order_TrailingStopLossOrderRequest = [
     ),
 ]
 
+order_UnitsAvailableDetails = [
+ 
+    Property( 
+        "long",
+        "Long",
+        "The units available for long Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "short",
+        "Short",
+        "The units available for short Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+]
+
+order_UnitsAvailable = [
+ 
+    Property( 
+        "default",
+        "Default",
+        "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
+        "object",
+        "order.UnitsAvailableDetails",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "reduceFirst",
+        "Reduce First",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
+        "object",
+        "order.UnitsAvailableDetails",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "reduceOnly",
+        "Reduce Only",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
+        "object",
+        "order.UnitsAvailableDetails",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "openOnly",
+        "Open Only",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
+        "object",
+        "order.UnitsAvailableDetails",
+        None,
+        None 
+    ),
+]
+
 position_Position = [
  
     Property( 
@@ -3550,6 +3636,16 @@ position_Position = [
         "resettablePL",
         "Resettable Profit/Loss",
         "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "commission",
+        "Commission",
+        "The total amount of commission paid for this instrument over the lifetime of the Account. Represented in the Account's home currency.",
         "primitive",
         "primitives.AccountUnits",
         None,
@@ -7588,6 +7684,16 @@ transaction_OrderFillTransaction = [
     ),
  
     Property( 
+        "fullPrice",
+        "Price",
+        "The price in effect for the account at the time of the Order fill.",
+        "object",
+        "pricing.ClientPrice",
+        None,
+        None 
+    ),
+ 
+    Property( 
         "reason",
         "Fill Reason",
         "The reason that an Order was filled",
@@ -7611,6 +7717,16 @@ transaction_OrderFillTransaction = [
         "financing",
         "Financing",
         "The financing paid or collected when the Order was filled.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "commission",
+        "Commission",
+        "The commission charged in the Account's home currency as a result of filling the Order. The commission is always represented as a positive quantity of the Account's home currency, however it reduces the balance in the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
@@ -9279,7 +9395,7 @@ transaction_OpenTradeFinancing = [
 transaction_PositionFinancing = [
  
     Property( 
-        "instrumentID",
+        "instrument",
         "Instrument",
         "The instrument of the Position that financing is being paid/collected for.",
         "primitive",
@@ -9449,7 +9565,7 @@ pricing_Price = [
         "Units Available",
         "Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.",
         "object",
-        "pricing.UnitsAvailable",
+        "order.UnitsAvailable",
         None,
         None 
     ),
@@ -9478,72 +9594,6 @@ pricing_PriceBucket = [
     ),
 ]
 
-pricing_UnitsAvailableDetails = [
- 
-    Property( 
-        "long",
-        "Long",
-        "The units available for long Orders.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None 
-    ),
- 
-    Property( 
-        "short",
-        "Short",
-        "The units available for short Orders.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None 
-    ),
-]
-
-pricing_UnitsAvailable = [
- 
-    Property( 
-        "default",
-        "Default",
-        "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
-        "object",
-        "pricing.UnitsAvailableDetails",
-        None,
-        None 
-    ),
- 
-    Property( 
-        "reduceFirst",
-        "Reduce First",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
-        "object",
-        "pricing.UnitsAvailableDetails",
-        None,
-        None 
-    ),
- 
-    Property( 
-        "reduceOnly",
-        "Reduce Only",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
-        "object",
-        "pricing.UnitsAvailableDetails",
-        None,
-        None 
-    ),
- 
-    Property( 
-        "openOnly",
-        "Open Only",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
-        "object",
-        "pricing.UnitsAvailableDetails",
-        None,
-        None 
-    ),
-]
-
 pricing_QuoteHomeConversionFactors = [
  
     Property( 
@@ -9562,6 +9612,59 @@ pricing_QuoteHomeConversionFactors = [
         "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
         "primitive",
         "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+]
+
+pricing_ClientPrice = [
+ 
+    Property( 
+        "bids",
+        "Bids",
+        "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
+        "array_object",
+        "PriceBucket",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "asks",
+        "Asks",
+        "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
+        "array_object",
+        "PriceBucket",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "closeoutBid",
+        "Closeout Bid",
+        "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "closeoutAsk",
+        "Closeout Ask",
+        "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "timestamp",
+        "Timestamp",
+        "The date/time when the Price was created.",
+        "primitive",
+        "primitives.DateTime",
         None,
         None 
     ),
@@ -9706,6 +9809,59 @@ primitives_Instrument = [
         "marginRate",
         "marginRate",
         "The margin rate for this instrument.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "commission",
+        "commission",
+        "The commission structure for this instrument.",
+        "object",
+        "primitives.InstrumentCommission",
+        None,
+        None 
+    ),
+]
+
+primitives_InstrumentCommission = [
+ 
+    Property( 
+        "instrument",
+        "instrument",
+        "The name of the instrument",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "commission",
+        "commission",
+        "The commission amount (in the Account's home currency) charged per unitsTraded of the instrument",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "unitsTraded",
+        "unitsTraded",
+        "The number of units traded that the commission amount is based on.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "minimumCommission",
+        "minimumCommission",
+        "The minimum commission amount (in the Account's home currency) that is charged when an Order is filled for this instrument.",
         "primitive",
         "primitives.DecimalNumber",
         None,
@@ -10183,6 +10339,178 @@ instrument_CandlestickData = [
         "The last (closing) price in the time-range represented by the candlestick.",
         "primitive",
         "pricing.PriceValue",
+        None,
+        None 
+    ),
+]
+
+instrument_OrderBook = [
+ 
+    Property( 
+        "instrument",
+        "instrument",
+        "The order book's instrument",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "time",
+        "time",
+        "The time when the order book snapshot was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "price",
+        "price",
+        "The price (midpoint) for the order book's instrument at the time of the order book snapshot",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "bucketWidth",
+        "bucketWidth",
+        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "buckets",
+        "buckets",
+        "The partitioned order book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
+        "array_object",
+        "OrderBookBucket",
+        None,
+        None 
+    ),
+]
+
+instrument_OrderBookBucket = [
+ 
+    Property( 
+        "price",
+        "price",
+        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "longCountPercent",
+        "longCountPercent",
+        "The percentage of the total number of orders represented by the long orders found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "shortCountPercent",
+        "shortCountPercent",
+        "The percentage of the total number of orders represented by the short orders found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+]
+
+instrument_PositionBook = [
+ 
+    Property( 
+        "instrument",
+        "instrument",
+        "The position book's instrument",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "time",
+        "time",
+        "The time when the position book snapshot was created",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "price",
+        "price",
+        "The price (midpoint) for the position book's instrument at the time of the position book snapshot",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "bucketWidth",
+        "bucketWidth",
+        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "buckets",
+        "buckets",
+        "The partitioned position book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
+        "array_object",
+        "PositionBookBucket",
+        None,
+        None 
+    ),
+]
+
+instrument_PositionBookBucket = [
+ 
+    Property( 
+        "price",
+        "price",
+        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "longCountPercent",
+        "longCountPercent",
+        "The percentage of the total number of positions represented by the long positions found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None 
+    ),
+ 
+    Property( 
+        "shortCountPercent",
+        "shortCountPercent",
+        "The percentage of the total number of positions represented by the short positions found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
         None,
         None 
     ),

@@ -102,6 +102,11 @@ class Instrument(BaseEntity):
         # The margin rate for this instrument.
         #
         self.marginRate = kwargs.get("marginRate")
+ 
+        #
+        # The commission structure for this instrument.
+        #
+        self.commission = kwargs.get("commission")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -144,7 +149,90 @@ class Instrument(BaseEntity):
                 data.get('marginRate')
             )
 
+        if data.get('commission') is not None:
+            data['commission'] = \
+                ctx.primitives.InstrumentCommission.from_dict(
+                    data['commission'], ctx
+                )
+
         return Instrument(**data)
+
+
+class InstrumentCommission(BaseEntity):
+    """
+    An InstrumentCommission represents an instrument-specific commission
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.primitives_InstrumentCommission
+
+    def __init__(self, **kwargs):
+        """
+        Create a new InstrumentCommission instance
+        """
+        super(InstrumentCommission, self).__init__()
+ 
+        #
+        # The name of the instrument
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The commission amount (in the Account's home currency) charged per
+        # unitsTraded of the instrument
+        #
+        self.commission = kwargs.get("commission")
+ 
+        #
+        # The number of units traded that the commission amount is based on.
+        #
+        self.unitsTraded = kwargs.get("unitsTraded")
+ 
+        #
+        # The minimum commission amount (in the Account's home currency) that
+        # is charged when an Order is filled for this instrument.
+        #
+        self.minimumCommission = kwargs.get("minimumCommission")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new InstrumentCommission from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        InstrumentCommission is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('commission') is not None:
+            data['commission'] = ctx.convert_decimal_number(
+                data.get('commission')
+            )
+
+        if data.get('unitsTraded') is not None:
+            data['unitsTraded'] = ctx.convert_decimal_number(
+                data.get('unitsTraded')
+            )
+
+        if data.get('minimumCommission') is not None:
+            data['minimumCommission'] = ctx.convert_decimal_number(
+                data.get('minimumCommission')
+            )
+
+        return InstrumentCommission(**data)
 
 
 class EntitySpec(object):
@@ -155,6 +243,7 @@ class EntitySpec(object):
     """
 
     Instrument = Instrument
+    InstrumentCommission = InstrumentCommission
 
     def __init__(self, ctx):
         self.ctx = ctx

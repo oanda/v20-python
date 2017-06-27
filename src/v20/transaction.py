@@ -75,24 +75,50 @@ class Transaction(BaseEntity):
 
         type = data.get("type")
 
+        if type == "CLIENT_CONFIGURE":
+            return ClientConfigureTransaction.from_dict(data, ctx)
+        if type == "CLIENT_CONFIGURE_REJECT":
+            return ClientConfigureRejectTransaction.from_dict(data, ctx)
+        if type == "ORDER_FILL":
+            return OrderFillTransaction.from_dict(data, ctx)
+        if type == "ORDER_CANCEL":
+            return OrderCancelTransaction.from_dict(data, ctx)
+        if type == "ORDER_CANCEL_REJECT":
+            return OrderCancelRejectTransaction.from_dict(data, ctx)
+        if type == "ORDER_CLIENT_EXTENSIONS_MODIFY":
+            return OrderClientExtensionsModifyTransaction.from_dict(data, ctx)
+        if type == "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT":
+            return OrderClientExtensionsModifyRejectTransaction.from_dict(data, ctx)
+        if type == "MARKET_ORDER":
+            return MarketOrderTransaction.from_dict(data, ctx)
+        if type == "MARKET_ORDER_REJECT":
+            return MarketOrderRejectTransaction.from_dict(data, ctx)
+        if type == "TRADE_CLIENT_EXTENSIONS_MODIFY":
+            return TradeClientExtensionsModifyTransaction.from_dict(data, ctx)
+        if type == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT":
+            return TradeClientExtensionsModifyRejectTransaction.from_dict(data, ctx)
+        if type == "TAKE_PROFIT_ORDER":
+            return TakeProfitOrderTransaction.from_dict(data, ctx)
+        if type == "STOP_LOSS_ORDER":
+            return StopLossOrderTransaction.from_dict(data, ctx)
+        if type == "TRAILING_STOP_LOSS_ORDER":
+            return TrailingStopLossOrderTransaction.from_dict(data, ctx)
+        if type == "TAKE_PROFIT_ORDER_REJECT":
+            return TakeProfitOrderRejectTransaction.from_dict(data, ctx)
+        if type == "STOP_LOSS_ORDER_REJECT":
+            return StopLossOrderRejectTransaction.from_dict(data, ctx)
+        if type == "TRAILING_STOP_LOSS_ORDER_REJECT":
+            return TrailingStopLossOrderRejectTransaction.from_dict(data, ctx)
         if type == "CREATE":
             return CreateTransaction.from_dict(data, ctx)
         if type == "CLOSE":
             return CloseTransaction.from_dict(data, ctx)
         if type == "REOPEN":
             return ReopenTransaction.from_dict(data, ctx)
-        if type == "CLIENT_CONFIGURE":
-            return ClientConfigureTransaction.from_dict(data, ctx)
-        if type == "CLIENT_CONFIGURE_REJECT":
-            return ClientConfigureRejectTransaction.from_dict(data, ctx)
         if type == "TRANSFER_FUNDS":
             return TransferFundsTransaction.from_dict(data, ctx)
         if type == "TRANSFER_FUNDS_REJECT":
             return TransferFundsRejectTransaction.from_dict(data, ctx)
-        if type == "MARKET_ORDER":
-            return MarketOrderTransaction.from_dict(data, ctx)
-        if type == "MARKET_ORDER_REJECT":
-            return MarketOrderRejectTransaction.from_dict(data, ctx)
         if type == "LIMIT_ORDER":
             return LimitOrderTransaction.from_dict(data, ctx)
         if type == "LIMIT_ORDER_REJECT":
@@ -105,32 +131,6 @@ class Transaction(BaseEntity):
             return MarketIfTouchedOrderTransaction.from_dict(data, ctx)
         if type == "MARKET_IF_TOUCHED_ORDER_REJECT":
             return MarketIfTouchedOrderRejectTransaction.from_dict(data, ctx)
-        if type == "TAKE_PROFIT_ORDER":
-            return TakeProfitOrderTransaction.from_dict(data, ctx)
-        if type == "TAKE_PROFIT_ORDER_REJECT":
-            return TakeProfitOrderRejectTransaction.from_dict(data, ctx)
-        if type == "STOP_LOSS_ORDER":
-            return StopLossOrderTransaction.from_dict(data, ctx)
-        if type == "STOP_LOSS_ORDER_REJECT":
-            return StopLossOrderRejectTransaction.from_dict(data, ctx)
-        if type == "TRAILING_STOP_LOSS_ORDER":
-            return TrailingStopLossOrderTransaction.from_dict(data, ctx)
-        if type == "TRAILING_STOP_LOSS_ORDER_REJECT":
-            return TrailingStopLossOrderRejectTransaction.from_dict(data, ctx)
-        if type == "ORDER_FILL":
-            return OrderFillTransaction.from_dict(data, ctx)
-        if type == "ORDER_CANCEL":
-            return OrderCancelTransaction.from_dict(data, ctx)
-        if type == "ORDER_CANCEL_REJECT":
-            return OrderCancelRejectTransaction.from_dict(data, ctx)
-        if type == "ORDER_CLIENT_EXTENSIONS_MODIFY":
-            return OrderClientExtensionsModifyTransaction.from_dict(data, ctx)
-        if type == "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT":
-            return OrderClientExtensionsModifyRejectTransaction.from_dict(data, ctx)
-        if type == "TRADE_CLIENT_EXTENSIONS_MODIFY":
-            return TradeClientExtensionsModifyTransaction.from_dict(data, ctx)
-        if type == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT":
-            return TradeClientExtensionsModifyRejectTransaction.from_dict(data, ctx)
         if type == "MARGIN_CALL_ENTER":
             return MarginCallEnterTransaction.from_dict(data, ctx)
         if type == "MARGIN_CALL_EXTEND":
@@ -3635,6 +3635,11 @@ class OrderFillTransaction(BaseEntity):
         self.price = kwargs.get("price")
  
         #
+        # The price in effect for the account at the time of the Order fill.
+        #
+        self.fullPrice = kwargs.get("fullPrice")
+ 
+        #
         # The reason that an Order was filled
         #
         self.reason = kwargs.get("reason")
@@ -3648,6 +3653,14 @@ class OrderFillTransaction(BaseEntity):
         # The financing paid or collected when the Order was filled.
         #
         self.financing = kwargs.get("financing")
+ 
+        #
+        # The commission charged in the Account's home currency as a result of
+        # filling the Order. The commission is always represented as a positive
+        # quantity of the Account's home currency, however it reduces the
+        # balance in the Account.
+        #
+        self.commission = kwargs.get("commission")
  
         #
         # The Account's balance after the Order was filled.
@@ -3693,6 +3706,12 @@ class OrderFillTransaction(BaseEntity):
                 data.get('price')
             )
 
+        if data.get('fullPrice') is not None:
+            data['fullPrice'] = \
+                ctx.pricing.ClientPrice.from_dict(
+                    data['fullPrice'], ctx
+                )
+
         if data.get('pl') is not None:
             data['pl'] = ctx.convert_decimal_number(
                 data.get('pl')
@@ -3701,6 +3720,11 @@ class OrderFillTransaction(BaseEntity):
         if data.get('financing') is not None:
             data['financing'] = ctx.convert_decimal_number(
                 data.get('financing')
+            )
+
+        if data.get('commission') is not None:
+            data['commission'] = ctx.convert_decimal_number(
+                data.get('commission')
             )
 
         if data.get('accountBalance') is not None:
@@ -5812,7 +5836,7 @@ class PositionFinancing(BaseEntity):
         # The instrument of the Position that financing is being paid/collected
         # for.
         #
-        self.instrumentID = kwargs.get("instrumentID")
+        self.instrument = kwargs.get("instrument")
  
         #
         # The amount of financing paid/collected for the Position.

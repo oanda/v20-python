@@ -181,6 +181,324 @@ class CandlestickData(BaseEntity):
         return CandlestickData(**data)
 
 
+class OrderBook(BaseEntity):
+    """
+    The representation of an instrument's order book at a point in time
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.instrument_OrderBook
+
+    def __init__(self, **kwargs):
+        """
+        Create a new OrderBook instance
+        """
+        super(OrderBook, self).__init__()
+ 
+        #
+        # The order book's instrument
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The time when the order book snapshot was created.
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The price (midpoint) for the order book's instrument at the time of
+        # the order book snapshot
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The price width for each bucket. Each bucket covers the price range
+        # from the bucket's price to the bucket's price + bucketWidth.
+        #
+        self.bucketWidth = kwargs.get("bucketWidth")
+ 
+        #
+        # The partitioned order book, divided into buckets using a default
+        # bucket width. These buckets are only provided for price ranges which
+        # actually contain order or position data.
+        #
+        self.buckets = kwargs.get("buckets")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new OrderBook from a dict (generally from loading a JSON
+        response). The data used to instantiate the OrderBook is a shallow copy
+        of the dict passed in, with any complex child types instantiated
+        appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('bucketWidth') is not None:
+            data['bucketWidth'] = ctx.convert_decimal_number(
+                data.get('bucketWidth')
+            )
+
+        if data.get('buckets') is not None:
+            data['buckets'] = [
+                ctx.instrument.OrderBookBucket.from_dict(d, ctx)
+                for d in data.get('buckets')
+            ]
+
+        return OrderBook(**data)
+
+
+class OrderBookBucket(BaseEntity):
+    """
+    The order book data for a partition of the instrument's prices.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.instrument_OrderBookBucket
+
+    def __init__(self, **kwargs):
+        """
+        Create a new OrderBookBucket instance
+        """
+        super(OrderBookBucket, self).__init__()
+ 
+        #
+        # The lowest price (inclusive) covered by the bucket. The bucket covers
+        # the price range from the price to price + the order book's
+        # bucketWidth.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The percentage of the total number of orders represented by the long
+        # orders found in this bucket.
+        #
+        self.longCountPercent = kwargs.get("longCountPercent")
+ 
+        #
+        # The percentage of the total number of orders represented by the short
+        # orders found in this bucket.
+        #
+        self.shortCountPercent = kwargs.get("shortCountPercent")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new OrderBookBucket from a dict (generally from loading a
+        JSON response). The data used to instantiate the OrderBookBucket is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('longCountPercent') is not None:
+            data['longCountPercent'] = ctx.convert_decimal_number(
+                data.get('longCountPercent')
+            )
+
+        if data.get('shortCountPercent') is not None:
+            data['shortCountPercent'] = ctx.convert_decimal_number(
+                data.get('shortCountPercent')
+            )
+
+        return OrderBookBucket(**data)
+
+
+class PositionBook(BaseEntity):
+    """
+    The representation of an instrument's position book at a point in time
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.instrument_PositionBook
+
+    def __init__(self, **kwargs):
+        """
+        Create a new PositionBook instance
+        """
+        super(PositionBook, self).__init__()
+ 
+        #
+        # The position book's instrument
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The time when the position book snapshot was created
+        #
+        self.time = kwargs.get("time")
+ 
+        #
+        # The price (midpoint) for the position book's instrument at the time
+        # of the position book snapshot
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The price width for each bucket. Each bucket covers the price range
+        # from the bucket's price to the bucket's price + bucketWidth.
+        #
+        self.bucketWidth = kwargs.get("bucketWidth")
+ 
+        #
+        # The partitioned position book, divided into buckets using a default
+        # bucket width. These buckets are only provided for price ranges which
+        # actually contain order or position data.
+        #
+        self.buckets = kwargs.get("buckets")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new PositionBook from a dict (generally from loading a
+        JSON response). The data used to instantiate the PositionBook is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('bucketWidth') is not None:
+            data['bucketWidth'] = ctx.convert_decimal_number(
+                data.get('bucketWidth')
+            )
+
+        if data.get('buckets') is not None:
+            data['buckets'] = [
+                ctx.instrument.PositionBookBucket.from_dict(d, ctx)
+                for d in data.get('buckets')
+            ]
+
+        return PositionBook(**data)
+
+
+class PositionBookBucket(BaseEntity):
+    """
+    The position book data for a partition of the instrument's prices.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.instrument_PositionBookBucket
+
+    def __init__(self, **kwargs):
+        """
+        Create a new PositionBookBucket instance
+        """
+        super(PositionBookBucket, self).__init__()
+ 
+        #
+        # The lowest price (inclusive) covered by the bucket. The bucket covers
+        # the price range from the price to price + the position book's
+        # bucketWidth.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # The percentage of the total number of positions represented by the
+        # long positions found in this bucket.
+        #
+        self.longCountPercent = kwargs.get("longCountPercent")
+ 
+        #
+        # The percentage of the total number of positions represented by the
+        # short positions found in this bucket.
+        #
+        self.shortCountPercent = kwargs.get("shortCountPercent")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new PositionBookBucket from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        PositionBookBucket is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('longCountPercent') is not None:
+            data['longCountPercent'] = ctx.convert_decimal_number(
+                data.get('longCountPercent')
+            )
+
+        if data.get('shortCountPercent') is not None:
+            data['shortCountPercent'] = ctx.convert_decimal_number(
+                data.get('shortCountPercent')
+            )
+
+        return PositionBookBucket(**data)
+
+
 class EntitySpec(object):
     """
     The instrument.EntitySpec wraps the instrument module's type definitions
@@ -190,6 +508,10 @@ class EntitySpec(object):
 
     Candlestick = Candlestick
     CandlestickData = CandlestickData
+    OrderBook = OrderBook
+    OrderBookBucket = OrderBookBucket
+    PositionBook = PositionBook
+    PositionBookBucket = PositionBookBucket
 
     def __init__(self, ctx):
         self.ctx = ctx

@@ -2815,6 +2815,159 @@ class TrailingStopLossOrderRequest(BaseEntity):
         return TrailingStopLossOrderRequest(**data)
 
 
+class UnitsAvailableDetails(BaseEntity):
+    """
+    Representation of many units of an Instrument are available to be traded
+    for both long and short Orders.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.order_UnitsAvailableDetails
+
+    def __init__(self, **kwargs):
+        """
+        Create a new UnitsAvailableDetails instance
+        """
+        super(UnitsAvailableDetails, self).__init__()
+ 
+        #
+        # The units available for long Orders.
+        #
+        self.long = kwargs.get("long")
+ 
+        #
+        # The units available for short Orders.
+        #
+        self.short = kwargs.get("short")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new UnitsAvailableDetails from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        UnitsAvailableDetails is a shallow copy of the dict passed in, with any
+        complex child types instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('long') is not None:
+            data['long'] = ctx.convert_decimal_number(
+                data.get('long')
+            )
+
+        if data.get('short') is not None:
+            data['short'] = ctx.convert_decimal_number(
+                data.get('short')
+            )
+
+        return UnitsAvailableDetails(**data)
+
+
+class UnitsAvailable(BaseEntity):
+    """
+    Representation of how many units of an Instrument are available to be
+    traded by an Order depending on its postionFill option.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.order_UnitsAvailable
+
+    def __init__(self, **kwargs):
+        """
+        Create a new UnitsAvailable instance
+        """
+        super(UnitsAvailable, self).__init__()
+ 
+        #
+        # The number of units that are available to be traded using an Order
+        # with a positionFill option of "DEFAULT". For an Account with hedging
+        # enabled, this value will be the same as the "OPEN_ONLY" value. For an
+        # Account without hedging enabled, this value will be the same as the
+        # "REDUCE_FIRST" value.
+        #
+        self.default = kwargs.get("default")
+ 
+        #
+        # The number of units that may are available to be traded with an Order
+        # with a positionFill option of "REDUCE_FIRST".
+        #
+        self.reduceFirst = kwargs.get("reduceFirst")
+ 
+        #
+        # The number of units that may are available to be traded with an Order
+        # with a positionFill option of "REDUCE_ONLY".
+        #
+        self.reduceOnly = kwargs.get("reduceOnly")
+ 
+        #
+        # The number of units that may are available to be traded with an Order
+        # with a positionFill option of "OPEN_ONLY".
+        #
+        self.openOnly = kwargs.get("openOnly")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new UnitsAvailable from a dict (generally from loading a
+        JSON response). The data used to instantiate the UnitsAvailable is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('default') is not None:
+            data['default'] = \
+                ctx.order.UnitsAvailableDetails.from_dict(
+                    data['default'], ctx
+                )
+
+        if data.get('reduceFirst') is not None:
+            data['reduceFirst'] = \
+                ctx.order.UnitsAvailableDetails.from_dict(
+                    data['reduceFirst'], ctx
+                )
+
+        if data.get('reduceOnly') is not None:
+            data['reduceOnly'] = \
+                ctx.order.UnitsAvailableDetails.from_dict(
+                    data['reduceOnly'], ctx
+                )
+
+        if data.get('openOnly') is not None:
+            data['openOnly'] = \
+                ctx.order.UnitsAvailableDetails.from_dict(
+                    data['openOnly'], ctx
+                )
+
+        return UnitsAvailable(**data)
+
+
 class EntitySpec(object):
     """
     The order.EntitySpec wraps the order module's type definitions
@@ -2840,6 +2993,8 @@ class EntitySpec(object):
     TakeProfitOrderRequest = TakeProfitOrderRequest
     StopLossOrderRequest = StopLossOrderRequest
     TrailingStopLossOrderRequest = TrailingStopLossOrderRequest
+    UnitsAvailableDetails = UnitsAvailableDetails
+    UnitsAvailable = UnitsAvailable
 
     def __init__(self, ctx):
         self.ctx = ctx

@@ -139,7 +139,7 @@ class Price(BaseEntity):
 
         if data.get('unitsAvailable') is not None:
             data['unitsAvailable'] = \
-                ctx.pricing.UnitsAvailable.from_dict(
+                ctx.order.UnitsAvailable.from_dict(
                     data['unitsAvailable'], ctx
                 )
 
@@ -199,159 +199,6 @@ class PriceBucket(BaseEntity):
             )
 
         return PriceBucket(**data)
-
-
-class UnitsAvailableDetails(BaseEntity):
-    """
-    Representation of many units of an Instrument are available to be traded
-    for both long and short Orders.
-    """
-
-    #
-    # Format string used when generating a summary for this object
-    #
-    _summary_format = ""
-
-    #
-    # Format string used when generating a name for this object
-    #
-    _name_format = ""
-
-    #
-    # Property metadata for this object
-    #
-    _properties = spec_properties.pricing_UnitsAvailableDetails
-
-    def __init__(self, **kwargs):
-        """
-        Create a new UnitsAvailableDetails instance
-        """
-        super(UnitsAvailableDetails, self).__init__()
- 
-        #
-        # The units available for long Orders.
-        #
-        self.long = kwargs.get("long")
- 
-        #
-        # The units available for short Orders.
-        #
-        self.short = kwargs.get("short")
-
-    @staticmethod
-    def from_dict(data, ctx):
-        """
-        Instantiate a new UnitsAvailableDetails from a dict (generally from
-        loading a JSON response). The data used to instantiate the
-        UnitsAvailableDetails is a shallow copy of the dict passed in, with any
-        complex child types instantiated appropriately.
-        """
-
-        data = data.copy()
-
-        if data.get('long') is not None:
-            data['long'] = ctx.convert_decimal_number(
-                data.get('long')
-            )
-
-        if data.get('short') is not None:
-            data['short'] = ctx.convert_decimal_number(
-                data.get('short')
-            )
-
-        return UnitsAvailableDetails(**data)
-
-
-class UnitsAvailable(BaseEntity):
-    """
-    Representation of how many units of an Instrument are available to be
-    traded by an Order depending on its postionFill option.
-    """
-
-    #
-    # Format string used when generating a summary for this object
-    #
-    _summary_format = ""
-
-    #
-    # Format string used when generating a name for this object
-    #
-    _name_format = ""
-
-    #
-    # Property metadata for this object
-    #
-    _properties = spec_properties.pricing_UnitsAvailable
-
-    def __init__(self, **kwargs):
-        """
-        Create a new UnitsAvailable instance
-        """
-        super(UnitsAvailable, self).__init__()
- 
-        #
-        # The number of units that are available to be traded using an Order
-        # with a positionFill option of "DEFAULT". For an Account with hedging
-        # enabled, this value will be the same as the "OPEN_ONLY" value. For an
-        # Account without hedging enabled, this value will be the same as the
-        # "REDUCE_FIRST" value.
-        #
-        self.default = kwargs.get("default")
- 
-        #
-        # The number of units that may are available to be traded with an Order
-        # with a positionFill option of "REDUCE_FIRST".
-        #
-        self.reduceFirst = kwargs.get("reduceFirst")
- 
-        #
-        # The number of units that may are available to be traded with an Order
-        # with a positionFill option of "REDUCE_ONLY".
-        #
-        self.reduceOnly = kwargs.get("reduceOnly")
- 
-        #
-        # The number of units that may are available to be traded with an Order
-        # with a positionFill option of "OPEN_ONLY".
-        #
-        self.openOnly = kwargs.get("openOnly")
-
-    @staticmethod
-    def from_dict(data, ctx):
-        """
-        Instantiate a new UnitsAvailable from a dict (generally from loading a
-        JSON response). The data used to instantiate the UnitsAvailable is a
-        shallow copy of the dict passed in, with any complex child types
-        instantiated appropriately.
-        """
-
-        data = data.copy()
-
-        if data.get('default') is not None:
-            data['default'] = \
-                ctx.pricing.UnitsAvailableDetails.from_dict(
-                    data['default'], ctx
-                )
-
-        if data.get('reduceFirst') is not None:
-            data['reduceFirst'] = \
-                ctx.pricing.UnitsAvailableDetails.from_dict(
-                    data['reduceFirst'], ctx
-                )
-
-        if data.get('reduceOnly') is not None:
-            data['reduceOnly'] = \
-                ctx.pricing.UnitsAvailableDetails.from_dict(
-                    data['reduceOnly'], ctx
-                )
-
-        if data.get('openOnly') is not None:
-            data['openOnly'] = \
-                ctx.pricing.UnitsAvailableDetails.from_dict(
-                    data['openOnly'], ctx
-                )
-
-        return UnitsAvailable(**data)
 
 
 class QuoteHomeConversionFactors(BaseEntity):
@@ -422,6 +269,101 @@ class QuoteHomeConversionFactors(BaseEntity):
         return QuoteHomeConversionFactors(**data)
 
 
+class ClientPrice(BaseEntity):
+    """
+    Client price for an Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.pricing_ClientPrice
+
+    def __init__(self, **kwargs):
+        """
+        Create a new ClientPrice instance
+        """
+        super(ClientPrice, self).__init__()
+ 
+        #
+        # The list of prices and liquidity available on the Instrument's bid
+        # side. It is possible for this list to be empty if there is no bid
+        # liquidity currently available for the Instrument in the Account.
+        #
+        self.bids = kwargs.get("bids")
+ 
+        #
+        # The list of prices and liquidity available on the Instrument's ask
+        # side. It is possible for this list to be empty if there is no ask
+        # liquidity currently available for the Instrument in the Account.
+        #
+        self.asks = kwargs.get("asks")
+ 
+        #
+        # The closeout bid Price. This Price is used when a bid is required to
+        # closeout a Position (margin closeout or manual) yet there is no bid
+        # liquidity. The closeout bid is never used to open a new position.
+        #
+        self.closeoutBid = kwargs.get("closeoutBid")
+ 
+        #
+        # The closeout ask Price. This Price is used when a ask is required to
+        # closeout a Position (margin closeout or manual) yet there is no ask
+        # liquidity. The closeout ask is never used to open a new position.
+        #
+        self.closeoutAsk = kwargs.get("closeoutAsk")
+ 
+        #
+        # The date/time when the Price was created.
+        #
+        self.timestamp = kwargs.get("timestamp")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new ClientPrice from a dict (generally from loading a
+        JSON response). The data used to instantiate the ClientPrice is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('bids') is not None:
+            data['bids'] = [
+                ctx.pricing.PriceBucket.from_dict(d, ctx)
+                for d in data.get('bids')
+            ]
+
+        if data.get('asks') is not None:
+            data['asks'] = [
+                ctx.pricing.PriceBucket.from_dict(d, ctx)
+                for d in data.get('asks')
+            ]
+
+        if data.get('closeoutBid') is not None:
+            data['closeoutBid'] = ctx.convert_decimal_number(
+                data.get('closeoutBid')
+            )
+
+        if data.get('closeoutAsk') is not None:
+            data['closeoutAsk'] = ctx.convert_decimal_number(
+                data.get('closeoutAsk')
+            )
+
+        return ClientPrice(**data)
+
+
 class PricingHeartbeat(BaseEntity):
     """
     A PricingHeartbeat object is injected into the Pricing stream to ensure
@@ -482,9 +424,8 @@ class EntitySpec(object):
 
     Price = Price
     PriceBucket = PriceBucket
-    UnitsAvailableDetails = UnitsAvailableDetails
-    UnitsAvailable = UnitsAvailable
     QuoteHomeConversionFactors = QuoteHomeConversionFactors
+    ClientPrice = ClientPrice
     PricingHeartbeat = PricingHeartbeat
 
     def __init__(self, ctx):

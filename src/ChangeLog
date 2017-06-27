@@ -1,5 +1,22 @@
 OANDA v20 API Change Log
 
+Version 3.0.18 (May 12, 2017)
+
+	* Corrected handling of Collections in Java implementation
+
+	* Published commission related fields
+
+
+Version 3.0.17 (April 21, 2017)
+
+	* Initial Java implementation
+
+
+Version 3.0.16 (April 04, 2017)
+
+	* Added streaming support for v20 Javascript wrapper
+
+
 Version 3.0.15 (March 28, 2017)
 
 	* Various bug fixes
