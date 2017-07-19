@@ -32,7 +32,7 @@ def main():
         "author_email": "api@oanda.com",
         "url": "https://github.com/oanda/v20-python",
         "license": "MIT",
-        "install_requires": ['requests', 'ujson'],
+        "install_requires": ['requests', 'ujson', 'pyyaml'],
         "packages": ["v20"],
         "data_files": [('', ['LICENSE.txt', 'ChangeLog'])],
         "platforms": ["any"],
