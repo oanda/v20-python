@@ -17,3 +17,4 @@ Documentation
 
 For documentation, usage and examples, see: http://developer.oanda.com/rest-live-v20/introduction
 and https://github.com/oanda/v20-python-samples
+
