@@ -50,16 +50,33 @@ class Position(BaseEntity):
         self.unrealizedPL = kwargs.get("unrealizedPL")
  
         #
+        # Margin currently used by the Position.
+        #
+        self.marginUsed = kwargs.get("marginUsed")
+ 
+        #
         # Profit/loss realized by the Position since the Account's resettablePL
         # was last reset by the client.
         #
         self.resettablePL = kwargs.get("resettablePL")
  
         #
+        # The total amount of financing paid/collected for this instrument over
+        # the lifetime of the Account.
+        #
+        self.financing = kwargs.get("financing")
+ 
+        #
         # The total amount of commission paid for this instrument over the
-        # lifetime of the Account. Represented in the Account's home currency.
+        # lifetime of the Account.
         #
         self.commission = kwargs.get("commission")
+ 
+        #
+        # The total amount of fees charged over the lifetime of the Account for
+        # the execution of guaranteed Stop Loss Orders for this instrument.
+        #
+        self.guaranteedExecutionFees = kwargs.get("guaranteedExecutionFees")
  
         #
         # The details of the long side of the Position.
@@ -92,14 +109,29 @@ class Position(BaseEntity):
                 data.get('unrealizedPL')
             )
 
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
+            )
+
         if data.get('resettablePL') is not None:
             data['resettablePL'] = ctx.convert_decimal_number(
                 data.get('resettablePL')
             )
 
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
+
         if data.get('commission') is not None:
             data['commission'] = ctx.convert_decimal_number(
                 data.get('commission')
+            )
+
+        if data.get('guaranteedExecutionFees') is not None:
+            data['guaranteedExecutionFees'] = ctx.convert_decimal_number(
+                data.get('guaranteedExecutionFees')
             )
 
         if data.get('long') is not None:
@@ -177,6 +209,19 @@ class PositionSide(BaseEntity):
         # resettablePL was last reset by the client.
         #
         self.resettablePL = kwargs.get("resettablePL")
+ 
+        #
+        # The total amount of financing paid/collected for this PositionSide
+        # over the lifetime of the Account.
+        #
+        self.financing = kwargs.get("financing")
+ 
+        #
+        # The total amount of fees charged over the lifetime of the Account for
+        # the execution of guaranteed Stop Loss Orders attached to Trades for
+        # this PositionSide.
+        #
+        self.guaranteedExecutionFees = kwargs.get("guaranteedExecutionFees")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -213,6 +258,16 @@ class PositionSide(BaseEntity):
         if data.get('resettablePL') is not None:
             data['resettablePL'] = ctx.convert_decimal_number(
                 data.get('resettablePL')
+            )
+
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
+
+        if data.get('guaranteedExecutionFees') is not None:
+            data['guaranteedExecutionFees'] = ctx.convert_decimal_number(
+                data.get('guaranteedExecutionFees')
             )
 
         return PositionSide(**data)
@@ -263,6 +318,11 @@ class CalculatedPositionState(BaseEntity):
         # The unrealized profit/loss of the Position's short open Trades
         #
         self.shortUnrealizedPL = kwargs.get("shortUnrealizedPL")
+ 
+        #
+        # Margin currently used by the Position.
+        #
+        self.marginUsed = kwargs.get("marginUsed")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -288,6 +348,11 @@ class CalculatedPositionState(BaseEntity):
         if data.get('shortUnrealizedPL') is not None:
             data['shortUnrealizedPL'] = ctx.convert_decimal_number(
                 data.get('shortUnrealizedPL')
+            )
+
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
             )
 
         return CalculatedPositionState(**data)

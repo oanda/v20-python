@@ -1,6 +1,6 @@
 class V20ConnectionError(Exception):
     """
-    A V20ConnectionError is raised when a connection to the V20 REST 
+    A V20ConnectionError is raised when a connection to the V20 REST
     server was not possible.
     """
     def __init__(self, url):
@@ -14,7 +14,7 @@ class V20ConnectionError(Exception):
 
 class V20Timeout(Exception):
     """
-    A V20Timeout is raised when attempting to interract with the V20 REST 
+    A V20Timeout is raised when attempting to interract with the V20 REST
     server has timed out.
     """
     def __init__(self, url, type):

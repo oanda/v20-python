@@ -88,7 +88,9 @@ class Price(BaseEntity):
  
         #
         # The factors used to convert quantities of this price's Instrument's
-        # quote currency into a quantity of the Account's home currency.
+        # quote currency into a quantity of the Account's home currency. When
+        # the includeHomeConversions is present in the pricing request
+        # (regardless of its value), this field will not be present.
         #
         self.quoteHomeConversionFactors = kwargs.get("quoteHomeConversionFactors")
  
@@ -269,6 +271,88 @@ class QuoteHomeConversionFactors(BaseEntity):
         return QuoteHomeConversionFactors(**data)
 
 
+class HomeConversions(BaseEntity):
+    """
+    HomeConversions represents the factors to use to convert quantities of a
+    given currency into the Account's home currency. The conversion factor
+    depends on the scenario the conversion is required for.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.pricing_HomeConversions
+
+    def __init__(self, **kwargs):
+        """
+        Create a new HomeConversions instance
+        """
+        super(HomeConversions, self).__init__()
+ 
+        #
+        # The currency to be converted into the home currency.
+        #
+        self.currency = kwargs.get("currency")
+ 
+        #
+        # The factor used to convert any gains for an Account in the specified
+        # currency into the Account's home currency. This would include
+        # positive realized P/L and positive financing amounts. Conversion is
+        # performed by multiplying the positive P/L by the conversion factor.
+        #
+        self.accountGain = kwargs.get("accountGain")
+ 
+        #
+        # The string representation of a decimal number.
+        #
+        self.accountLoss = kwargs.get("accountLoss")
+ 
+        #
+        # The factor used to convert a Position or Trade Value in the specified
+        # currency into the Account's home currency. Conversion is performed by
+        # multiplying the Position or Trade Value by the conversion factor.
+        #
+        self.positionValue = kwargs.get("positionValue")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new HomeConversions from a dict (generally from loading a
+        JSON response). The data used to instantiate the HomeConversions is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('accountGain') is not None:
+            data['accountGain'] = ctx.convert_decimal_number(
+                data.get('accountGain')
+            )
+
+        if data.get('accountLoss') is not None:
+            data['accountLoss'] = ctx.convert_decimal_number(
+                data.get('accountLoss')
+            )
+
+        if data.get('positionValue') is not None:
+            data['positionValue'] = ctx.convert_decimal_number(
+                data.get('positionValue')
+            )
+
+        return HomeConversions(**data)
+
+
 class ClientPrice(BaseEntity):
     """
     Client price for an Account.
@@ -425,6 +509,7 @@ class EntitySpec(object):
     Price = Price
     PriceBucket = PriceBucket
     QuoteHomeConversionFactors = QuoteHomeConversionFactors
+    HomeConversions = HomeConversions
     ClientPrice = ClientPrice
     PricingHeartbeat = PricingHeartbeat
 
@@ -447,11 +532,18 @@ class EntitySpec(object):
             instruments:
                 List of Instruments to get pricing for.
             since:
-                Date/Time filter to apply to the returned prices. Only prices
-                with a time later than this filter will be provided.
+                Date/Time filter to apply to the response. Only prices and home
+                conversions (if requested) with a time later than this filter
+                (i.e. the price has changed after the since time) will be
+                provided, and are filtered independently.
             includeUnitsAvailable:
                 Flag that enables the inclusion of the unitsAvailable field in
                 the returned Price objects.
+            includeHomeConversions:
+                Flag that enables the inclusion of the homeConversions field in
+                the returned response. An entry will be returned for each
+                currency in the set of all base and quote currencies present in
+                the requested instruments list.
 
         Returns:
             v20.response.Response containing the results from submitting the
@@ -483,6 +575,11 @@ class EntitySpec(object):
             kwargs.get('includeUnitsAvailable')
         )
 
+        request.set_param(
+            'includeHomeConversions',
+            kwargs.get('includeHomeConversions')
+        )
+
         response = self.ctx.request(request)
 
 
@@ -505,6 +602,16 @@ class EntitySpec(object):
                     self.ctx.pricing.Price.from_dict(d, self.ctx)
                     for d in jbody.get('prices')
                 ]
+
+            if jbody.get('homeConversions') is not None:
+                parsed_body['homeConversions'] = [
+                    self.ctx.pricing.HomeConversions.from_dict(d, self.ctx)
+                    for d in jbody.get('homeConversions')
+                ]
+
+            if jbody.get('time') is not None:
+                parsed_body['time'] = \
+                    jbody.get('time')
 
         elif str(response.status) == "400":
             if jbody.get('errorCode') is not None:

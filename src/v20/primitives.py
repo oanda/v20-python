@@ -185,11 +185,6 @@ class InstrumentCommission(BaseEntity):
         super(InstrumentCommission, self).__init__()
  
         #
-        # The name of the instrument
-        #
-        self.instrument = kwargs.get("instrument")
- 
-        #
         # The commission amount (in the Account's home currency) charged per
         # unitsTraded of the instrument
         #
@@ -235,6 +230,72 @@ class InstrumentCommission(BaseEntity):
         return InstrumentCommission(**data)
 
 
+class GuaranteedStopLossOrderLevelRestriction(BaseEntity):
+    """
+    A GuaranteedStopLossOrderLevelRestriction represents the total position
+    size that can exist within a given price window for Trades with guaranteed
+    Stop Loss Orders attached for a specific Instrument.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.primitives_GuaranteedStopLossOrderLevelRestriction
+
+    def __init__(self, **kwargs):
+        """
+        Create a new GuaranteedStopLossOrderLevelRestriction instance
+        """
+        super(GuaranteedStopLossOrderLevelRestriction, self).__init__()
+ 
+        #
+        # Applies to Trades with a guaranteed Stop Loss Order attached for the
+        # specified Instrument. This is the total allowed Trade volume that can
+        # exist within the priceRange based on the trigger prices of the
+        # guaranteed Stop Loss Orders.
+        #
+        self.volume = kwargs.get("volume")
+ 
+        #
+        # The price range the volume applies to. This value is in price units.
+        #
+        self.priceRange = kwargs.get("priceRange")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new GuaranteedStopLossOrderLevelRestriction from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the GuaranteedStopLossOrderLevelRestriction is a shallow copy of the
+        dict passed in, with any complex child types instantiated
+        appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('volume') is not None:
+            data['volume'] = ctx.convert_decimal_number(
+                data.get('volume')
+            )
+
+        if data.get('priceRange') is not None:
+            data['priceRange'] = ctx.convert_decimal_number(
+                data.get('priceRange')
+            )
+
+        return GuaranteedStopLossOrderLevelRestriction(**data)
+
+
 class EntitySpec(object):
     """
     The primitives.EntitySpec wraps the primitives module's type definitions
@@ -244,6 +305,7 @@ class EntitySpec(object):
 
     Instrument = Instrument
     InstrumentCommission = InstrumentCommission
+    GuaranteedStopLossOrderLevelRestriction = GuaranteedStopLossOrderLevelRestriction
 
     def __init__(self, ctx):
         self.ctx = ctx

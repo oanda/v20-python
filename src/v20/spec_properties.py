@@ -6,1122 +6,1186 @@ by the v20 library.
 """
 
 account_Account = [
- 
-    Property( 
+    Property(
         "id",
         "Account ID",
         "The Account's identifier",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "alias",
         "Alias",
         "Client-assigned alias for the Account. Only provided if the Account has an alias set",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "currency",
         "Home Currency",
         "The home currency of the Account",
         "primitive",
         "primitives.Currency",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "balance",
         "Balance",
-        "The current balance of the Account. Represented in the Account's home currency.",
+        "The current balance of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createdByUserID",
         "Created by User ID",
         "ID of the user that created the Account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createdTime",
         "Create Time",
         "The date/time when the Account was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "guaranteedStopLossOrderMode",
+        "Guaranteed Stop Loss Order Mode",
+        "The current guaranteed Stop Loss Order mode of the Account.",
+        "primitive",
+        "account.GuaranteedStopLossOrderMode",
+        None,
+        None
+    ),
+    Property(
         "pl",
         "Profit/Loss",
-        "The total profit/loss realized over the lifetime of the Account. Represented in the Account's home currency.",
+        "The total profit/loss realized over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "resettablePL",
         "Resettable Profit/Loss",
-        "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
+        "The total realized profit/loss for the Account since it was last reset by the client.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
-        "resettabledPLTime",
+    Property(
+        "resettablePLTime",
         "Profit/Loss Reset Time",
         "The date/time that the Account's resettablePL was last reset.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
-        "commission",
-        "Commission",
-        "The total amount of commission paid over the lifetime of the Account. Represented in the Account's home currency.",
+    Property(
+        "financing",
+        "Financing",
+        "The total amount of financing paid/collected over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "commission",
+        "Commission",
+        "The total amount of commission paid over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFees",
+        "Guaranteed Execution Fees",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "marginRate",
         "Margin Rate",
         "Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallEnterTime",
         "Margin Call Enter Time",
         "The date/time when the Account entered a margin call state. Only provided if the Account is in a margin call.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallExtensionCount",
         "Margin Call Extension Count",
         "The number of times that the Account's current margin call was extended.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "lastMarginCallExtensionTime",
         "Last Margin Call Extension Time",
         "The date/time of the Account's last margin call extension.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "openTradeCount",
         "Open Trade Count",
         "The number of Trades currently open in the Account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "openPositionCount",
         "Open Position Count",
         "The number of Positions currently open in the Account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "pendingOrderCount",
         "Pending Order Count",
         "The number of Orders currently pending in the Account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "hedgingEnabled",
         "Hedging Enabled",
         "Flag indicating that the Account has hedging enabled.",
         "primitive",
         "boolean",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unrealizedPL",
         "Unrealized Profit/Loss",
-        "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
+        "The total unrealized profit/loss for all Trades currently open in the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "NAV",
         "Net Asset Value",
-        "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginUsed",
         "Margin Used",
-        "Margin currently used for the Account. Represented in the Account's home currency.",
+        "Margin currently used for the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginAvailable",
         "Margin Available",
-        "Margin available for Account. Represented in the Account's home currency.",
+        "Margin available for Account currency.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionValue",
         "Position Value",
         "The value of the Account's open positions represented in the Account's home currency.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutUnrealizedPL",
         "Closeout UPL",
         "The Account's margin closeout unrealized PL.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutNAV",
         "Closeout NAV",
         "The Account's margin closeout NAV.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutMarginUsed",
         "Closeout Margin Used",
         "The Account's margin closeout margin used.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutPercent",
         "Margin Closeout Percentage",
         "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutPositionValue",
         "Margin Closeout Position Value",
         "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "withdrawalLimit",
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallMarginUsed",
         "Margin Call Margin Used",
         "The Account's margin call margin used.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallPercent",
         "Margin Call Percentage",
         "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "lastTransactionID",
         "Last Transaction ID",
         "The ID of the last Transaction created for the Account.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trades",
         "Open Trades",
         "The details of the Trades currently open in the Account.",
         "array_object",
         "TradeSummary",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positions",
         "Positions",
         "The details all Account Positions.",
         "array_object",
         "Position",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "orders",
         "Pending Orders",
         "The details of the Orders currently pending in the Account.",
         "array_object",
         "Order",
         None,
-        None 
+        None
     ),
 ]
 
 account_AccountChangesState = [
- 
-    Property( 
+    Property(
         "unrealizedPL",
         "Unrealized Profit/Loss",
-        "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
+        "The total unrealized profit/loss for all Trades currently open in the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "NAV",
         "Net Asset Value",
-        "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginUsed",
         "Margin Used",
-        "Margin currently used for the Account. Represented in the Account's home currency.",
+        "Margin currently used for the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginAvailable",
         "Margin Available",
-        "Margin available for Account. Represented in the Account's home currency.",
+        "Margin available for Account currency.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionValue",
         "Position Value",
         "The value of the Account's open positions represented in the Account's home currency.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutUnrealizedPL",
         "Closeout UPL",
         "The Account's margin closeout unrealized PL.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutNAV",
         "Closeout NAV",
         "The Account's margin closeout NAV.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutMarginUsed",
         "Closeout Margin Used",
         "The Account's margin closeout margin used.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutPercent",
         "Margin Closeout Percentage",
         "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutPositionValue",
         "Margin Closeout Position Value",
         "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "withdrawalLimit",
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallMarginUsed",
         "Margin Call Margin Used",
         "The Account's margin call margin used.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallPercent",
         "Margin Call Percentage",
         "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "orders",
         "Order States",
         "The price-dependent state of each pending Order in the Account.",
         "array_object",
         "DynamicOrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trades",
         "Trade States",
         "The price-dependent state for each open Trade in the Account.",
         "array_object",
         "CalculatedTradeState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positions",
         "Position States",
         "The price-dependent state for each open Position in the Account.",
         "array_object",
         "CalculatedPositionState",
         None,
-        None 
+        None
     ),
 ]
 
 account_AccountProperties = [
- 
-    Property( 
+    Property(
         "id",
         "ID",
         "The Account's identifier",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "mt4AccountID",
         "MT4 Account ID",
         "The Account's associated MT4 Account ID. This field will not be present if the Account is not an MT4 account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tags",
         "Account Tags",
         "The Account's tags",
         "array_primitive",
         "string",
         None,
-        None 
+        None
     ),
 ]
 
 account_AccountSummary = [
- 
-    Property( 
+    Property(
         "id",
         "Account ID",
         "The Account's identifier",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "alias",
         "Alias",
         "Client-assigned alias for the Account. Only provided if the Account has an alias set",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "currency",
         "Home Currency",
         "The home currency of the Account",
         "primitive",
         "primitives.Currency",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "balance",
         "Balance",
-        "The current balance of the Account. Represented in the Account's home currency.",
+        "The current balance of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createdByUserID",
         "Created by User ID",
         "ID of the user that created the Account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createdTime",
         "Create Time",
         "The date/time when the Account was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "guaranteedStopLossOrderMode",
+        "Guaranteed Stop Loss Order Mode",
+        "The current guaranteed Stop Loss Order mode of the Account.",
+        "primitive",
+        "account.GuaranteedStopLossOrderMode",
+        None,
+        None
+    ),
+    Property(
         "pl",
         "Profit/Loss",
-        "The total profit/loss realized over the lifetime of the Account. Represented in the Account's home currency.",
+        "The total profit/loss realized over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "resettablePL",
         "Resettable Profit/Loss",
-        "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
+        "The total realized profit/loss for the Account since it was last reset by the client.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
-        "resettabledPLTime",
+    Property(
+        "resettablePLTime",
         "Profit/Loss Reset Time",
         "The date/time that the Account's resettablePL was last reset.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
-        "commission",
-        "Commission",
-        "The total amount of commission paid over the lifetime of the Account. Represented in the Account's home currency.",
+    Property(
+        "financing",
+        "Financing",
+        "The total amount of financing paid/collected over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "commission",
+        "Commission",
+        "The total amount of commission paid over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFees",
+        "Guaranteed Execution Fees",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "marginRate",
         "Margin Rate",
         "Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallEnterTime",
         "Margin Call Enter Time",
         "The date/time when the Account entered a margin call state. Only provided if the Account is in a margin call.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallExtensionCount",
         "Margin Call Extension Count",
         "The number of times that the Account's current margin call was extended.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "lastMarginCallExtensionTime",
         "Last Margin Call Extension Time",
         "The date/time of the Account's last margin call extension.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "openTradeCount",
         "Open Trade Count",
         "The number of Trades currently open in the Account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "openPositionCount",
         "Open Position Count",
         "The number of Positions currently open in the Account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "pendingOrderCount",
         "Pending Order Count",
         "The number of Orders currently pending in the Account.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "hedgingEnabled",
         "Hedging Enabled",
         "Flag indicating that the Account has hedging enabled.",
         "primitive",
         "boolean",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unrealizedPL",
         "Unrealized Profit/Loss",
-        "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
+        "The total unrealized profit/loss for all Trades currently open in the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "NAV",
         "Net Asset Value",
-        "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginUsed",
         "Margin Used",
-        "Margin currently used for the Account. Represented in the Account's home currency.",
+        "Margin currently used for the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginAvailable",
         "Margin Available",
-        "Margin available for Account. Represented in the Account's home currency.",
+        "Margin available for Account currency.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionValue",
         "Position Value",
         "The value of the Account's open positions represented in the Account's home currency.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutUnrealizedPL",
         "Closeout UPL",
         "The Account's margin closeout unrealized PL.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutNAV",
         "Closeout NAV",
         "The Account's margin closeout NAV.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutMarginUsed",
         "Closeout Margin Used",
         "The Account's margin closeout margin used.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutPercent",
         "Margin Closeout Percentage",
         "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseoutPositionValue",
         "Margin Closeout Position Value",
         "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "withdrawalLimit",
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallMarginUsed",
         "Margin Call Margin Used",
         "The Account's margin call margin used.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCallPercent",
         "Margin Call Percentage",
         "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "lastTransactionID",
         "Last Transaction ID",
         "The ID of the last Transaction created for the Account.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
+    ),
+]
+
+account_CalculatedAccountState = [
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The total unrealized profit/loss for all Trades currently open in the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "NAV",
+        "Net Asset Value",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used for the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginAvailable",
+        "Margin Available",
+        "Margin available for Account currency.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "positionValue",
+        "Position Value",
+        "The value of the Account's open positions represented in the Account's home currency.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginCloseoutUnrealizedPL",
+        "Closeout UPL",
+        "The Account's margin closeout unrealized PL.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginCloseoutNAV",
+        "Closeout NAV",
+        "The Account's margin closeout NAV.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginCloseoutMarginUsed",
+        "Closeout Margin Used",
+        "The Account's margin closeout margin used.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginCloseoutPercent",
+        "Margin Closeout Percentage",
+        "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "marginCloseoutPositionValue",
+        "Margin Closeout Position Value",
+        "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "withdrawalLimit",
+        "Withdrawal Limit",
+        "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginCallMarginUsed",
+        "Margin Call Margin Used",
+        "The Account's margin call margin used.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginCallPercent",
+        "Margin Call Percentage",
+        "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
     ),
 ]
 
 account_AccountChanges = [
- 
-    Property( 
+    Property(
         "ordersCreated",
         "Orders Created",
         "The Orders created. These Orders may have been filled, cancelled or triggered in the same period.",
         "array_object",
         "Order",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "ordersCancelled",
         "Orders Cancelled",
         "The Orders cancelled.",
         "array_object",
         "Order",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "ordersFilled",
         "Orders Filled",
         "The Orders filled.",
         "array_object",
         "Order",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "ordersTriggered",
         "Orders Triggered",
         "The Orders triggered.",
         "array_object",
         "Order",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradesOpened",
         "Trades Opened",
         "The Trades opened.",
         "array_object",
         "TradeSummary",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradesReduced",
         "Trades Reduced",
         "The Trades reduced.",
         "array_object",
         "TradeSummary",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradesClosed",
         "Trades Closed",
         "The Trades closed.",
         "array_object",
         "TradeSummary",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positions",
         "Positions",
         "The Positions changed.",
         "array_object",
         "Position",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "transactions",
         "Transactions",
         "The Transactions that have been generated.",
         "array_object",
         "Transaction",
         None,
-        None 
+        None
     ),
 ]
 
 order_OrderIdentifier = [
- 
-    Property( 
+    Property(
         "orderID",
         "orderID",
         "The OANDA-assigned Order ID",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientOrderID",
         "clientOrderID",
         "The client-provided client Order ID",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
 ]
 
 order_DynamicOrderState = [
- 
-    Property( 
+    Property(
         "id",
         "Order ID",
         "The Order's ID.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopValue",
         "Trailing Stop Value",
         "The Order's calculated trailing stop value.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerDistance",
         "Trigger Distance",
         "The distance between the Trailing Stop Loss Order's trailingStopValue and the current Market Price. This represents the distance (in price units) of the Order from a triggering price. If the distance could not be determined, this value will not be set.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "isTriggerDistanceExact",
         "Trigger Distance Is Exact",
         "True if an exact trigger distance could be calculated. If false, it means the provided trigger distance is a best estimate. If the distance could not be determined, this value will not be set.",
         "primitive",
         "boolean",
         None,
-        None 
+        None
     ),
 ]
 
 order_Order = [
- 
-    Property( 
+    Property(
         "id",
         "Order ID",
         "The Order's identifier, unique within the Order's Account.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createTime",
         "Create Time",
         "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Order.",
         "primitive",
         "order.OrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 order_MarketOrder = [
- 
-    Property( 
+    Property(
         "id",
         "Order ID",
         "The Order's identifier, unique within the Order's Account.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createTime",
         "Create Time",
         "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Order.",
         "primitive",
         "order.OrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order. Always set to \"MARKET\" for Market Orders.",
@@ -1130,28 +1194,25 @@ order_MarketOrder = [
         None,
         "MARKET"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Market Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
@@ -1160,18 +1221,16 @@ order_MarketOrder = [
         True,
         "FOK"
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -1180,211 +1239,382 @@ order_MarketOrder = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "tradeClose",
         "Trade Close Details",
         "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
         "object",
         "transaction.MarketOrderTradeClose",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "longPositionCloseout",
         "Long Position Close Details",
         "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
         "object",
         "transaction.MarketOrderPositionCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "shortPositionCloseout",
         "Short Position Close Details",
         "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
         "object",
         "transaction.MarketOrderPositionCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseout",
         "Margin Closeout Details",
         "Details of the Margin Closeout that this Market Order was created for",
         "object",
         "transaction.MarketOrderMarginCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "delayedTradeClose",
         "Delayed Trade Close Details",
         "Details of the delayed Trade close that this Market Order was created for",
         "object",
         "transaction.MarketOrderDelayedTradeClose",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "filledTime",
         "Filled Time",
         "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeOpenedID",
         "Trade Opened ID",
         "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeReducedID",
         "Trade Reduced ID",
         "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClosedIDs",
         "Trade Closed IDs",
         "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
         "array_primitive",
         "TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Cancelling Transction ID",
         "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancelledTime",
         "Cancelled Time",
         "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
 ]
 
-order_LimitOrder = [
- 
-    Property( 
+order_FixedPriceOrder = [
+    Property(
         "id",
         "Order ID",
         "The Order's identifier, unique within the Order's Account.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createTime",
         "Create Time",
         "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Order.",
         "primitive",
         "order.OrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"FIXED_PRICE\" for Fixed Price Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "FIXED_PRICE"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Fixed Price Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Fixed Price Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.",
+        "primitive",
+        "pricing.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "tradeState",
+        "TradeState",
+        "The state that the trade resulting from the Fixed Price Order should be set to.",
+        "primitive",
+        "string",
+        True,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+]
+
+order_LimitOrder = [
+    Property(
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Order.",
+        "primitive",
+        "order.OrderState",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
         "type",
         "Type",
         "The type of the Order. Always set to \"LIMIT\" for Limit Orders.",
@@ -1393,38 +1623,34 @@ order_LimitOrder = [
         None,
         "LIMIT"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Limit Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Limit Order.",
@@ -1433,18 +1659,16 @@ order_LimitOrder = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -1453,191 +1677,172 @@ order_LimitOrder = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "filledTime",
         "Filled Time",
         "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeOpenedID",
         "Trade Opened ID",
         "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeReducedID",
         "Trade Reduced ID",
         "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClosedIDs",
         "Trade Closed IDs",
         "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
         "array_primitive",
         "TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Cancelling Transction ID",
         "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancelledTime",
         "Cancelled Time",
         "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacedByOrderID",
         "Replaced by Order ID",
         "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
 ]
 
 order_StopOrder = [
- 
-    Property( 
+    Property(
         "id",
         "Order ID",
         "The Order's identifier, unique within the Order's Account.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createTime",
         "Create Time",
         "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Order.",
         "primitive",
         "order.OrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order. Always set to \"STOP\" for Stop Orders.",
@@ -1646,48 +1851,43 @@ order_StopOrder = [
         None,
         "STOP"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Stop Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Stop Order.",
@@ -1696,18 +1896,16 @@ order_StopOrder = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -1716,191 +1914,172 @@ order_StopOrder = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "filledTime",
         "Filled Time",
         "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeOpenedID",
         "Trade Opened ID",
         "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeReducedID",
         "Trade Reduced ID",
         "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClosedIDs",
         "Trade Closed IDs",
         "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
         "array_primitive",
         "TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Cancelling Transction ID",
         "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancelledTime",
         "Cancelled Time",
         "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacedByOrderID",
         "Replaced by Order ID",
         "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
 ]
 
 order_MarketIfTouchedOrder = [
- 
-    Property( 
+    Property(
         "id",
         "Order ID",
         "The Order's identifier, unique within the Order's Account.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createTime",
         "Create Time",
         "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Order.",
         "primitive",
         "order.OrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order. Always set to \"MARKET_IF_TOUCHED\" for Market If Touched Orders.",
@@ -1909,48 +2088,43 @@ order_MarketIfTouchedOrder = [
         None,
         "MARKET_IF_TOUCHED"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The MarketIfTouched Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
@@ -1959,18 +2133,16 @@ order_MarketIfTouchedOrder = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -1979,201 +2151,181 @@ order_MarketIfTouchedOrder = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "initialMarketPrice",
         "Initial Market Price",
         "The Market price at the time when the MarketIfTouched Order was created.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "filledTime",
         "Filled Time",
         "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeOpenedID",
         "Trade Opened ID",
         "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeReducedID",
         "Trade Reduced ID",
         "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClosedIDs",
         "Trade Closed IDs",
         "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
         "array_primitive",
         "TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Cancelling Transction ID",
         "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancelledTime",
         "Cancelled Time",
         "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacedByOrderID",
         "Replaced by Order ID",
         "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
 ]
 
 order_TakeProfitOrder = [
- 
-    Property( 
+    Property(
         "id",
         "Order ID",
         "The Order's identifier, unique within the Order's Account.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createTime",
         "Create Time",
         "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Order.",
         "primitive",
         "order.OrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order. Always set to \"TAKE_PROFIT\" for Take Profit Orders.",
@@ -2182,38 +2334,34 @@ order_TakeProfitOrder = [
         None,
         "TAKE_PROFIT"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
@@ -2222,161 +2370,145 @@ order_TakeProfitOrder = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "filledTime",
         "Filled Time",
         "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeOpenedID",
         "Trade Opened ID",
         "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeReducedID",
         "Trade Reduced ID",
         "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClosedIDs",
         "Trade Closed IDs",
         "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
         "array_primitive",
         "TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Cancelling Transction ID",
         "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancelledTime",
         "Cancelled Time",
         "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacedByOrderID",
         "Replaced by Order ID",
         "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
 ]
 
 order_StopLossOrder = [
- 
-    Property( 
+    Property(
         "id",
         "Order ID",
         "The Order's identifier, unique within the Order's Account.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createTime",
         "Create Time",
         "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Order.",
         "primitive",
         "order.OrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order. Always set to \"STOP_LOSS\" for Stop Loss Orders.",
@@ -2385,38 +2517,52 @@ order_StopLossOrder = [
         None,
         "STOP_LOSS"
     ),
- 
-    Property( 
+    Property(
+        "guaranteedExecutionPremium",
+        "Guaranteed Execution Fee",
+        "The premium that will be charged if the Stop Loss Order is guaranteed and the Order is filled at the guaranteed price. It is in price units and is charged for each unit of the Trade.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
-        "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
+        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "distance",
+        "Price Distance",
+        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
@@ -2425,161 +2571,154 @@ order_StopLossOrder = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
+        "guaranteed",
+        "Guaranteed",
+        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "filledTime",
         "Filled Time",
         "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeOpenedID",
         "Trade Opened ID",
         "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeReducedID",
         "Trade Reduced ID",
         "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClosedIDs",
         "Trade Closed IDs",
         "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
         "array_primitive",
         "TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Cancelling Transction ID",
         "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancelledTime",
         "Cancelled Time",
         "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacedByOrderID",
         "Replaced by Order ID",
         "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
 ]
 
 order_TrailingStopLossOrder = [
- 
-    Property( 
+    Property(
         "id",
         "Order ID",
         "The Order's identifier, unique within the Order's Account.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "createTime",
         "Create Time",
         "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Order.",
         "primitive",
         "order.OrderState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order. Always set to \"TRAILING_STOP_LOSS\" for Trailing Stop Loss Orders.",
@@ -2588,38 +2727,34 @@ order_TrailingStopLossOrder = [
         None,
         "TRAILING_STOP_LOSS"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "distance",
         "Price Distance",
-        "The price distance specified for the TrailingStopLoss Order.",
+        "The price distance (in price units) specified for the TrailingStopLoss Order.",
         "primitive",
-        "pricing.PriceValue",
+        "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
@@ -2628,125 +2763,113 @@ order_TrailingStopLossOrder = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "trailingStopValue",
         "Trailing Stop Loss Value",
         "The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order's configured \"distance\" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "fillingTransactionID",
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "filledTime",
         "Filled Time",
         "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeOpenedID",
         "Trade Opened ID",
         "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeReducedID",
         "Trade Reduced ID",
         "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClosedIDs",
         "Trade Closed IDs",
         "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
         "array_primitive",
         "TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Cancelling Transction ID",
         "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancelledTime",
         "Cancelled Time",
         "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacedByOrderID",
         "Replaced by Order ID",
         "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
 ]
 
@@ -2754,8 +2877,7 @@ order_OrderRequest = [
 ]
 
 order_MarketOrderRequest = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order to Create. Must be set to \"MARKET\" when creating a Market Order.",
@@ -2764,28 +2886,25 @@ order_MarketOrderRequest = [
         None,
         "MARKET"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Market Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
@@ -2794,18 +2913,16 @@ order_MarketOrderRequest = [
         True,
         "FOK"
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -2814,61 +2931,55 @@ order_MarketOrderRequest = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 order_LimitOrderRequest = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order to Create. Must be set to \"LIMIT\" when creating a Market Order.",
@@ -2877,38 +2988,34 @@ order_LimitOrderRequest = [
         None,
         "LIMIT"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Limit Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Limit Order.",
@@ -2917,18 +3024,16 @@ order_LimitOrderRequest = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -2937,71 +3042,64 @@ order_LimitOrderRequest = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 order_StopOrderRequest = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order to Create. Must be set to \"STOP\" when creating a Stop Order.",
@@ -3010,48 +3108,43 @@ order_StopOrderRequest = [
         None,
         "STOP"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Stop Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Stop Order.",
@@ -3060,18 +3153,16 @@ order_StopOrderRequest = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -3080,71 +3171,64 @@ order_StopOrderRequest = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 order_MarketIfTouchedOrderRequest = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order to Create. Must be set to \"MARKET_IF_TOUCHED\" when creating a Market If Touched Order.",
@@ -3153,48 +3237,43 @@ order_MarketIfTouchedOrderRequest = [
         None,
         "MARKET_IF_TOUCHED"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The MarketIfTouched Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
@@ -3203,18 +3282,16 @@ order_MarketIfTouchedOrderRequest = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -3223,71 +3300,64 @@ order_MarketIfTouchedOrderRequest = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 order_TakeProfitOrderRequest = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order to Create. Must be set to \"TAKE_PROFIT\" when creating a Take Profit Order.",
@@ -3296,38 +3366,34 @@ order_TakeProfitOrderRequest = [
         None,
         "TAKE_PROFIT"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
@@ -3336,41 +3402,37 @@ order_TakeProfitOrderRequest = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 order_StopLossOrderRequest = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order to Create. Must be set to \"STOP_LOSS\" when creating a Stop Loss Order.",
@@ -3379,38 +3441,43 @@ order_StopLossOrderRequest = [
         None,
         "STOP_LOSS"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
-        "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
+        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "distance",
+        "Price Distance",
+        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
@@ -3419,41 +3486,46 @@ order_StopLossOrderRequest = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
+        "guaranteed",
+        "Guaranteed",
+        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 order_TrailingStopLossOrderRequest = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The type of the Order to Create. Must be set to \"TRAILING_STOP_LOSS\" when creating a Trailng Stop Loss Order.",
@@ -3462,38 +3534,34 @@ order_TrailingStopLossOrderRequest = [
         None,
         "TRAILING_STOP_LOSS"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "distance",
         "Price Distance",
-        "The price distance specified for the TrailingStopLoss Order.",
+        "The price distance (in price units) specified for the TrailingStopLoss Order.",
         "primitive",
-        "pricing.PriceValue",
+        "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
@@ -3502,485 +3570,523 @@ order_TrailingStopLossOrderRequest = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 order_UnitsAvailableDetails = [
- 
-    Property( 
+    Property(
         "long",
         "Long",
         "The units available for long Orders.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "short",
         "Short",
         "The units available for short Orders.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
 ]
 
 order_UnitsAvailable = [
- 
-    Property( 
+    Property(
         "default",
         "Default",
         "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
         "object",
         "order.UnitsAvailableDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "reduceFirst",
         "Reduce First",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
         "object",
         "order.UnitsAvailableDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "reduceOnly",
         "Reduce Only",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
         "object",
         "order.UnitsAvailableDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "openOnly",
         "Open Only",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
         "object",
         "order.UnitsAvailableDetails",
         None,
-        None 
+        None
+    ),
+]
+
+order_GuaranteedStopLossOrderEntryData = [
+    Property(
+        "minimumDistance",
+        "minimumDistance",
+        "The minimum distance allowed between the Trade's fill price and the configured price for guaranteed Stop Loss Orders created for this instrument. Specified in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "premium",
+        "premium",
+        "The amount that is charged to the account if a guaranteed Stop Loss Order is triggered and filled. The value is in price units and is charged for each unit of the Trade.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "levelRestriction",
+        "levelRestriction",
+        "The guaranteed Stop Loss Order level restriction for this instrument.",
+        "object",
+        "primitives.GuaranteedStopLossOrderLevelRestriction",
+        None,
+        None
     ),
 ]
 
 position_Position = [
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Position's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "pl",
         "Profit/Loss",
         "Profit/loss realized by the Position over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unrealizedPL",
         "Unrealized Profit/Loss",
         "The unrealized profit/loss of all open Trades that contribute to this Position.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Position.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "resettablePL",
         "Resettable Profit/Loss",
         "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
-        "commission",
-        "Commission",
-        "The total amount of commission paid for this instrument over the lifetime of the Account. Represented in the Account's home currency.",
+    Property(
+        "financing",
+        "Financing",
+        "The total amount of financing paid/collected for this instrument over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "commission",
+        "Commission",
+        "The total amount of commission paid for this instrument over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFees",
+        "Guranteed Execution Fee",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders for this instrument.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "long",
         "Long Side",
         "The details of the long side of the Position.",
         "object",
         "position.PositionSide",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "short",
         "Short Side",
         "The details of the short side of the Position.",
         "object",
         "position.PositionSide",
         None,
-        None 
+        None
     ),
 ]
 
 position_PositionSide = [
- 
-    Property( 
+    Property(
         "units",
         "Units",
         "Number of units in the position (negative value indicates short position, positive indicates long position).",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "averagePrice",
         "Average Price",
         "Volume-weighted average of the underlying Trade open prices for the Position.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeIDs",
         "Trade IDs",
         "List of the open Trade IDs which contribute to the open Position.",
         "array_primitive",
         "TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "pl",
         "Profit/Loss",
         "Profit/loss realized by the PositionSide over the lifetime of the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unrealizedPL",
         "Unrealized Profit/Loss",
         "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "resettablePL",
         "Resettable Profit/Loss",
         "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The total amount of financing paid/collected for this PositionSide over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFees",
+        "Guranteed Execution Fees",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders attached to Trades for this PositionSide.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
     ),
 ]
 
 position_CalculatedPositionState = [
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Position's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "netUnrealizedPL",
         "Net Unrealized Profit/Loss",
         "The Position's net unrealized profit/loss",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "longUnrealizedPL",
         "Long Unrealized Profit/Loss",
         "The unrealized profit/loss of the Position's long open Trades",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "shortUnrealizedPL",
         "Short Unrealized Profit/Loss",
         "The unrealized profit/loss of the Position's short open Trades",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Position.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
     ),
 ]
 
 user_UserInfo = [
- 
-    Property( 
+    Property(
         "username",
         "username",
         "The user-provided username.",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "userID",
         "The user's OANDA-assigned user ID.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "country",
         "country",
         "The country that the user is based in.",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "emailAddress",
         "emailAddress",
         "The user's email address.",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
 ]
 
 user_UserInfoExternal = [
- 
-    Property( 
+    Property(
         "userID",
         "userID",
         "The user's OANDA-assigned user ID.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "country",
         "country",
         "The country that the user is based in.",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "FIFO",
         "FIFO",
         "Flag indicating if the the user's Accounts adhere to FIFO execution rules.",
         "primitive",
         "boolean",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_Transaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_CreateTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"CREATE\" in a CreateTransaction.",
@@ -3989,121 +4095,109 @@ transaction_CreateTransaction = [
         None,
         "CREATE"
     ),
- 
-    Property( 
+    Property(
         "divisionID",
         "Division ID",
         "The ID of the Division that the Account is in",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "siteID",
         "Site ID",
         "The ID of the Site that the Account was created at",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountUserID",
         "Account User ID",
         "The ID of the user that the Account was created for",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountNumber",
         "Account Number",
         "The number of the Account within the site/division/user",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "homeCurrency",
         "Home Currency",
         "The home currency of the Account",
         "primitive",
         "primitives.Currency",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_CloseTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"CLOSE\" in a CloseTransaction.",
@@ -4115,68 +4209,61 @@ transaction_CloseTransaction = [
 ]
 
 transaction_ReopenTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"REOPEN\" in a ReopenTransaction.",
@@ -4188,68 +4275,61 @@ transaction_ReopenTransaction = [
 ]
 
 transaction_ClientConfigureTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"CLIENT_CONFIGURE\" in a ClientConfigureTransaction.",
@@ -4258,91 +4338,82 @@ transaction_ClientConfigureTransaction = [
         None,
         "CLIENT_CONFIGURE"
     ),
- 
-    Property( 
+    Property(
         "alias",
         "Account Alias",
         "The client-provided alias for the Account.",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginRate",
         "Margin Rate",
         "The margin rate override for the Account.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_ClientConfigureRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"CLIENT_CONFIGURE_REJECT\" in a ClientConfigureRejectTransaction.",
@@ -4351,101 +4422,91 @@ transaction_ClientConfigureRejectTransaction = [
         None,
         "CLIENT_CONFIGURE_REJECT"
     ),
- 
-    Property( 
+    Property(
         "alias",
         "Account Alias",
         "The client-provided alias for the Account.",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginRate",
         "Margin Rate",
         "The margin rate override for the Account.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TransferFundsTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRANSFER_FUNDS\" in a TransferFundsTransaction.",
@@ -4454,111 +4515,100 @@ transaction_TransferFundsTransaction = [
         None,
         "TRANSFER_FUNDS"
     ),
- 
-    Property( 
+    Property(
         "amount",
         "Transfer Amount",
         "The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "fundingReason",
         "Reason",
         "The reason that an Account is being funded.",
         "primitive",
         "transaction.FundingReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "comment",
         "Comment",
         "An optional comment that may be attached to a fund transfer for audit purposes",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountBalance",
         "Account Balance",
         "The Account's balance after funds are transferred.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TransferFundsRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRANSFER_FUNDS_REJECT\" in a TransferFundsRejectTransaction.",
@@ -4567,111 +4617,100 @@ transaction_TransferFundsRejectTransaction = [
         None,
         "TRANSFER_FUNDS_REJECT"
     ),
- 
-    Property( 
+    Property(
         "amount",
         "Transfer Amount",
         "The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "fundingReason",
         "Reason",
         "The reason that an Account is being funded.",
         "primitive",
         "transaction.FundingReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "comment",
         "Comment",
         "An optional comment that may be attached to a fund transfer for audit purposes",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarketOrderTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARKET_ORDER\" in a MarketOrderTransaction.",
@@ -4680,28 +4719,25 @@ transaction_MarketOrderTransaction = [
         None,
         "MARKET_ORDER"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Market Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
@@ -4710,18 +4746,16 @@ transaction_MarketOrderTransaction = [
         True,
         "FOK"
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -4730,181 +4764,163 @@ transaction_MarketOrderTransaction = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "tradeClose",
         "Trade Close Details",
         "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
         "object",
         "transaction.MarketOrderTradeClose",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "longPositionCloseout",
         "Long Position Close Details",
         "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
         "object",
         "transaction.MarketOrderPositionCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "shortPositionCloseout",
         "Short Position Close Details",
         "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
         "object",
         "transaction.MarketOrderPositionCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseout",
         "Margin Closeout Details",
         "Details of the Margin Closeout that this Market Order was created for",
         "object",
         "transaction.MarketOrderMarginCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "delayedTradeClose",
         "Delayed Trade Close Details",
         "Details of the delayed Trade close that this Market Order was created for",
         "object",
         "transaction.MarketOrderDelayedTradeClose",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Market Order was created",
         "primitive",
         "transaction.MarketOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarketOrderRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARKET_ORDER_REJECT\" in a MarketOrderRejectTransaction.",
@@ -4913,28 +4929,25 @@ transaction_MarketOrderRejectTransaction = [
         None,
         "MARKET_ORDER_REJECT"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Market Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
@@ -4943,18 +4956,16 @@ transaction_MarketOrderRejectTransaction = [
         True,
         "FOK"
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -4963,191 +4974,337 @@ transaction_MarketOrderRejectTransaction = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "tradeClose",
         "Trade Close Details",
         "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
         "object",
         "transaction.MarketOrderTradeClose",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "longPositionCloseout",
         "Long Position Close Details",
         "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
         "object",
         "transaction.MarketOrderPositionCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "shortPositionCloseout",
         "Short Position Close Details",
         "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
         "object",
         "transaction.MarketOrderPositionCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginCloseout",
         "Margin Closeout Details",
         "Details of the Margin Closeout that this Market Order was created for",
         "object",
         "transaction.MarketOrderMarginCloseout",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "delayedTradeClose",
         "Delayed Trade Close Details",
         "Details of the delayed Trade close that this Market Order was created for",
         "object",
         "transaction.MarketOrderDelayedTradeClose",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Market Order was created",
         "primitive",
         "transaction.MarketOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
-transaction_LimitOrderTransaction = [
- 
-    Property( 
+transaction_FixedPriceOrderTransaction = [
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "type",
+        "Type",
+        "The Type of the Transaction. Always set to \"FIXED_PRICE_ORDER\" in a FixedPriceOrderTransaction.",
+        "primitive",
+        "transaction.TransactionType",
+        None,
+        "FIXED_PRICE_ORDER"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Fixed Price Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Fixed Price Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.",
+        "primitive",
+        "pricing.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "tradeState",
+        "TradeState",
+        "The state that the trade resulting from the Fixed Price Order should be set to.",
+        "primitive",
+        "string",
+        True,
+        None
+    ),
+    Property(
+        "reason",
+        "Reason",
+        "The reason that the Fixed Price Order was created",
+        "primitive",
+        "transaction.FixedPriceOrderReason",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions for the Fixed Price Order.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+]
+
+transaction_LimitOrderTransaction = [
+    Property(
+        "id",
+        "Transaction ID",
+        "The Transaction's Identifier.",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "time",
+        "Time",
+        "The date/time when the Transaction was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "userID",
+        "User ID",
+        "The ID of the user that initiated the creation of the Transaction.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "accountID",
+        "Account ID",
+        "The ID of the Account the Transaction was created for.",
+        "primitive",
+        "account.AccountID",
+        None,
+        None
+    ),
+    Property(
+        "batchID",
+        "Transaction Batch ID",
+        "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "requestID",
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        "primitive",
+        "transaction.RequestID",
+        None,
+        None
+    ),
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"LIMIT_ORDER\" in a LimitOrderTransaction.",
@@ -5156,38 +5313,34 @@ transaction_LimitOrderTransaction = [
         None,
         "LIMIT_ORDER"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Limit Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Limit Order.",
@@ -5196,18 +5349,16 @@ transaction_LimitOrderTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -5216,161 +5367,145 @@ transaction_LimitOrderTransaction = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Limit Order was initiated",
         "primitive",
         "transaction.LimitOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_LimitOrderRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"LIMIT_ORDER_REJECT\" in a LimitOrderRejectTransaction.",
@@ -5379,38 +5514,34 @@ transaction_LimitOrderRejectTransaction = [
         None,
         "LIMIT_ORDER_REJECT"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Limit Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Limit Order.",
@@ -5419,18 +5550,16 @@ transaction_LimitOrderRejectTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -5439,161 +5568,145 @@ transaction_LimitOrderRejectTransaction = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Limit Order was initiated",
         "primitive",
         "transaction.LimitOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "intendedReplacesOrderID",
         "Order ID to Replace",
         "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_StopOrderTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"STOP_ORDER\" in a StopOrderTransaction.",
@@ -5602,48 +5715,43 @@ transaction_StopOrderTransaction = [
         None,
         "STOP_ORDER"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Stop Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Stop Order.",
@@ -5652,18 +5760,16 @@ transaction_StopOrderTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -5672,161 +5778,145 @@ transaction_StopOrderTransaction = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Stop Order was initiated",
         "primitive",
         "transaction.StopOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_StopOrderRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"STOP_ORDER_REJECT\" in a StopOrderRejectTransaction.",
@@ -5835,48 +5925,43 @@ transaction_StopOrderRejectTransaction = [
         None,
         "STOP_ORDER_REJECT"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Stop Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the Stop Order.",
@@ -5885,18 +5970,16 @@ transaction_StopOrderRejectTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -5905,161 +5988,145 @@ transaction_StopOrderRejectTransaction = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Stop Order was initiated",
         "primitive",
         "transaction.StopOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "intendedReplacesOrderID",
         "Order ID to Replace",
         "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarketIfTouchedOrderTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARKET_IF_TOUCHED_ORDER\" in a MarketIfTouchedOrderTransaction.",
@@ -6068,48 +6135,43 @@ transaction_MarketIfTouchedOrderTransaction = [
         None,
         "MARKET_IF_TOUCHED_ORDER"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The MarketIfTouched Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
@@ -6118,18 +6180,16 @@ transaction_MarketIfTouchedOrderTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -6138,161 +6198,145 @@ transaction_MarketIfTouchedOrderTransaction = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Market-if-touched Order was initiated",
         "primitive",
         "transaction.MarketIfTouchedOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarketIfTouchedOrderRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARKET_IF_TOUCHED_ORDER_REJECT\" in a MarketIfTouchedOrderRejectTransaction.",
@@ -6301,48 +6345,43 @@ transaction_MarketIfTouchedOrderRejectTransaction = [
         None,
         "MARKET_IF_TOUCHED_ORDER_REJECT"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The MarketIfTouched Order's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         "primitive",
         "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "priceBound",
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
@@ -6351,18 +6390,16 @@ transaction_MarketIfTouchedOrderRejectTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFill",
         "Position Fill",
         "Specification of how Positions in the Account are modified when the Order is filled.",
@@ -6371,161 +6408,145 @@ transaction_MarketIfTouchedOrderRejectTransaction = [
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Market-if-touched Order was initiated",
         "primitive",
         "transaction.MarketIfTouchedOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOnFill",
         "Take Profit On Fill",
         "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TakeProfitDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOnFill",
         "Stop Loss On Fill",
         "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.StopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOnFill",
         "Trailing Stop Loss On Fill",
         "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
         "object",
         "transaction.TrailingStopLossDetails",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensions",
         "Trade Client Extensions",
         "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "intendedReplacesOrderID",
         "Order ID to Replace",
         "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TakeProfitOrderTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER\" in a TakeProfitOrderTransaction.",
@@ -6534,38 +6555,34 @@ transaction_TakeProfitOrderTransaction = [
         None,
         "TAKE_PROFIT_ORDER"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
@@ -6574,141 +6591,127 @@ transaction_TakeProfitOrderTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Take Profit Order was initiated",
         "primitive",
         "transaction.TakeProfitOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "orderFillTransactionID",
         "Order Fill Transaction ID",
         "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TakeProfitOrderRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER_REJECT\" in a TakeProfitOrderRejectTransaction.",
@@ -6717,38 +6720,34 @@ transaction_TakeProfitOrderRejectTransaction = [
         None,
         "TAKE_PROFIT_ORDER_REJECT"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
@@ -6757,141 +6756,127 @@ transaction_TakeProfitOrderRejectTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Take Profit Order was initiated",
         "primitive",
         "transaction.TakeProfitOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "orderFillTransactionID",
         "Order Fill Transaction ID",
         "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "intendedReplacesOrderID",
         "Order ID to Replace",
         "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_StopLossOrderTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER\" in a StopLossOrderTransaction.",
@@ -6900,38 +6885,43 @@ transaction_StopLossOrderTransaction = [
         None,
         "STOP_LOSS_ORDER"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
-        "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
+        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "distance",
+        "Price Distance",
+        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
@@ -6940,141 +6930,145 @@ transaction_StopLossOrderTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
+        "guaranteed",
+        "Guaranteed",
+        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionPremium",
+        "Guaranteed Execution Premium",
+        "The fee that will be charged if the Stop Loss Order is guaranteed and the Order is filled at the guaranteed price. The value is determined at Order creation time. It is in price units and is charged for each unit of the Trade.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
         "reason",
         "Reason",
         "The reason that the Stop Loss Order was initiated",
         "primitive",
         "transaction.StopLossOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "orderFillTransactionID",
         "Order Fill Transaction ID",
         "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_StopLossOrderRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER_REJECT\" in a StopLossOrderRejectTransaction.",
@@ -7083,38 +7077,43 @@ transaction_StopLossOrderRejectTransaction = [
         None,
         "STOP_LOSS_ORDER_REJECT"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Price",
-        "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
+        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         "primitive",
         "pricing.PriceValue",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "distance",
+        "Price Distance",
+        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
@@ -7123,141 +7122,136 @@ transaction_StopLossOrderRejectTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
+        "guaranteed",
+        "Guaranteed",
+        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
         "reason",
         "Reason",
         "The reason that the Stop Loss Order was initiated",
         "primitive",
         "transaction.StopLossOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "orderFillTransactionID",
         "Order Fill Transaction ID",
         "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "intendedReplacesOrderID",
         "Order ID to Replace",
         "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TrailingStopLossOrderTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER\" in a TrailingStopLossOrderTransaction.",
@@ -7266,38 +7260,34 @@ transaction_TrailingStopLossOrderTransaction = [
         None,
         "TRAILING_STOP_LOSS_ORDER"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "distance",
         "Price Distance",
-        "The price distance specified for the TrailingStopLoss Order.",
+        "The price distance (in price units) specified for the TrailingStopLoss Order.",
         "primitive",
-        "pricing.PriceValue",
+        "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
@@ -7306,141 +7296,127 @@ transaction_TrailingStopLossOrderTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Trailing Stop Loss Order was initiated",
         "primitive",
         "transaction.TrailingStopLossOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "orderFillTransactionID",
         "Order Fill Transaction ID",
         "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacesOrderID",
         "Replaces Order ID",
         "The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "cancellingTransactionID",
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TrailingStopLossOrderRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER_REJECT\" in a TrailingStopLossOrderRejectTransaction.",
@@ -7449,38 +7425,34 @@ transaction_TrailingStopLossOrderRejectTransaction = [
         None,
         "TRAILING_STOP_LOSS_ORDER_REJECT"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade to close when the price threshold is breached.",
         "primitive",
         "trade.TradeID",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade to be closed when the price threshold is breached.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "distance",
         "Price Distance",
-        "The price distance specified for the TrailingStopLoss Order.",
+        "The price distance (in price units) specified for the TrailingStopLoss Order.",
         "primitive",
-        "pricing.PriceValue",
+        "primitives.DecimalNumber",
         True,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
@@ -7489,141 +7461,127 @@ transaction_TrailingStopLossOrderRejectTransaction = [
         True,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "triggerCondition",
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         "primitive",
         "order.OrderTriggerCondition",
         True,
         "DEFAULT"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason that the Trailing Stop Loss Order was initiated",
         "primitive",
         "transaction.TrailingStopLossOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Order Client Extensions",
         "Client Extensions to add to the Order (only provided if the Order is being created with client extensions).",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "orderFillTransactionID",
         "Order Fill Transaction ID",
         "The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "intendedReplacesOrderID",
         "Order ID to Replace",
         "The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_OrderFillTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_FILL\" for an OrderFillTransaction.",
@@ -7632,211 +7590,226 @@ transaction_OrderFillTransaction = [
         None,
         "ORDER_FILL"
     ),
- 
-    Property( 
+    Property(
         "orderID",
         "Filled Order ID",
         "The ID of the Order filled.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientOrderID",
         "Filled Client Order ID",
         "The client Order ID of the Order filled (only provided if the client has assigned one).",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Fill Instrument",
         "The name of the filled Order's instrument.",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Fill Units",
         "The number of units filled by the Order.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "gainQuoteHomeConversionFactor",
+        "Gain Quote Home Conversion Factor",
+        "This is the conversion factor in effect for the Account at the time of the OrderFill for converting any gains realized in Instrument quote units into units of the Account's home currency.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "lossQuoteHomeConversionFactor",
+        "Loss Quote Home Conversion Factor",
+        "This is the conversion factor in effect for the Account at the time of the OrderFill for converting any losses realized in Instrument quote units into units of the Account's home currency.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
         "price",
         "Fill Price",
-        "The average market price that the Order was filled at.",
+        "This field is now deprecated and should no longer be used. The individual tradesClosed, tradeReduced and tradeOpened fields contain the exact/official price each unit was filled at.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "fullPrice",
         "Price",
         "The price in effect for the account at the time of the Order fill.",
         "object",
         "pricing.ClientPrice",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Fill Reason",
         "The reason that an Order was filled",
         "primitive",
         "transaction.OrderFillReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "pl",
         "Profit/Loss",
         "The profit or loss incurred when the Order was filled.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "financing",
         "Financing",
         "The financing paid or collected when the Order was filled.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "commission",
         "Commission",
         "The commission charged in the Account's home currency as a result of filling the Order. The commission is always represented as a positive quantity of the Account's home currency, however it reduces the balance in the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "guaranteedExecutionFee",
+        "Guranteed Execution Fee",
+        "The total guaranteed execution fees charged for all Trades opened, closed or reduced with guaranteed Stop Loss Orders.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "accountBalance",
         "Account Balance",
         "The Account's balance after the Order was filled.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeOpened",
         "Trade Opened",
         "The Trade that was opened when the Order was filled (only provided if filling the Order resulted in a new Trade).",
         "object",
         "transaction.TradeOpen",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradesClosed",
         "Trades Closed",
         "The Trades that were closed when the Order was filled (only provided if filling the Order resulted in a closing open Trades).",
         "array_object",
         "TradeReduce",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeReduced",
         "Trade Reduced",
         "The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade).",
         "object",
         "transaction.TradeReduce",
         None,
-        None 
+        None
+    ),
+    Property(
+        "halfSpreadCost",
+        "Half Spread Cost",
+        "The half spread cost for the OrderFill, which is the sum of the halfSpreadCost values in the tradeOpened, tradesClosed and tradeReduced fields. This can be a positive or negative value and is represented in the home currency of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
     ),
 ]
 
 transaction_OrderCancelTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CANCEL\" for an OrderCancelTransaction.",
@@ -7845,111 +7818,100 @@ transaction_OrderCancelTransaction = [
         None,
         "ORDER_CANCEL"
     ),
- 
-    Property( 
+    Property(
         "orderID",
         "Cancelled Order ID",
         "The ID of the Order cancelled",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientOrderID",
         "Cancelled Client Order ID",
         "The client ID of the Order cancelled (only provided if the Order has a client Order ID).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Cancel Reason",
         "The reason that the Order was cancelled.",
         "primitive",
         "transaction.OrderCancelReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "replacedByOrderID",
         "Replaced By Order ID",
         "The ID of the Order that replaced this Order (only provided if this Order was cancelled for replacement).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_OrderCancelRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CANCEL_REJECT\" for an OrderCancelRejectTransaction.",
@@ -7958,111 +7920,91 @@ transaction_OrderCancelRejectTransaction = [
         None,
         "ORDER_CANCEL_REJECT"
     ),
- 
-    Property( 
+    Property(
         "orderID",
         "Order ID",
         "The ID of the Order intended to be cancelled",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientOrderID",
         "Client Order ID",
         "The client ID of the Order intended to be cancelled (only provided if the Order has a client Order ID).",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
-        "reason",
-        "Cancel Reason",
-        "The reason that the Order was to be cancelled.",
-        "primitive",
-        "transaction.OrderCancelReason",
-        None,
-        None 
-    ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_OrderClientExtensionsModifyTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY\" for a OrderClienteExtensionsModifyTransaction.",
@@ -8071,111 +8013,100 @@ transaction_OrderClientExtensionsModifyTransaction = [
         None,
         "ORDER_CLIENT_EXTENSIONS_MODIFY"
     ),
- 
-    Property( 
+    Property(
         "orderID",
         "Order ID",
         "The ID of the Order who's client extensions are to be modified.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientOrderID",
         "Client Order ID",
         "The original Client ID of the Order who's client extensions are to be modified.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensionsModify",
         "Order Extensions",
         "The new Client Extensions for the Order.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensionsModify",
         "Trade Extensions",
         "The new Client Extensions for the Order's Trade on fill.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_OrderClientExtensionsModifyRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT\" for a OrderClientExtensionsModifyRejectTransaction.",
@@ -8184,121 +8115,109 @@ transaction_OrderClientExtensionsModifyRejectTransaction = [
         None,
         "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
     ),
- 
-    Property( 
+    Property(
         "orderID",
         "Order ID",
         "The ID of the Order who's client extensions are to be modified.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientOrderID",
         "Client Order ID",
         "The original Client ID of the Order who's client extensions are to be modified.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensionsModify",
         "Order Extensions",
         "The new Client Extensions for the Order.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensionsModify",
         "Trade Extensions",
         "The new Client Extensions for the Order's Trade on fill.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TradeClientExtensionsModifyTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRADE_CLIENT_EXTENSIONS_MODIFY\" for a TradeClientExtensionsModifyTransaction.",
@@ -8307,101 +8226,91 @@ transaction_TradeClientExtensionsModifyTransaction = [
         None,
         "TRADE_CLIENT_EXTENSIONS_MODIFY"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade who's client extensions are to be modified.",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The original Client ID of the Trade who's client extensions are to be modified.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensionsModify",
         "Extensions",
         "The new Client Extensions for the Trade.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TradeClientExtensionsModifyRejectTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT\" for a TradeClientExtensionsModifyRejectTransaction.",
@@ -8410,111 +8319,100 @@ transaction_TradeClientExtensionsModifyRejectTransaction = [
         None,
         "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
     ),
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade who's client extensions are to be modified.",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The original Client ID of the Trade who's client extensions are to be modified.",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeClientExtensionsModify",
         "Extensions",
         "The new Client Extensions for the Trade.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "rejectReason",
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         "primitive",
         "transaction.TransactionRejectReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarginCallEnterTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARGIN_CALL_ENTER\" for an MarginCallEnterTransaction.",
@@ -8526,68 +8424,61 @@ transaction_MarginCallEnterTransaction = [
 ]
 
 transaction_MarginCallExtendTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARGIN_CALL_EXTEND\" for an MarginCallExtendTransaction.",
@@ -8596,81 +8487,73 @@ transaction_MarginCallExtendTransaction = [
         None,
         "MARGIN_CALL_EXTEND"
     ),
- 
-    Property( 
+    Property(
         "extensionNumber",
         "Extension Number",
         "The number of the extensions to the Account's current margin call that have been applied. This value will be set to 1 for the first MarginCallExtend Transaction",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarginCallExitTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"MARGIN_CALL_EXIT\" for an MarginCallExitTransaction.",
@@ -8682,68 +8565,61 @@ transaction_MarginCallExitTransaction = [
 ]
 
 transaction_DelayedTradeClosureTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"DELAYED_TRADE_CLOSURE\" for an DelayedTradeClosureTransaction.",
@@ -8752,91 +8628,82 @@ transaction_DelayedTradeClosureTransaction = [
         None,
         "DELAYED_TRADE_CLOSURE"
     ),
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason for the delayed trade closure",
         "primitive",
         "transaction.MarketOrderReason",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeIDs",
         "Trade ID's",
         "List of Trade ID's identifying the open trades that will be closed when their respective instruments become tradeable",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_DailyFinancingTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"DAILY_FINANCING\" for a DailyFinancingTransaction.",
@@ -8845,111 +8712,100 @@ transaction_DailyFinancingTransaction = [
         None,
         "DAILY_FINANCING"
     ),
- 
-    Property( 
+    Property(
         "financing",
         "Financing",
         "The amount of financing paid/collected for the Account.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountBalance",
         "Account Balance",
         "The Account's balance after daily financing.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountFinancingMode",
         "Account Financing Mode",
         "The account financing mode at the time of the daily financing.",
         "primitive",
         "account.AccountFinancingMode",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "positionFinancings",
         "Per-Position Financing",
         "The financing paid/collected for each Position in the Account.",
         "array_object",
         "PositionFinancing",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_ResetResettablePLTransaction = [
- 
-    Property( 
+    Property(
         "id",
         "Transaction ID",
         "The Transaction's Identifier.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Transaction was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "userID",
         "User ID",
         "The ID of the user that initiated the creation of the Transaction.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "accountID",
         "Account ID",
         "The ID of the Account the Transaction was created for.",
         "primitive",
         "account.AccountID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "batchID",
         "Transaction Batch ID",
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "requestID",
         "Request ID",
         "The Request ID of the request which generated the transaction.",
         "primitive",
         "transaction.RequestID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The Type of the Transaction. Always set to \"RESET_RESETTABLE_PL\" for a ResetResettablePLTransaction.",
@@ -8961,51 +8817,46 @@ transaction_ResetResettablePLTransaction = [
 ]
 
 transaction_ClientExtensions = [
- 
-    Property( 
+    Property(
         "id",
         "Client ID",
         "The Client ID of the Order/Trade",
         "primitive",
         "transaction.ClientID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tag",
         "Tag",
         "A tag associated with the Order/Trade",
         "primitive",
         "transaction.ClientTag",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "comment",
         "Comment",
         "A comment associated with the Order/Trade",
         "primitive",
         "transaction.ClientComment",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TakeProfitDetails = [
- 
-    Property( 
+    Property(
         "price",
         "Price",
-        "The price that the Take Profit Order will be triggered at.",
+        "The price that the Take Profit Order will be triggered at. Only one of the price and distance fields may be specified.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time in force for the created Take Profit Order. This may only be GTC, GTD or GFD.",
@@ -9014,41 +8865,46 @@ transaction_TakeProfitDetails = [
         None,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date when the Take Profit Order will be cancelled on if timeInForce is GTD.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The Client Extensions to add to the Take Profit Order when created.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_StopLossDetails = [
- 
-    Property( 
+    Property(
         "price",
         "Price",
-        "The price that the Stop Loss Order will be triggered at.",
+        "The price that the Stop Loss Order will be triggered at. Only one of the price and distance fields may be specified.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "distance",
+        "Price Distance",
+        "Specifies the distance (in price units) from the Trade's open price to use as the Stop Loss Order price. Only one of the distance and price fields may be specified.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
         "timeInForce",
         "Time In Force",
         "The time in force for the created Stop Loss Order. This may only be GTC, GTD or GFD.",
@@ -9057,41 +8913,46 @@ transaction_StopLossDetails = [
         None,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date when the Stop Loss Order will be cancelled on if timeInForce is GTD.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The Client Extensions to add to the Stop Loss Order when created.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
+    ),
+    Property(
+        "guaranteed",
+        "Guaranteed",
+        "Flag indicating that the price for the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        "primitive",
+        "boolean",
+        None,
+        None
     ),
 ]
 
 transaction_TrailingStopLossDetails = [
- 
-    Property( 
+    Property(
         "distance",
         "Trailing Price Distance",
         "The distance (in price units) from the Trade's fill price that the Trailing Stop Loss Order will be triggered at.",
         "primitive",
-        "pricing.PriceValue",
+        "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timeInForce",
         "Time In Force",
         "The time in force for the created Trailing Stop Loss Order. This may only be GTC, GTD or GFD.",
@@ -9100,334 +8961,346 @@ transaction_TrailingStopLossDetails = [
         None,
         "GTC"
     ),
- 
-    Property( 
+    Property(
         "gtdTime",
         "GTD Time",
         "The date when the Trailing Stop Loss Order will be cancelled on if timeInForce is GTD.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The Client Extensions to add to the Trailing Stop Loss Order when created.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TradeOpen = [
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade that was opened",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The number of units opened by the Trade",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "price",
+        "Units Opened Price",
+        "The average price that the units were opened at.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFee",
+        "Guranteed Execution Fee",
+        "This is the fee charged for opening the trade if it has a guaranteed Stop Loss Order attached to it.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions for the newly opened Trade",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
+    ),
+    Property(
+        "halfSpreadCost",
+        "Half Spread Cost",
+        "The half spread cost for the trade open. This can be a positive or negative value and is represented in the home currency of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "initialMarginRequired",
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
     ),
 ]
 
 transaction_TradeReduce = [
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade that was reduced or closed",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "The number of units that the Trade was reduced by",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "price",
+        "Units Closed Price",
+        "The average price that the units were closed at. This price may be clamped for guaranteed Stop Loss Orders.",
+        "primitive",
+        "pricing.PriceValue",
+        None,
+        None
+    ),
+    Property(
         "realizedPL",
         "Profit/Loss",
         "The PL realized when reducing the Trade",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "financing",
         "Financing",
         "The financing paid/collected when reducing the Trade",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
+    ),
+    Property(
+        "guaranteedExecutionFee",
+        "Guranteed Execution Fee",
+        "This is the fee that is charged for closing the Trade if it has a guaranteed Stop Loss Order attached to it.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "halfSpreadCost",
+        "Half Spread Cost",
+        "The half spread cost for the trade reduce/close. This can be a positive or negative value and is represented in the home currency of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
     ),
 ]
 
 transaction_MarketOrderTradeClose = [
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade requested to be closed",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The client ID of the Trade requested to be closed",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "Indication of how much of the Trade to close. Either \"ALL\", or a DecimalNumber reflection a partial close of the Trade.",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarketOrderMarginCloseout = [
- 
-    Property( 
+    Property(
         "reason",
         "Reason",
         "The reason the Market Order was created to perform a margin closeout",
         "primitive",
         "transaction.MarketOrderMarginCloseoutReason",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarketOrderDelayedTradeClose = [
- 
-    Property( 
+    Property(
         "tradeID",
         "Trade ID",
         "The ID of the Trade being closed",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientTradeID",
         "Client Trade ID",
         "The Client ID of the Trade being closed",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "sourceTransactionID",
         "Source Transaction ID",
         "The Transaction ID of the DelayedTradeClosure transaction to which this Delayed Trade Close belongs to",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_MarketOrderPositionCloseout = [
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The instrument of the Position being closed out.",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "units",
         "Amount",
         "Indication of how much of the Position to close. Either \"ALL\", or a DecimalNumber reflection a partial close of the Trade. The DecimalNumber must always be positive, and represent a number that doesn't exceed the absolute size of the Position.",
         "primitive",
         "string",
         None,
-        None 
-    ),
-]
-
-transaction_VWAPReceipt = [
- 
-    Property( 
-        "units",
-        "Fill Amount",
-        "The number of units filled",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None 
-    ),
- 
-    Property( 
-        "price",
-        "Fill Price",
-        "The price at which the units were filled",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None 
+        None
     ),
 ]
 
 transaction_LiquidityRegenerationSchedule = [
- 
-    Property( 
+    Property(
         "steps",
         "Steps",
         "The steps in the Liquidity Regeneration Schedule",
         "array_object",
         "LiquidityRegenerationScheduleStep",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_LiquidityRegenerationScheduleStep = [
- 
-    Property( 
+    Property(
         "timestamp",
         "Time",
         "The timestamp of the schedule step.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "bidLiquidityUsed",
         "Bid Liquidity Used",
         "The amount of bid liquidity used at this step in the schedule.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "askLiquidityUsed",
         "Ask Liquidity Used",
         "The amount of ask liquidity used at this step in the schedule.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_OpenTradeFinancing = [
- 
-    Property( 
+    Property(
         "tradeID",
         "tradeID",
         "The ID of the Trade that financing is being paid/collected for.",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "financing",
         "Financing",
         "The amount of financing paid/collected for the Trade.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_PositionFinancing = [
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The instrument of the Position that financing is being paid/collected for.",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "financing",
         "Financing",
         "The amount of financing paid/collected for the Position.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "openTradeFinancings",
         "Trade Financings",
         "The financing paid/collecte for each open Trade within the Position.",
         "array_object",
         "OpenTradeFinancing",
         None,
-        None 
+        None
     ),
 ]
 
 transaction_TransactionHeartbeat = [
- 
-    Property( 
+    Property(
         "type",
         "type",
         "The string \"HEARTBEAT\"",
@@ -9436,31 +9309,28 @@ transaction_TransactionHeartbeat = [
         None,
         "HEARTBEAT"
     ),
- 
-    Property( 
+    Property(
         "lastTransactionID",
         "lastTransactionID",
         "The ID of the most recent Transaction created for the Account",
         "primitive",
         "transaction.TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "time",
         "The date/time when the TransactionHeartbeat was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
 ]
 
 pricing_Price = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The string \"PRICE\". Used to identify the a Price object when found in a stream.",
@@ -9469,210 +9339,229 @@ pricing_Price = [
         None,
         "PRICE"
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Price's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Price was created",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "status",
         "Status",
         "The status of the Price.",
         "primitive",
         "pricing.PriceStatus",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeable",
         "Is Tradeable",
         "Flag indicating if the Price is tradeable or not",
         "primitive",
         "boolean",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "bids",
         "Bids",
         "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
         "array_object",
         "PriceBucket",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "asks",
         "Asks",
         "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
         "array_object",
         "PriceBucket",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "closeoutBid",
         "Closeout Bid",
         "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "closeoutAsk",
         "Closeout Ask",
         "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "quoteHomeConversionFactors",
         "Quote Home Conversions",
-        "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency.",
+        "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency. When the includeHomeConversions is present in the pricing request (regardless of its value), this field will not be present.",
         "object",
         "pricing.QuoteHomeConversionFactors",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unitsAvailable",
         "Units Available",
         "Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.",
         "object",
         "order.UnitsAvailable",
         None,
-        None 
+        None
     ),
 ]
 
 pricing_PriceBucket = [
- 
-    Property( 
+    Property(
         "price",
         "Price",
         "The Price offered by the PriceBucket",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "liquidity",
         "Liquidity",
         "The amount of liquidity offered by the PriceBucket",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
 ]
 
 pricing_QuoteHomeConversionFactors = [
- 
-    Property( 
+    Property(
         "positiveUnits",
         "Positive Units",
         "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "negativeUnits",
         "Negative Units",
         "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
+    ),
+]
+
+pricing_HomeConversions = [
+    Property(
+        "currency",
+        "currency",
+        "The currency to be converted into the home currency.",
+        "primitive",
+        "primitives.Currency",
+        None,
+        None
+    ),
+    Property(
+        "accountGain",
+        "Account Gain",
+        "The factor used to convert any gains for an Account in the specified currency into the Account's home currency. This would include positive realized P/L and positive financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "accountLoss",
+        "Account Loss The factor used to convert any losses for an Account in the specified currency into the Account's home currency. This would include negative realized P/L and negative financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.",
+        "The string representation of a decimal number.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "positionValue",
+        "Position Value",
+        "The factor used to convert a Position or Trade Value in the specified currency into the Account's home currency. Conversion is performed by multiplying the Position or Trade Value by the conversion factor.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
     ),
 ]
 
 pricing_ClientPrice = [
- 
-    Property( 
+    Property(
         "bids",
         "Bids",
         "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
         "array_object",
         "PriceBucket",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "asks",
         "Asks",
         "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
         "array_object",
         "PriceBucket",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "closeoutBid",
         "Closeout Bid",
         "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "closeoutAsk",
         "Closeout Ask",
         "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "timestamp",
         "Timestamp",
         "The date/time when the Price was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
 ]
 
 pricing_PricingHeartbeat = [
- 
-    Property( 
+    Property(
         "type",
         "Type",
         "The string \"HEARTBEAT\"",
@@ -9681,838 +9570,836 @@ pricing_PricingHeartbeat = [
         None,
         "HEARTBEAT"
     ),
- 
-    Property( 
+    Property(
         "time",
         "Time",
         "The date/time when the Heartbeat was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
 ]
 
 primitives_Instrument = [
- 
-    Property( 
+    Property(
         "name",
         "name",
         "The name of the Instrument",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "type",
         "type",
         "The type of the Instrument",
         "primitive",
         "primitives.InstrumentType",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "displayName",
         "displayName",
         "The display name of the Instrument",
         "primitive",
         "string",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "pipLocation",
         "pipLocation",
         "The location of the \"pip\" for this instrument. The decimal position of the pip in this Instrument's price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001).",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "displayPrecision",
         "displayPrecision",
         "The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of \"1\" being displayed as \"1.00000\")",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "tradeUnitsPrecision",
         "tradeUnitsPrecision",
         "The amount of decimal places that may be provided when specifying the number of units traded for this instrument.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "minimumTradeSize",
         "minimumTradeSize",
         "The smallest number of units allowed to be traded for this instrument.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "maximumTrailingStopDistance",
         "maximumTrailingStopDistance",
         "The maximum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "minimumTrailingStopDistance",
         "minimumTrailingStopDistance",
         "The minimum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "maximumPositionSize",
         "maximumPositionSize",
         "The maximum position size allowed for this instrument. Specified in units.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "maximumOrderUnits",
         "maximumOrderUnits",
         "The maximum units allowed for an Order placed for this instrument. Specified in units.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "marginRate",
         "marginRate",
         "The margin rate for this instrument.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "commission",
         "commission",
         "The commission structure for this instrument.",
         "object",
         "primitives.InstrumentCommission",
         None,
-        None 
+        None
     ),
 ]
 
 primitives_InstrumentCommission = [
- 
-    Property( 
-        "instrument",
-        "instrument",
-        "The name of the instrument",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None 
-    ),
- 
-    Property( 
+    Property(
         "commission",
         "commission",
         "The commission amount (in the Account's home currency) charged per unitsTraded of the instrument",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unitsTraded",
         "unitsTraded",
         "The number of units traded that the commission amount is based on.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "minimumCommission",
         "minimumCommission",
         "The minimum commission amount (in the Account's home currency) that is charged when an Order is filled for this instrument.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
+    ),
+]
+
+primitives_GuaranteedStopLossOrderLevelRestriction = [
+    Property(
+        "volume",
+        "volume",
+        "Applies to Trades with a guaranteed Stop Loss Order attached for the specified Instrument. This is the total allowed Trade volume that can exist within the priceRange based on the trigger prices of the guaranteed Stop Loss Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "priceRange",
+        "priceRange",
+        "The price range the volume applies to. This value is in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+site_MT4TransactionHeartbeat = [
+    Property(
+        "type",
+        "type",
+        "The string \"HEARTBEAT\"",
+        "primitive",
+        "string",
+        None,
+        "HEARTBEAT"
+    ),
+    Property(
+        "time",
+        "time",
+        "The date/time when the TransactionHeartbeat was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
     ),
 ]
 
 trade_Trade = [
- 
-    Property( 
+    Property(
         "id",
         "Trade ID",
         "The Trade's identifier, unique within the Trade's Account.",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Trade's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Fill Price",
         "The execution price of the Trade.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "openTime",
         "Open Time",
         "The date/time when the Trade was opened.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Trade.",
         "primitive",
         "trade.TradeState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "initialUnits",
         "Initial Trade Units",
         "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "initialMarginRequired",
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "currentUnits",
         "Current Open Trade Units",
         "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "realizedPL",
         "Realized Profit/Loss",
         "The total profit/loss realized on the closed portion of the Trade.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unrealizedPL",
         "Unrealized Profit/Loss",
         "The unrealized profit/loss on the open portion of the Trade.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "averageClosePrice",
         "Average Close Price",
         "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "closingTransactionIDs",
         "Closing Transaction IDs",
         "The IDs of the Transactions that have closed portions of this Trade.",
         "array_primitive",
         "TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "financing",
         "Financing",
         "The financing paid/collected for this Trade.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "closeTime",
         "Close Time",
         "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Trade.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOrder",
         "Take Profit Order",
         "Full representation of the Trade's Take Profit Order, only provided if such an Order exists.",
         "object",
         "order.TakeProfitOrder",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOrder",
         "Stop Loss Order",
         "Full representation of the Trade's Stop Loss Order, only provided if such an Order exists.",
         "object",
         "order.StopLossOrder",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOrder",
         "Trailing Stop Loss Order",
         "Full representation of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
         "object",
         "order.TrailingStopLossOrder",
         None,
-        None 
+        None
     ),
 ]
 
 trade_TradeSummary = [
- 
-    Property( 
+    Property(
         "id",
         "Trade ID",
         "The Trade's identifier, unique within the Trade's Account.",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "instrument",
         "Instrument",
         "The Trade's Instrument.",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "Fill Price",
         "The execution price of the Trade.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "openTime",
         "Open Time",
         "The date/time when the Trade was opened.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "state",
         "State",
         "The current state of the Trade.",
         "primitive",
         "trade.TradeState",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "initialUnits",
         "Initial Trade Units",
         "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "initialMarginRequired",
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "currentUnits",
         "Current Open Trade Units",
         "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "realizedPL",
         "Realized Profit/Loss",
         "The total profit/loss realized on the closed portion of the Trade.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unrealizedPL",
         "Unrealized Profit/Loss",
         "The unrealized profit/loss on the open portion of the Trade.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
         "averageClosePrice",
         "Average Close Price",
         "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "closingTransactionIDs",
         "Closing Transaction IDs",
         "The IDs of the Transactions that have closed portions of this Trade.",
         "array_primitive",
         "TransactionID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "financing",
         "Financing",
         "The financing paid/collected for this Trade.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "closeTime",
         "Close Time",
         "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "clientExtensions",
         "Client Extensions",
         "The client extensions of the Trade.",
         "object",
         "transaction.ClientExtensions",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "takeProfitOrderID",
         "Take Profit Order ID",
         "ID of the Trade's Take Profit Order, only provided if such an Order exists.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "stopLossOrderID",
         "Stop Loss Order ID",
         "ID of the Trade's Stop Loss Order, only provided if such an Order exists.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "trailingStopLossOrderID",
         "Trailing Stop Loss Order ID",
         "ID of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
         "primitive",
         "order.OrderID",
         None,
-        None 
+        None
     ),
 ]
 
 trade_CalculatedTradeState = [
- 
-    Property( 
+    Property(
         "id",
         "Trade ID",
         "The Trade's ID.",
         "primitive",
         "trade.TradeID",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "unrealizedPL",
         "Trade UPL",
         "The Trade's unrealized profit/loss.",
         "primitive",
         "primitives.AccountUnits",
         None,
-        None 
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
     ),
 ]
 
 instrument_Candlestick = [
- 
-    Property( 
+    Property(
         "time",
         "time",
         "The start time of the candlestick",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "bid",
         "bid",
         "The candlestick data based on bids. Only provided if bid-based candles were requested.",
         "object",
         "instrument.CandlestickData",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "ask",
         "ask",
         "The candlestick data based on asks. Only provided if ask-based candles were requested.",
         "object",
         "instrument.CandlestickData",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "mid",
         "mid",
         "The candlestick data based on midpoints. Only provided if midpoint-based candles were requested.",
         "object",
         "instrument.CandlestickData",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "volume",
         "volume",
         "The number of prices created during the time-range represented by the candlestick.",
         "primitive",
         "integer",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "complete",
         "complete",
         "A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future.",
         "primitive",
         "boolean",
         None,
-        None 
+        None
     ),
 ]
 
 instrument_CandlestickData = [
- 
-    Property( 
+    Property(
         "o",
         "o",
         "The first (open) price in the time-range represented by the candlestick.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "h",
         "h",
         "The highest price in the time-range represented by the candlestick.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "l",
         "l",
         "The lowest price in the time-range represented by the candlestick.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "c",
         "c",
         "The last (closing) price in the time-range represented by the candlestick.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
 ]
 
 instrument_OrderBook = [
- 
-    Property( 
+    Property(
         "instrument",
         "instrument",
         "The order book's instrument",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "time",
         "The time when the order book snapshot was created.",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "price",
         "The price (midpoint) for the order book's instrument at the time of the order book snapshot",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "bucketWidth",
         "bucketWidth",
         "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "buckets",
         "buckets",
         "The partitioned order book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
         "array_object",
         "OrderBookBucket",
         None,
-        None 
+        None
     ),
 ]
 
 instrument_OrderBookBucket = [
- 
-    Property( 
+    Property(
         "price",
         "price",
         "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "longCountPercent",
         "longCountPercent",
         "The percentage of the total number of orders represented by the long orders found in this bucket.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "shortCountPercent",
         "shortCountPercent",
         "The percentage of the total number of orders represented by the short orders found in this bucket.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
 ]
 
 instrument_PositionBook = [
- 
-    Property( 
+    Property(
         "instrument",
         "instrument",
         "The position book's instrument",
         "primitive",
         "primitives.InstrumentName",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "time",
         "time",
         "The time when the position book snapshot was created",
         "primitive",
         "primitives.DateTime",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "price",
         "price",
         "The price (midpoint) for the position book's instrument at the time of the position book snapshot",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "bucketWidth",
         "bucketWidth",
         "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "buckets",
         "buckets",
         "The partitioned position book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
         "array_object",
         "PositionBookBucket",
         None,
-        None 
+        None
     ),
 ]
 
 instrument_PositionBookBucket = [
- 
-    Property( 
+    Property(
         "price",
         "price",
         "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.",
         "primitive",
         "pricing.PriceValue",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "longCountPercent",
         "longCountPercent",
         "The percentage of the total number of positions represented by the long positions found in this bucket.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
- 
-    Property( 
+    Property(
         "shortCountPercent",
         "shortCountPercent",
         "The percentage of the total number of positions represented by the short positions found in this bucket.",
         "primitive",
         "primitives.DecimalNumber",
         None,
-        None 
+        None
     ),
 ]
 

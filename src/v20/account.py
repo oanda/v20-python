@@ -50,8 +50,7 @@ class Account(BaseEntity):
         self.currency = kwargs.get("currency")
  
         #
-        # The current balance of the Account. Represented in the Account's home
-        # currency.
+        # The current balance of the Account.
         #
         self.balance = kwargs.get("balance")
  
@@ -66,27 +65,42 @@ class Account(BaseEntity):
         self.createdTime = kwargs.get("createdTime")
  
         #
+        # The current guaranteed Stop Loss Order mode of the Account.
+        #
+        self.guaranteedStopLossOrderMode = kwargs.get("guaranteedStopLossOrderMode")
+ 
+        #
         # The total profit/loss realized over the lifetime of the Account.
-        # Represented in the Account's home currency.
         #
         self.pl = kwargs.get("pl")
  
         #
         # The total realized profit/loss for the Account since it was last
-        # reset by the client. Represented in the Account's home currency.
+        # reset by the client.
         #
         self.resettablePL = kwargs.get("resettablePL")
  
         #
         # The date/time that the Account's resettablePL was last reset.
         #
-        self.resettabledPLTime = kwargs.get("resettabledPLTime")
+        self.resettablePLTime = kwargs.get("resettablePLTime")
+ 
+        #
+        # The total amount of financing paid/collected over the lifetime of the
+        # Account.
+        #
+        self.financing = kwargs.get("financing")
  
         #
         # The total amount of commission paid over the lifetime of the Account.
-        # Represented in the Account's home currency.
         #
         self.commission = kwargs.get("commission")
+ 
+        #
+        # The total amount of fees charged over the lifetime of the Account for
+        # the execution of guaranteed Stop Loss Orders.
+        #
+        self.guaranteedExecutionFees = kwargs.get("guaranteedExecutionFees")
  
         #
         # Client-provided margin rate override for the Account. The effective
@@ -135,25 +149,23 @@ class Account(BaseEntity):
  
         #
         # The total unrealized profit/loss for all Trades currently open in the
-        # Account. Represented in the Account's home currency.
+        # Account.
         #
         self.unrealizedPL = kwargs.get("unrealizedPL")
  
         #
         # The net asset value of the Account. Equal to Account balance +
-        # unrealizedPL. Represented in the Account's home currency.
+        # unrealizedPL.
         #
         self.NAV = kwargs.get("NAV")
  
         #
-        # Margin currently used for the Account. Represented in the Account's
-        # home currency.
+        # Margin currently used for the Account.
         #
         self.marginUsed = kwargs.get("marginUsed")
  
         #
-        # Margin available for Account. Represented in the Account's home
-        # currency.
+        # Margin available for Account currency.
         #
         self.marginAvailable = kwargs.get("marginAvailable")
  
@@ -253,9 +265,19 @@ class Account(BaseEntity):
                 data.get('resettablePL')
             )
 
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
+
         if data.get('commission') is not None:
             data['commission'] = ctx.convert_decimal_number(
                 data.get('commission')
+            )
+
+        if data.get('guaranteedExecutionFees') is not None:
+            data['guaranteedExecutionFees'] = ctx.convert_decimal_number(
+                data.get('guaranteedExecutionFees')
             )
 
         if data.get('marginRate') is not None:
@@ -380,25 +402,23 @@ class AccountChangesState(BaseEntity):
  
         #
         # The total unrealized profit/loss for all Trades currently open in the
-        # Account. Represented in the Account's home currency.
+        # Account.
         #
         self.unrealizedPL = kwargs.get("unrealizedPL")
  
         #
         # The net asset value of the Account. Equal to Account balance +
-        # unrealizedPL. Represented in the Account's home currency.
+        # unrealizedPL.
         #
         self.NAV = kwargs.get("NAV")
  
         #
-        # Margin currently used for the Account. Represented in the Account's
-        # home currency.
+        # Margin currently used for the Account.
         #
         self.marginUsed = kwargs.get("marginUsed")
  
         #
-        # Margin available for Account. Represented in the Account's home
-        # currency.
+        # Margin available for Account currency.
         #
         self.marginAvailable = kwargs.get("marginAvailable")
  
@@ -665,8 +685,7 @@ class AccountSummary(BaseEntity):
         self.currency = kwargs.get("currency")
  
         #
-        # The current balance of the Account. Represented in the Account's home
-        # currency.
+        # The current balance of the Account.
         #
         self.balance = kwargs.get("balance")
  
@@ -681,27 +700,42 @@ class AccountSummary(BaseEntity):
         self.createdTime = kwargs.get("createdTime")
  
         #
+        # The current guaranteed Stop Loss Order mode of the Account.
+        #
+        self.guaranteedStopLossOrderMode = kwargs.get("guaranteedStopLossOrderMode")
+ 
+        #
         # The total profit/loss realized over the lifetime of the Account.
-        # Represented in the Account's home currency.
         #
         self.pl = kwargs.get("pl")
  
         #
         # The total realized profit/loss for the Account since it was last
-        # reset by the client. Represented in the Account's home currency.
+        # reset by the client.
         #
         self.resettablePL = kwargs.get("resettablePL")
  
         #
         # The date/time that the Account's resettablePL was last reset.
         #
-        self.resettabledPLTime = kwargs.get("resettabledPLTime")
+        self.resettablePLTime = kwargs.get("resettablePLTime")
+ 
+        #
+        # The total amount of financing paid/collected over the lifetime of the
+        # Account.
+        #
+        self.financing = kwargs.get("financing")
  
         #
         # The total amount of commission paid over the lifetime of the Account.
-        # Represented in the Account's home currency.
         #
         self.commission = kwargs.get("commission")
+ 
+        #
+        # The total amount of fees charged over the lifetime of the Account for
+        # the execution of guaranteed Stop Loss Orders.
+        #
+        self.guaranteedExecutionFees = kwargs.get("guaranteedExecutionFees")
  
         #
         # Client-provided margin rate override for the Account. The effective
@@ -750,25 +784,23 @@ class AccountSummary(BaseEntity):
  
         #
         # The total unrealized profit/loss for all Trades currently open in the
-        # Account. Represented in the Account's home currency.
+        # Account.
         #
         self.unrealizedPL = kwargs.get("unrealizedPL")
  
         #
         # The net asset value of the Account. Equal to Account balance +
-        # unrealizedPL. Represented in the Account's home currency.
+        # unrealizedPL.
         #
         self.NAV = kwargs.get("NAV")
  
         #
-        # Margin currently used for the Account. Represented in the Account's
-        # home currency.
+        # Margin currently used for the Account.
         #
         self.marginUsed = kwargs.get("marginUsed")
  
         #
-        # Margin available for Account. Represented in the Account's home
-        # currency.
+        # Margin available for Account currency.
         #
         self.marginAvailable = kwargs.get("marginAvailable")
  
@@ -853,9 +885,19 @@ class AccountSummary(BaseEntity):
                 data.get('resettablePL')
             )
 
+        if data.get('financing') is not None:
+            data['financing'] = ctx.convert_decimal_number(
+                data.get('financing')
+            )
+
         if data.get('commission') is not None:
             data['commission'] = ctx.convert_decimal_number(
                 data.get('commission')
+            )
+
+        if data.get('guaranteedExecutionFees') is not None:
+            data['guaranteedExecutionFees'] = ctx.convert_decimal_number(
+                data.get('guaranteedExecutionFees')
             )
 
         if data.get('marginRate') is not None:
@@ -929,6 +971,183 @@ class AccountSummary(BaseEntity):
             )
 
         return AccountSummary(**data)
+
+
+class CalculatedAccountState(BaseEntity):
+    """
+    The dynamically calculated state of a client's Account.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.account_CalculatedAccountState
+
+    def __init__(self, **kwargs):
+        """
+        Create a new CalculatedAccountState instance
+        """
+        super(CalculatedAccountState, self).__init__()
+ 
+        #
+        # The total unrealized profit/loss for all Trades currently open in the
+        # Account.
+        #
+        self.unrealizedPL = kwargs.get("unrealizedPL")
+ 
+        #
+        # The net asset value of the Account. Equal to Account balance +
+        # unrealizedPL.
+        #
+        self.NAV = kwargs.get("NAV")
+ 
+        #
+        # Margin currently used for the Account.
+        #
+        self.marginUsed = kwargs.get("marginUsed")
+ 
+        #
+        # Margin available for Account currency.
+        #
+        self.marginAvailable = kwargs.get("marginAvailable")
+ 
+        #
+        # The value of the Account's open positions represented in the
+        # Account's home currency.
+        #
+        self.positionValue = kwargs.get("positionValue")
+ 
+        #
+        # The Account's margin closeout unrealized PL.
+        #
+        self.marginCloseoutUnrealizedPL = kwargs.get("marginCloseoutUnrealizedPL")
+ 
+        #
+        # The Account's margin closeout NAV.
+        #
+        self.marginCloseoutNAV = kwargs.get("marginCloseoutNAV")
+ 
+        #
+        # The Account's margin closeout margin used.
+        #
+        self.marginCloseoutMarginUsed = kwargs.get("marginCloseoutMarginUsed")
+ 
+        #
+        # The Account's margin closeout percentage. When this value is 1.0 or
+        # above the Account is in a margin closeout situation.
+        #
+        self.marginCloseoutPercent = kwargs.get("marginCloseoutPercent")
+ 
+        #
+        # The value of the Account's open positions as used for margin closeout
+        # calculations represented in the Account's home currency.
+        #
+        self.marginCloseoutPositionValue = kwargs.get("marginCloseoutPositionValue")
+ 
+        #
+        # The current WithdrawalLimit for the account which will be zero or a
+        # positive value indicating how much can be withdrawn from the account.
+        #
+        self.withdrawalLimit = kwargs.get("withdrawalLimit")
+ 
+        #
+        # The Account's margin call margin used.
+        #
+        self.marginCallMarginUsed = kwargs.get("marginCallMarginUsed")
+ 
+        #
+        # The Account's margin call percentage. When this value is 1.0 or above
+        # the Account is in a margin call situation.
+        #
+        self.marginCallPercent = kwargs.get("marginCallPercent")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new CalculatedAccountState from a dict (generally from
+        loading a JSON response). The data used to instantiate the
+        CalculatedAccountState is a shallow copy of the dict passed in, with
+        any complex child types instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('unrealizedPL') is not None:
+            data['unrealizedPL'] = ctx.convert_decimal_number(
+                data.get('unrealizedPL')
+            )
+
+        if data.get('NAV') is not None:
+            data['NAV'] = ctx.convert_decimal_number(
+                data.get('NAV')
+            )
+
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
+            )
+
+        if data.get('marginAvailable') is not None:
+            data['marginAvailable'] = ctx.convert_decimal_number(
+                data.get('marginAvailable')
+            )
+
+        if data.get('positionValue') is not None:
+            data['positionValue'] = ctx.convert_decimal_number(
+                data.get('positionValue')
+            )
+
+        if data.get('marginCloseoutUnrealizedPL') is not None:
+            data['marginCloseoutUnrealizedPL'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutUnrealizedPL')
+            )
+
+        if data.get('marginCloseoutNAV') is not None:
+            data['marginCloseoutNAV'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutNAV')
+            )
+
+        if data.get('marginCloseoutMarginUsed') is not None:
+            data['marginCloseoutMarginUsed'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutMarginUsed')
+            )
+
+        if data.get('marginCloseoutPercent') is not None:
+            data['marginCloseoutPercent'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPercent')
+            )
+
+        if data.get('marginCloseoutPositionValue') is not None:
+            data['marginCloseoutPositionValue'] = ctx.convert_decimal_number(
+                data.get('marginCloseoutPositionValue')
+            )
+
+        if data.get('withdrawalLimit') is not None:
+            data['withdrawalLimit'] = ctx.convert_decimal_number(
+                data.get('withdrawalLimit')
+            )
+
+        if data.get('marginCallMarginUsed') is not None:
+            data['marginCallMarginUsed'] = ctx.convert_decimal_number(
+                data.get('marginCallMarginUsed')
+            )
+
+        if data.get('marginCallPercent') is not None:
+            data['marginCallPercent'] = ctx.convert_decimal_number(
+                data.get('marginCallPercent')
+            )
+
+        return CalculatedAccountState(**data)
 
 
 class AccountChanges(BaseEntity):
@@ -1084,6 +1303,7 @@ class EntitySpec(object):
     AccountChangesState = AccountChangesState
     AccountProperties = AccountProperties
     AccountSummary = AccountSummary
+    CalculatedAccountState = CalculatedAccountState
     AccountChanges = AccountChanges
 
     def __init__(self, ctx):

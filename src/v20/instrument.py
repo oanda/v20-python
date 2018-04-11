@@ -560,7 +560,8 @@ class EntitySpec(object):
             alignmentTimezone:
                 The timezone to use for the dailyAlignment parameter.
                 Candlesticks with daily alignment will be aligned to the
-                dailyAlignment hour within the alignmentTimezone.
+                dailyAlignment hour within the alignmentTimezone.  Note that
+                the returned times will still be represented in UTC.
             weeklyAlignment:
                 The day of the week used for granularities that have weekly
                 alignment.

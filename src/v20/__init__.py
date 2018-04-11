@@ -6,6 +6,7 @@ from v20 import user
 from v20 import transaction
 from v20 import pricing
 from v20 import primitives
+from v20 import site
 from v20 import trade
 from v20 import instrument
 from v20.response import Response
@@ -73,7 +74,7 @@ class Context(object):
         if application != "":
             extensions = " ({})".format(application)
 
-        oanda_agent = "v20-python/3.0.18{}".format(extensions)
+        oanda_agent = "v20-python/3.0.22{}".format(extensions)
 
         #
         # Context headers to add to every request sent to the server
@@ -137,6 +138,7 @@ class Context(object):
         self.transaction = transaction.EntitySpec(self)
         self.pricing = pricing.EntitySpec(self)
         self.primitives = primitives.EntitySpec(self)
+        self.site = site.EntitySpec(self)
         self.trade = trade.EntitySpec(self)
         self.instrument = instrument.EntitySpec(self)
 
@@ -307,7 +309,7 @@ class Context(object):
             raise V20Timeout(url, "connect")
         except requests.exceptions.ReadTimeout:
             raise V20Timeout(url, "read")
-            
+
         request.headers = http_response.request.headers
 
         response = Response(

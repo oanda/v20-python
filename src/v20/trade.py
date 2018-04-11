@@ -66,6 +66,13 @@ class Trade(BaseEntity):
         self.initialUnits = kwargs.get("initialUnits")
  
         #
+        # The margin required at the time the Trade was created. Note, this is
+        # the 'pure' margin required, it is not the 'effective' margin used
+        # that factors in the trade risk if a GSLO is attached to the trade.
+        #
+        self.initialMarginRequired = kwargs.get("initialMarginRequired")
+ 
+        #
         # The number of units currently open for the Trade. This value is
         # reduced to 0.0 as the Trade is closed.
         #
@@ -80,6 +87,11 @@ class Trade(BaseEntity):
         # The unrealized profit/loss on the open portion of the Trade.
         #
         self.unrealizedPL = kwargs.get("unrealizedPL")
+ 
+        #
+        # Margin currently used by the Trade.
+        #
+        self.marginUsed = kwargs.get("marginUsed")
  
         #
         # The average closing price of the Trade. Only present if the Trade has
@@ -147,6 +159,11 @@ class Trade(BaseEntity):
                 data.get('initialUnits')
             )
 
+        if data.get('initialMarginRequired') is not None:
+            data['initialMarginRequired'] = ctx.convert_decimal_number(
+                data.get('initialMarginRequired')
+            )
+
         if data.get('currentUnits') is not None:
             data['currentUnits'] = ctx.convert_decimal_number(
                 data.get('currentUnits')
@@ -160,6 +177,11 @@ class Trade(BaseEntity):
         if data.get('unrealizedPL') is not None:
             data['unrealizedPL'] = ctx.convert_decimal_number(
                 data.get('unrealizedPL')
+            )
+
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
             )
 
         if data.get('averageClosePrice') is not None:
@@ -259,6 +281,13 @@ class TradeSummary(BaseEntity):
         self.initialUnits = kwargs.get("initialUnits")
  
         #
+        # The margin required at the time the Trade was created. Note, this is
+        # the 'pure' margin required, it is not the 'effective' margin used
+        # that factors in the trade risk if a GSLO is attached to the trade.
+        #
+        self.initialMarginRequired = kwargs.get("initialMarginRequired")
+ 
+        #
         # The number of units currently open for the Trade. This value is
         # reduced to 0.0 as the Trade is closed.
         #
@@ -273,6 +302,11 @@ class TradeSummary(BaseEntity):
         # The unrealized profit/loss on the open portion of the Trade.
         #
         self.unrealizedPL = kwargs.get("unrealizedPL")
+ 
+        #
+        # Margin currently used by the Trade.
+        #
+        self.marginUsed = kwargs.get("marginUsed")
  
         #
         # The average closing price of the Trade. Only present if the Trade has
@@ -340,6 +374,11 @@ class TradeSummary(BaseEntity):
                 data.get('initialUnits')
             )
 
+        if data.get('initialMarginRequired') is not None:
+            data['initialMarginRequired'] = ctx.convert_decimal_number(
+                data.get('initialMarginRequired')
+            )
+
         if data.get('currentUnits') is not None:
             data['currentUnits'] = ctx.convert_decimal_number(
                 data.get('currentUnits')
@@ -353,6 +392,11 @@ class TradeSummary(BaseEntity):
         if data.get('unrealizedPL') is not None:
             data['unrealizedPL'] = ctx.convert_decimal_number(
                 data.get('unrealizedPL')
+            )
+
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
             )
 
         if data.get('averageClosePrice') is not None:
@@ -410,6 +454,11 @@ class CalculatedTradeState(BaseEntity):
         # The Trade's unrealized profit/loss.
         #
         self.unrealizedPL = kwargs.get("unrealizedPL")
+ 
+        #
+        # Margin currently used by the Trade.
+        #
+        self.marginUsed = kwargs.get("marginUsed")
 
     @staticmethod
     def from_dict(data, ctx):
@@ -425,6 +474,11 @@ class CalculatedTradeState(BaseEntity):
         if data.get('unrealizedPL') is not None:
             data['unrealizedPL'] = ctx.convert_decimal_number(
                 data.get('unrealizedPL')
+            )
+
+        if data.get('marginUsed') is not None:
+            data['marginUsed'] = ctx.convert_decimal_number(
+                data.get('marginUsed')
             )
 
         return CalculatedTradeState(**data)

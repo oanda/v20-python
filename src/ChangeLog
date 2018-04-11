@@ -1,5 +1,29 @@
 OANDA v20 API Change Log
 
+Version 3.0.22 (April 11, 2018)
+
+	* Various documentation and example improvements
+
+	* Added Guaranteed Stop Loss Order support
+
+
+Version 3.0.21 (November 08, 2017)
+
+	* Include error code and error message in request exceptions (Java)
+
+	* Improved README.md (Java)
+
+
+Version 3.0.20 (September 26, 2017)
+
+	* Added toString() methods to Java classes
+
+
+Version 3.0.19 (September 12, 2017)
+
+	* Corrected encoding of CSV query parameters in Java
+
+
 Version 3.0.18 (May 12, 2017)
 
 	* Corrected handling of Collections in Java implementation

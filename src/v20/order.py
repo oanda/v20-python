@@ -194,6 +194,8 @@ class Order(BaseEntity):
 
         if type == "MARKET":
             return MarketOrder.from_dict(data, ctx)
+        if type == "FIXED_PRICE":
+            return FixedPriceOrder.from_dict(data, ctx)
         if type == "LIMIT":
             return LimitOrder.from_dict(data, ctx)
         if type == "STOP":
@@ -494,6 +496,222 @@ class MarketOrder(BaseEntity):
         return MarketOrder(**data)
 
 
+class FixedPriceOrder(BaseEntity):
+    """
+    A FixedPriceOrder is an order that is filled immediately upon creation
+    using a fixed price.
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = "{units} units of {instrument} @ {price}"
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = "Fixed Price Order {id}"
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.order_FixedPriceOrder
+
+    def __init__(self, **kwargs):
+        """
+        Create a new FixedPriceOrder instance
+        """
+        super(FixedPriceOrder, self).__init__()
+ 
+        #
+        # The Order's identifier, unique within the Order's Account.
+        #
+        self.id = kwargs.get("id")
+ 
+        #
+        # The time when the Order was created.
+        #
+        self.createTime = kwargs.get("createTime")
+ 
+        #
+        # The current state of the Order.
+        #
+        self.state = kwargs.get("state")
+ 
+        #
+        # The client extensions of the Order. Do not set, modify, or delete
+        # clientExtensions if your account is associated with MT4.
+        #
+        self.clientExtensions = kwargs.get("clientExtensions")
+ 
+        #
+        # The type of the Order. Always set to "FIXED_PRICE" for Fixed Price
+        # Orders.
+        #
+        self.type = kwargs.get("type", "FIXED_PRICE")
+ 
+        #
+        # The Fixed Price Order's Instrument.
+        #
+        self.instrument = kwargs.get("instrument")
+ 
+        #
+        # The quantity requested to be filled by the Fixed Price Order. A
+        # posititive number of units results in a long Order, and a negative
+        # number of units results in a short Order.
+        #
+        self.units = kwargs.get("units")
+ 
+        #
+        # The price specified for the Fixed Price Order. This price is the
+        # exact price that the Fixed Price Order will be filled at.
+        #
+        self.price = kwargs.get("price")
+ 
+        #
+        # Specification of how Positions in the Account are modified when the
+        # Order is filled.
+        #
+        self.positionFill = kwargs.get("positionFill", "DEFAULT")
+ 
+        #
+        # The state that the trade resulting from the Fixed Price Order should
+        # be set to.
+        #
+        self.tradeState = kwargs.get("tradeState")
+ 
+        #
+        # TakeProfitDetails specifies the details of a Take Profit Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Take Profit, or when a Trade's
+        # dependent Take Profit Order is modified directly through the Trade.
+        #
+        self.takeProfitOnFill = kwargs.get("takeProfitOnFill")
+ 
+        #
+        # StopLossDetails specifies the details of a Stop Loss Order to be
+        # created on behalf of a client. This may happen when an Order is
+        # filled that opens a Trade requiring a Stop Loss, or when a Trade's
+        # dependent Stop Loss Order is modified directly through the Trade.
+        #
+        self.stopLossOnFill = kwargs.get("stopLossOnFill")
+ 
+        #
+        # TrailingStopLossDetails specifies the details of a Trailing Stop Loss
+        # Order to be created on behalf of a client. This may happen when an
+        # Order is filled that opens a Trade requiring a Trailing Stop Loss, or
+        # when a Trade's dependent Trailing Stop Loss Order is modified
+        # directly through the Trade.
+        #
+        self.trailingStopLossOnFill = kwargs.get("trailingStopLossOnFill")
+ 
+        #
+        # Client Extensions to add to the Trade created when the Order is
+        # filled (if such a Trade is created). Do not set, modify, or delete
+        # tradeClientExtensions if your account is associated with MT4.
+        #
+        self.tradeClientExtensions = kwargs.get("tradeClientExtensions")
+ 
+        #
+        # ID of the Transaction that filled this Order (only provided when the
+        # Order's state is FILLED)
+        #
+        self.fillingTransactionID = kwargs.get("fillingTransactionID")
+ 
+        #
+        # Date/time when the Order was filled (only provided when the Order's
+        # state is FILLED)
+        #
+        self.filledTime = kwargs.get("filledTime")
+ 
+        #
+        # Trade ID of Trade opened when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was opened as a result
+        # of the fill)
+        #
+        self.tradeOpenedID = kwargs.get("tradeOpenedID")
+ 
+        #
+        # Trade ID of Trade reduced when the Order was filled (only provided
+        # when the Order's state is FILLED and a Trade was reduced as a result
+        # of the fill)
+        #
+        self.tradeReducedID = kwargs.get("tradeReducedID")
+ 
+        #
+        # Trade IDs of Trades closed when the Order was filled (only provided
+        # when the Order's state is FILLED and one or more Trades were closed
+        # as a result of the fill)
+        #
+        self.tradeClosedIDs = kwargs.get("tradeClosedIDs")
+ 
+        #
+        # ID of the Transaction that cancelled the Order (only provided when
+        # the Order's state is CANCELLED)
+        #
+        self.cancellingTransactionID = kwargs.get("cancellingTransactionID")
+ 
+        #
+        # Date/time when the Order was cancelled (only provided when the state
+        # of the Order is CANCELLED)
+        #
+        self.cancelledTime = kwargs.get("cancelledTime")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new FixedPriceOrder from a dict (generally from loading a
+        JSON response). The data used to instantiate the FixedPriceOrder is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('clientExtensions') is not None:
+            data['clientExtensions'] = \
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['clientExtensions'], ctx
+                )
+
+        if data.get('units') is not None:
+            data['units'] = ctx.convert_decimal_number(
+                data.get('units')
+            )
+
+        if data.get('price') is not None:
+            data['price'] = ctx.convert_decimal_number(
+                data.get('price')
+            )
+
+        if data.get('takeProfitOnFill') is not None:
+            data['takeProfitOnFill'] = \
+                ctx.transaction.TakeProfitDetails.from_dict(
+                    data['takeProfitOnFill'], ctx
+                )
+
+        if data.get('stopLossOnFill') is not None:
+            data['stopLossOnFill'] = \
+                ctx.transaction.StopLossDetails.from_dict(
+                    data['stopLossOnFill'], ctx
+                )
+
+        if data.get('trailingStopLossOnFill') is not None:
+            data['trailingStopLossOnFill'] = \
+                ctx.transaction.TrailingStopLossDetails.from_dict(
+                    data['trailingStopLossOnFill'], ctx
+                )
+
+        if data.get('tradeClientExtensions') is not None:
+            data['tradeClientExtensions'] = \
+                ctx.transaction.ClientExtensions.from_dict(
+                    data['tradeClientExtensions'], ctx
+                )
+
+
+        return FixedPriceOrder(**data)
+
+
 class LimitOrder(BaseEntity):
     """
     A LimitOrder is an order that is created with a price threshold, and will
@@ -584,8 +802,24 @@ class LimitOrder(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -830,8 +1064,24 @@ class StopOrder(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -1086,8 +1336,24 @@ class MarketIfTouchedOrder(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -1338,8 +1604,24 @@ class TakeProfitOrder(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -1483,6 +1765,13 @@ class StopLossOrder(BaseEntity):
         self.type = kwargs.get("type", "STOP_LOSS")
  
         #
+        # The premium that will be charged if the Stop Loss Order is guaranteed
+        # and the Order is filled at the guaranteed price. It is in price units
+        # and is charged for each unit of the Trade.
+        #
+        self.guaranteedExecutionPremium = kwargs.get("guaranteedExecutionPremium")
+ 
+        #
         # The ID of the Trade to close when the price threshold is breached.
         #
         self.tradeID = kwargs.get("tradeID")
@@ -1494,11 +1783,19 @@ class StopLossOrder(BaseEntity):
         self.clientTradeID = kwargs.get("clientTradeID")
  
         #
-        # The price threshold specified for the StopLoss Order. The associated
-        # Trade will be closed by a market price that is equal to or worse than
-        # this threshold.
+        # The price threshold specified for the Stop Loss Order. If the
+        # guaranteed flag is false, the associated Trade will be closed by a
+        # market price that is equal to or worse than this threshold. If the
+        # flag is true the associated Trade will be closed at this price.
         #
         self.price = kwargs.get("price")
+ 
+        #
+        # Specifies the distance (in price units) from the Account's current
+        # price to use as the Stop Loss Order price. If the Trade is short the
+        # Instrument's bid price is used, and for long Trades the ask is used.
+        #
+        self.distance = kwargs.get("distance")
  
         #
         # The time-in-force requested for the StopLoss Order. Restricted to
@@ -1513,10 +1810,34 @@ class StopLossOrder(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
+        # Flag indicating that the Stop Loss Order is guaranteed. The default
+        # value depends on the GuaranteedStopLossOrderMode of the account, if
+        # it is REQUIRED, the default will be true, for DISABLED or ENABLED the
+        # default is false.
+        #
+        self.guaranteed = kwargs.get("guaranteed")
  
         #
         # ID of the Transaction that filled this Order (only provided when the
@@ -1592,9 +1913,19 @@ class StopLossOrder(BaseEntity):
                     data['clientExtensions'], ctx
                 )
 
+        if data.get('guaranteedExecutionPremium') is not None:
+            data['guaranteedExecutionPremium'] = ctx.convert_decimal_number(
+                data.get('guaranteedExecutionPremium')
+            )
+
         if data.get('price') is not None:
             data['price'] = ctx.convert_decimal_number(
                 data.get('price')
+            )
+
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
             )
 
 
@@ -1673,7 +2004,8 @@ class TrailingStopLossOrder(BaseEntity):
         self.clientTradeID = kwargs.get("clientTradeID")
  
         #
-        # The price distance specified for the TrailingStopLoss Order.
+        # The price distance (in price units) specified for the
+        # TrailingStopLoss Order.
         #
         self.distance = kwargs.get("distance")
  
@@ -1690,8 +2022,24 @@ class TrailingStopLossOrder(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -2059,8 +2407,24 @@ class LimitOrderRequest(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -2233,8 +2597,24 @@ class StopOrderRequest(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -2415,8 +2795,24 @@ class MarketIfTouchedOrderRequest(BaseEntity):
         self.positionFill = kwargs.get("positionFill", "DEFAULT")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -2520,7 +2916,8 @@ class MarketIfTouchedOrderRequest(BaseEntity):
 class TakeProfitOrderRequest(BaseEntity):
     """
     A TakeProfitOrderRequest specifies the parameters that may be set when
-    creating a Take Profit Order.
+    creating a Take Profit Order. Only one of the price and distance fields may
+    be specified.
     """
 
     #
@@ -2581,8 +2978,24 @@ class TakeProfitOrderRequest(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -2620,7 +3033,8 @@ class TakeProfitOrderRequest(BaseEntity):
 class StopLossOrderRequest(BaseEntity):
     """
     A StopLossOrderRequest specifies the parameters that may be set when
-    creating a Stop Loss Order.
+    creating a Stop Loss Order. Only one of the price and distance fields may
+    be specified.
     """
 
     #
@@ -2662,11 +3076,19 @@ class StopLossOrderRequest(BaseEntity):
         self.clientTradeID = kwargs.get("clientTradeID")
  
         #
-        # The price threshold specified for the StopLoss Order. The associated
-        # Trade will be closed by a market price that is equal to or worse than
-        # this threshold.
+        # The price threshold specified for the Stop Loss Order. If the
+        # guaranteed flag is false, the associated Trade will be closed by a
+        # market price that is equal to or worse than this threshold. If the
+        # flag is true the associated Trade will be closed at this price.
         #
         self.price = kwargs.get("price")
+ 
+        #
+        # Specifies the distance (in price units) from the Account's current
+        # price to use as the Stop Loss Order price. If the Trade is short the
+        # Instrument's bid price is used, and for long Trades the ask is used.
+        #
+        self.distance = kwargs.get("distance")
  
         #
         # The time-in-force requested for the StopLoss Order. Restricted to
@@ -2681,10 +3103,34 @@ class StopLossOrderRequest(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
+ 
+        #
+        # Flag indicating that the Stop Loss Order is guaranteed. The default
+        # value depends on the GuaranteedStopLossOrderMode of the account, if
+        # it is REQUIRED, the default will be true, for DISABLED or ENABLED the
+        # default is false.
+        #
+        self.guaranteed = kwargs.get("guaranteed")
  
         #
         # The client extensions to add to the Order. Do not set, modify, or
@@ -2706,6 +3152,11 @@ class StopLossOrderRequest(BaseEntity):
         if data.get('price') is not None:
             data['price'] = ctx.convert_decimal_number(
                 data.get('price')
+            )
+
+        if data.get('distance') is not None:
+            data['distance'] = ctx.convert_decimal_number(
+                data.get('distance')
             )
 
         if data.get('clientExtensions') is not None:
@@ -2762,7 +3213,8 @@ class TrailingStopLossOrderRequest(BaseEntity):
         self.clientTradeID = kwargs.get("clientTradeID")
  
         #
-        # The price distance specified for the TrailingStopLoss Order.
+        # The price distance (in price units) specified for the
+        # TrailingStopLoss Order.
         #
         self.distance = kwargs.get("distance")
  
@@ -2779,8 +3231,24 @@ class TrailingStopLossOrderRequest(BaseEntity):
         self.gtdTime = kwargs.get("gtdTime")
  
         #
-        # Specification of what component of a price should be used for
-        # comparison when determining if the Order should be filled.
+        # Specification of which price component should be used when
+        # determining if an Order should be triggered and filled. This allows
+        # Orders to be triggered based on the bid, ask, mid, default (ask for
+        # buy, bid for sell) or inverse (ask for sell, bid for buy) price
+        # depending on the desired behaviour. Orders are always filled using
+        # their default price component. This feature is only provided through
+        # the REST API. Clients who choose to specify a non-default trigger
+        # condition will not see it reflected in any of OANDA's proprietary or
+        # partner trading platforms, their transaction history or their account
+        # statements. OANDA platforms always assume that an Order's trigger
+        # condition is set to the default value when indicating the distance
+        # from an Order's trigger price, and will always provide the default
+        # trigger condition when creating or modifying an Order. A special
+        # restriction applies when creating a guaranteed Stop Loss Order. In
+        # this case the TriggerCondition value must either be "DEFAULT", or the
+        # "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order
+        # for a long trade valid values are "DEFAULT" and "BID", and for short
+        # trades "DEFAULT" and "ASK" are valid.
         #
         self.triggerCondition = kwargs.get("triggerCondition", "DEFAULT")
  
@@ -2968,6 +3436,81 @@ class UnitsAvailable(BaseEntity):
         return UnitsAvailable(**data)
 
 
+class GuaranteedStopLossOrderEntryData(BaseEntity):
+    """
+    Details required by clients creating a Guaranteed Stop Loss Order
+    """
+
+    #
+    # Format string used when generating a summary for this object
+    #
+    _summary_format = ""
+
+    #
+    # Format string used when generating a name for this object
+    #
+    _name_format = ""
+
+    #
+    # Property metadata for this object
+    #
+    _properties = spec_properties.order_GuaranteedStopLossOrderEntryData
+
+    def __init__(self, **kwargs):
+        """
+        Create a new GuaranteedStopLossOrderEntryData instance
+        """
+        super(GuaranteedStopLossOrderEntryData, self).__init__()
+ 
+        #
+        # The minimum distance allowed between the Trade's fill price and the
+        # configured price for guaranteed Stop Loss Orders created for this
+        # instrument. Specified in price units.
+        #
+        self.minimumDistance = kwargs.get("minimumDistance")
+ 
+        #
+        # The amount that is charged to the account if a guaranteed Stop Loss
+        # Order is triggered and filled. The value is in price units and is
+        # charged for each unit of the Trade.
+        #
+        self.premium = kwargs.get("premium")
+ 
+        #
+        # The guaranteed Stop Loss Order level restriction for this instrument.
+        #
+        self.levelRestriction = kwargs.get("levelRestriction")
+
+    @staticmethod
+    def from_dict(data, ctx):
+        """
+        Instantiate a new GuaranteedStopLossOrderEntryData from a dict
+        (generally from loading a JSON response). The data used to instantiate
+        the GuaranteedStopLossOrderEntryData is a shallow copy of the dict
+        passed in, with any complex child types instantiated appropriately.
+        """
+
+        data = data.copy()
+
+        if data.get('minimumDistance') is not None:
+            data['minimumDistance'] = ctx.convert_decimal_number(
+                data.get('minimumDistance')
+            )
+
+        if data.get('premium') is not None:
+            data['premium'] = ctx.convert_decimal_number(
+                data.get('premium')
+            )
+
+        if data.get('levelRestriction') is not None:
+            data['levelRestriction'] = \
+                ctx.primitives.GuaranteedStopLossOrderLevelRestriction.from_dict(
+                    data['levelRestriction'], ctx
+                )
+
+        return GuaranteedStopLossOrderEntryData(**data)
+
+
 class EntitySpec(object):
     """
     The order.EntitySpec wraps the order module's type definitions
@@ -2979,6 +3522,7 @@ class EntitySpec(object):
     DynamicOrderState = DynamicOrderState
     Order = Order
     MarketOrder = MarketOrder
+    FixedPriceOrder = FixedPriceOrder
     LimitOrder = LimitOrder
     StopOrder = StopOrder
     MarketIfTouchedOrder = MarketIfTouchedOrder
@@ -2995,6 +3539,7 @@ class EntitySpec(object):
     TrailingStopLossOrderRequest = TrailingStopLossOrderRequest
     UnitsAvailableDetails = UnitsAvailableDetails
     UnitsAvailable = UnitsAvailable
+    GuaranteedStopLossOrderEntryData = GuaranteedStopLossOrderEntryData
 
     def __init__(self, ctx):
         self.ctx = ctx
