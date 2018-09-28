@@ -1140,3 +1140,116 @@ class EntitySpec(object):
 
         return response
 
+    def orderBook(self, instrument, **kwargs):
+        print("orderBook() starting...")
+        request = Request(
+            'GET',
+            '/v3/instruments/{instrument}/orderBook'
+        )
+
+        request.set_path_param(
+            'instrument',
+            instrument
+        )
+
+        request.set_param(
+            'time',
+            kwargs.get('time')
+        )
+
+        response = self.ctx.request(request)
+
+        if response.content_type is None:
+            return response
+
+        if not response.content_type.startswith("application/json"):
+            return response
+
+        jbody = json.loads(response.raw_body)
+
+        parsed_body = {}
+
+        #
+        # Parse responses as defined by the API specification
+        #
+        if str(response.status) == "200":
+            if jbody.get('orderBook') is not None:
+                parsed_body['orderBook'] = \
+                    jbody.get('orderBook')
+
+            if jbody.get('instrument') is not None:
+                parsed_body['instrument'] = \
+                    jbody.get('instrument')
+
+            if jbody.get('time') is not None:
+                print("found time")
+                parsed_body['time'] = \
+                    jbody.get('time')
+
+            if jbody.get('unixTime') is not None:
+                print("found unixTime")
+                parsed_body['unixTime'] = \
+                    jbody.get('unixTime')
+
+            if jbody.get('price') is not None:
+                print("found price")
+                parsed_body['price'] = \
+                    jbody.get('price')
+
+            if jbody.get('bucketWidth') is not None:
+                print("found bucketWidth")
+                parsed_body['bucketWidth'] = \
+                    jbody.get('bucketWidth')
+
+            if jbody.get('buckets') is not None:
+                print("found buckets")
+                parsed_body['buckets'] = [
+                    self.ctx.instrument.Candlestick.from_dict(d, self.ctx)
+                    for d in jbody.get('buckets')
+                ]
+
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        #
+        # Unexpected response status
+        #
+        else:
+            parsed_body = jbody
+
+        response.body = parsed_body
+
+        return response
