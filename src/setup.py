@@ -25,7 +25,7 @@ def main():
     # setup dictionary
     setup_options = {
         "name": "v20",
-        "version": "3.0.25.0",
+        "version": "3.0.25.1",
         "description": "OANDA v20 bindings for Python",
         "long_description": read("README.rst"),
         "author": "OANDA Corporation",
