@@ -1,14 +1,15 @@
 import requests
-from v20 import account
-from v20 import order
-from v20 import position
-from v20 import user
-from v20 import transaction
-from v20 import pricing
-from v20 import primitives
-from v20 import site
-from v20 import trade
 from v20 import instrument
+from v20 import position
+from v20 import trade
+from v20 import site
+from v20 import primitives
+from v20 import account
+from v20 import transaction
+from v20 import user
+from v20 import pricing
+from v20 import order
+from v20 import pricing_common
 from v20.response import Response
 from v20.errors import V20ConnectionError, V20Timeout
 
@@ -74,7 +75,7 @@ class Context(object):
         if application != "":
             extensions = " ({})".format(application)
 
-        oanda_agent = "v20-python/3.0.22{}".format(extensions)
+        oanda_agent = "v20-python/3.0.25{}".format(extensions)
 
         #
         # Context headers to add to every request sent to the server
@@ -131,16 +132,17 @@ class Context(object):
         #
         self.poll_timeout = poll_timeout
 
-        self.account = account.EntitySpec(self)
-        self.order = order.EntitySpec(self)
-        self.position = position.EntitySpec(self)
-        self.user = user.EntitySpec(self)
-        self.transaction = transaction.EntitySpec(self)
-        self.pricing = pricing.EntitySpec(self)
-        self.primitives = primitives.EntitySpec(self)
-        self.site = site.EntitySpec(self)
-        self.trade = trade.EntitySpec(self)
         self.instrument = instrument.EntitySpec(self)
+        self.position = position.EntitySpec(self)
+        self.trade = trade.EntitySpec(self)
+        self.site = site.EntitySpec(self)
+        self.primitives = primitives.EntitySpec(self)
+        self.account = account.EntitySpec(self)
+        self.transaction = transaction.EntitySpec(self)
+        self.user = user.EntitySpec(self)
+        self.pricing = pricing.EntitySpec(self)
+        self.order = order.EntitySpec(self)
+        self.pricing_common = pricing_common.EntitySpec(self)
 
 
     def set_header(self, key, value):

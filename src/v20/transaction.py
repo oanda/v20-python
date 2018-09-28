@@ -75,34 +75,46 @@ class Transaction(BaseEntity):
 
         type = data.get("type")
 
+        if type == "MARKET_ORDER":
+            return MarketOrderTransaction.from_dict(data, ctx)
         if type == "ORDER_FILL":
             return OrderFillTransaction.from_dict(data, ctx)
         if type == "ORDER_CANCEL":
             return OrderCancelTransaction.from_dict(data, ctx)
+        if type == "MARKET_ORDER_REJECT":
+            return MarketOrderRejectTransaction.from_dict(data, ctx)
+        if type == "TRADE_CLIENT_EXTENSIONS_MODIFY":
+            return TradeClientExtensionsModifyTransaction.from_dict(data, ctx)
+        if type == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT":
+            return TradeClientExtensionsModifyRejectTransaction.from_dict(data, ctx)
+        if type == "TAKE_PROFIT_ORDER":
+            return TakeProfitOrderTransaction.from_dict(data, ctx)
+        if type == "STOP_LOSS_ORDER":
+            return StopLossOrderTransaction.from_dict(data, ctx)
+        if type == "TRAILING_STOP_LOSS_ORDER":
+            return TrailingStopLossOrderTransaction.from_dict(data, ctx)
         if type == "ORDER_CANCEL_REJECT":
             return OrderCancelRejectTransaction.from_dict(data, ctx)
-        if type == "ORDER_CLIENT_EXTENSIONS_MODIFY":
-            return OrderClientExtensionsModifyTransaction.from_dict(data, ctx)
-        if type == "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT":
-            return OrderClientExtensionsModifyRejectTransaction.from_dict(data, ctx)
+        if type == "TAKE_PROFIT_ORDER_REJECT":
+            return TakeProfitOrderRejectTransaction.from_dict(data, ctx)
+        if type == "STOP_LOSS_ORDER_REJECT":
+            return StopLossOrderRejectTransaction.from_dict(data, ctx)
+        if type == "TRAILING_STOP_LOSS_ORDER_REJECT":
+            return TrailingStopLossOrderRejectTransaction.from_dict(data, ctx)
+        if type == "CLIENT_CONFIGURE":
+            return ClientConfigureTransaction.from_dict(data, ctx)
+        if type == "CLIENT_CONFIGURE_REJECT":
+            return ClientConfigureRejectTransaction.from_dict(data, ctx)
         if type == "CREATE":
             return CreateTransaction.from_dict(data, ctx)
         if type == "CLOSE":
             return CloseTransaction.from_dict(data, ctx)
         if type == "REOPEN":
             return ReopenTransaction.from_dict(data, ctx)
-        if type == "CLIENT_CONFIGURE":
-            return ClientConfigureTransaction.from_dict(data, ctx)
-        if type == "CLIENT_CONFIGURE_REJECT":
-            return ClientConfigureRejectTransaction.from_dict(data, ctx)
         if type == "TRANSFER_FUNDS":
             return TransferFundsTransaction.from_dict(data, ctx)
         if type == "TRANSFER_FUNDS_REJECT":
             return TransferFundsRejectTransaction.from_dict(data, ctx)
-        if type == "MARKET_ORDER":
-            return MarketOrderTransaction.from_dict(data, ctx)
-        if type == "MARKET_ORDER_REJECT":
-            return MarketOrderRejectTransaction.from_dict(data, ctx)
         if type == "FIXED_PRICE_ORDER":
             return FixedPriceOrderTransaction.from_dict(data, ctx)
         if type == "LIMIT_ORDER":
@@ -117,22 +129,10 @@ class Transaction(BaseEntity):
             return MarketIfTouchedOrderTransaction.from_dict(data, ctx)
         if type == "MARKET_IF_TOUCHED_ORDER_REJECT":
             return MarketIfTouchedOrderRejectTransaction.from_dict(data, ctx)
-        if type == "TAKE_PROFIT_ORDER":
-            return TakeProfitOrderTransaction.from_dict(data, ctx)
-        if type == "TAKE_PROFIT_ORDER_REJECT":
-            return TakeProfitOrderRejectTransaction.from_dict(data, ctx)
-        if type == "STOP_LOSS_ORDER":
-            return StopLossOrderTransaction.from_dict(data, ctx)
-        if type == "STOP_LOSS_ORDER_REJECT":
-            return StopLossOrderRejectTransaction.from_dict(data, ctx)
-        if type == "TRAILING_STOP_LOSS_ORDER":
-            return TrailingStopLossOrderTransaction.from_dict(data, ctx)
-        if type == "TRAILING_STOP_LOSS_ORDER_REJECT":
-            return TrailingStopLossOrderRejectTransaction.from_dict(data, ctx)
-        if type == "TRADE_CLIENT_EXTENSIONS_MODIFY":
-            return TradeClientExtensionsModifyTransaction.from_dict(data, ctx)
-        if type == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT":
-            return TradeClientExtensionsModifyRejectTransaction.from_dict(data, ctx)
+        if type == "ORDER_CLIENT_EXTENSIONS_MODIFY":
+            return OrderClientExtensionsModifyTransaction.from_dict(data, ctx)
+        if type == "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT":
+            return OrderClientExtensionsModifyRejectTransaction.from_dict(data, ctx)
         if type == "MARGIN_CALL_ENTER":
             return MarginCallEnterTransaction.from_dict(data, ctx)
         if type == "MARGIN_CALL_EXTEND":
@@ -4061,7 +4061,7 @@ class OrderFillTransaction(BaseEntity):
         self.instrument = kwargs.get("instrument")
  
         #
-        # The number of units filled by the Order.
+        # The number of units filled by the OrderFill.
         #
         self.units = kwargs.get("units")
  
@@ -4085,6 +4085,17 @@ class OrderFillTransaction(BaseEntity):
         # the exact/official price each unit was filled at.
         #
         self.price = kwargs.get("price")
+ 
+        #
+        # The price that all of the units of the OrderFill should have been
+        # filled at, in the absence of guaranteed price execution. This factors
+        # in the Account's current ClientPrice, used liquidity and the units of
+        # the OrderFill only. If no Trades were closed with their price clamped
+        # for guaranteed stop loss enforcement, then this value will match the
+        # price fields of each Trade opened, closed, and reduced, and they will
+        # all be the exact same.
+        #
+        self.fullVWAP = kwargs.get("fullVWAP")
  
         #
         # The price in effect for the account at the time of the Order fill.
@@ -4180,6 +4191,11 @@ class OrderFillTransaction(BaseEntity):
         if data.get('price') is not None:
             data['price'] = ctx.convert_decimal_number(
                 data.get('price')
+            )
+
+        if data.get('fullVWAP') is not None:
+            data['fullVWAP'] = ctx.convert_decimal_number(
+                data.get('fullVWAP')
             )
 
         if data.get('fullPrice') is not None:

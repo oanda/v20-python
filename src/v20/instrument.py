@@ -708,3 +708,435 @@ class EntitySpec(object):
 
         return response
 
+
+    def price(
+        self,
+        instrument,
+        **kwargs
+    ):
+        """
+        Fetch a price for an instrument. Accounts are not associated in any way
+        with this endpoint.
+
+        Args:
+            instrument:
+                Name of the Instrument
+            time:
+                The time at which the desired price is in effect. The current
+                price is returned if no time is provided.
+
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
+
+        request = Request(
+            'GET',
+            '/v3/instruments/{instrument}/price'
+        )
+
+        request.set_path_param(
+            'instrument',
+            instrument
+        )
+
+        request.set_param(
+            'time',
+            kwargs.get('time')
+        )
+
+        response = self.ctx.request(request)
+
+
+        if response.content_type is None:
+            return response
+
+        if not response.content_type.startswith("application/json"):
+            return response
+
+        jbody = json.loads(response.raw_body)
+
+        parsed_body = {}
+
+        #
+        # Parse responses as defined by the API specification
+        #
+        if str(response.status) == "200":
+            if jbody.get('price') is not None:
+                parsed_body['price'] = \
+                    self.ctx.pricing_common.Price.from_dict(
+                        jbody['price'],
+                        self.ctx
+                    )
+
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        #
+        # Unexpected response status
+        #
+        else:
+            parsed_body = jbody
+
+        response.body = parsed_body
+
+        return response
+
+
+    def prices(
+        self,
+        instrument,
+        **kwargs
+    ):
+        """
+        Fetch a range of prices for an instrument. Accounts are not associated
+        in any way with this endpoint.
+
+        Args:
+            instrument:
+                Name of the Instrument
+            fromTime:
+                The start of the time range to fetch prices for.
+            toTime:
+                The end of the time range to fetch prices for. The current time
+                is used if this parameter is not provided.
+
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
+
+        request = Request(
+            'GET',
+            '/v3/instruments/{instrument}/price/range'
+        )
+
+        request.set_path_param(
+            'instrument',
+            instrument
+        )
+
+        request.set_param(
+            'from',
+            kwargs.get('fromTime')
+        )
+
+        request.set_param(
+            'to',
+            kwargs.get('toTime')
+        )
+
+        response = self.ctx.request(request)
+
+
+        if response.content_type is None:
+            return response
+
+        if not response.content_type.startswith("application/json"):
+            return response
+
+        jbody = json.loads(response.raw_body)
+
+        parsed_body = {}
+
+        #
+        # Parse responses as defined by the API specification
+        #
+        if str(response.status) == "200":
+            if jbody.get('prices') is not None:
+                parsed_body['prices'] = [
+                    self.ctx.pricing_common.Price.from_dict(d, self.ctx)
+                    for d in jbody.get('prices')
+                ]
+
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        #
+        # Unexpected response status
+        #
+        else:
+            parsed_body = jbody
+
+        response.body = parsed_body
+
+        return response
+
+
+    def order_book(
+        self,
+        instrument,
+        **kwargs
+    ):
+        """
+        Fetch an order book for an instrument.
+
+        Args:
+            instrument:
+                Name of the Instrument
+            time:
+                The time of the snapshot to fetch. If not specified, then the
+                most recent snapshot is fetched.
+
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
+
+        request = Request(
+            'GET',
+            '/v3/instruments/{instrument}/orderBook'
+        )
+
+        request.set_path_param(
+            'instrument',
+            instrument
+        )
+
+        request.set_param(
+            'time',
+            kwargs.get('time')
+        )
+
+        response = self.ctx.request(request)
+
+
+        if response.content_type is None:
+            return response
+
+        if not response.content_type.startswith("application/json"):
+            return response
+
+        jbody = json.loads(response.raw_body)
+
+        parsed_body = {}
+
+        #
+        # Parse responses as defined by the API specification
+        #
+        if str(response.status) == "200":
+            if jbody.get('orderBook') is not None:
+                parsed_body['orderBook'] = \
+                    self.ctx.instrument.OrderBook.from_dict(
+                        jbody['orderBook'],
+                        self.ctx
+                    )
+
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        #
+        # Unexpected response status
+        #
+        else:
+            parsed_body = jbody
+
+        response.body = parsed_body
+
+        return response
+
+
+    def position_book(
+        self,
+        instrument,
+        **kwargs
+    ):
+        """
+        Fetch a position book for an instrument.
+
+        Args:
+            instrument:
+                Name of the Instrument
+            time:
+                The time of the snapshot to fetch. If not specified, then the
+                most recent snapshot is fetched.
+
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
+
+        request = Request(
+            'GET',
+            '/v3/instruments/{instrument}/positionBook'
+        )
+
+        request.set_path_param(
+            'instrument',
+            instrument
+        )
+
+        request.set_param(
+            'time',
+            kwargs.get('time')
+        )
+
+        response = self.ctx.request(request)
+
+
+        if response.content_type is None:
+            return response
+
+        if not response.content_type.startswith("application/json"):
+            return response
+
+        jbody = json.loads(response.raw_body)
+
+        parsed_body = {}
+
+        #
+        # Parse responses as defined by the API specification
+        #
+        if str(response.status) == "200":
+            if jbody.get('positionBook') is not None:
+                parsed_body['positionBook'] = \
+                    self.ctx.instrument.PositionBook.from_dict(
+                        jbody['positionBook'],
+                        self.ctx
+                    )
+
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        #
+        # Unexpected response status
+        #
+        else:
+            parsed_body = jbody
+
+        response.body = parsed_body
+
+        return response
+

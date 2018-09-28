@@ -1,5 +1,23 @@
 OANDA v20 API Change Log
 
+Version 3.0.25 (September 28, 2018)
+
+	* All - Added orderBook and PositionBook endpoints. Issue#29
+	  (https://github.com/oanda/v20-python/issues/29)
+
+
+Version 3.0.24 (May 11, 2018)
+
+	* Java - Added support for Accept-Datetime-Format and additional
+	  custom headers.  Issue#8 (https://github.com/oanda/v20-java/issues/8)
+
+
+Version 3.0.23 (May 04, 2018)
+
+	* Java - Fixed using null in a TradeSetDependentOrdersRequest Issue#7
+	  (https://github.com/oanda/v20-java/issues/7)
+
+
 Version 3.0.22 (April 11, 2018)
 
 	* Various documentation and example improvements

@@ -192,6 +192,12 @@ class Order(BaseEntity):
 
         type = data.get("type")
 
+        if type == "TAKE_PROFIT":
+            return TakeProfitOrder.from_dict(data, ctx)
+        if type == "STOP_LOSS":
+            return StopLossOrder.from_dict(data, ctx)
+        if type == "TRAILING_STOP_LOSS":
+            return TrailingStopLossOrder.from_dict(data, ctx)
         if type == "MARKET":
             return MarketOrder.from_dict(data, ctx)
         if type == "FIXED_PRICE":
@@ -202,12 +208,6 @@ class Order(BaseEntity):
             return StopOrder.from_dict(data, ctx)
         if type == "MARKET_IF_TOUCHED":
             return MarketIfTouchedOrder.from_dict(data, ctx)
-        if type == "TAKE_PROFIT":
-            return TakeProfitOrder.from_dict(data, ctx)
-        if type == "STOP_LOSS":
-            return StopLossOrder.from_dict(data, ctx)
-        if type == "TRAILING_STOP_LOSS":
-            return TrailingStopLossOrder.from_dict(data, ctx)
 
         data = data.copy()
 

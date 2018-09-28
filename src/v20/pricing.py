@@ -6,7 +6,7 @@ from v20 import spec_properties
 
 
 
-class Price(BaseEntity):
+class ClientPrice(BaseEntity):
     """
     The specification of an Account-specific Price.
     """
@@ -24,13 +24,13 @@ class Price(BaseEntity):
     #
     # Property metadata for this object
     #
-    _properties = spec_properties.pricing_Price
+    _properties = spec_properties.pricing_ClientPrice
 
     def __init__(self, **kwargs):
         """
-        Create a new Price instance
+        Create a new ClientPrice instance
         """
-        super(Price, self).__init__()
+        super(ClientPrice, self).__init__()
  
         #
         # The string "PRICE". Used to identify the a Price object when found in
@@ -103,23 +103,23 @@ class Price(BaseEntity):
     @staticmethod
     def from_dict(data, ctx):
         """
-        Instantiate a new Price from a dict (generally from loading a JSON
-        response). The data used to instantiate the Price is a shallow copy of
-        the dict passed in, with any complex child types instantiated
-        appropriately.
+        Instantiate a new ClientPrice from a dict (generally from loading a
+        JSON response). The data used to instantiate the ClientPrice is a
+        shallow copy of the dict passed in, with any complex child types
+        instantiated appropriately.
         """
 
         data = data.copy()
 
         if data.get('bids') is not None:
             data['bids'] = [
-                ctx.pricing.PriceBucket.from_dict(d, ctx)
+                ctx.pricing_common.PriceBucket.from_dict(d, ctx)
                 for d in data.get('bids')
             ]
 
         if data.get('asks') is not None:
             data['asks'] = [
-                ctx.pricing.PriceBucket.from_dict(d, ctx)
+                ctx.pricing_common.PriceBucket.from_dict(d, ctx)
                 for d in data.get('asks')
             ]
 
@@ -145,62 +145,7 @@ class Price(BaseEntity):
                     data['unitsAvailable'], ctx
                 )
 
-        return Price(**data)
-
-
-class PriceBucket(BaseEntity):
-    """
-    A Price Bucket represents a price available for an amount of liquidity
-    """
-
-    #
-    # Format string used when generating a summary for this object
-    #
-    _summary_format = ""
-
-    #
-    # Format string used when generating a name for this object
-    #
-    _name_format = ""
-
-    #
-    # Property metadata for this object
-    #
-    _properties = spec_properties.pricing_PriceBucket
-
-    def __init__(self, **kwargs):
-        """
-        Create a new PriceBucket instance
-        """
-        super(PriceBucket, self).__init__()
- 
-        #
-        # The Price offered by the PriceBucket
-        #
-        self.price = kwargs.get("price")
- 
-        #
-        # The amount of liquidity offered by the PriceBucket
-        #
-        self.liquidity = kwargs.get("liquidity")
-
-    @staticmethod
-    def from_dict(data, ctx):
-        """
-        Instantiate a new PriceBucket from a dict (generally from loading a
-        JSON response). The data used to instantiate the PriceBucket is a
-        shallow copy of the dict passed in, with any complex child types
-        instantiated appropriately.
-        """
-
-        data = data.copy()
-
-        if data.get('price') is not None:
-            data['price'] = ctx.convert_decimal_number(
-                data.get('price')
-            )
-
-        return PriceBucket(**data)
+        return ClientPrice(**data)
 
 
 class QuoteHomeConversionFactors(BaseEntity):
@@ -353,101 +298,6 @@ class HomeConversions(BaseEntity):
         return HomeConversions(**data)
 
 
-class ClientPrice(BaseEntity):
-    """
-    Client price for an Account.
-    """
-
-    #
-    # Format string used when generating a summary for this object
-    #
-    _summary_format = ""
-
-    #
-    # Format string used when generating a name for this object
-    #
-    _name_format = ""
-
-    #
-    # Property metadata for this object
-    #
-    _properties = spec_properties.pricing_ClientPrice
-
-    def __init__(self, **kwargs):
-        """
-        Create a new ClientPrice instance
-        """
-        super(ClientPrice, self).__init__()
- 
-        #
-        # The list of prices and liquidity available on the Instrument's bid
-        # side. It is possible for this list to be empty if there is no bid
-        # liquidity currently available for the Instrument in the Account.
-        #
-        self.bids = kwargs.get("bids")
- 
-        #
-        # The list of prices and liquidity available on the Instrument's ask
-        # side. It is possible for this list to be empty if there is no ask
-        # liquidity currently available for the Instrument in the Account.
-        #
-        self.asks = kwargs.get("asks")
- 
-        #
-        # The closeout bid Price. This Price is used when a bid is required to
-        # closeout a Position (margin closeout or manual) yet there is no bid
-        # liquidity. The closeout bid is never used to open a new position.
-        #
-        self.closeoutBid = kwargs.get("closeoutBid")
- 
-        #
-        # The closeout ask Price. This Price is used when a ask is required to
-        # closeout a Position (margin closeout or manual) yet there is no ask
-        # liquidity. The closeout ask is never used to open a new position.
-        #
-        self.closeoutAsk = kwargs.get("closeoutAsk")
- 
-        #
-        # The date/time when the Price was created.
-        #
-        self.timestamp = kwargs.get("timestamp")
-
-    @staticmethod
-    def from_dict(data, ctx):
-        """
-        Instantiate a new ClientPrice from a dict (generally from loading a
-        JSON response). The data used to instantiate the ClientPrice is a
-        shallow copy of the dict passed in, with any complex child types
-        instantiated appropriately.
-        """
-
-        data = data.copy()
-
-        if data.get('bids') is not None:
-            data['bids'] = [
-                ctx.pricing.PriceBucket.from_dict(d, ctx)
-                for d in data.get('bids')
-            ]
-
-        if data.get('asks') is not None:
-            data['asks'] = [
-                ctx.pricing.PriceBucket.from_dict(d, ctx)
-                for d in data.get('asks')
-            ]
-
-        if data.get('closeoutBid') is not None:
-            data['closeoutBid'] = ctx.convert_decimal_number(
-                data.get('closeoutBid')
-            )
-
-        if data.get('closeoutAsk') is not None:
-            data['closeoutAsk'] = ctx.convert_decimal_number(
-                data.get('closeoutAsk')
-            )
-
-        return ClientPrice(**data)
-
-
 class PricingHeartbeat(BaseEntity):
     """
     A PricingHeartbeat object is injected into the Pricing stream to ensure
@@ -506,15 +356,225 @@ class EntitySpec(object):
     Context.
     """
 
-    Price = Price
-    PriceBucket = PriceBucket
+    ClientPrice = ClientPrice
     QuoteHomeConversionFactors = QuoteHomeConversionFactors
     HomeConversions = HomeConversions
-    ClientPrice = ClientPrice
     PricingHeartbeat = PricingHeartbeat
 
     def __init__(self, ctx):
         self.ctx = ctx
+
+
+    def base_prices(
+        self,
+        **kwargs
+    ):
+        """
+        Get pricing information for a specified instrument. Accounts are not
+        associated in any way with this endpoint.
+
+        Args:
+            time:
+                The time at which the desired price for each instrument is in
+                effect. The current price for each instrument is returned if no
+                time is provided.
+
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
+
+        request = Request(
+            'GET',
+            '/v3/pricing'
+        )
+
+        request.set_param(
+            'time',
+            kwargs.get('time')
+        )
+
+        response = self.ctx.request(request)
+
+
+        if response.content_type is None:
+            return response
+
+        if not response.content_type.startswith("application/json"):
+            return response
+
+        jbody = json.loads(response.raw_body)
+
+        parsed_body = {}
+
+        #
+        # Parse responses as defined by the API specification
+        #
+        if str(response.status) == "200":
+            if jbody.get('prices') is not None:
+                parsed_body['prices'] = [
+                    self.ctx.pricing_common.Price.from_dict(d, self.ctx)
+                    for d in jbody.get('prices')
+                ]
+
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        #
+        # Unexpected response status
+        #
+        else:
+            parsed_body = jbody
+
+        response.body = parsed_body
+
+        return response
+
+
+    def get_price_range(
+        self,
+        instrument,
+        **kwargs
+    ):
+        """
+        Get pricing information for a specified range of prices. Accounts are
+        not associated in any way with this endpoint.
+
+        Args:
+            instrument:
+                Name of the Instrument
+            fromTime:
+                The start of the time range to fetch prices for.
+            toTime:
+                The end of the time range to fetch prices for. The current time
+                is used if this parameter is not provided.
+
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
+
+        request = Request(
+            'GET',
+            '/v3/pricing/range'
+        )
+
+        request.set_path_param(
+            'instrument',
+            instrument
+        )
+
+        request.set_param(
+            'from',
+            kwargs.get('fromTime')
+        )
+
+        request.set_param(
+            'to',
+            kwargs.get('toTime')
+        )
+
+        response = self.ctx.request(request)
+
+
+        if response.content_type is None:
+            return response
+
+        if not response.content_type.startswith("application/json"):
+            return response
+
+        jbody = json.loads(response.raw_body)
+
+        parsed_body = {}
+
+        #
+        # Parse responses as defined by the API specification
+        #
+        if str(response.status) == "200":
+            if jbody.get('prices') is not None:
+                parsed_body['prices'] = [
+                    self.ctx.pricing_common.Price.from_dict(d, self.ctx)
+                    for d in jbody.get('prices')
+                ]
+
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        #
+        # Unexpected response status
+        #
+        else:
+            parsed_body = jbody
+
+        response.body = parsed_body
+
+        return response
 
 
     def get(
@@ -599,7 +659,7 @@ class EntitySpec(object):
         if str(response.status) == "200":
             if jbody.get('prices') is not None:
                 parsed_body['prices'] = [
-                    self.ctx.pricing.Price.from_dict(d, self.ctx)
+                    self.ctx.pricing.ClientPrice.from_dict(d, self.ctx)
                     for d in jbody.get('prices')
                 ]
 
@@ -726,8 +786,8 @@ class EntitySpec(object):
 
                 if type is None:
                     return (
-                        "pricing.Price",
-                        self.ctx.pricing.Price.from_dict(j, self.ctx)
+                        "pricing.ClientPrice",
+                        self.ctx.pricing.ClientPrice.from_dict(j, self.ctx)
                     )
                 elif type == "HEARTBEAT":
                     return (
@@ -736,8 +796,8 @@ class EntitySpec(object):
                     )
 
                 return (
-                    "pricing.Price",
-                    self.ctx.pricing.Price.from_dict(j, self.ctx)
+                    "pricing.ClientPrice",
+                    self.ctx.pricing.ClientPrice.from_dict(j, self.ctx)
                 )
 
                 
@@ -747,6 +807,206 @@ class EntitySpec(object):
 
         response = self.ctx.request(request)
 
+
+        return response
+
+
+    def candles(
+        self,
+        instrument,
+        **kwargs
+    ):
+        """
+        Fetch candlestick data for an instrument.
+
+        Args:
+            instrument:
+                Name of the Instrument
+            price:
+                The Price component(s) to get candlestick data for. Can contain
+                any combination of the characters "M" (midpoint candles) "B"
+                (bid candles) and "A" (ask candles).
+            granularity:
+                The granularity of the candlesticks to fetch
+            count:
+                The number of candlesticks to return in the response. Count
+                should not be specified if both the start and end parameters
+                are provided, as the time range combined with the granularity
+                will determine the number of candlesticks to return.
+            fromTime:
+                The start of the time range to fetch candlesticks for.
+            toTime:
+                The end of the time range to fetch candlesticks for.
+            smooth:
+                A flag that controls whether the candlestick is "smoothed" or
+                not.  A smoothed candlestick uses the previous candle's close
+                price as its open price, while an unsmoothed candlestick uses
+                the first price from its time range as its open price.
+            includeFirst:
+                A flag that controls whether the candlestick that is covered by
+                the from time should be included in the results. This flag
+                enables clients to use the timestamp of the last completed
+                candlestick received to poll for future candlesticks but avoid
+                receiving the previous candlestick repeatedly.
+            dailyAlignment:
+                The hour of the day (in the specified timezone) to use for
+                granularities that have daily alignments.
+            alignmentTimezone:
+                The timezone to use for the dailyAlignment parameter.
+                Candlesticks with daily alignment will be aligned to the
+                dailyAlignment hour within the alignmentTimezone.  Note that
+                the returned times will still be represented in UTC.
+            weeklyAlignment:
+                The day of the week used for granularities that have weekly
+                alignment.
+            units:
+                The number of units used to calculate the volume-weighted
+                average bid and ask prices in the returned candles.
+
+        Returns:
+            v20.response.Response containing the results from submitting the
+            request
+        """
+
+        request = Request(
+            'GET',
+            '/v3/accounts/{accountID}/instruments/{instrument}/candles'
+        )
+
+        request.set_path_param(
+            'instrument',
+            instrument
+        )
+
+        request.set_param(
+            'price',
+            kwargs.get('price')
+        )
+
+        request.set_param(
+            'granularity',
+            kwargs.get('granularity')
+        )
+
+        request.set_param(
+            'count',
+            kwargs.get('count')
+        )
+
+        request.set_param(
+            'from',
+            kwargs.get('fromTime')
+        )
+
+        request.set_param(
+            'to',
+            kwargs.get('toTime')
+        )
+
+        request.set_param(
+            'smooth',
+            kwargs.get('smooth')
+        )
+
+        request.set_param(
+            'includeFirst',
+            kwargs.get('includeFirst')
+        )
+
+        request.set_param(
+            'dailyAlignment',
+            kwargs.get('dailyAlignment')
+        )
+
+        request.set_param(
+            'alignmentTimezone',
+            kwargs.get('alignmentTimezone')
+        )
+
+        request.set_param(
+            'weeklyAlignment',
+            kwargs.get('weeklyAlignment')
+        )
+
+        request.set_param(
+            'units',
+            kwargs.get('units')
+        )
+
+        response = self.ctx.request(request)
+
+
+        if response.content_type is None:
+            return response
+
+        if not response.content_type.startswith("application/json"):
+            return response
+
+        jbody = json.loads(response.raw_body)
+
+        parsed_body = {}
+
+        #
+        # Parse responses as defined by the API specification
+        #
+        if str(response.status) == "200":
+            if jbody.get('instrument') is not None:
+                parsed_body['instrument'] = \
+                    jbody.get('instrument')
+
+            if jbody.get('granularity') is not None:
+                parsed_body['granularity'] = \
+                    jbody.get('granularity')
+
+            if jbody.get('candles') is not None:
+                parsed_body['candles'] = [
+                    self.ctx.instrument.Candlestick.from_dict(d, self.ctx)
+                    for d in jbody.get('candles')
+                ]
+
+        elif str(response.status) == "400":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "401":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "404":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        elif str(response.status) == "405":
+            if jbody.get('errorCode') is not None:
+                parsed_body['errorCode'] = \
+                    jbody.get('errorCode')
+
+            if jbody.get('errorMessage') is not None:
+                parsed_body['errorMessage'] = \
+                    jbody.get('errorMessage')
+
+        #
+        # Unexpected response status
+        #
+        else:
+            parsed_body = jbody
+
+        response.body = parsed_body
 
         return response
 

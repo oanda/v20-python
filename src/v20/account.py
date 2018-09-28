@@ -148,6 +148,11 @@ class Account(BaseEntity):
         self.hedgingEnabled = kwargs.get("hedgingEnabled")
  
         #
+        # The date/time of the last order that was filled for this account.
+        #
+        self.lastOrderFillTimestamp = kwargs.get("lastOrderFillTimestamp")
+ 
+        #
         # The total unrealized profit/loss for all Trades currently open in the
         # Account.
         #
@@ -781,6 +786,11 @@ class AccountSummary(BaseEntity):
         # Flag indicating that the Account has hedging enabled.
         #
         self.hedgingEnabled = kwargs.get("hedgingEnabled")
+ 
+        #
+        # The date/time of the last order that was filled for this account.
+        #
+        self.lastOrderFillTimestamp = kwargs.get("lastOrderFillTimestamp")
  
         #
         # The total unrealized profit/loss for all Trades currently open in the

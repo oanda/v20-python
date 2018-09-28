@@ -5,6 +5,1044 @@ Following are the list of properties (metadata) for each complex type defined
 by the v20 library.
 """
 
+instrument_Candlestick = [
+    Property(
+        "time",
+        "time",
+        "The start time of the candlestick",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "bid",
+        "bid",
+        "The candlestick data based on bids. Only provided if bid-based candles were requested.",
+        "object",
+        "instrument.CandlestickData",
+        None,
+        None
+    ),
+    Property(
+        "ask",
+        "ask",
+        "The candlestick data based on asks. Only provided if ask-based candles were requested.",
+        "object",
+        "instrument.CandlestickData",
+        None,
+        None
+    ),
+    Property(
+        "mid",
+        "mid",
+        "The candlestick data based on midpoints. Only provided if midpoint-based candles were requested.",
+        "object",
+        "instrument.CandlestickData",
+        None,
+        None
+    ),
+    Property(
+        "volume",
+        "volume",
+        "The number of prices created during the time-range represented by the candlestick.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "complete",
+        "complete",
+        "A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+]
+
+instrument_CandlestickData = [
+    Property(
+        "o",
+        "o",
+        "The first (open) price in the time-range represented by the candlestick.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "h",
+        "h",
+        "The highest price in the time-range represented by the candlestick.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "l",
+        "l",
+        "The lowest price in the time-range represented by the candlestick.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "c",
+        "c",
+        "The last (closing) price in the time-range represented by the candlestick.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+]
+
+instrument_OrderBook = [
+    Property(
+        "instrument",
+        "instrument",
+        "The order book's instrument",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "time",
+        "time",
+        "The time when the order book snapshot was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "price",
+        "The price (midpoint) for the order book's instrument at the time of the order book snapshot",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "bucketWidth",
+        "bucketWidth",
+        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "buckets",
+        "buckets",
+        "The partitioned order book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
+        "array_object",
+        "OrderBookBucket",
+        None,
+        None
+    ),
+]
+
+instrument_OrderBookBucket = [
+    Property(
+        "price",
+        "price",
+        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "longCountPercent",
+        "longCountPercent",
+        "The percentage of the total number of orders represented by the long orders found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "shortCountPercent",
+        "shortCountPercent",
+        "The percentage of the total number of orders represented by the short orders found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+instrument_PositionBook = [
+    Property(
+        "instrument",
+        "instrument",
+        "The position book's instrument",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "time",
+        "time",
+        "The time when the position book snapshot was created",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "price",
+        "The price (midpoint) for the position book's instrument at the time of the position book snapshot",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "bucketWidth",
+        "bucketWidth",
+        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "buckets",
+        "buckets",
+        "The partitioned position book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
+        "array_object",
+        "PositionBookBucket",
+        None,
+        None
+    ),
+]
+
+instrument_PositionBookBucket = [
+    Property(
+        "price",
+        "price",
+        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "longCountPercent",
+        "longCountPercent",
+        "The percentage of the total number of positions represented by the long positions found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "shortCountPercent",
+        "shortCountPercent",
+        "The percentage of the total number of positions represented by the short positions found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+position_Position = [
+    Property(
+        "instrument",
+        "Instrument",
+        "The Position's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "pl",
+        "Profit/Loss",
+        "Profit/loss realized by the Position over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The unrealized profit/loss of all open Trades that contribute to this Position.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Position.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "resettablePL",
+        "Resettable Profit/Loss",
+        "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The total amount of financing paid/collected for this instrument over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "commission",
+        "Commission",
+        "The total amount of commission paid for this instrument over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFees",
+        "Guranteed Execution Fee",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders for this instrument.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "long",
+        "Long Side",
+        "The details of the long side of the Position.",
+        "object",
+        "position.PositionSide",
+        None,
+        None
+    ),
+    Property(
+        "short",
+        "Short Side",
+        "The details of the short side of the Position.",
+        "object",
+        "position.PositionSide",
+        None,
+        None
+    ),
+]
+
+position_PositionSide = [
+    Property(
+        "units",
+        "Units",
+        "Number of units in the position (negative value indicates short position, positive indicates long position).",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "averagePrice",
+        "Average Price",
+        "Volume-weighted average of the underlying Trade open prices for the Position.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "tradeIDs",
+        "Trade IDs",
+        "List of the open Trade IDs which contribute to the open Position.",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "pl",
+        "Profit/Loss",
+        "Profit/loss realized by the PositionSide over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "resettablePL",
+        "Resettable Profit/Loss",
+        "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The total amount of financing paid/collected for this PositionSide over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFees",
+        "Guranteed Execution Fees",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders attached to Trades for this PositionSide.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+]
+
+position_CalculatedPositionState = [
+    Property(
+        "instrument",
+        "Instrument",
+        "The Position's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "netUnrealizedPL",
+        "Net Unrealized Profit/Loss",
+        "The Position's net unrealized profit/loss",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "longUnrealizedPL",
+        "Long Unrealized Profit/Loss",
+        "The unrealized profit/loss of the Position's long open Trades",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "shortUnrealizedPL",
+        "Short Unrealized Profit/Loss",
+        "The unrealized profit/loss of the Position's short open Trades",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Position.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+]
+
+trade_Trade = [
+    Property(
+        "id",
+        "Trade ID",
+        "The Trade's identifier, unique within the Trade's Account.",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Trade's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "Fill Price",
+        "The execution price of the Trade.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "openTime",
+        "Open Time",
+        "The date/time when the Trade was opened.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Trade.",
+        "primitive",
+        "trade.TradeState",
+        None,
+        None
+    ),
+    Property(
+        "initialUnits",
+        "Initial Trade Units",
+        "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "initialMarginRequired",
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "currentUnits",
+        "Current Open Trade Units",
+        "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "realizedPL",
+        "Realized Profit/Loss",
+        "The total profit/loss realized on the closed portion of the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The unrealized profit/loss on the open portion of the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "averageClosePrice",
+        "Average Close Price",
+        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "closingTransactionIDs",
+        "Closing Transaction IDs",
+        "The IDs of the Transactions that have closed portions of this Trade.",
+        "array_primitive",
+        "TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The financing paid/collected for this Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "closeTime",
+        "Close Time",
+        "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Trade.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOrder",
+        "Take Profit Order",
+        "Full representation of the Trade's Take Profit Order, only provided if such an Order exists.",
+        "object",
+        "order.TakeProfitOrder",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOrder",
+        "Stop Loss Order",
+        "Full representation of the Trade's Stop Loss Order, only provided if such an Order exists.",
+        "object",
+        "order.StopLossOrder",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOrder",
+        "Trailing Stop Loss Order",
+        "Full representation of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
+        "object",
+        "order.TrailingStopLossOrder",
+        None,
+        None
+    ),
+]
+
+trade_TradeSummary = [
+    Property(
+        "id",
+        "Trade ID",
+        "The Trade's identifier, unique within the Trade's Account.",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Trade's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "Fill Price",
+        "The execution price of the Trade.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "openTime",
+        "Open Time",
+        "The date/time when the Trade was opened.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Trade.",
+        "primitive",
+        "trade.TradeState",
+        None,
+        None
+    ),
+    Property(
+        "initialUnits",
+        "Initial Trade Units",
+        "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "initialMarginRequired",
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "currentUnits",
+        "Current Open Trade Units",
+        "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "realizedPL",
+        "Realized Profit/Loss",
+        "The total profit/loss realized on the closed portion of the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The unrealized profit/loss on the open portion of the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "averageClosePrice",
+        "Average Close Price",
+        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "closingTransactionIDs",
+        "Closing Transaction IDs",
+        "The IDs of the Transactions that have closed portions of this Trade.",
+        "array_primitive",
+        "TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The financing paid/collected for this Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "closeTime",
+        "Close Time",
+        "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Trade.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOrderID",
+        "Take Profit Order ID",
+        "ID of the Trade's Take Profit Order, only provided if such an Order exists.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOrderID",
+        "Stop Loss Order ID",
+        "ID of the Trade's Stop Loss Order, only provided if such an Order exists.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOrderID",
+        "Trailing Stop Loss Order ID",
+        "ID of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+]
+
+trade_CalculatedTradeState = [
+    Property(
+        "id",
+        "Trade ID",
+        "The Trade's ID.",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Trade UPL",
+        "The Trade's unrealized profit/loss.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+]
+
+site_MT4TransactionHeartbeat = [
+    Property(
+        "type",
+        "type",
+        "The string \"HEARTBEAT\"",
+        "primitive",
+        "string",
+        None,
+        "HEARTBEAT"
+    ),
+    Property(
+        "time",
+        "time",
+        "The date/time when the TransactionHeartbeat was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+]
+
+primitives_Instrument = [
+    Property(
+        "name",
+        "name",
+        "The name of the Instrument",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "type",
+        "type",
+        "The type of the Instrument",
+        "primitive",
+        "primitives.InstrumentType",
+        None,
+        None
+    ),
+    Property(
+        "displayName",
+        "displayName",
+        "The display name of the Instrument",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+    Property(
+        "pipLocation",
+        "pipLocation",
+        "The location of the \"pip\" for this instrument. The decimal position of the pip in this Instrument's price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001).",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "displayPrecision",
+        "displayPrecision",
+        "The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of \"1\" being displayed as \"1.00000\")",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "tradeUnitsPrecision",
+        "tradeUnitsPrecision",
+        "The amount of decimal places that may be provided when specifying the number of units traded for this instrument.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "minimumTradeSize",
+        "minimumTradeSize",
+        "The smallest number of units allowed to be traded for this instrument.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "maximumTrailingStopDistance",
+        "maximumTrailingStopDistance",
+        "The maximum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "minimumTrailingStopDistance",
+        "minimumTrailingStopDistance",
+        "The minimum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "maximumPositionSize",
+        "maximumPositionSize",
+        "The maximum position size allowed for this instrument. Specified in units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "maximumOrderUnits",
+        "maximumOrderUnits",
+        "The maximum units allowed for an Order placed for this instrument. Specified in units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "marginRate",
+        "marginRate",
+        "The margin rate for this instrument.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "commission",
+        "commission",
+        "The commission structure for this instrument.",
+        "object",
+        "primitives.InstrumentCommission",
+        None,
+        None
+    ),
+]
+
+primitives_InstrumentCommission = [
+    Property(
+        "commission",
+        "commission",
+        "The commission amount (in the Account's home currency) charged per unitsTraded of the instrument",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "unitsTraded",
+        "unitsTraded",
+        "The number of units traded that the commission amount is based on.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "minimumCommission",
+        "minimumCommission",
+        "The minimum commission amount (in the Account's home currency) that is charged when an Order is filled for this instrument.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+primitives_GuaranteedStopLossOrderLevelRestriction = [
+    Property(
+        "volume",
+        "volume",
+        "Applies to Trades with a guaranteed Stop Loss Order attached for the specified Instrument. This is the total allowed Trade volume that can exist within the priceRange based on the trigger prices of the guaranteed Stop Loss Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "priceRange",
+        "priceRange",
+        "The price range the volume applies to. This value is in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
 account_Account = [
     Property(
         "id",
@@ -192,6 +1230,15 @@ account_Account = [
         "Flag indicating that the Account has hedging enabled.",
         "primitive",
         "boolean",
+        None,
+        None
+    ),
+    Property(
+        "lastOrderFillTimestamp",
+        "Last Order Fill timestamp.",
+        "The date/time of the last order that was filled for this account.",
+        "primitive",
+        "primitives.DateTime",
         None,
         None
     ),
@@ -718,6 +1765,15 @@ account_AccountSummary = [
         None
     ),
     Property(
+        "lastOrderFillTimestamp",
+        "Last Order Fill timestamp.",
+        "The date/time of the last order that was filled for this account.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
         "unrealizedPL",
         "Unrealized Profit/Loss",
         "The total unrealized profit/loss for all Trades currently open in the Account.",
@@ -1044,2931 +2100,6 @@ account_AccountChanges = [
         "The Transactions that have been generated.",
         "array_object",
         "Transaction",
-        None,
-        None
-    ),
-]
-
-order_OrderIdentifier = [
-    Property(
-        "orderID",
-        "orderID",
-        "The OANDA-assigned Order ID",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "clientOrderID",
-        "clientOrderID",
-        "The client-provided client Order ID",
-        "primitive",
-        "transaction.ClientID",
-        None,
-        None
-    ),
-]
-
-order_DynamicOrderState = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's ID.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopValue",
-        "Trailing Stop Value",
-        "The Order's calculated trailing stop value.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "triggerDistance",
-        "Trigger Distance",
-        "The distance between the Trailing Stop Loss Order's trailingStopValue and the current Market Price. This represents the distance (in price units) of the Order from a triggering price. If the distance could not be determined, this value will not be set.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "isTriggerDistanceExact",
-        "Trigger Distance Is Exact",
-        "True if an exact trigger distance could be calculated. If false, it means the provided trigger distance is a best estimate. If the distance could not be determined, this value will not be set.",
-        "primitive",
-        "boolean",
-        None,
-        None
-    ),
-]
-
-order_Order = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-]
-
-order_MarketOrder = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "Type",
-        "The type of the Order. Always set to \"MARKET\" for Market Orders.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "MARKET"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Market Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "FOK"
-    ),
-    Property(
-        "priceBound",
-        "Price Bound",
-        "The worst price that the client is willing to have the Market Order filled at.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "tradeClose",
-        "Trade Close Details",
-        "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
-        "object",
-        "transaction.MarketOrderTradeClose",
-        None,
-        None
-    ),
-    Property(
-        "longPositionCloseout",
-        "Long Position Close Details",
-        "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
-        "object",
-        "transaction.MarketOrderPositionCloseout",
-        None,
-        None
-    ),
-    Property(
-        "shortPositionCloseout",
-        "Short Position Close Details",
-        "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
-        "object",
-        "transaction.MarketOrderPositionCloseout",
-        None,
-        None
-    ),
-    Property(
-        "marginCloseout",
-        "Margin Closeout Details",
-        "Details of the Margin Closeout that this Market Order was created for",
-        "object",
-        "transaction.MarketOrderMarginCloseout",
-        None,
-        None
-    ),
-    Property(
-        "delayedTradeClose",
-        "Delayed Trade Close Details",
-        "Details of the delayed Trade close that this Market Order was created for",
-        "object",
-        "transaction.MarketOrderDelayedTradeClose",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "fillingTransactionID",
-        "Filling Transaction ID",
-        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "filledTime",
-        "Filled Time",
-        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "tradeOpenedID",
-        "Trade Opened ID",
-        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeReducedID",
-        "Trade Reduced ID",
-        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeClosedIDs",
-        "Trade Closed IDs",
-        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "cancellingTransactionID",
-        "Cancelling Transction ID",
-        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "cancelledTime",
-        "Cancelled Time",
-        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-]
-
-order_FixedPriceOrder = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "Type",
-        "The type of the Order. Always set to \"FIXED_PRICE\" for Fixed Price Orders.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "FIXED_PRICE"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Fixed Price Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the Fixed Price Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "tradeState",
-        "TradeState",
-        "The state that the trade resulting from the Fixed Price Order should be set to.",
-        "primitive",
-        "string",
-        True,
-        None
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "fillingTransactionID",
-        "Filling Transaction ID",
-        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "filledTime",
-        "Filled Time",
-        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "tradeOpenedID",
-        "Trade Opened ID",
-        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeReducedID",
-        "Trade Reduced ID",
-        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeClosedIDs",
-        "Trade Closed IDs",
-        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "cancellingTransactionID",
-        "Cancelling Transction ID",
-        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "cancelledTime",
-        "Cancelled Time",
-        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-]
-
-order_LimitOrder = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "Type",
-        "The type of the Order. Always set to \"LIMIT\" for Limit Orders.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "LIMIT"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Limit Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the Limit Order.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "fillingTransactionID",
-        "Filling Transaction ID",
-        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "filledTime",
-        "Filled Time",
-        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "tradeOpenedID",
-        "Trade Opened ID",
-        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeReducedID",
-        "Trade Reduced ID",
-        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeClosedIDs",
-        "Trade Closed IDs",
-        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "cancellingTransactionID",
-        "Cancelling Transction ID",
-        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "cancelledTime",
-        "Cancelled Time",
-        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "replacesOrderID",
-        "Replaces Order ID",
-        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "replacedByOrderID",
-        "Replaced by Order ID",
-        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-]
-
-order_StopOrder = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "Type",
-        "The type of the Order. Always set to \"STOP\" for Stop Orders.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "STOP"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Stop Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "priceBound",
-        "Price Bound",
-        "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the Stop Order.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "fillingTransactionID",
-        "Filling Transaction ID",
-        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "filledTime",
-        "Filled Time",
-        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "tradeOpenedID",
-        "Trade Opened ID",
-        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeReducedID",
-        "Trade Reduced ID",
-        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeClosedIDs",
-        "Trade Closed IDs",
-        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "cancellingTransactionID",
-        "Cancelling Transction ID",
-        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "cancelledTime",
-        "Cancelled Time",
-        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "replacesOrderID",
-        "Replaces Order ID",
-        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "replacedByOrderID",
-        "Replaced by Order ID",
-        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-]
-
-order_MarketIfTouchedOrder = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "Type",
-        "The type of the Order. Always set to \"MARKET_IF_TOUCHED\" for Market If Touched Orders.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "MARKET_IF_TOUCHED"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The MarketIfTouched Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "priceBound",
-        "Price Value",
-        "The worst market price that may be used to fill this MarketIfTouched Order.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "initialMarketPrice",
-        "Initial Market Price",
-        "The Market price at the time when the MarketIfTouched Order was created.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "fillingTransactionID",
-        "Filling Transaction ID",
-        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "filledTime",
-        "Filled Time",
-        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "tradeOpenedID",
-        "Trade Opened ID",
-        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeReducedID",
-        "Trade Reduced ID",
-        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeClosedIDs",
-        "Trade Closed IDs",
-        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "cancellingTransactionID",
-        "Cancelling Transction ID",
-        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "cancelledTime",
-        "Cancelled Time",
-        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "replacesOrderID",
-        "Replaces Order ID",
-        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "replacedByOrderID",
-        "Replaced by Order ID",
-        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-]
-
-order_TakeProfitOrder = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "Type",
-        "The type of the Order. Always set to \"TAKE_PROFIT\" for Take Profit Orders.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "TAKE_PROFIT"
-    ),
-    Property(
-        "tradeID",
-        "Trade ID",
-        "The ID of the Trade to close when the price threshold is breached.",
-        "primitive",
-        "trade.TradeID",
-        True,
-        None
-    ),
-    Property(
-        "clientTradeID",
-        "Client Trade ID",
-        "The client ID of the Trade to be closed when the price threshold is breached.",
-        "primitive",
-        "transaction.ClientID",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "fillingTransactionID",
-        "Filling Transaction ID",
-        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "filledTime",
-        "Filled Time",
-        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "tradeOpenedID",
-        "Trade Opened ID",
-        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeReducedID",
-        "Trade Reduced ID",
-        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeClosedIDs",
-        "Trade Closed IDs",
-        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "cancellingTransactionID",
-        "Cancelling Transction ID",
-        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "cancelledTime",
-        "Cancelled Time",
-        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "replacesOrderID",
-        "Replaces Order ID",
-        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "replacedByOrderID",
-        "Replaced by Order ID",
-        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-]
-
-order_StopLossOrder = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "Type",
-        "The type of the Order. Always set to \"STOP_LOSS\" for Stop Loss Orders.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "STOP_LOSS"
-    ),
-    Property(
-        "guaranteedExecutionPremium",
-        "Guaranteed Execution Fee",
-        "The premium that will be charged if the Stop Loss Order is guaranteed and the Order is filled at the guaranteed price. It is in price units and is charged for each unit of the Trade.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "tradeID",
-        "Trade ID",
-        "The ID of the Trade to close when the price threshold is breached.",
-        "primitive",
-        "trade.TradeID",
-        True,
-        None
-    ),
-    Property(
-        "clientTradeID",
-        "Client Trade ID",
-        "The client ID of the Trade to be closed when the price threshold is breached.",
-        "primitive",
-        "transaction.ClientID",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "distance",
-        "Price Distance",
-        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "guaranteed",
-        "Guaranteed",
-        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
-        "primitive",
-        "boolean",
-        None,
-        None
-    ),
-    Property(
-        "fillingTransactionID",
-        "Filling Transaction ID",
-        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "filledTime",
-        "Filled Time",
-        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "tradeOpenedID",
-        "Trade Opened ID",
-        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeReducedID",
-        "Trade Reduced ID",
-        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeClosedIDs",
-        "Trade Closed IDs",
-        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "cancellingTransactionID",
-        "Cancelling Transction ID",
-        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "cancelledTime",
-        "Cancelled Time",
-        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "replacesOrderID",
-        "Replaces Order ID",
-        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "replacedByOrderID",
-        "Replaced by Order ID",
-        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-]
-
-order_TrailingStopLossOrder = [
-    Property(
-        "id",
-        "Order ID",
-        "The Order's identifier, unique within the Order's Account.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "createTime",
-        "Create Time",
-        "The time when the Order was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Order.",
-        "primitive",
-        "order.OrderState",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "Type",
-        "The type of the Order. Always set to \"TRAILING_STOP_LOSS\" for Trailing Stop Loss Orders.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "TRAILING_STOP_LOSS"
-    ),
-    Property(
-        "tradeID",
-        "Trade ID",
-        "The ID of the Trade to close when the price threshold is breached.",
-        "primitive",
-        "trade.TradeID",
-        True,
-        None
-    ),
-    Property(
-        "clientTradeID",
-        "Client Trade ID",
-        "The client ID of the Trade to be closed when the price threshold is breached.",
-        "primitive",
-        "transaction.ClientID",
-        None,
-        None
-    ),
-    Property(
-        "distance",
-        "Price Distance",
-        "The price distance (in price units) specified for the TrailingStopLoss Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "trailingStopValue",
-        "Trailing Stop Loss Value",
-        "The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order's configured \"distance\" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "fillingTransactionID",
-        "Filling Transaction ID",
-        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "filledTime",
-        "Filled Time",
-        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "tradeOpenedID",
-        "Trade Opened ID",
-        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeReducedID",
-        "Trade Reduced ID",
-        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "tradeClosedIDs",
-        "Trade Closed IDs",
-        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "cancellingTransactionID",
-        "Cancelling Transction ID",
-        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
-        "primitive",
-        "transaction.TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "cancelledTime",
-        "Cancelled Time",
-        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "replacesOrderID",
-        "Replaces Order ID",
-        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "replacedByOrderID",
-        "Replaced by Order ID",
-        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-]
-
-order_OrderRequest = [
-]
-
-order_MarketOrderRequest = [
-    Property(
-        "type",
-        "Type",
-        "The type of the Order to Create. Must be set to \"MARKET\" when creating a Market Order.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "MARKET"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Market Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "FOK"
-    ),
-    Property(
-        "priceBound",
-        "Price Bound",
-        "The worst price that the client is willing to have the Market Order filled at.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-]
-
-order_LimitOrderRequest = [
-    Property(
-        "type",
-        "Type",
-        "The type of the Order to Create. Must be set to \"LIMIT\" when creating a Market Order.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "LIMIT"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Limit Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the Limit Order.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-]
-
-order_StopOrderRequest = [
-    Property(
-        "type",
-        "Type",
-        "The type of the Order to Create. Must be set to \"STOP\" when creating a Stop Order.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "STOP"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Stop Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "priceBound",
-        "Price Bound",
-        "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the Stop Order.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-]
-
-order_MarketIfTouchedOrderRequest = [
-    Property(
-        "type",
-        "Type",
-        "The type of the Order to Create. Must be set to \"MARKET_IF_TOUCHED\" when creating a Market If Touched Order.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "MARKET_IF_TOUCHED"
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The MarketIfTouched Order's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        True,
-        None
-    ),
-    Property(
-        "units",
-        "Amount",
-        "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "priceBound",
-        "Price Value",
-        "The worst market price that may be used to fill this MarketIfTouched Order.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "positionFill",
-        "Position Fill",
-        "Specification of how Positions in the Account are modified when the Order is filled.",
-        "primitive",
-        "order.OrderPositionFill",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOnFill",
-        "Take Profit On Fill",
-        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
-        "object",
-        "transaction.TakeProfitDetails",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOnFill",
-        "Stop Loss On Fill",
-        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.StopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOnFill",
-        "Trailing Stop Loss On Fill",
-        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
-        "object",
-        "transaction.TrailingStopLossDetails",
-        None,
-        None
-    ),
-    Property(
-        "tradeClientExtensions",
-        "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-]
-
-order_TakeProfitOrderRequest = [
-    Property(
-        "type",
-        "Type",
-        "The type of the Order to Create. Must be set to \"TAKE_PROFIT\" when creating a Take Profit Order.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "TAKE_PROFIT"
-    ),
-    Property(
-        "tradeID",
-        "Trade ID",
-        "The ID of the Trade to close when the price threshold is breached.",
-        "primitive",
-        "trade.TradeID",
-        True,
-        None
-    ),
-    Property(
-        "clientTradeID",
-        "Client Trade ID",
-        "The client ID of the Trade to be closed when the price threshold is breached.",
-        "primitive",
-        "transaction.ClientID",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-]
-
-order_StopLossOrderRequest = [
-    Property(
-        "type",
-        "Type",
-        "The type of the Order to Create. Must be set to \"STOP_LOSS\" when creating a Stop Loss Order.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "STOP_LOSS"
-    ),
-    Property(
-        "tradeID",
-        "Trade ID",
-        "The ID of the Trade to close when the price threshold is breached.",
-        "primitive",
-        "trade.TradeID",
-        True,
-        None
-    ),
-    Property(
-        "clientTradeID",
-        "Client Trade ID",
-        "The client ID of the Trade to be closed when the price threshold is breached.",
-        "primitive",
-        "transaction.ClientID",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "Price",
-        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
-        "primitive",
-        "pricing.PriceValue",
-        True,
-        None
-    ),
-    Property(
-        "distance",
-        "Price Distance",
-        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "guaranteed",
-        "Guaranteed",
-        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
-        "primitive",
-        "boolean",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-]
-
-order_TrailingStopLossOrderRequest = [
-    Property(
-        "type",
-        "Type",
-        "The type of the Order to Create. Must be set to \"TRAILING_STOP_LOSS\" when creating a Trailng Stop Loss Order.",
-        "primitive",
-        "order.OrderType",
-        None,
-        "TRAILING_STOP_LOSS"
-    ),
-    Property(
-        "tradeID",
-        "Trade ID",
-        "The ID of the Trade to close when the price threshold is breached.",
-        "primitive",
-        "trade.TradeID",
-        True,
-        None
-    ),
-    Property(
-        "clientTradeID",
-        "Client Trade ID",
-        "The client ID of the Trade to be closed when the price threshold is breached.",
-        "primitive",
-        "transaction.ClientID",
-        None,
-        None
-    ),
-    Property(
-        "distance",
-        "Price Distance",
-        "The price distance (in price units) specified for the TrailingStopLoss Order.",
-        "primitive",
-        "primitives.DecimalNumber",
-        True,
-        None
-    ),
-    Property(
-        "timeInForce",
-        "Time In Force",
-        "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
-        "primitive",
-        "order.TimeInForce",
-        True,
-        "GTC"
-    ),
-    Property(
-        "gtdTime",
-        "GTD Time",
-        "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "triggerCondition",
-        "Trigger Condition",
-        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
-        "primitive",
-        "order.OrderTriggerCondition",
-        True,
-        "DEFAULT"
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-]
-
-order_UnitsAvailableDetails = [
-    Property(
-        "long",
-        "Long",
-        "The units available for long Orders.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "short",
-        "Short",
-        "The units available for short Orders.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-order_UnitsAvailable = [
-    Property(
-        "default",
-        "Default",
-        "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
-        "object",
-        "order.UnitsAvailableDetails",
-        None,
-        None
-    ),
-    Property(
-        "reduceFirst",
-        "Reduce First",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
-        "object",
-        "order.UnitsAvailableDetails",
-        None,
-        None
-    ),
-    Property(
-        "reduceOnly",
-        "Reduce Only",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
-        "object",
-        "order.UnitsAvailableDetails",
-        None,
-        None
-    ),
-    Property(
-        "openOnly",
-        "Open Only",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
-        "object",
-        "order.UnitsAvailableDetails",
-        None,
-        None
-    ),
-]
-
-order_GuaranteedStopLossOrderEntryData = [
-    Property(
-        "minimumDistance",
-        "minimumDistance",
-        "The minimum distance allowed between the Trade's fill price and the configured price for guaranteed Stop Loss Orders created for this instrument. Specified in price units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "premium",
-        "premium",
-        "The amount that is charged to the account if a guaranteed Stop Loss Order is triggered and filled. The value is in price units and is charged for each unit of the Trade.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "levelRestriction",
-        "levelRestriction",
-        "The guaranteed Stop Loss Order level restriction for this instrument.",
-        "object",
-        "primitives.GuaranteedStopLossOrderLevelRestriction",
-        None,
-        None
-    ),
-]
-
-position_Position = [
-    Property(
-        "instrument",
-        "Instrument",
-        "The Position's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "pl",
-        "Profit/Loss",
-        "Profit/loss realized by the Position over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Unrealized Profit/Loss",
-        "The unrealized profit/loss of all open Trades that contribute to this Position.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Position.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "resettablePL",
-        "Resettable Profit/Loss",
-        "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "financing",
-        "Financing",
-        "The total amount of financing paid/collected for this instrument over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "commission",
-        "Commission",
-        "The total amount of commission paid for this instrument over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "guaranteedExecutionFees",
-        "Guranteed Execution Fee",
-        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders for this instrument.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "long",
-        "Long Side",
-        "The details of the long side of the Position.",
-        "object",
-        "position.PositionSide",
-        None,
-        None
-    ),
-    Property(
-        "short",
-        "Short Side",
-        "The details of the short side of the Position.",
-        "object",
-        "position.PositionSide",
-        None,
-        None
-    ),
-]
-
-position_PositionSide = [
-    Property(
-        "units",
-        "Units",
-        "Number of units in the position (negative value indicates short position, positive indicates long position).",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "averagePrice",
-        "Average Price",
-        "Volume-weighted average of the underlying Trade open prices for the Position.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "tradeIDs",
-        "Trade IDs",
-        "List of the open Trade IDs which contribute to the open Position.",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "pl",
-        "Profit/Loss",
-        "Profit/loss realized by the PositionSide over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Unrealized Profit/Loss",
-        "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "resettablePL",
-        "Resettable Profit/Loss",
-        "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "financing",
-        "Financing",
-        "The total amount of financing paid/collected for this PositionSide over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "guaranteedExecutionFees",
-        "Guranteed Execution Fees",
-        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders attached to Trades for this PositionSide.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-]
-
-position_CalculatedPositionState = [
-    Property(
-        "instrument",
-        "Instrument",
-        "The Position's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "netUnrealizedPL",
-        "Net Unrealized Profit/Loss",
-        "The Position's net unrealized profit/loss",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "longUnrealizedPL",
-        "Long Unrealized Profit/Loss",
-        "The unrealized profit/loss of the Position's long open Trades",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "shortUnrealizedPL",
-        "Short Unrealized Profit/Loss",
-        "The unrealized profit/loss of the Position's short open Trades",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Position.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-]
-
-user_UserInfo = [
-    Property(
-        "username",
-        "username",
-        "The user-provided username.",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-    Property(
-        "userID",
-        "userID",
-        "The user's OANDA-assigned user ID.",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "country",
-        "country",
-        "The country that the user is based in.",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-    Property(
-        "emailAddress",
-        "emailAddress",
-        "The user's email address.",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-]
-
-user_UserInfoExternal = [
-    Property(
-        "userID",
-        "userID",
-        "The user's OANDA-assigned user ID.",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "country",
-        "country",
-        "The country that the user is based in.",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-    Property(
-        "FIFO",
-        "FIFO",
-        "Flag indicating if the the user's Accounts adhere to FIFO execution rules.",
-        "primitive",
-        "boolean",
         None,
         None
     ),
@@ -4751,7 +2882,7 @@ transaction_MarketOrderTransaction = [
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -4961,7 +3092,7 @@ transaction_MarketOrderRejectTransaction = [
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -5171,7 +3302,7 @@ transaction_FixedPriceOrderTransaction = [
         "Price",
         "The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -5336,7 +3467,7 @@ transaction_LimitOrderTransaction = [
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -5537,7 +3668,7 @@ transaction_LimitOrderRejectTransaction = [
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -5738,7 +3869,7 @@ transaction_StopOrderTransaction = [
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -5747,7 +3878,7 @@ transaction_StopOrderTransaction = [
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -5948,7 +4079,7 @@ transaction_StopOrderRejectTransaction = [
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -5957,7 +4088,7 @@ transaction_StopOrderRejectTransaction = [
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -6158,7 +4289,7 @@ transaction_MarketIfTouchedOrderTransaction = [
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -6167,7 +4298,7 @@ transaction_MarketIfTouchedOrderTransaction = [
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -6368,7 +4499,7 @@ transaction_MarketIfTouchedOrderRejectTransaction = [
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -6377,7 +4508,7 @@ transaction_MarketIfTouchedOrderRejectTransaction = [
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -6578,7 +4709,7 @@ transaction_TakeProfitOrderTransaction = [
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -6743,7 +4874,7 @@ transaction_TakeProfitOrderRejectTransaction = [
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -6908,7 +5039,7 @@ transaction_StopLossOrderTransaction = [
         "Price",
         "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -7100,7 +5231,7 @@ transaction_StopLossOrderRejectTransaction = [
         "Price",
         "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         True,
         None
     ),
@@ -7620,7 +5751,7 @@ transaction_OrderFillTransaction = [
     Property(
         "units",
         "Fill Units",
-        "The number of units filled by the Order.",
+        "The number of units filled by the OrderFill.",
         "primitive",
         "primitives.DecimalNumber",
         None,
@@ -7649,7 +5780,16 @@ transaction_OrderFillTransaction = [
         "Fill Price",
         "This field is now deprecated and should no longer be used. The individual tradesClosed, tradeReduced and tradeOpened fields contain the exact/official price each unit was filled at.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "fullVWAP",
+        "Full VWAP",
+        "The price that all of the units of the OrderFill should have been filled at, in the absence of guaranteed price execution. This factors in the Account's current ClientPrice, used liquidity and the units of the OrderFill only. If no Trades were closed with their price clamped for guaranteed stop loss enforcement, then this value will match the price fields of each Trade opened, closed, and reduced, and they will all be the exact same.",
+        "primitive",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -8852,7 +6992,7 @@ transaction_TakeProfitDetails = [
         "Price",
         "The price that the Take Profit Order will be triggered at. Only one of the price and distance fields may be specified.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -8891,7 +7031,7 @@ transaction_StopLossDetails = [
         "Price",
         "The price that the Stop Loss Order will be triggered at. Only one of the price and distance fields may be specified.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -9005,7 +7145,7 @@ transaction_TradeOpen = [
         "Units Opened Price",
         "The average price that the units were opened at.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -9071,7 +7211,7 @@ transaction_TradeReduce = [
         "Units Closed Price",
         "The average price that the units were closed at. This price may be clamped for guaranteed Stop Loss Orders.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -9329,7 +7469,76 @@ transaction_TransactionHeartbeat = [
     ),
 ]
 
-pricing_Price = [
+user_UserInfo = [
+    Property(
+        "username",
+        "username",
+        "The user-provided username.",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+    Property(
+        "userID",
+        "userID",
+        "The user's OANDA-assigned user ID.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "country",
+        "country",
+        "The country that the user is based in.",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+    Property(
+        "emailAddress",
+        "emailAddress",
+        "The user's email address.",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+]
+
+user_UserInfoExternal = [
+    Property(
+        "userID",
+        "userID",
+        "The user's OANDA-assigned user ID.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "country",
+        "country",
+        "The country that the user is based in.",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+    Property(
+        "FIFO",
+        "FIFO",
+        "Flag indicating if the the user's Accounts adhere to FIFO execution rules.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+]
+
+pricing_ClientPrice = [
     Property(
         "type",
         "Type",
@@ -9398,7 +7607,7 @@ pricing_Price = [
         "Closeout Bid",
         "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -9407,7 +7616,7 @@ pricing_Price = [
         "Closeout Ask",
         "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
         "primitive",
-        "pricing.PriceValue",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -9426,27 +7635,6 @@ pricing_Price = [
         "Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.",
         "object",
         "order.UnitsAvailable",
-        None,
-        None
-    ),
-]
-
-pricing_PriceBucket = [
-    Property(
-        "price",
-        "Price",
-        "The Price offered by the PriceBucket",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "liquidity",
-        "Liquidity",
-        "The amount of liquidity offered by the PriceBucket",
-        "primitive",
-        "integer",
         None,
         None
     ),
@@ -9512,54 +7700,6 @@ pricing_HomeConversions = [
     ),
 ]
 
-pricing_ClientPrice = [
-    Property(
-        "bids",
-        "Bids",
-        "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
-        "array_object",
-        "PriceBucket",
-        None,
-        None
-    ),
-    Property(
-        "asks",
-        "Asks",
-        "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
-        "array_object",
-        "PriceBucket",
-        None,
-        None
-    ),
-    Property(
-        "closeoutBid",
-        "Closeout Bid",
-        "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "closeoutAsk",
-        "Closeout Ask",
-        "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "timestamp",
-        "Timestamp",
-        "The date/time when the Price was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-]
-
 pricing_PricingHeartbeat = [
     Property(
         "type",
@@ -9581,626 +7721,59 @@ pricing_PricingHeartbeat = [
     ),
 ]
 
-primitives_Instrument = [
+order_OrderIdentifier = [
     Property(
-        "name",
-        "name",
-        "The name of the Instrument",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "type",
-        "The type of the Instrument",
-        "primitive",
-        "primitives.InstrumentType",
-        None,
-        None
-    ),
-    Property(
-        "displayName",
-        "displayName",
-        "The display name of the Instrument",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-    Property(
-        "pipLocation",
-        "pipLocation",
-        "The location of the \"pip\" for this instrument. The decimal position of the pip in this Instrument's price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001).",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "displayPrecision",
-        "displayPrecision",
-        "The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of \"1\" being displayed as \"1.00000\")",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "tradeUnitsPrecision",
-        "tradeUnitsPrecision",
-        "The amount of decimal places that may be provided when specifying the number of units traded for this instrument.",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "minimumTradeSize",
-        "minimumTradeSize",
-        "The smallest number of units allowed to be traded for this instrument.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "maximumTrailingStopDistance",
-        "maximumTrailingStopDistance",
-        "The maximum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "minimumTrailingStopDistance",
-        "minimumTrailingStopDistance",
-        "The minimum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "maximumPositionSize",
-        "maximumPositionSize",
-        "The maximum position size allowed for this instrument. Specified in units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "maximumOrderUnits",
-        "maximumOrderUnits",
-        "The maximum units allowed for an Order placed for this instrument. Specified in units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "marginRate",
-        "marginRate",
-        "The margin rate for this instrument.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "commission",
-        "commission",
-        "The commission structure for this instrument.",
-        "object",
-        "primitives.InstrumentCommission",
-        None,
-        None
-    ),
-]
-
-primitives_InstrumentCommission = [
-    Property(
-        "commission",
-        "commission",
-        "The commission amount (in the Account's home currency) charged per unitsTraded of the instrument",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "unitsTraded",
-        "unitsTraded",
-        "The number of units traded that the commission amount is based on.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "minimumCommission",
-        "minimumCommission",
-        "The minimum commission amount (in the Account's home currency) that is charged when an Order is filled for this instrument.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-primitives_GuaranteedStopLossOrderLevelRestriction = [
-    Property(
-        "volume",
-        "volume",
-        "Applies to Trades with a guaranteed Stop Loss Order attached for the specified Instrument. This is the total allowed Trade volume that can exist within the priceRange based on the trigger prices of the guaranteed Stop Loss Orders.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "priceRange",
-        "priceRange",
-        "The price range the volume applies to. This value is in price units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-site_MT4TransactionHeartbeat = [
-    Property(
-        "type",
-        "type",
-        "The string \"HEARTBEAT\"",
-        "primitive",
-        "string",
-        None,
-        "HEARTBEAT"
-    ),
-    Property(
-        "time",
-        "time",
-        "The date/time when the TransactionHeartbeat was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-]
-
-trade_Trade = [
-    Property(
-        "id",
-        "Trade ID",
-        "The Trade's identifier, unique within the Trade's Account.",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Trade's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "Fill Price",
-        "The execution price of the Trade.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "openTime",
-        "Open Time",
-        "The date/time when the Trade was opened.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Trade.",
-        "primitive",
-        "trade.TradeState",
-        None,
-        None
-    ),
-    Property(
-        "initialUnits",
-        "Initial Trade Units",
-        "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "initialMarginRequired",
-        "Initial Margin Required",
-        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "currentUnits",
-        "Current Open Trade Units",
-        "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "realizedPL",
-        "Realized Profit/Loss",
-        "The total profit/loss realized on the closed portion of the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Unrealized Profit/Loss",
-        "The unrealized profit/loss on the open portion of the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "averageClosePrice",
-        "Average Close Price",
-        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "closingTransactionIDs",
-        "Closing Transaction IDs",
-        "The IDs of the Transactions that have closed portions of this Trade.",
-        "array_primitive",
-        "TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "financing",
-        "Financing",
-        "The financing paid/collected for this Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "closeTime",
-        "Close Time",
-        "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Trade.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOrder",
-        "Take Profit Order",
-        "Full representation of the Trade's Take Profit Order, only provided if such an Order exists.",
-        "object",
-        "order.TakeProfitOrder",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOrder",
-        "Stop Loss Order",
-        "Full representation of the Trade's Stop Loss Order, only provided if such an Order exists.",
-        "object",
-        "order.StopLossOrder",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOrder",
-        "Trailing Stop Loss Order",
-        "Full representation of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
-        "object",
-        "order.TrailingStopLossOrder",
-        None,
-        None
-    ),
-]
-
-trade_TradeSummary = [
-    Property(
-        "id",
-        "Trade ID",
-        "The Trade's identifier, unique within the Trade's Account.",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Trade's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "Fill Price",
-        "The execution price of the Trade.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "openTime",
-        "Open Time",
-        "The date/time when the Trade was opened.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Trade.",
-        "primitive",
-        "trade.TradeState",
-        None,
-        None
-    ),
-    Property(
-        "initialUnits",
-        "Initial Trade Units",
-        "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "initialMarginRequired",
-        "Initial Margin Required",
-        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "currentUnits",
-        "Current Open Trade Units",
-        "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "realizedPL",
-        "Realized Profit/Loss",
-        "The total profit/loss realized on the closed portion of the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Unrealized Profit/Loss",
-        "The unrealized profit/loss on the open portion of the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "averageClosePrice",
-        "Average Close Price",
-        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "closingTransactionIDs",
-        "Closing Transaction IDs",
-        "The IDs of the Transactions that have closed portions of this Trade.",
-        "array_primitive",
-        "TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "financing",
-        "Financing",
-        "The financing paid/collected for this Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "closeTime",
-        "Close Time",
-        "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Trade.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOrderID",
-        "Take Profit Order ID",
-        "ID of the Trade's Take Profit Order, only provided if such an Order exists.",
+        "orderID",
+        "orderID",
+        "The OANDA-assigned Order ID",
         "primitive",
         "order.OrderID",
         None,
         None
     ),
     Property(
-        "stopLossOrderID",
-        "Stop Loss Order ID",
-        "ID of the Trade's Stop Loss Order, only provided if such an Order exists.",
+        "clientOrderID",
+        "clientOrderID",
+        "The client-provided client Order ID",
         "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOrderID",
-        "Trailing Stop Loss Order ID",
-        "ID of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
-        "primitive",
-        "order.OrderID",
+        "transaction.ClientID",
         None,
         None
     ),
 ]
 
-trade_CalculatedTradeState = [
+order_DynamicOrderState = [
     Property(
         "id",
-        "Trade ID",
-        "The Trade's ID.",
+        "Order ID",
+        "The Order's ID.",
         "primitive",
-        "trade.TradeID",
+        "order.OrderID",
         None,
         None
     ),
     Property(
-        "unrealizedPL",
-        "Trade UPL",
-        "The Trade's unrealized profit/loss.",
+        "trailingStopValue",
+        "Trailing Stop Value",
+        "The Order's calculated trailing stop value.",
         "primitive",
-        "primitives.AccountUnits",
+        "pricing_common.PriceValue",
         None,
         None
     ),
     Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Trade.",
+        "triggerDistance",
+        "Trigger Distance",
+        "The distance between the Trailing Stop Loss Order's trailingStopValue and the current Market Price. This represents the distance (in price units) of the Order from a triggering price. If the distance could not be determined, this value will not be set.",
         "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-]
-
-instrument_Candlestick = [
-    Property(
-        "time",
-        "time",
-        "The start time of the candlestick",
-        "primitive",
-        "primitives.DateTime",
+        "pricing_common.PriceValue",
         None,
         None
     ),
     Property(
-        "bid",
-        "bid",
-        "The candlestick data based on bids. Only provided if bid-based candles were requested.",
-        "object",
-        "instrument.CandlestickData",
-        None,
-        None
-    ),
-    Property(
-        "ask",
-        "ask",
-        "The candlestick data based on asks. Only provided if ask-based candles were requested.",
-        "object",
-        "instrument.CandlestickData",
-        None,
-        None
-    ),
-    Property(
-        "mid",
-        "mid",
-        "The candlestick data based on midpoints. Only provided if midpoint-based candles were requested.",
-        "object",
-        "instrument.CandlestickData",
-        None,
-        None
-    ),
-    Property(
-        "volume",
-        "volume",
-        "The number of prices created during the time-range represented by the candlestick.",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "complete",
-        "complete",
-        "A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future.",
+        "isTriggerDistanceExact",
+        "Trigger Distance Is Exact",
+        "True if an exact trigger distance could be calculated. If false, it means the provided trigger distance is a best estimate. If the distance could not be determined, this value will not be set.",
         "primitive",
         "boolean",
         None,
@@ -10208,196 +7781,2686 @@ instrument_Candlestick = [
     ),
 ]
 
-instrument_CandlestickData = [
+order_Order = [
     Property(
-        "o",
-        "o",
-        "The first (open) price in the time-range represented by the candlestick.",
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
         "primitive",
-        "pricing.PriceValue",
+        "order.OrderID",
         None,
         None
     ),
     Property(
-        "h",
-        "h",
-        "The highest price in the time-range represented by the candlestick.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "l",
-        "l",
-        "The lowest price in the time-range represented by the candlestick.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "c",
-        "c",
-        "The last (closing) price in the time-range represented by the candlestick.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-]
-
-instrument_OrderBook = [
-    Property(
-        "instrument",
-        "instrument",
-        "The order book's instrument",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "time",
-        "time",
-        "The time when the order book snapshot was created.",
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
         None
     ),
     Property(
-        "price",
-        "price",
-        "The price (midpoint) for the order book's instrument at the time of the order book snapshot",
+        "state",
+        "State",
+        "The current state of the Order.",
         "primitive",
-        "pricing.PriceValue",
+        "order.OrderState",
         None,
         None
     ),
     Property(
-        "bucketWidth",
-        "bucketWidth",
-        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
-        "primitive",
-        "pricing.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "buckets",
-        "buckets",
-        "The partitioned order book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
-        "array_object",
-        "OrderBookBucket",
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
         None,
         None
     ),
 ]
 
-instrument_OrderBookBucket = [
+order_MarketOrder = [
     Property(
-        "price",
-        "price",
-        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.",
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
         "primitive",
-        "pricing.PriceValue",
+        "order.OrderID",
         None,
         None
     ),
     Property(
-        "longCountPercent",
-        "longCountPercent",
-        "The percentage of the total number of orders represented by the long orders found in this bucket.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "shortCountPercent",
-        "shortCountPercent",
-        "The percentage of the total number of orders represented by the short orders found in this bucket.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-instrument_PositionBook = [
-    Property(
-        "instrument",
-        "instrument",
-        "The position book's instrument",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "time",
-        "time",
-        "The time when the position book snapshot was created",
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
         "primitive",
         "primitives.DateTime",
         None,
         None
     ),
     Property(
-        "price",
-        "price",
-        "The price (midpoint) for the position book's instrument at the time of the position book snapshot",
+        "state",
+        "State",
+        "The current state of the Order.",
         "primitive",
-        "pricing.PriceValue",
+        "order.OrderState",
         None,
         None
     ),
     Property(
-        "bucketWidth",
-        "bucketWidth",
-        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
-        "primitive",
-        "pricing.PriceValue",
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
         None,
         None
     ),
     Property(
-        "buckets",
-        "buckets",
-        "The partitioned position book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
-        "array_object",
-        "PositionBookBucket",
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"MARKET\" for Market Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "MARKET"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Market Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "FOK"
+    ),
+    Property(
+        "priceBound",
+        "Price Bound",
+        "The worst price that the client is willing to have the Market Order filled at.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "tradeClose",
+        "Trade Close Details",
+        "Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade.",
+        "object",
+        "transaction.MarketOrderTradeClose",
+        None,
+        None
+    ),
+    Property(
+        "longPositionCloseout",
+        "Long Position Close Details",
+        "Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position.",
+        "object",
+        "transaction.MarketOrderPositionCloseout",
+        None,
+        None
+    ),
+    Property(
+        "shortPositionCloseout",
+        "Short Position Close Details",
+        "Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position.",
+        "object",
+        "transaction.MarketOrderPositionCloseout",
+        None,
+        None
+    ),
+    Property(
+        "marginCloseout",
+        "Margin Closeout Details",
+        "Details of the Margin Closeout that this Market Order was created for",
+        "object",
+        "transaction.MarketOrderMarginCloseout",
+        None,
+        None
+    ),
+    Property(
+        "delayedTradeClose",
+        "Delayed Trade Close Details",
+        "Details of the delayed Trade close that this Market Order was created for",
+        "object",
+        "transaction.MarketOrderDelayedTradeClose",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
         None,
         None
     ),
 ]
 
-instrument_PositionBookBucket = [
+order_FixedPriceOrder = [
     Property(
-        "price",
-        "price",
-        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.",
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
         "primitive",
-        "pricing.PriceValue",
+        "order.OrderID",
         None,
         None
     ),
     Property(
-        "longCountPercent",
-        "longCountPercent",
-        "The percentage of the total number of positions represented by the long positions found in this bucket.",
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Order.",
+        "primitive",
+        "order.OrderState",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"FIXED_PRICE\" for Fixed Price Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "FIXED_PRICE"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Fixed Price Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Fixed Price Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "tradeState",
+        "TradeState",
+        "The state that the trade resulting from the Fixed Price Order should be set to.",
+        "primitive",
+        "string",
+        True,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+]
+
+order_LimitOrder = [
+    Property(
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Order.",
+        "primitive",
+        "order.OrderState",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"LIMIT\" for Limit Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "LIMIT"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Limit Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the Limit Order.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "replacesOrderID",
+        "Replaces Order ID",
+        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "replacedByOrderID",
+        "Replaced by Order ID",
+        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+]
+
+order_StopOrder = [
+    Property(
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Order.",
+        "primitive",
+        "order.OrderState",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"STOP\" for Stop Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "STOP"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Stop Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "priceBound",
+        "Price Bound",
+        "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the Stop Order.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "replacesOrderID",
+        "Replaces Order ID",
+        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "replacedByOrderID",
+        "Replaced by Order ID",
+        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+]
+
+order_MarketIfTouchedOrder = [
+    Property(
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Order.",
+        "primitive",
+        "order.OrderState",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"MARKET_IF_TOUCHED\" for Market If Touched Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "MARKET_IF_TOUCHED"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The MarketIfTouched Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "priceBound",
+        "Price Value",
+        "The worst market price that may be used to fill this MarketIfTouched Order.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "initialMarketPrice",
+        "Initial Market Price",
+        "The Market price at the time when the MarketIfTouched Order was created.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "replacesOrderID",
+        "Replaces Order ID",
+        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "replacedByOrderID",
+        "Replaced by Order ID",
+        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+]
+
+order_TakeProfitOrder = [
+    Property(
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Order.",
+        "primitive",
+        "order.OrderState",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"TAKE_PROFIT\" for Take Profit Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "TAKE_PROFIT"
+    ),
+    Property(
+        "tradeID",
+        "Trade ID",
+        "The ID of the Trade to close when the price threshold is breached.",
+        "primitive",
+        "trade.TradeID",
+        True,
+        None
+    ),
+    Property(
+        "clientTradeID",
+        "Client Trade ID",
+        "The client ID of the Trade to be closed when the price threshold is breached.",
+        "primitive",
+        "transaction.ClientID",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "replacesOrderID",
+        "Replaces Order ID",
+        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "replacedByOrderID",
+        "Replaced by Order ID",
+        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+]
+
+order_StopLossOrder = [
+    Property(
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Order.",
+        "primitive",
+        "order.OrderState",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"STOP_LOSS\" for Stop Loss Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "STOP_LOSS"
+    ),
+    Property(
+        "guaranteedExecutionPremium",
+        "Guaranteed Execution Fee",
+        "The premium that will be charged if the Stop Loss Order is guaranteed and the Order is filled at the guaranteed price. It is in price units and is charged for each unit of the Trade.",
         "primitive",
         "primitives.DecimalNumber",
         None,
         None
     ),
     Property(
-        "shortCountPercent",
-        "shortCountPercent",
-        "The percentage of the total number of positions represented by the short positions found in this bucket.",
+        "tradeID",
+        "Trade ID",
+        "The ID of the Trade to close when the price threshold is breached.",
+        "primitive",
+        "trade.TradeID",
+        True,
+        None
+    ),
+    Property(
+        "clientTradeID",
+        "Client Trade ID",
+        "The client ID of the Trade to be closed when the price threshold is breached.",
+        "primitive",
+        "transaction.ClientID",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "distance",
+        "Price Distance",
+        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
         "primitive",
         "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "guaranteed",
+        "Guaranteed",
+        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "replacesOrderID",
+        "Replaces Order ID",
+        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "replacedByOrderID",
+        "Replaced by Order ID",
+        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+]
+
+order_TrailingStopLossOrder = [
+    Property(
+        "id",
+        "Order ID",
+        "The Order's identifier, unique within the Order's Account.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "createTime",
+        "Create Time",
+        "The time when the Order was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Order.",
+        "primitive",
+        "order.OrderState",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "type",
+        "Type",
+        "The type of the Order. Always set to \"TRAILING_STOP_LOSS\" for Trailing Stop Loss Orders.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "TRAILING_STOP_LOSS"
+    ),
+    Property(
+        "tradeID",
+        "Trade ID",
+        "The ID of the Trade to close when the price threshold is breached.",
+        "primitive",
+        "trade.TradeID",
+        True,
+        None
+    ),
+    Property(
+        "clientTradeID",
+        "Client Trade ID",
+        "The client ID of the Trade to be closed when the price threshold is breached.",
+        "primitive",
+        "transaction.ClientID",
+        None,
+        None
+    ),
+    Property(
+        "distance",
+        "Price Distance",
+        "The price distance (in price units) specified for the TrailingStopLoss Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "trailingStopValue",
+        "Trailing Stop Loss Value",
+        "The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order's configured \"distance\" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "fillingTransactionID",
+        "Filling Transaction ID",
+        "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "filledTime",
+        "Filled Time",
+        "Date/time when the Order was filled (only provided when the Order's state is FILLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "tradeOpenedID",
+        "Trade Opened ID",
+        "Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeReducedID",
+        "Trade Reduced ID",
+        "Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "tradeClosedIDs",
+        "Trade Closed IDs",
+        "Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill)",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "cancellingTransactionID",
+        "Cancelling Transction ID",
+        "ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)",
+        "primitive",
+        "transaction.TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "cancelledTime",
+        "Cancelled Time",
+        "Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "replacesOrderID",
+        "Replaces Order ID",
+        "The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "replacedByOrderID",
+        "Replaced by Order ID",
+        "The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+]
+
+order_OrderRequest = [
+]
+
+order_MarketOrderRequest = [
+    Property(
+        "type",
+        "Type",
+        "The type of the Order to Create. Must be set to \"MARKET\" when creating a Market Order.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "MARKET"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Market Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "FOK"
+    ),
+    Property(
+        "priceBound",
+        "Price Bound",
+        "The worst price that the client is willing to have the Market Order filled at.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+]
+
+order_LimitOrderRequest = [
+    Property(
+        "type",
+        "Type",
+        "The type of the Order to Create. Must be set to \"LIMIT\" when creating a Market Order.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "LIMIT"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Limit Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the Limit Order.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the Limit Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+]
+
+order_StopOrderRequest = [
+    Property(
+        "type",
+        "Type",
+        "The type of the Order to Create. Must be set to \"STOP\" when creating a Stop Order.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "STOP"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Stop Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "priceBound",
+        "Price Bound",
+        "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the Stop Order.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the Stop Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+]
+
+order_MarketIfTouchedOrderRequest = [
+    Property(
+        "type",
+        "Type",
+        "The type of the Order to Create. Must be set to \"MARKET_IF_TOUCHED\" when creating a Market If Touched Order.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "MARKET_IF_TOUCHED"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The MarketIfTouched Order's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        True,
+        None
+    ),
+    Property(
+        "units",
+        "Amount",
+        "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "priceBound",
+        "Price Value",
+        "The worst market price that may be used to fill this MarketIfTouched Order.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the MarketIfTouched Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for MarketIfTouched Orders.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "positionFill",
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        "primitive",
+        "order.OrderPositionFill",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOnFill",
+        "Take Profit On Fill",
+        "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
+        "object",
+        "transaction.TakeProfitDetails",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOnFill",
+        "Stop Loss On Fill",
+        "StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.StopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOnFill",
+        "Trailing Stop Loss On Fill",
+        "TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade.",
+        "object",
+        "transaction.TrailingStopLossDetails",
+        None,
+        None
+    ),
+    Property(
+        "tradeClientExtensions",
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+]
+
+order_TakeProfitOrderRequest = [
+    Property(
+        "type",
+        "Type",
+        "The type of the Order to Create. Must be set to \"TAKE_PROFIT\" when creating a Take Profit Order.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "TAKE_PROFIT"
+    ),
+    Property(
+        "tradeID",
+        "Trade ID",
+        "The ID of the Trade to close when the price threshold is breached.",
+        "primitive",
+        "trade.TradeID",
+        True,
+        None
+    ),
+    Property(
+        "clientTradeID",
+        "Client Trade ID",
+        "The client ID of the Trade to be closed when the price threshold is breached.",
+        "primitive",
+        "transaction.ClientID",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the TakeProfit Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TakeProfit Orders.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+]
+
+order_StopLossOrderRequest = [
+    Property(
+        "type",
+        "Type",
+        "The type of the Order to Create. Must be set to \"STOP_LOSS\" when creating a Stop Loss Order.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "STOP_LOSS"
+    ),
+    Property(
+        "tradeID",
+        "Trade ID",
+        "The ID of the Trade to close when the price threshold is breached.",
+        "primitive",
+        "trade.TradeID",
+        True,
+        None
+    ),
+    Property(
+        "clientTradeID",
+        "Client Trade ID",
+        "The client ID of the Trade to be closed when the price threshold is breached.",
+        "primitive",
+        "transaction.ClientID",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "Price",
+        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
+        "primitive",
+        "pricing_common.PriceValue",
+        True,
+        None
+    ),
+    Property(
+        "distance",
+        "Price Distance",
+        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the StopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for StopLoss Orders.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "guaranteed",
+        "Guaranteed",
+        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+]
+
+order_TrailingStopLossOrderRequest = [
+    Property(
+        "type",
+        "Type",
+        "The type of the Order to Create. Must be set to \"TRAILING_STOP_LOSS\" when creating a Trailng Stop Loss Order.",
+        "primitive",
+        "order.OrderType",
+        None,
+        "TRAILING_STOP_LOSS"
+    ),
+    Property(
+        "tradeID",
+        "Trade ID",
+        "The ID of the Trade to close when the price threshold is breached.",
+        "primitive",
+        "trade.TradeID",
+        True,
+        None
+    ),
+    Property(
+        "clientTradeID",
+        "Client Trade ID",
+        "The client ID of the Trade to be closed when the price threshold is breached.",
+        "primitive",
+        "transaction.ClientID",
+        None,
+        None
+    ),
+    Property(
+        "distance",
+        "Price Distance",
+        "The price distance (in price units) specified for the TrailingStopLoss Order.",
+        "primitive",
+        "primitives.DecimalNumber",
+        True,
+        None
+    ),
+    Property(
+        "timeInForce",
+        "Time In Force",
+        "The time-in-force requested for the TrailingStopLoss Order. Restricted to \"GTC\", \"GFD\" and \"GTD\" for TrailingStopLoss Orders.",
+        "primitive",
+        "order.TimeInForce",
+        True,
+        "GTC"
+    ),
+    Property(
+        "gtdTime",
+        "GTD Time",
+        "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "triggerCondition",
+        "Trigger Condition",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
+        "primitive",
+        "order.OrderTriggerCondition",
+        True,
+        "DEFAULT"
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+]
+
+order_UnitsAvailableDetails = [
+    Property(
+        "long",
+        "Long",
+        "The units available for long Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "short",
+        "Short",
+        "The units available for short Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+order_UnitsAvailable = [
+    Property(
+        "default",
+        "Default",
+        "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
+        "object",
+        "order.UnitsAvailableDetails",
+        None,
+        None
+    ),
+    Property(
+        "reduceFirst",
+        "Reduce First",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
+        "object",
+        "order.UnitsAvailableDetails",
+        None,
+        None
+    ),
+    Property(
+        "reduceOnly",
+        "Reduce Only",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
+        "object",
+        "order.UnitsAvailableDetails",
+        None,
+        None
+    ),
+    Property(
+        "openOnly",
+        "Open Only",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
+        "object",
+        "order.UnitsAvailableDetails",
+        None,
+        None
+    ),
+]
+
+order_GuaranteedStopLossOrderEntryData = [
+    Property(
+        "minimumDistance",
+        "minimumDistance",
+        "The minimum distance allowed between the Trade's fill price and the configured price for guaranteed Stop Loss Orders created for this instrument. Specified in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "premium",
+        "premium",
+        "The amount that is charged to the account if a guaranteed Stop Loss Order is triggered and filled. The value is in price units and is charged for each unit of the Trade.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "levelRestriction",
+        "levelRestriction",
+        "The guaranteed Stop Loss Order level restriction for this instrument.",
+        "object",
+        "primitives.GuaranteedStopLossOrderLevelRestriction",
+        None,
+        None
+    ),
+]
+
+pricing_common_PriceBucket = [
+    Property(
+        "price",
+        "Price",
+        "The Price offered by the PriceBucket",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "liquidity",
+        "Liquidity",
+        "The amount of liquidity offered by the PriceBucket",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+]
+
+pricing_common_Price = [
+    Property(
+        "instrument",
+        "Instrument",
+        "The Price's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "tradeable",
+        "Is Tradeable",
+        "Flag indicating if the Price is tradeable or not",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
+        "timestamp",
+        "Timestamp",
+        "The date/time when the Price was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "baseBid",
+        "Base Bid",
+        "The base bid price as calculated by pricing.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "baseAsk",
+        "Base Ask",
+        "The base ask price as calculated by pricing.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "bids",
+        "Bids",
+        "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
+        "array_object",
+        "PriceBucket",
+        None,
+        None
+    ),
+    Property(
+        "asks",
+        "Asks",
+        "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
+        "array_object",
+        "PriceBucket",
+        None,
+        None
+    ),
+    Property(
+        "closeoutBid",
+        "Closeout Bid",
+        "The closeout bid price. This price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "closeoutAsk",
+        "Closeout Ask",
+        "The closeout ask price. This price is used when an ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
+        "primitive",
+        "pricing_common.PriceValue",
         None,
         None
     ),
