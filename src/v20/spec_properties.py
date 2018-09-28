@@ -5,1044 +5,6 @@ Following are the list of properties (metadata) for each complex type defined
 by the v20 library.
 """
 
-instrument_Candlestick = [
-    Property(
-        "time",
-        "time",
-        "The start time of the candlestick",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "bid",
-        "bid",
-        "The candlestick data based on bids. Only provided if bid-based candles were requested.",
-        "object",
-        "instrument.CandlestickData",
-        None,
-        None
-    ),
-    Property(
-        "ask",
-        "ask",
-        "The candlestick data based on asks. Only provided if ask-based candles were requested.",
-        "object",
-        "instrument.CandlestickData",
-        None,
-        None
-    ),
-    Property(
-        "mid",
-        "mid",
-        "The candlestick data based on midpoints. Only provided if midpoint-based candles were requested.",
-        "object",
-        "instrument.CandlestickData",
-        None,
-        None
-    ),
-    Property(
-        "volume",
-        "volume",
-        "The number of prices created during the time-range represented by the candlestick.",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "complete",
-        "complete",
-        "A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future.",
-        "primitive",
-        "boolean",
-        None,
-        None
-    ),
-]
-
-instrument_CandlestickData = [
-    Property(
-        "o",
-        "o",
-        "The first (open) price in the time-range represented by the candlestick.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "h",
-        "h",
-        "The highest price in the time-range represented by the candlestick.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "l",
-        "l",
-        "The lowest price in the time-range represented by the candlestick.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "c",
-        "c",
-        "The last (closing) price in the time-range represented by the candlestick.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-]
-
-instrument_OrderBook = [
-    Property(
-        "instrument",
-        "instrument",
-        "The order book's instrument",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "time",
-        "time",
-        "The time when the order book snapshot was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "price",
-        "The price (midpoint) for the order book's instrument at the time of the order book snapshot",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "bucketWidth",
-        "bucketWidth",
-        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "buckets",
-        "buckets",
-        "The partitioned order book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
-        "array_object",
-        "OrderBookBucket",
-        None,
-        None
-    ),
-]
-
-instrument_OrderBookBucket = [
-    Property(
-        "price",
-        "price",
-        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "longCountPercent",
-        "longCountPercent",
-        "The percentage of the total number of orders represented by the long orders found in this bucket.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "shortCountPercent",
-        "shortCountPercent",
-        "The percentage of the total number of orders represented by the short orders found in this bucket.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-instrument_PositionBook = [
-    Property(
-        "instrument",
-        "instrument",
-        "The position book's instrument",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "time",
-        "time",
-        "The time when the position book snapshot was created",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "price",
-        "The price (midpoint) for the position book's instrument at the time of the position book snapshot",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "bucketWidth",
-        "bucketWidth",
-        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "buckets",
-        "buckets",
-        "The partitioned position book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
-        "array_object",
-        "PositionBookBucket",
-        None,
-        None
-    ),
-]
-
-instrument_PositionBookBucket = [
-    Property(
-        "price",
-        "price",
-        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "longCountPercent",
-        "longCountPercent",
-        "The percentage of the total number of positions represented by the long positions found in this bucket.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "shortCountPercent",
-        "shortCountPercent",
-        "The percentage of the total number of positions represented by the short positions found in this bucket.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-position_Position = [
-    Property(
-        "instrument",
-        "Instrument",
-        "The Position's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "pl",
-        "Profit/Loss",
-        "Profit/loss realized by the Position over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Unrealized Profit/Loss",
-        "The unrealized profit/loss of all open Trades that contribute to this Position.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Position.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "resettablePL",
-        "Resettable Profit/Loss",
-        "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "financing",
-        "Financing",
-        "The total amount of financing paid/collected for this instrument over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "commission",
-        "Commission",
-        "The total amount of commission paid for this instrument over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "guaranteedExecutionFees",
-        "Guranteed Execution Fee",
-        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders for this instrument.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "long",
-        "Long Side",
-        "The details of the long side of the Position.",
-        "object",
-        "position.PositionSide",
-        None,
-        None
-    ),
-    Property(
-        "short",
-        "Short Side",
-        "The details of the short side of the Position.",
-        "object",
-        "position.PositionSide",
-        None,
-        None
-    ),
-]
-
-position_PositionSide = [
-    Property(
-        "units",
-        "Units",
-        "Number of units in the position (negative value indicates short position, positive indicates long position).",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "averagePrice",
-        "Average Price",
-        "Volume-weighted average of the underlying Trade open prices for the Position.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "tradeIDs",
-        "Trade IDs",
-        "List of the open Trade IDs which contribute to the open Position.",
-        "array_primitive",
-        "TradeID",
-        None,
-        None
-    ),
-    Property(
-        "pl",
-        "Profit/Loss",
-        "Profit/loss realized by the PositionSide over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Unrealized Profit/Loss",
-        "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "resettablePL",
-        "Resettable Profit/Loss",
-        "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "financing",
-        "Financing",
-        "The total amount of financing paid/collected for this PositionSide over the lifetime of the Account.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "guaranteedExecutionFees",
-        "Guranteed Execution Fees",
-        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders attached to Trades for this PositionSide.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-]
-
-position_CalculatedPositionState = [
-    Property(
-        "instrument",
-        "Instrument",
-        "The Position's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "netUnrealizedPL",
-        "Net Unrealized Profit/Loss",
-        "The Position's net unrealized profit/loss",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "longUnrealizedPL",
-        "Long Unrealized Profit/Loss",
-        "The unrealized profit/loss of the Position's long open Trades",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "shortUnrealizedPL",
-        "Short Unrealized Profit/Loss",
-        "The unrealized profit/loss of the Position's short open Trades",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Position.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-]
-
-trade_Trade = [
-    Property(
-        "id",
-        "Trade ID",
-        "The Trade's identifier, unique within the Trade's Account.",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Trade's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "Fill Price",
-        "The execution price of the Trade.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "openTime",
-        "Open Time",
-        "The date/time when the Trade was opened.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Trade.",
-        "primitive",
-        "trade.TradeState",
-        None,
-        None
-    ),
-    Property(
-        "initialUnits",
-        "Initial Trade Units",
-        "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "initialMarginRequired",
-        "Initial Margin Required",
-        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "currentUnits",
-        "Current Open Trade Units",
-        "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "realizedPL",
-        "Realized Profit/Loss",
-        "The total profit/loss realized on the closed portion of the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Unrealized Profit/Loss",
-        "The unrealized profit/loss on the open portion of the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "averageClosePrice",
-        "Average Close Price",
-        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "closingTransactionIDs",
-        "Closing Transaction IDs",
-        "The IDs of the Transactions that have closed portions of this Trade.",
-        "array_primitive",
-        "TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "financing",
-        "Financing",
-        "The financing paid/collected for this Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "closeTime",
-        "Close Time",
-        "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Trade.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOrder",
-        "Take Profit Order",
-        "Full representation of the Trade's Take Profit Order, only provided if such an Order exists.",
-        "object",
-        "order.TakeProfitOrder",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOrder",
-        "Stop Loss Order",
-        "Full representation of the Trade's Stop Loss Order, only provided if such an Order exists.",
-        "object",
-        "order.StopLossOrder",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOrder",
-        "Trailing Stop Loss Order",
-        "Full representation of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
-        "object",
-        "order.TrailingStopLossOrder",
-        None,
-        None
-    ),
-]
-
-trade_TradeSummary = [
-    Property(
-        "id",
-        "Trade ID",
-        "The Trade's identifier, unique within the Trade's Account.",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "instrument",
-        "Instrument",
-        "The Trade's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "price",
-        "Fill Price",
-        "The execution price of the Trade.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "openTime",
-        "Open Time",
-        "The date/time when the Trade was opened.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "state",
-        "State",
-        "The current state of the Trade.",
-        "primitive",
-        "trade.TradeState",
-        None,
-        None
-    ),
-    Property(
-        "initialUnits",
-        "Initial Trade Units",
-        "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "initialMarginRequired",
-        "Initial Margin Required",
-        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "currentUnits",
-        "Current Open Trade Units",
-        "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "realizedPL",
-        "Realized Profit/Loss",
-        "The total profit/loss realized on the closed portion of the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Unrealized Profit/Loss",
-        "The unrealized profit/loss on the open portion of the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "averageClosePrice",
-        "Average Close Price",
-        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "closingTransactionIDs",
-        "Closing Transaction IDs",
-        "The IDs of the Transactions that have closed portions of this Trade.",
-        "array_primitive",
-        "TransactionID",
-        None,
-        None
-    ),
-    Property(
-        "financing",
-        "Financing",
-        "The financing paid/collected for this Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "closeTime",
-        "Close Time",
-        "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-    Property(
-        "clientExtensions",
-        "Client Extensions",
-        "The client extensions of the Trade.",
-        "object",
-        "transaction.ClientExtensions",
-        None,
-        None
-    ),
-    Property(
-        "takeProfitOrderID",
-        "Take Profit Order ID",
-        "ID of the Trade's Take Profit Order, only provided if such an Order exists.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "stopLossOrderID",
-        "Stop Loss Order ID",
-        "ID of the Trade's Stop Loss Order, only provided if such an Order exists.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-    Property(
-        "trailingStopLossOrderID",
-        "Trailing Stop Loss Order ID",
-        "ID of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
-        "primitive",
-        "order.OrderID",
-        None,
-        None
-    ),
-]
-
-trade_CalculatedTradeState = [
-    Property(
-        "id",
-        "Trade ID",
-        "The Trade's ID.",
-        "primitive",
-        "trade.TradeID",
-        None,
-        None
-    ),
-    Property(
-        "unrealizedPL",
-        "Trade UPL",
-        "The Trade's unrealized profit/loss.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-    Property(
-        "marginUsed",
-        "Margin Used",
-        "Margin currently used by the Trade.",
-        "primitive",
-        "primitives.AccountUnits",
-        None,
-        None
-    ),
-]
-
-site_MT4TransactionHeartbeat = [
-    Property(
-        "type",
-        "type",
-        "The string \"HEARTBEAT\"",
-        "primitive",
-        "string",
-        None,
-        "HEARTBEAT"
-    ),
-    Property(
-        "time",
-        "time",
-        "The date/time when the TransactionHeartbeat was created.",
-        "primitive",
-        "primitives.DateTime",
-        None,
-        None
-    ),
-]
-
-primitives_Instrument = [
-    Property(
-        "name",
-        "name",
-        "The name of the Instrument",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "type",
-        "type",
-        "The type of the Instrument",
-        "primitive",
-        "primitives.InstrumentType",
-        None,
-        None
-    ),
-    Property(
-        "displayName",
-        "displayName",
-        "The display name of the Instrument",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-    Property(
-        "pipLocation",
-        "pipLocation",
-        "The location of the \"pip\" for this instrument. The decimal position of the pip in this Instrument's price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001).",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "displayPrecision",
-        "displayPrecision",
-        "The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of \"1\" being displayed as \"1.00000\")",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "tradeUnitsPrecision",
-        "tradeUnitsPrecision",
-        "The amount of decimal places that may be provided when specifying the number of units traded for this instrument.",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "minimumTradeSize",
-        "minimumTradeSize",
-        "The smallest number of units allowed to be traded for this instrument.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "maximumTrailingStopDistance",
-        "maximumTrailingStopDistance",
-        "The maximum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "minimumTrailingStopDistance",
-        "minimumTrailingStopDistance",
-        "The minimum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "maximumPositionSize",
-        "maximumPositionSize",
-        "The maximum position size allowed for this instrument. Specified in units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "maximumOrderUnits",
-        "maximumOrderUnits",
-        "The maximum units allowed for an Order placed for this instrument. Specified in units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "marginRate",
-        "marginRate",
-        "The margin rate for this instrument.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "commission",
-        "commission",
-        "The commission structure for this instrument.",
-        "object",
-        "primitives.InstrumentCommission",
-        None,
-        None
-    ),
-]
-
-primitives_InstrumentCommission = [
-    Property(
-        "commission",
-        "commission",
-        "The commission amount (in the Account's home currency) charged per unitsTraded of the instrument",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "unitsTraded",
-        "unitsTraded",
-        "The number of units traded that the commission amount is based on.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "minimumCommission",
-        "minimumCommission",
-        "The minimum commission amount (in the Account's home currency) that is charged when an Order is filled for this instrument.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-primitives_GuaranteedStopLossOrderLevelRestriction = [
-    Property(
-        "volume",
-        "volume",
-        "Applies to Trades with a guaranteed Stop Loss Order attached for the specified Instrument. This is the total allowed Trade volume that can exist within the priceRange based on the trigger prices of the guaranteed Stop Loss Orders.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "priceRange",
-        "priceRange",
-        "The price range the volume applies to. This value is in price units.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
 account_Account = [
     Property(
         "id",
@@ -2100,6 +1062,474 @@ account_AccountChanges = [
         "The Transactions that have been generated.",
         "array_object",
         "Transaction",
+        None,
+        None
+    ),
+]
+
+user_UserInfo = [
+    Property(
+        "username",
+        "username",
+        "The user-provided username.",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+    Property(
+        "userID",
+        "userID",
+        "The user's OANDA-assigned user ID.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "country",
+        "country",
+        "The country that the user is based in.",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+    Property(
+        "emailAddress",
+        "emailAddress",
+        "The user's email address.",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+]
+
+user_UserInfoExternal = [
+    Property(
+        "userID",
+        "userID",
+        "The user's OANDA-assigned user ID.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "country",
+        "country",
+        "The country that the user is based in.",
+        "primitive",
+        "string",
+        None,
+        None
+    ),
+    Property(
+        "FIFO",
+        "FIFO",
+        "Flag indicating if the the user's Accounts adhere to FIFO execution rules.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+]
+
+position_Position = [
+    Property(
+        "instrument",
+        "Instrument",
+        "The Position's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "pl",
+        "Profit/Loss",
+        "Profit/loss realized by the Position over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The unrealized profit/loss of all open Trades that contribute to this Position.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Position.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "resettablePL",
+        "Resettable Profit/Loss",
+        "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The total amount of financing paid/collected for this instrument over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "commission",
+        "Commission",
+        "The total amount of commission paid for this instrument over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFees",
+        "Guranteed Execution Fee",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders for this instrument.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "long",
+        "Long Side",
+        "The details of the long side of the Position.",
+        "object",
+        "position.PositionSide",
+        None,
+        None
+    ),
+    Property(
+        "short",
+        "Short Side",
+        "The details of the short side of the Position.",
+        "object",
+        "position.PositionSide",
+        None,
+        None
+    ),
+]
+
+position_PositionSide = [
+    Property(
+        "units",
+        "Units",
+        "Number of units in the position (negative value indicates short position, positive indicates long position).",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "averagePrice",
+        "Average Price",
+        "Volume-weighted average of the underlying Trade open prices for the Position.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "tradeIDs",
+        "Trade IDs",
+        "List of the open Trade IDs which contribute to the open Position.",
+        "array_primitive",
+        "TradeID",
+        None,
+        None
+    ),
+    Property(
+        "pl",
+        "Profit/Loss",
+        "Profit/loss realized by the PositionSide over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "resettablePL",
+        "Resettable Profit/Loss",
+        "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The total amount of financing paid/collected for this PositionSide over the lifetime of the Account.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "guaranteedExecutionFees",
+        "Guranteed Execution Fees",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders attached to Trades for this PositionSide.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+]
+
+position_CalculatedPositionState = [
+    Property(
+        "instrument",
+        "Instrument",
+        "The Position's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "netUnrealizedPL",
+        "Net Unrealized Profit/Loss",
+        "The Position's net unrealized profit/loss",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "longUnrealizedPL",
+        "Long Unrealized Profit/Loss",
+        "The unrealized profit/loss of the Position's long open Trades",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "shortUnrealizedPL",
+        "Short Unrealized Profit/Loss",
+        "The unrealized profit/loss of the Position's short open Trades",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Position.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+]
+
+pricing_ClientPrice = [
+    Property(
+        "type",
+        "Type",
+        "The string \"PRICE\". Used to identify the a Price object when found in a stream.",
+        "primitive",
+        "string",
+        None,
+        "PRICE"
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Price's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "time",
+        "Time",
+        "The date/time when the Price was created",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "status",
+        "Status",
+        "The status of the Price.",
+        "primitive",
+        "pricing.PriceStatus",
+        None,
+        None
+    ),
+    Property(
+        "tradeable",
+        "Is Tradeable",
+        "Flag indicating if the Price is tradeable or not",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
+        "bids",
+        "Bids",
+        "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
+        "array_object",
+        "PriceBucket",
+        None,
+        None
+    ),
+    Property(
+        "asks",
+        "Asks",
+        "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
+        "array_object",
+        "PriceBucket",
+        None,
+        None
+    ),
+    Property(
+        "closeoutBid",
+        "Closeout Bid",
+        "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "closeoutAsk",
+        "Closeout Ask",
+        "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "quoteHomeConversionFactors",
+        "Quote Home Conversions",
+        "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency. When the includeHomeConversions is present in the pricing request (regardless of its value), this field will not be present.",
+        "object",
+        "pricing.QuoteHomeConversionFactors",
+        None,
+        None
+    ),
+    Property(
+        "unitsAvailable",
+        "Units Available",
+        "Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.",
+        "object",
+        "order.UnitsAvailable",
+        None,
+        None
+    ),
+]
+
+pricing_QuoteHomeConversionFactors = [
+    Property(
+        "positiveUnits",
+        "Positive Units",
+        "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "negativeUnits",
+        "Negative Units",
+        "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+pricing_HomeConversions = [
+    Property(
+        "currency",
+        "currency",
+        "The currency to be converted into the home currency.",
+        "primitive",
+        "primitives.Currency",
+        None,
+        None
+    ),
+    Property(
+        "accountGain",
+        "Account Gain",
+        "The factor used to convert any gains for an Account in the specified currency into the Account's home currency. This would include positive realized P/L and positive financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "accountLoss",
+        "Account Loss The factor used to convert any losses for an Account in the specified currency into the Account's home currency. This would include negative realized P/L and negative financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.",
+        "The string representation of a decimal number.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "positionValue",
+        "Position Value",
+        "The factor used to convert a Position or Trade Value in the specified currency into the Account's home currency. Conversion is performed by multiplying the Position or Trade Value by the conversion factor.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+pricing_PricingHeartbeat = [
+    Property(
+        "type",
+        "Type",
+        "The string \"HEARTBEAT\"",
+        "primitive",
+        "string",
+        None,
+        "HEARTBEAT"
+    ),
+    Property(
+        "time",
+        "Time",
+        "The date/time when the Heartbeat was created.",
+        "primitive",
+        "primitives.DateTime",
         None,
         None
     ),
@@ -7469,85 +6899,598 @@ transaction_TransactionHeartbeat = [
     ),
 ]
 
-user_UserInfo = [
+primitives_Instrument = [
     Property(
-        "username",
-        "username",
-        "The user-provided username.",
+        "name",
+        "name",
+        "The name of the Instrument",
         "primitive",
-        "string",
+        "primitives.InstrumentName",
         None,
         None
     ),
-    Property(
-        "userID",
-        "userID",
-        "The user's OANDA-assigned user ID.",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "country",
-        "country",
-        "The country that the user is based in.",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-    Property(
-        "emailAddress",
-        "emailAddress",
-        "The user's email address.",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-]
-
-user_UserInfoExternal = [
-    Property(
-        "userID",
-        "userID",
-        "The user's OANDA-assigned user ID.",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-    Property(
-        "country",
-        "country",
-        "The country that the user is based in.",
-        "primitive",
-        "string",
-        None,
-        None
-    ),
-    Property(
-        "FIFO",
-        "FIFO",
-        "Flag indicating if the the user's Accounts adhere to FIFO execution rules.",
-        "primitive",
-        "boolean",
-        None,
-        None
-    ),
-]
-
-pricing_ClientPrice = [
     Property(
         "type",
-        "Type",
-        "The string \"PRICE\". Used to identify the a Price object when found in a stream.",
+        "type",
+        "The type of the Instrument",
+        "primitive",
+        "primitives.InstrumentType",
+        None,
+        None
+    ),
+    Property(
+        "displayName",
+        "displayName",
+        "The display name of the Instrument",
         "primitive",
         "string",
         None,
-        "PRICE"
+        None
     ),
+    Property(
+        "pipLocation",
+        "pipLocation",
+        "The location of the \"pip\" for this instrument. The decimal position of the pip in this Instrument's price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001).",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "displayPrecision",
+        "displayPrecision",
+        "The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of \"1\" being displayed as \"1.00000\")",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "tradeUnitsPrecision",
+        "tradeUnitsPrecision",
+        "The amount of decimal places that may be provided when specifying the number of units traded for this instrument.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "minimumTradeSize",
+        "minimumTradeSize",
+        "The smallest number of units allowed to be traded for this instrument.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "maximumTrailingStopDistance",
+        "maximumTrailingStopDistance",
+        "The maximum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "minimumTrailingStopDistance",
+        "minimumTrailingStopDistance",
+        "The minimum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "maximumPositionSize",
+        "maximumPositionSize",
+        "The maximum position size allowed for this instrument. Specified in units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "maximumOrderUnits",
+        "maximumOrderUnits",
+        "The maximum units allowed for an Order placed for this instrument. Specified in units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "marginRate",
+        "marginRate",
+        "The margin rate for this instrument.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "commission",
+        "commission",
+        "The commission structure for this instrument.",
+        "object",
+        "primitives.InstrumentCommission",
+        None,
+        None
+    ),
+]
+
+primitives_InstrumentCommission = [
+    Property(
+        "commission",
+        "commission",
+        "The commission amount (in the Account's home currency) charged per unitsTraded of the instrument",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "unitsTraded",
+        "unitsTraded",
+        "The number of units traded that the commission amount is based on.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "minimumCommission",
+        "minimumCommission",
+        "The minimum commission amount (in the Account's home currency) that is charged when an Order is filled for this instrument.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+primitives_GuaranteedStopLossOrderLevelRestriction = [
+    Property(
+        "volume",
+        "volume",
+        "Applies to Trades with a guaranteed Stop Loss Order attached for the specified Instrument. This is the total allowed Trade volume that can exist within the priceRange based on the trigger prices of the guaranteed Stop Loss Orders.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "priceRange",
+        "priceRange",
+        "The price range the volume applies to. This value is in price units.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+trade_Trade = [
+    Property(
+        "id",
+        "Trade ID",
+        "The Trade's identifier, unique within the Trade's Account.",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Trade's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "Fill Price",
+        "The execution price of the Trade.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "openTime",
+        "Open Time",
+        "The date/time when the Trade was opened.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Trade.",
+        "primitive",
+        "trade.TradeState",
+        None,
+        None
+    ),
+    Property(
+        "initialUnits",
+        "Initial Trade Units",
+        "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "initialMarginRequired",
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "currentUnits",
+        "Current Open Trade Units",
+        "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "realizedPL",
+        "Realized Profit/Loss",
+        "The total profit/loss realized on the closed portion of the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The unrealized profit/loss on the open portion of the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "averageClosePrice",
+        "Average Close Price",
+        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "closingTransactionIDs",
+        "Closing Transaction IDs",
+        "The IDs of the Transactions that have closed portions of this Trade.",
+        "array_primitive",
+        "TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The financing paid/collected for this Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "closeTime",
+        "Close Time",
+        "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Trade.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOrder",
+        "Take Profit Order",
+        "Full representation of the Trade's Take Profit Order, only provided if such an Order exists.",
+        "object",
+        "order.TakeProfitOrder",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOrder",
+        "Stop Loss Order",
+        "Full representation of the Trade's Stop Loss Order, only provided if such an Order exists.",
+        "object",
+        "order.StopLossOrder",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOrder",
+        "Trailing Stop Loss Order",
+        "Full representation of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
+        "object",
+        "order.TrailingStopLossOrder",
+        None,
+        None
+    ),
+]
+
+trade_TradeSummary = [
+    Property(
+        "id",
+        "Trade ID",
+        "The Trade's identifier, unique within the Trade's Account.",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "instrument",
+        "Instrument",
+        "The Trade's Instrument.",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "Fill Price",
+        "The execution price of the Trade.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "openTime",
+        "Open Time",
+        "The date/time when the Trade was opened.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "state",
+        "State",
+        "The current state of the Trade.",
+        "primitive",
+        "trade.TradeState",
+        None,
+        None
+    ),
+    Property(
+        "initialUnits",
+        "Initial Trade Units",
+        "The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "initialMarginRequired",
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "currentUnits",
+        "Current Open Trade Units",
+        "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "realizedPL",
+        "Realized Profit/Loss",
+        "The total profit/loss realized on the closed portion of the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Unrealized Profit/Loss",
+        "The unrealized profit/loss on the open portion of the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "averageClosePrice",
+        "Average Close Price",
+        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "closingTransactionIDs",
+        "Closing Transaction IDs",
+        "The IDs of the Transactions that have closed portions of this Trade.",
+        "array_primitive",
+        "TransactionID",
+        None,
+        None
+    ),
+    Property(
+        "financing",
+        "Financing",
+        "The financing paid/collected for this Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "closeTime",
+        "Close Time",
+        "The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "clientExtensions",
+        "Client Extensions",
+        "The client extensions of the Trade.",
+        "object",
+        "transaction.ClientExtensions",
+        None,
+        None
+    ),
+    Property(
+        "takeProfitOrderID",
+        "Take Profit Order ID",
+        "ID of the Trade's Take Profit Order, only provided if such an Order exists.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "stopLossOrderID",
+        "Stop Loss Order ID",
+        "ID of the Trade's Stop Loss Order, only provided if such an Order exists.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+    Property(
+        "trailingStopLossOrderID",
+        "Trailing Stop Loss Order ID",
+        "ID of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.",
+        "primitive",
+        "order.OrderID",
+        None,
+        None
+    ),
+]
+
+trade_CalculatedTradeState = [
+    Property(
+        "id",
+        "Trade ID",
+        "The Trade's ID.",
+        "primitive",
+        "trade.TradeID",
+        None,
+        None
+    ),
+    Property(
+        "unrealizedPL",
+        "Trade UPL",
+        "The Trade's unrealized profit/loss.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+    Property(
+        "marginUsed",
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        "primitive",
+        "primitives.AccountUnits",
+        None,
+        None
+    ),
+]
+
+site_MT4TransactionHeartbeat = [
+    Property(
+        "type",
+        "type",
+        "The string \"HEARTBEAT\"",
+        "primitive",
+        "string",
+        None,
+        "HEARTBEAT"
+    ),
+    Property(
+        "time",
+        "time",
+        "The date/time when the TransactionHeartbeat was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+]
+
+pricing_common_PriceBucket = [
+    Property(
+        "price",
+        "Price",
+        "The Price offered by the PriceBucket",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "liquidity",
+        "Liquidity",
+        "The amount of liquidity offered by the PriceBucket",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+]
+
+pricing_common_Price = [
     Property(
         "instrument",
         "Instrument",
@@ -7558,29 +7501,38 @@ pricing_ClientPrice = [
         None
     ),
     Property(
-        "time",
-        "Time",
-        "The date/time when the Price was created",
+        "tradeable",
+        "Is Tradeable",
+        "Flag indicating if the Price is tradeable or not",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+    Property(
+        "timestamp",
+        "Timestamp",
+        "The date/time when the Price was created.",
         "primitive",
         "primitives.DateTime",
         None,
         None
     ),
     Property(
-        "status",
-        "Status",
-        "The status of the Price.",
+        "baseBid",
+        "Base Bid",
+        "The base bid price as calculated by pricing.",
         "primitive",
-        "pricing.PriceStatus",
+        "pricing_common.PriceValue",
         None,
         None
     ),
     Property(
-        "tradeable",
-        "Is Tradeable",
-        "Flag indicating if the Price is tradeable or not",
+        "baseAsk",
+        "Base Ask",
+        "The base ask price as calculated by pricing.",
         "primitive",
-        "boolean",
+        "pricing_common.PriceValue",
         None,
         None
     ),
@@ -7605,7 +7557,7 @@ pricing_ClientPrice = [
     Property(
         "closeoutBid",
         "Closeout Bid",
-        "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
+        "The closeout bid price. This price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
         "primitive",
         "pricing_common.PriceValue",
         None,
@@ -7614,108 +7566,9 @@ pricing_ClientPrice = [
     Property(
         "closeoutAsk",
         "Closeout Ask",
-        "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
+        "The closeout ask price. This price is used when an ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
         "primitive",
         "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "quoteHomeConversionFactors",
-        "Quote Home Conversions",
-        "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency. When the includeHomeConversions is present in the pricing request (regardless of its value), this field will not be present.",
-        "object",
-        "pricing.QuoteHomeConversionFactors",
-        None,
-        None
-    ),
-    Property(
-        "unitsAvailable",
-        "Units Available",
-        "Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.",
-        "object",
-        "order.UnitsAvailable",
-        None,
-        None
-    ),
-]
-
-pricing_QuoteHomeConversionFactors = [
-    Property(
-        "positiveUnits",
-        "Positive Units",
-        "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "negativeUnits",
-        "Negative Units",
-        "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-pricing_HomeConversions = [
-    Property(
-        "currency",
-        "currency",
-        "The currency to be converted into the home currency.",
-        "primitive",
-        "primitives.Currency",
-        None,
-        None
-    ),
-    Property(
-        "accountGain",
-        "Account Gain",
-        "The factor used to convert any gains for an Account in the specified currency into the Account's home currency. This would include positive realized P/L and positive financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "accountLoss",
-        "Account Loss The factor used to convert any losses for an Account in the specified currency into the Account's home currency. This would include negative realized P/L and negative financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.",
-        "The string representation of a decimal number.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-    Property(
-        "positionValue",
-        "Position Value",
-        "The factor used to convert a Position or Trade Value in the specified currency into the Account's home currency. Conversion is performed by multiplying the Position or Trade Value by the conversion factor.",
-        "primitive",
-        "primitives.DecimalNumber",
-        None,
-        None
-    ),
-]
-
-pricing_PricingHeartbeat = [
-    Property(
-        "type",
-        "Type",
-        "The string \"HEARTBEAT\"",
-        "primitive",
-        "string",
-        None,
-        "HEARTBEAT"
-    ),
-    Property(
-        "time",
-        "Time",
-        "The date/time when the Heartbeat was created.",
-        "primitive",
-        "primitives.DateTime",
         None,
         None
     ),
@@ -10361,106 +10214,253 @@ order_GuaranteedStopLossOrderEntryData = [
     ),
 ]
 
-pricing_common_PriceBucket = [
+instrument_Candlestick = [
     Property(
-        "price",
-        "Price",
-        "The Price offered by the PriceBucket",
-        "primitive",
-        "pricing_common.PriceValue",
-        None,
-        None
-    ),
-    Property(
-        "liquidity",
-        "Liquidity",
-        "The amount of liquidity offered by the PriceBucket",
-        "primitive",
-        "integer",
-        None,
-        None
-    ),
-]
-
-pricing_common_Price = [
-    Property(
-        "instrument",
-        "Instrument",
-        "The Price's Instrument.",
-        "primitive",
-        "primitives.InstrumentName",
-        None,
-        None
-    ),
-    Property(
-        "tradeable",
-        "Is Tradeable",
-        "Flag indicating if the Price is tradeable or not",
-        "primitive",
-        "boolean",
-        None,
-        None
-    ),
-    Property(
-        "timestamp",
-        "Timestamp",
-        "The date/time when the Price was created.",
+        "time",
+        "time",
+        "The start time of the candlestick",
         "primitive",
         "primitives.DateTime",
         None,
         None
     ),
     Property(
-        "baseBid",
-        "Base Bid",
-        "The base bid price as calculated by pricing.",
+        "bid",
+        "bid",
+        "The candlestick data based on bids. Only provided if bid-based candles were requested.",
+        "object",
+        "instrument.CandlestickData",
+        None,
+        None
+    ),
+    Property(
+        "ask",
+        "ask",
+        "The candlestick data based on asks. Only provided if ask-based candles were requested.",
+        "object",
+        "instrument.CandlestickData",
+        None,
+        None
+    ),
+    Property(
+        "mid",
+        "mid",
+        "The candlestick data based on midpoints. Only provided if midpoint-based candles were requested.",
+        "object",
+        "instrument.CandlestickData",
+        None,
+        None
+    ),
+    Property(
+        "volume",
+        "volume",
+        "The number of prices created during the time-range represented by the candlestick.",
+        "primitive",
+        "integer",
+        None,
+        None
+    ),
+    Property(
+        "complete",
+        "complete",
+        "A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future.",
+        "primitive",
+        "boolean",
+        None,
+        None
+    ),
+]
+
+instrument_CandlestickData = [
+    Property(
+        "o",
+        "o",
+        "The first (open) price in the time-range represented by the candlestick.",
         "primitive",
         "pricing_common.PriceValue",
         None,
         None
     ),
     Property(
-        "baseAsk",
-        "Base Ask",
-        "The base ask price as calculated by pricing.",
+        "h",
+        "h",
+        "The highest price in the time-range represented by the candlestick.",
         "primitive",
         "pricing_common.PriceValue",
         None,
         None
     ),
     Property(
-        "bids",
-        "Bids",
-        "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
+        "l",
+        "l",
+        "The lowest price in the time-range represented by the candlestick.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "c",
+        "c",
+        "The last (closing) price in the time-range represented by the candlestick.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+]
+
+instrument_OrderBook = [
+    Property(
+        "instrument",
+        "instrument",
+        "The order book's instrument",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "time",
+        "time",
+        "The time when the order book snapshot was created.",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "price",
+        "The price (midpoint) for the order book's instrument at the time of the order book snapshot",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "bucketWidth",
+        "bucketWidth",
+        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "buckets",
+        "buckets",
+        "The partitioned order book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
         "array_object",
-        "PriceBucket",
+        "OrderBookBucket",
+        None,
+        None
+    ),
+]
+
+instrument_OrderBookBucket = [
+    Property(
+        "price",
+        "price",
+        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.",
+        "primitive",
+        "pricing_common.PriceValue",
         None,
         None
     ),
     Property(
-        "asks",
-        "Asks",
-        "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
+        "longCountPercent",
+        "longCountPercent",
+        "The percentage of the total number of orders represented by the long orders found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "shortCountPercent",
+        "shortCountPercent",
+        "The percentage of the total number of orders represented by the short orders found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+]
+
+instrument_PositionBook = [
+    Property(
+        "instrument",
+        "instrument",
+        "The position book's instrument",
+        "primitive",
+        "primitives.InstrumentName",
+        None,
+        None
+    ),
+    Property(
+        "time",
+        "time",
+        "The time when the position book snapshot was created",
+        "primitive",
+        "primitives.DateTime",
+        None,
+        None
+    ),
+    Property(
+        "price",
+        "price",
+        "The price (midpoint) for the position book's instrument at the time of the position book snapshot",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "bucketWidth",
+        "bucketWidth",
+        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
+        "primitive",
+        "pricing_common.PriceValue",
+        None,
+        None
+    ),
+    Property(
+        "buckets",
+        "buckets",
+        "The partitioned position book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
         "array_object",
-        "PriceBucket",
+        "PositionBookBucket",
         None,
         None
     ),
+]
+
+instrument_PositionBookBucket = [
     Property(
-        "closeoutBid",
-        "Closeout Bid",
-        "The closeout bid price. This price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
+        "price",
+        "price",
+        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.",
         "primitive",
         "pricing_common.PriceValue",
         None,
         None
     ),
     Property(
-        "closeoutAsk",
-        "Closeout Ask",
-        "The closeout ask price. This price is used when an ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
+        "longCountPercent",
+        "longCountPercent",
+        "The percentage of the total number of positions represented by the long positions found in this bucket.",
         "primitive",
-        "pricing_common.PriceValue",
+        "primitives.DecimalNumber",
+        None,
+        None
+    ),
+    Property(
+        "shortCountPercent",
+        "shortCountPercent",
+        "The percentage of the total number of positions represented by the short positions found in this bucket.",
+        "primitive",
+        "primitives.DecimalNumber",
         None,
         None
     ),
