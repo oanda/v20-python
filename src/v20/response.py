@@ -62,4 +62,8 @@ class Response(object):
         s += "Status = {}\n".format(self.status)
         s += "Reason = {}\n".format(self.reason)
         s += "Content-Type = {}\n".format(self.content_type)
+        s += "Raw_Body = {}\n".format(self.raw_body)
         return s
+		
+    def __repr__(self):
+        return str(self)
