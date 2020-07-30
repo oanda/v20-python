@@ -42,6 +42,9 @@ class PriceBucket(BaseEntity):
         #
         self.liquidity = kwargs.get("liquidity")
 
+    def __repr__(self):
+        return json.dumps(self)
+
     @staticmethod
     def from_dict(data, ctx):
         """
