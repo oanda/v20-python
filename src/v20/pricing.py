@@ -813,6 +813,7 @@ class EntitySpec(object):
 
     def candles(
         self,
+        accountID,
         instrument,
         **kwargs
     ):
@@ -820,6 +821,8 @@ class EntitySpec(object):
         Fetch candlestick data for an instrument.
 
         Args:
+            accountID:
+                Account Identifier
             instrument:
                 Name of the Instrument
             price:
@@ -871,6 +874,11 @@ class EntitySpec(object):
         request = Request(
             'GET',
             '/v3/accounts/{accountID}/instruments/{instrument}/candles'
+        )
+
+        request.set_path_param(
+            'accountID',
+            accountID
         )
 
         request.set_path_param(
